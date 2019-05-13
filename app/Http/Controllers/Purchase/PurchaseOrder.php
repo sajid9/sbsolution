@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\voucher;
 use App\suppliers;
+use App\items;
 class PurchaseOrder extends Controller
 {
    /*
@@ -25,6 +26,7 @@ class PurchaseOrder extends Controller
     */
     public function add_voucher_form(){
     	$suppliers = suppliers::all();
-    	return view('pages.purchase.add_voucher_form',compact('suppliers'));
+    	$items     = items::all();
+    	return view('pages.purchase.add_voucher_form',compact('suppliers','items'));
     }
 }

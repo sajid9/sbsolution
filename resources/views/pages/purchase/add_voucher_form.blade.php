@@ -85,7 +85,7 @@
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
                 <input type="text" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode" placeholder="voucher number">
-                <span class="input-group-addon"><i id="list" class="glyphicon glyphicon-list"></i></span>
+                <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
               </div>
               <small id="barcode" class="form-text text-muted text-danger">{{$errors->first('barcode')}}</small>
             </div>
@@ -120,7 +120,7 @@
     <div class="col-md-12">
       <fieldset>
         <legend>Items:</legend>
-        <table class="table">
+        <table class="table table-striped table-bordered table-hover" id="datatable-item">
           <tr>
             <th>Id</th>
             <th>Item Name</th>
@@ -139,14 +139,59 @@
   </div>
 </form>
 {{-- form end --}}
-
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-full">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Items</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Item Name</th>
+                    <th>Barcode</th>
+                    <th>Purchase price</th>
+                    <th>Sale Price</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </div>
 </div>
 @endsection
 @section('footer')
-@parent
-<script>
-  
-</script>
-
+  @parent
+  <!-- DataTables JavaScript -->
+  <script src="{{asset('js/dataTables/jquery.dataTables.min.js')}}"></script>
+  <script src="{{asset('js/dataTables/dataTables.bootstrap.min.js')}}"></script>
+  <script>
+      $(document).ready(function() {
+          $('#dataTables-example').DataTable({
+                  responsive: true,
+                  columnDefs: [ { orderable: false, targets: [8] } ]
+          });
+          $('[data-toggle="tooltip"]').tooltip();
+      });
+      function deletecustomer(id){
+        if(window.confirm('do you really wanna delete this record?')){
+          var url = '{{url('customer/deletecustomer')}}';
+          window.location.href = url+'/'+id;
+        }
+      }
+  </script>
 @endsection
