@@ -105,6 +105,9 @@
                             <li>
                                 <a href="{{url('item/itemlisting')}}">Sale Order</a>
                             </li>
+                            <li>
+                                <a href="{{url('payment/paymentlisting')}}">Payments</a>
+                            </li>
                         </ul>
                     </li>
                     <li>

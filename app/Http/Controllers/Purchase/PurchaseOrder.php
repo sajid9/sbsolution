@@ -111,7 +111,7 @@ class PurchaseOrder extends Controller
     	if(sizeof($items) > 0){
     		return json_encode($items);
     	}else{
-    		return json_encode(["message"=>"empty");
+    		return json_encode(["message"=>"empty"]);
     	}
     	
     }

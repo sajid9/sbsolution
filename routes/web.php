@@ -147,3 +147,14 @@ Route::prefix('voucher')->group(function () {
     Route::post('savevoucher','Purchase\PurchaseOrder@savevoucher');
     Route::post('removeitem','Purchase\PurchaseOrder@removeitem');
 });
+
+/*
+*
+*Payments
+*
+*/
+Route::prefix('payment')->group(function(){
+    Route::get('paymentlisting','payments\payment@paymentlisting');
+    Route::get('addpaymentform','payments\payment@addpaymentform');
+
+});
