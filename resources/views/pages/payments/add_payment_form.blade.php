@@ -16,10 +16,10 @@
 <div class="panel-body">
 
 {{-- form start  --}}
-<form method="post" action="{{url('category/addcategory')}}">
+<form method="post" action="{{url('payment/addpayment')}}">
 	@csrf
   <div class="form-group">
-    <label for="voucher">voucher</label>
+    <label for="voucher">Voucher</label>
     <select name="voucher" class="form-control" id="voucher" aria-describedby="voucher">
       <option value=""> Select Voucher</option>
       @foreach($vouchers as $voucher)
@@ -34,7 +34,7 @@
     <small id="amount" class="form-text text-muted text-danger">{{$errors->first('amount')}}</small>
   </div>
   <div class="form-group">
-    <label for="method">method</label>
+    <label for="method">Method</label>
     <select name="method" class="form-control" id="method" aria-describedby="method">
       <option value=""> Select Method</option>
       <option value="cheque"> Cheque</option>
@@ -43,23 +43,15 @@
     <small id="method" class="form-text text-muted text-danger">{{$errors->first('method')}}</small>
   </div>
   <div class="form-group">
-    <label for="trans_type">trans_type</label>
+    <label for="trans_type">Transfer type</label>
     <select name="trans_type" class="form-control" id="trans_type" aria-describedby="trans_type">
-      <option value=""> Select trans_type</option>
+      <option value=""> Select transfer type</option>
       <option value="debit"> Debit</option>
       <option value="credit"> Credit</option>
     </select>
     <small id="trans_type" class="form-text text-muted text-danger">{{$errors->first('trans_type')}}</small>
   </div>
-  <div class="form-group">
-    <label for="discription">Description</label>
-    <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description">{{old('description')}}</textarea>
-  </div>
-  <div class="form-check">
-    <input type="checkbox" name="is_active" value="yes" {{ (old('is_active') == 'yes') ? 'checked' : '' }} class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Active</label>
-  </div>
-  <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('category/categorylisting')}}" class="btn btn-default">Back</a>
+  <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('payment/paymentlisting')}}" class="btn btn-default">Back</a>
 </form>
 {{-- form end --}}
 

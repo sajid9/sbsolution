@@ -17,4 +17,14 @@ class payment extends Controller
     	$vouchers = voucher::all();
     	return view('pages.payments.add_payment_form',compact('vouchers'));
     }
+    public function addpayment(Request $request){
+    	$payment = new payments;
+    	$payment->voucher_id = $request->voucher;
+    	$payment->amount = $request->amount;
+    	$payment->method = $request->method;
+    	$payment->voucher_id = $request->voucher;
+    	$payment->save();
+
+    	return redirect()->to('payment/paymentlisting')->with('message','payment done successfully');
+    }
 }
