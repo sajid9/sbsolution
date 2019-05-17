@@ -7,6 +7,9 @@ use App\Http\Controllers\Controller;
 use App\voucher;
 use App\suppliers;
 use App\items;
+use App\voucher_detail;
+use App\stock;
+use DB;
 class PurchaseOrder extends Controller
 {
    /*
@@ -29,4 +32,88 @@ class PurchaseOrder extends Controller
     	$items     = items::all();
     	return view('pages.purchase.add_voucher_form',compact('suppliers','items'));
     }
+
+    /*
+    *
+    *Add voucher to Database 
+    *
+    */
+    public function addvoucher(Request $request){
+    	$voucher = new voucher;
+    	$voucher->voucher_no = $request->vendor_voucher;
+    	$voucher->supplier_id = $request->supplier;
+    	$voucher->voucher_date = $request->voucher_date;
+    	$voucher->save();
+    	return json_encode($voucher);
+    }
+    /*
+    *
+    *search voucher to Database 
+    *
+    */
+    public function searchvoucher(Request $request){
+    	$voucher = voucher::where('voucher_no',$request->voucher)->first();
+    	return json_encode($voucher);
+    }
+    /*
+    *
+    *search barcode from items table and get item 
+    *
+    */
+    public function searchbarcode(Request $request){
+    	$item = items::where('barcode',$request->barcode)->first();
+    	return json_encode($item);
+    } 
+    /*
+    *
+    *add item voucher details table 
+    *
+    */
+    public function additem(Request $request){
+    	$item = new voucher_detail;
+    	$item->voucher_id = $request->voucherId;
+    	$item->item_id = $request->itemId;
+    	$item->qty = $request->quantity;
+    	$item->type = $request->type;
+    	$item->save();
+    	
+    	if(stock::where('item_id',$request->itemId)->first()){
+    		$stock = stock::where('item_id',$request->itemId)->increment('qty',$request->quantity);
+    	}else{
+    		$stock = new stock;
+    		$stock->item_id = $item->item_id;
+    		$stock->qty = $item->qty;
+    		$stock->save();
+    	}
+
+    	$items = voucher_detail::with('item')->where('voucher_id',$item->voucher_id)->get();
+    	return json_encode($items);
+    }
+    /*
+    *
+    *save voucher total amount to voucher table 
+    *
+    */
+    public function savevoucher(Request $request){
+    	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->first();
+    	DB::table('voucher')->where('id',$request->voucherId)->update(['total_amount'=>$total->totalPrice]);
+    	return json_encode($total);
+    }
+    /*
+    *
+    *remove item from voucher details table 
+    *
+    */
+    public function removeitem(Request $request){
+    	voucher_detail::where('voucher_id',$request->voucherId)->where('item_id',$request->itemId)->delete();
+    	stock::where('item_id',$request->itemId)->decrement('qty',$request->qty);
+    	$items = voucher_detail::with('item')->where('voucher_id',$request->voucherId)->get();
+    	if(sizeof($items) > 0){
+    		return json_encode($items);
+    	}else{
+    		return json_encode(["message"=>"empty");
+    	}
+    	
+    }
+
 }

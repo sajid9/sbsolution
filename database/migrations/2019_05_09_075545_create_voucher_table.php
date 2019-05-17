@@ -17,9 +17,9 @@ class CreateVoucherTable extends Migration
             $table->bigIncrements('id');
             $table->string('voucher_no',200);
             $table->integer('supplier_id');
-            $table->integer('total_amount');
-            $table->integer('paid_amount');
-            $table->integer('balance_amount');
+            $table->integer('total_amount')->nullable();
+            $table->integer('paid_amount')->nullable();
+            $table->integer('balance_amount')->nullable();
             $table->timestamps();
         });
     }

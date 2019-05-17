@@ -54,9 +54,9 @@
 			                <td>{{ $voucher->voucher_no }}</td>
 			                <td>{{ $voucher->supplier_id }}</td>
 			                <td>{{ $voucher->total_amount }}</td>
-			                <td>{{ $item->paid_amount }}</td>
-			                <td>{{ $item->balance_amount }}</td>
-			                <td><a href="{{url('item/edititem/'.$item->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deleteItem('{{$item->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
+			                <td>{{ $voucher->paid_amount }}</td>
+			                <td>{{ $voucher->balance_amount }}</td>
+			                <td><a href="{{url('voucher/editvoucher/'.$voucher->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deletevoucher('{{$voucher->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
 			                
 			            </tr>
 			            @endforeach
@@ -84,7 +84,7 @@
 	        });
 	        $('[data-toggle="tooltip"]').tooltip();
 	    });
-	    function deleteItem(id){
+	    function deletevoucher(id){
 	    	if(window.confirm('do you really wanna delete this record?')){
 	    		var url = '{{url('item/deleteitem')}}';
 	    		window.location.href = url+'/'+id;

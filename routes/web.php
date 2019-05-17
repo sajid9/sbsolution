@@ -141,7 +141,9 @@ Route::prefix('voucher')->group(function () {
     Route::get('voucherlisting','Purchase\PurchaseOrder@voucher_listing');
     Route::get('addvoucherform','Purchase\PurchaseOrder@add_voucher_form');
     Route::post('addvoucher','Purchase\PurchaseOrder@addvoucher');
-    Route::get('editvoucher/{id}','Purchase\PurchaseOrder@editvoucher');
-    Route::post('updatevoucher','Purchase\PurchaseOrder@updatevoucher');
-    Route::get('deletevoucher/{id}','Purchase\PurchaseOrder@deleteitem');
+    Route::post('searchvoucher','Purchase\PurchaseOrder@searchvoucher');
+    Route::post('searchbarcode','Purchase\PurchaseOrder@searchbarcode');
+    Route::post('additem','Purchase\PurchaseOrder@additem');
+    Route::post('savevoucher','Purchase\PurchaseOrder@savevoucher');
+    Route::post('removeitem','Purchase\PurchaseOrder@removeitem');
 });

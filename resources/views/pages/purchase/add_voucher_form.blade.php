@@ -35,30 +35,35 @@
 <div class="panel-body">
 
 {{-- form start  --}}
-<form method="post" action="{{url('item/additem')}}">
-	@csrf
+<div class="alert alert-success alert-dismissible" id="alert" style="display: none">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Success!</strong> Voucher Add Successfully
+</div>
   <div class="row">
     <div class="col-md-6">
       <fieldset>
-        <legend>Vendor:</legend>
+        <legend>Voucher:</legend>
+          
+        <form id="vendor_form">
+          @csrf
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="vouchernumber">Voucher Number <span class="text-danger">*</span></label>
-              <input type="text" name="voucher_number" value="{{old('voucher_number',rand())}}" class="form-control" id="vouchernumber" aria-describedby="vouchernumber" placeholder="voucher number">
-              <small id="vouchernumber" class="form-text text-muted text-danger">{{$errors->first('voucher_number')}}</small>
+              <input type="text" readonly="readonly" name="voucher_number" value="{{old('voucher_number')}}" class="form-control" id="vouchernumber" aria-describedby="voucher_number" placeholder="voucher number">
+              <small id="voucher_number" class="form-text text-muted text-danger">{{$errors->first('voucher_number')}}</small>
             </div>
             <div class="form-group">
-              <label for="vouchernumber">Voucher Number <span class="text-danger">*</span></label>
-              <input type="text" name="voucher_number" value="{{old('voucher_number')}}" class="form-control" id="vouchernumber" aria-describedby="vouchernumber" placeholder="voucher number">
-              <small id="vouchernumber" class="form-text text-muted text-danger">{{$errors->first('voucher_number')}}</small>
+              <label for="vendorvoucher">Vendor Voucher Number <span class="text-danger">*</span></label>
+              <input type="text" name="vendor_voucher" value="{{old('vendor_voucher')}}" class="form-control" id="vendorvoucher" aria-describedby="vendor_voucher" placeholder="voucher number">
+              <small id="vendor_voucher" class="form-text text-muted text-danger">{{$errors->first('vendor_voucher')}}</small>
             </div>
           </div>
           <div class="col-md-6">
            <div class="form-group">
-              <label for="total_amount">Total Amount <span class="text-danger">*</span></label>
-              <input type="number" name="total_amount" value="{{old('total_amount')}}" class="form-control" id="total_amount" placeholder="Short Code" aria-describedby="total_amount">
-              <small id="total_amount" class="form-text text-muted text-danger">{{$errors->first('total_amount')}}</small>
+              <label for="total_amount">Voucher Date <span class="text-danger">*</span></label>
+              <input type="date" name="voucher_date" value="{{old('voucher_date')}}" class="form-control" id="voucher_date" placeholder="Short Code" aria-describedby="voucher_date">
+              <small id="voucher_date" class="form-text text-muted text-danger">{{$errors->first('voucher_date')}}</small>
             </div>
             <div class="form-group">
               <label for="supplier">Supplier </label>
@@ -74,6 +79,12 @@
           </div>
           
         </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" class="btn btn-primary" id="save_vendor">Save Vendor</button>
+          </div>
+        </div>
+        </form>
       </fieldset>
     </div>
     <div class="col-md-6">
@@ -82,12 +93,13 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
+              <input type="hidden" name="item_id" id="itemId">
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
-                <input type="text" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode" placeholder="voucher number">
+                <input type="text" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
                 <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
               </div>
-              <small id="barcode" class="form-text text-muted text-danger">{{$errors->first('barcode')}}</small>
+              <small id="barcode_msg" class="form-text text-muted text-danger">{{$errors->first('barcode')}}</small>
             </div>
             <div class="form-group">
               <label for="quantity">Quantity <span class="text-danger">*</span></label>
@@ -98,19 +110,19 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
-              <input type="text" name="purchase_price" value="{{old('purchase_price')}}" class="form-control" id="purchase_price" aria-describedby="purchase_price" placeholder="voucher number">
-              <small id="purchase_price" class="form-text text-muted text-danger">{{$errors->first('purchase_price')}}</small>
+              <input type="text" name="purchase_price" value="{{old('purchase_price')}}" class="form-control" id="purchase_price" aria-describedby="purchaseprice" placeholder="voucher number">
+              <small id="purchaseprice" class="form-text text-muted text-danger">{{$errors->first('purchase_price')}}</small>
             </div>
             <div class="form-group">
               <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
-              <input type="text" name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="sale_price" placeholder="voucher number">
-              <small id="sale_price" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
+              <input type="text" name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="voucher number">
+              <small id="saleprice" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button class="btn btn-primary">Add Item</button>
+            <button class="btn btn-primary" id="addItem">Add Item</button>
           </div>
         </div>
       </fieldset>
@@ -120,24 +132,30 @@
     <div class="col-md-12">
       <fieldset>
         <legend>Items:</legend>
-        <table class="table table-striped table-bordered table-hover" id="datatable-item">
-          <tr>
-            <th>Id</th>
-            <th>Item Name</th>
-            <th>Purchase Price</th>
-            <th>Sale Price</th>
-            <th>Quantity</th>
-          </tr>
+        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Item Name</th>
+              <th>Purchase Price</th>
+              <th>Sale Price</th>
+              <th>Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+         <tbody id="items_append">
+          
+         </tbody>
         </table>
       </fieldset>
     </div>
   </div>
   <div class="row">
     <div class="col-md-12" style="padding-top: 20px">
-      <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+      <button type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
     </div>
   </div>
-</form>
+
 {{-- form end --}}
 <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -150,7 +168,7 @@
           <h4 class="modal-title">Items</h4>
         </div>
         <div class="modal-body">
-          <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+          <table class="table table-striped table-bordered table-hover" id="items-datatable">
             <thead>
                 <tr>
                     <th>id</th>
@@ -161,6 +179,15 @@
                 </tr>
             </thead>
             <tbody>
+              @foreach($items as $item)
+              <tr>
+                <td>{{$item->id}}</td>
+                <td>{{$item->item_name}}</td>
+                <td>{{$item->barcode}}</td>
+                <td>{{$item->purchase_price}}</td>
+                <td>{{$item->sale_price}}</td>
+              </tr>
+              @endforeach
             </tbody>
           </table>
         </div>
@@ -183,15 +210,144 @@
       $(document).ready(function() {
           $('#dataTables-example').DataTable({
                   responsive: true,
-                  columnDefs: [ { orderable: false, targets: [8] } ]
+          });
+          $('#items-datatable').DataTable({
+                  responsive: true,
           });
           $('[data-toggle="tooltip"]').tooltip();
       });
-      function deletecustomer(id){
-        if(window.confirm('do you really wanna delete this record?')){
-          var url = '{{url('customer/deletecustomer')}}';
-          window.location.href = url+'/'+id;
+      
+    $('#vendor_form').on('submit',function(e){
+      e.preventDefault();
+      var data = $(this).serialize();
+      $.ajax({
+        url:"{{url('voucher/addvoucher')}}",
+        type:"post",
+        dataType:"json",
+        data:data,
+        success:function(res){
+          $('#vouchernumber').val(res.id);
+          console.log(res);
         }
-      }
+      });
+    });
+    $("#vendorvoucher").on('blur',function(){
+      var voucher = $(this).val();
+      $.ajax({
+        url:"{{url('voucher/searchvoucher')}}",
+        type:"post",
+        dataType:"json",
+        data:{voucher:voucher,_token:"{{csrf_token()}}"},
+        success:function(res){
+          if(res != null){
+            $('#vouchernumber').val(res.id);
+            $('[name=supplier] option').filter(function() { 
+                return ($(this).val() == res.supplier_id); 
+            }).prop('selected', true);
+          }else{
+            $('#vouchernumber').val('');
+          }
+          
+          console.log(res);
+        }
+      });
+    });
+    $("#barcode").on('blur',function(){
+      var barcode = $(this).val();
+      $.ajax({
+        url:"{{url('voucher/searchbarcode')}}",
+        type:"post",
+        dataType:"json",
+        data:{barcode:barcode,_token:"{{csrf_token()}}"},
+        success:function(res){
+          if(res != null){
+            $('#purchase_price').val(res.purchase_price);
+            $('#sale_price').val(res.sale_price);
+            $('#itemId').val(res.id);
+          }else{
+            $('#purchase_price').val('');
+            $('#sale_price').val('');
+            $('#itemId').val('');
+          }
+        }
+      });
+    });
+    $('#addItem').on('click',function(){
+      var data  = {};
+      data.itemId    = $('#itemId').val();
+      data.quantity  = $('#quantity').val();
+      data.voucherId = $('#vouchernumber').val();
+      data.type      = "purchase";
+      data._token    = "{{csrf_token()}}";
+      $.ajax({
+        url:"{{url('voucher/additem')}}",
+        type:"post",
+        dataType:"json",
+        data:data,
+        success:function(res){
+          if(res != null){
+            var template = "";
+            for(var i = 0; i < res.length; i++){
+              template += "<tr><td>"+res[i].item.id+"</td>";
+              template += "<td>"+res[i].item.item_name+"</td>";
+              template += "<td>"+res[i].item.purchase_price+"</td>";
+              template += "<td>"+res[i].item.sale_price+"</td>";
+              template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data.voucherId+","+res[i].item.id+","+data.quantity+")'></i></td></tr>";
+            }
+
+            $('#items_append').html(template);
+          }
+        }
+      });
+
+    })
+    $("#submit").on('click',function(){
+      var voucherId = $('#vouchernumber').val();
+      $.ajax({
+        url:"{{url('voucher/savevoucher')}}",
+        type:"post",
+        data:{voucherId:voucherId,_token:"{{csrf_token()}}"},
+        dataType:"json",
+        success:function(res){
+          if(res != null){
+            $('#alert').css('display','block');
+            $('#purchase_price').val('');
+            $('#sale_price').val('');
+            $('#itemId').val('');
+            $('#vouchernumber').val('');
+            $('#vendorvoucher').val('');
+            $('#barcode').val('');
+            $('#quantity').val('');
+            $('#items_append').html('<tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">No data available in table</td></tr>');
+          }
+          console.log(res);
+        }
+      });
+    })
+    function itemRemove(voucherId,itemId,qty){
+      console.log(typeof qty);
+      $.ajax({
+        url: "{{url('voucher/removeitem')}}",
+        type:"post",
+        datatype:"json",
+        data:{voucherId:voucherId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
+        success:function(res){
+          var data = JSON.parse(res);
+          if(data.message != 'empty'){
+            var template = "";
+            for(var i = 0; i < data.length; i++){
+              template += "<tr><td>"+data[i].item.id+"</td>";
+              template += "<td>"+data[i].item.item_name+"</td>";
+              template += "<td>"+data[i].item.purchase_price+"</td>";
+              template += "<td>"+data[i].item.sale_price+"</td>";
+              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].voucher_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
+            }
+            $('#items_append').html(template);
+          }else{
+            $('#items_append').html('<tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">No data available in table</td></tr>')
+          }
+        }
+      });
+    }
   </script>
 @endsection
