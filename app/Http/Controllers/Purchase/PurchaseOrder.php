@@ -62,7 +62,12 @@ class PurchaseOrder extends Controller
     */
     public function searchbarcode(Request $request){
     	$item = items::where('barcode',$request->barcode)->first();
-    	return json_encode($item);
+        $exsist = voucher_detail::where('item_id',$item->id)->where('voucher_id',$request->voucher_id)->get();
+        if(sizeof($exsist) > 0){
+            return json_encode(["message"=>"item already added"]);
+        }else{
+        	return json_encode($item);
+        }
     } 
     /*
     *
@@ -70,12 +75,15 @@ class PurchaseOrder extends Controller
     *
     */
     public function additem(Request $request){
-    	$item = new voucher_detail;
-    	$item->voucher_id = $request->voucherId;
-    	$item->item_id = $request->itemId;
-    	$item->qty = $request->quantity;
-    	$item->type = $request->type;
-    	$item->save();
+        $check = voucher_detail::where('voucher_id',$request->voucherId)->where('item_id',$request->itemId)->first();
+        if($check === null){
+            $item = new voucher_detail;
+            $item->voucher_id = $request->voucherId;
+            $item->item_id = $request->itemId;
+            $item->qty = $request->quantity;
+            $item->type = $request->type;
+            $item->save();
+        }
     	
     	if(stock::where('item_id',$request->itemId)->first()){
     		$stock = stock::where('item_id',$request->itemId)->increment('qty',$request->quantity);

@@ -275,20 +275,29 @@
     });
     $("#barcode").on('blur',function(){
       var barcode = $(this).val();
+      var voucher_id = $('#vouchernumber').val();
       $.ajax({
         url:"{{url('voucher/searchbarcode')}}",
         type:"post",
         dataType:"json",
-        data:{barcode:barcode,_token:"{{csrf_token()}}"},
+        data:{barcode:barcode,voucher_id:voucher_id,_token:"{{csrf_token()}}"},
         success:function(res){
-          if(res != null){
-            $('#purchase_price').val(res.purchase_price);
-            $('#sale_price').val(res.sale_price);
-            $('#itemId').val(res.id);
+          console.log(res.message);
+          if(res.message){
+            $('#barcode_msg').text(res.message);
+            $('#addItem').prop('disabled',true);
           }else{
-            $('#purchase_price').val('');
-            $('#sale_price').val('');
-            $('#itemId').val('');
+            if(res != null){
+              $('#purchase_price').val(res.purchase_price);
+              $('#sale_price').val(res.sale_price);
+              $('#itemId').val(res.id);
+              $('#addItem').prop('disabled',false);
+              $('#barcode_msg').text('');
+            }else{
+              $('#purchase_price').val('');
+              $('#sale_price').val('');
+              $('#itemId').val('');
+            }  
           }
         }
       });
@@ -338,6 +347,11 @@
               }
 
               $('#items_append').html(template);
+              $('#itemId').val('');
+              $('#barcode').val('');
+              $('#quantity').val('');
+              $('#purchase_price').val('');
+              $('#sale_price').val('');
               $('#submit').prop('disabled',false);
             }
           }
@@ -363,7 +377,7 @@
             $('#vendorvoucher').val('');
             $('#barcode').val('');
             $('#quantity').val('');
-            $('#items_append').html('<tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">No data available in table</td></tr>');
+            $('#items_append').html('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>');
           }
           $('#purchase_price').prop('disabled',true);
           $('#sale_price').prop('disabled',true);
