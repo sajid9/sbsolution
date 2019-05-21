@@ -51,19 +51,19 @@
             <div class="form-group">
               <label for="vouchernumber">Voucher Number <span class="text-danger">*</span></label>
               <input type="text" readonly="readonly" name="voucher_number" value="{{old('voucher_number')}}" class="form-control" id="vouchernumber" aria-describedby="voucher_number" placeholder="voucher number">
-              <small id="voucher_number" class="form-text text-muted text-danger">{{$errors->first('voucher_number')}}</small>
+              <small id="voucher_number" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="vendorvoucher">Vendor Voucher Number <span class="text-danger">*</span></label>
               <input type="text" name="vendor_voucher" value="{{old('vendor_voucher')}}" class="form-control" id="vendorvoucher" aria-describedby="vendor_voucher" placeholder="voucher number">
-              <small id="vendor_voucher" class="form-text text-muted text-danger">{{$errors->first('vendor_voucher')}}</small>
+              <small id="vendor_voucher" class="form-text text-muted text-danger"></small>
             </div>
           </div>
           <div class="col-md-6">
            <div class="form-group">
-              <label for="total_amount">Voucher Date <span class="text-danger">*</span></label>
+              <label for="voucher_date">Voucher Date <span class="text-danger">*</span></label>
               <input type="date" name="voucher_date" value="{{old('voucher_date')}}" class="form-control" id="voucher_date" placeholder="Short Code" aria-describedby="voucher_date">
-              <small id="voucher_date" class="form-text text-muted text-danger">{{$errors->first('voucher_date')}}</small>
+              <small id="voucherdate" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="supplier">Supplier </label>
@@ -73,7 +73,7 @@
                 <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
                 @endforeach
               </select>
-              <small id="supplier" class="form-text text-muted text-danger">{{$errors->first('supplier')}}</small>
+              <small id="supplier_msg" class="form-text text-muted text-danger"></small>
             </div>
             
           </div>
@@ -81,7 +81,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button type="submit" class="btn btn-primary" id="save_vendor">Save Vendor</button>
+            <button type="submit" class="btn btn-primary" id="save_vendor">Save Voucher</button>
           </div>
         </div>
         </form>
@@ -96,33 +96,33 @@
               <input type="hidden" name="item_id" id="itemId">
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
-                <input type="text" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
+                <input type="text" disabled name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
                 <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
               </div>
-              <small id="barcode_msg" class="form-text text-muted text-danger">{{$errors->first('barcode')}}</small>
+              <small id="barcode_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="quantity">Quantity <span class="text-danger">*</span></label>
-              <input type="text" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
-              <small id="quantity" class="form-text text-muted text-danger">{{$errors->first('quantity')}}</small>
+              <input type="number" disabled name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
+              <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
-              <input type="text" name="purchase_price" value="{{old('purchase_price')}}" class="form-control" id="purchase_price" aria-describedby="purchaseprice" placeholder="voucher number">
-              <small id="purchaseprice" class="form-text text-muted text-danger">{{$errors->first('purchase_price')}}</small>
+              <input type="text" disabled name="purchase_price" value="{{old('purchase_price')}}" class="form-control" id="purchase_price" aria-describedby="purchaseprice" placeholder="purchase price">
+              <small id="purchaseprice" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
-              <input type="text" name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="voucher number">
+              <input type="text" disabled name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="sale price">
               <small id="saleprice" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
             </div>
           </div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button class="btn btn-primary" id="addItem">Add Item</button>
+            <button disabled class="btn btn-primary" id="addItem">Add Item</button>
           </div>
         </div>
       </fieldset>
@@ -152,7 +152,7 @@
   </div>
   <div class="row">
     <div class="col-md-12" style="padding-top: 20px">
-      <button type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+      <button disabled type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
     </div>
   </div>
 
@@ -220,17 +220,40 @@
     $('#vendor_form').on('submit',function(e){
       e.preventDefault();
       var data = $(this).serialize();
-      $.ajax({
-        url:"{{url('voucher/addvoucher')}}",
-        type:"post",
-        dataType:"json",
-        data:data,
-        success:function(res){
-          $('#vouchernumber').val(res.id);
-          console.log(res);
-        }
-      });
+      if($('#vendorvoucher').val() == ''){
+        $('#vendor_voucher').text('This field is required');
+      }else{
+        $('#vendor_voucher').text('');
+      } 
+      if($('#voucher_date').val() == ''){
+        $('#voucherdate').text('This field is required');
+      }else{
+        $('#voucherdate').text('');
+      }
+      if($('#supplier').val() == ''){
+        $('#supplier_msg').text('This field is required');
+      }else{
+        $('#supplier_msg').text('');
+      }
+      if($('#vendorvoucher').val() != '' && $('#voucher_date').val() != '' && $('#supplier').val() != ''){
+        $.ajax({
+          url:"{{url('voucher/addvoucher')}}",
+          type:"post",
+          dataType:"json",
+          data:data,
+          success:function(res){
+            $('#vouchernumber').val(res.id);
+            $('#purchase_price').prop('disabled',false);
+            $('#sale_price').prop('disabled',false);
+            $('#barcode').prop('disabled',false);
+            $('#quantity').prop('disabled',false);
+            $('#addItem').prop('disabled',false);
+          }
+        });
+      }
+      
     });
+    
     $("#vendorvoucher").on('blur',function(){
       var voucher = $(this).val();
       $.ajax({
@@ -240,15 +263,13 @@
         data:{voucher:voucher,_token:"{{csrf_token()}}"},
         success:function(res){
           if(res != null){
-            $('#vouchernumber').val(res.id);
-            $('[name=supplier] option').filter(function() { 
-                return ($(this).val() == res.supplier_id); 
-            }).prop('selected', true);
+            $('#vendor_voucher').text('Voucher already exsist');
+            $('#save_vendor').prop('disabled',true);
           }else{
-            $('#vouchernumber').val('');
+            $('#vendor_voucher').text('');
+            $('#save_vendor').prop('disabled',false);
           }
           
-          console.log(res);
         }
       });
     });
@@ -279,26 +300,50 @@
       data.voucherId = $('#vouchernumber').val();
       data.type      = "purchase";
       data._token    = "{{csrf_token()}}";
-      $.ajax({
-        url:"{{url('voucher/additem')}}",
-        type:"post",
-        dataType:"json",
-        data:data,
-        success:function(res){
-          if(res != null){
-            var template = "";
-            for(var i = 0; i < res.length; i++){
-              template += "<tr><td>"+res[i].item.id+"</td>";
-              template += "<td>"+res[i].item.item_name+"</td>";
-              template += "<td>"+res[i].item.purchase_price+"</td>";
-              template += "<td>"+res[i].item.sale_price+"</td>";
-              template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data.voucherId+","+res[i].item.id+","+data.quantity+")'></i></td></tr>";
-            }
+      if(data.quantity == ''){
+        $('#quantity_msg').text('This field is required');
+      }else{
+        $('#quantity_msg').text('');
+      } 
+      if($('#purchase_price').val() == ''){
+        $('#purchaseprice').text('This field is required');
+      }else{
+        $('#purchaseprice').text('');
+      }
+      if($('#barcode').val() == ''){
+        $('#barcode_msg').text('This field is required');
+      }else{
+        $('#barcode_msg').text('');
+      }
+      if($('#sale_price').val() == ''){
+        $('#saleprice').text('This field is required');
+      }else{
+        $('#saleprice').text('');
+      }
+      if(data.quantity != '' && $('purchase_price').val() != '' && $('sale_price').val() != ''){
+        $.ajax({
+          url:"{{url('voucher/additem')}}",
+          type:"post",
+          dataType:"json",
+          data:data,
+          success:function(res){
+            if(res != null){
+              var template = "";
+              for(var i = 0; i < res.length; i++){
+                template += "<tr><td>"+res[i].item.id+"</td>";
+                template += "<td>"+res[i].item.item_name+"</td>";
+                template += "<td>"+res[i].item.purchase_price+"</td>";
+                template += "<td>"+res[i].item.sale_price+"</td>";
+                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data.voucherId+","+res[i].item.id+","+data.quantity+")'></i></td></tr>";
+              }
 
-            $('#items_append').html(template);
+              $('#items_append').html(template);
+              $('#submit').prop('disabled',false);
+            }
           }
-        }
-      });
+        });
+      }
+      
 
     })
     $("#submit").on('click',function(){
@@ -320,12 +365,16 @@
             $('#quantity').val('');
             $('#items_append').html('<tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">No data available in table</td></tr>');
           }
-          console.log(res);
+          $('#purchase_price').prop('disabled',true);
+          $('#sale_price').prop('disabled',true);
+          $('#barcode').prop('disabled',true);
+          $('#quantity').prop('disabled',true);
+          $('#addItem').prop('disabled',true);
+          $('#submit').prop('disabled',true);
         }
       });
     })
     function itemRemove(voucherId,itemId,qty){
-      console.log(typeof qty);
       $.ajax({
         url: "{{url('voucher/removeitem')}}",
         type:"post",
@@ -344,7 +393,7 @@
             }
             $('#items_append').html(template);
           }else{
-            $('#items_append').html('<tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">No data available in table</td></tr>')
+            $('#items_append').html('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>')
           }
         }
       });
