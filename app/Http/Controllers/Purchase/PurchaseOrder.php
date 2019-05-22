@@ -62,6 +62,7 @@ class PurchaseOrder extends Controller
     */
     public function searchbarcode(Request $request){
     	$item = items::where('barcode',$request->barcode)->first();
+
         $exsist = voucher_detail::where('item_id',$item->id)->where('voucher_id',$request->voucher_id)->get();
         if(sizeof($exsist) > 0){
             return json_encode(["message"=>"item already added"]);
@@ -113,7 +114,7 @@ class PurchaseOrder extends Controller
     *
     */
     public function removeitem(Request $request){
-    	voucher_detail::where('voucher_id',$request->voucherId)->where('item_id',$request->itemId)->delete();
+    	$delete = voucher_detail::where('voucher_id',$request->voucherId)->where('item_id',$request->itemId)->delete();
     	stock::where('item_id',$request->itemId)->decrement('qty',$request->qty);
     	$items = voucher_detail::with('item')->where('voucher_id',$request->voucherId)->get();
     	if(sizeof($items) > 0){
@@ -122,6 +123,14 @@ class PurchaseOrder extends Controller
     		return json_encode(["message"=>"empty"]);
     	}
     	
+    }
+
+    public function editvoucher($voucherId){
+        $voucher = voucher::find($voucherId);
+        $purchase_items = voucher_detail::with('item')->where('voucher_id',$voucherId)->where('type','=','purchase')->get();
+        $return_items = voucher_detail::with('item')->where('voucher_id',$voucherId)->where('type','=','return')->get();
+        $items     = items::all();
+        return view('pages.purchase.edit_voucher_form',compact('voucher','purchase_items','return_items','items','voucherId'));
     }
 
 }

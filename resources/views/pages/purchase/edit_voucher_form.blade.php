@@ -7,120 +7,434 @@
 {{-- page titles --}}
 @section('title', 'Dashboard')
 @section('pagetitle', 'Dashboard')
-
+@section('header')
+@parent
+<style>
+  fieldset { 
+    display: block;
+    margin-left: 2px;
+    margin-right: 2px;
+    padding-top: 0.35em;
+    padding-bottom: 0.625em;
+    padding-left: 0.75em;
+    padding-right: 0.75em;
+    border: 2px solid #ccc;
+  }
+  legend{
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+  }
+</style>
+@endsection
 @section('content')
 <div class="panel panel-default">
 <div class="panel-heading">
-    Edit Item
+    Add New Voucher
 </div>
 <div class="panel-body">
 
 {{-- form start  --}}
-<form method="post" action="{{url('item/updateitem')}}">
-  @csrf
-  <input type="hidden" name="id" value="{{$item->id}}">
+<div class="alert alert-success alert-dismissible" id="alert" style="display: none">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+  <strong>Success!</strong> Voucher Add Successfully
+</div>
   <div class="row">
     <div class="col-md-6">
-      <div class="form-group">
-        <label for="itemname">Item Name <span class="text-danger">*</span></label>
-        <input type="text" name="item_name" value="{{old('item_name',$item->item_name)}}" class="form-control" id="itemname" aria-describedby="itemname" placeholder="item Name">
-        <small id="itemname" class="form-text text-muted text-danger">{{$errors->first('item_name')}}</small>
-      </div>
-      <div class="form-group">
-        <label for="barcode">Barcode <span class="text-danger">*</span></label>
-        <input type="text" name="barcode" value="{{old('barcode',$item->barcode)}}" class="form-control" id="barcode" placeholder="Short Code" aria-describedby="barcode">
-        <small id="barcode" class="form-text text-muted text-danger">{{$errors->first('barcode')}}</small>
-      </div>
-      <div class="form-group">
-        <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
-        <input type="number" name="purchase_price" value="{{old('purchase_price',$item->purchase_price)}}" class="form-control" id="purchase_price" placeholder="Short Code" aria-describedby="purchase_price">
-        <small id="purchase_price" class="form-text text-muted text-danger">{{$errors->first('purchase_price')}}</small>
-      </div>
-      <div class="form-group">
-        <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
-        <input type="number" name="sale_price" value="{{old('sale_price',$item->sale_price)}}" class="form-control" id="sale_price" placeholder="Short Code" aria-describedby="sale_price">
-        <small id="sale_price" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
-      </div>
-      <div class="form-group">
-        <label for="discription">Description</label>
-        <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description">{{old('description',$item->description)}}</textarea>
-      </div>
+      <fieldset>
+        <legend>Add Item:</legend>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group">
+              <input type="hidden" name="voucher_number" id="vouchernumber" value="{{$voucherId}}">
+              <input type="hidden" name="item_id" id="itemId">
+              <label for="barcode">Barcode <span class="text-danger">*</span></label>
+              <div class="input-group">
+                <input type="text" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
+                <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
+              </div>
+              <small id="barcode_msg" class="form-text text-muted text-danger"></small>
+            </div>
+            <div class="form-group">
+              <label for="quantity">Quantity <span class="text-danger">*</span></label>
+              <input type="number" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
+              <small id="quantity_msg" class="form-text text-muted text-danger"></small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
+              <input type="text" name="purchase_price" value="{{old('purchase_price')}}" class="form-control" id="purchase_price" aria-describedby="purchaseprice" placeholder="purchase price">
+              <small id="purchaseprice" class="form-text text-muted text-danger"></small>
+            </div>
+            <div class="form-group">
+              <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
+              <input type="text" name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="sale price">
+              <small id="saleprice" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <button class="btn btn-primary" id="addItem">Add Item</button>
+          </div>
+        </div>
+      </fieldset>
     </div>
-    <div class="col-md-6">
-      <div class="form-group">
-        <label for="company">Company </label>
-        <select name="company" class="form-control" id="company" aria-describedby="company">
-          <option value="">Select Company</option>
-          @foreach($companies as $company)
-            <option value="{{$company->id}}" {{($item->company_id == $company->id)? 'selected':''}}>{{ $company->company_name}}</option>
-          @endforeach
-        </select>
-        <small id="company" class="form-text text-muted text-danger">{{$errors->first('company')}}</small>
-      </div>
-      <div class="form-group">
-        <label for="category">Category </label>
-        <select name="category" class="form-control" id="category" aria-describedby="category">
-          <option value="">Select Category</option>
-          @foreach($categories as $category)
-            <option value="{{$category->id}}" {{($item->category_id == $category->id)? 'selected':''}}>{{ $category->category_name}}</option>
-          @endforeach
-        </select>
-        <small id="category" class="form-text text-muted text-danger">{{$errors->first('category')}}</small>
-      </div>
-      <div class="form-group">
-        <label for="class">Class </label>
-        <select name="class" class="form-control" id="class" aria-describedby="class">
-          <option value="">Select Class</option>
-          @foreach($classes as $class)
-            <option value="{{$class->id}}" {{($item->class_id == $class->id)? 'selected':''}}>{{ $class->class_name}}</option>
-          @endforeach
-        </select>
-        <small id="class" class="form-text text-muted text-danger">{{$errors->first('class')}}</small>
-      </div>
-      <div class="form-group">
-        <label for="sub_class">Sub Class </label>
-        <select name="sub_class" class="form-control" id="sub_class" aria-describedby="sub_class">
-          <option value="">Select Subclass</option>
-          @foreach($sub_classes as $subclass)
-            <option value="{{$subclass->id}}" {{($item->sub_class_id == $subclass->id)? 'selected':''}}>{{ $subclass->class_name}}</option>
-          @endforeach
-        </select>
-        <small id="sub_class" class="form-text text-muted text-danger">{{$errors->first('sub_class')}}</small>
-      </div>
+     <div class="col-md-6">
+      <fieldset>
+        <legend>Voucher Detail:</legend>
+        <div class="table-responsive">
+          <table class="table" style="font-size: 12px">
+            <tr>
+              <td>Voucher No:</td>
+              <td>{{$voucher->id}}</td>
+              <td>Vendor Voucher No:</td>
+              <td>{{$voucher->voucher_no}}</td>
+            </tr>
+            <tr>
+              <td>Voucher Date:</td>
+              <td>{{$voucher->voucher_date}}</td>
+              <td>Amount:</td>
+              <td>{{$voucher->total_amount}}</td>
+            </tr>
+            <tr>
+              <td>Retun Item Amount:</td>
+              <td>12000</td>
+              <td>Total Amount:</td>
+              <td>5000</td>
+            </tr>
+            <tr>
+              <td>Paid Amount:</td>
+              <td>{{$voucher->paid_amount}}</td>
+              <td>Balance Amount:</td>
+              <td>{{$voucher->balance_amount}}</td>
+            </tr>
+            <tr>
+              <td>Supplier Name:</td>
+              <td>Muhammad sajid</td>
+              <td>Mobile:</td>
+              <td>0314998877</td>
+            </tr>
+          </table>
+        </div>
+      </fieldset>
     </div>
   </div>
-  <div class="form-check">
-    <input type="checkbox" name="is_active" value="yes" {{ (old('is_active') == 'yes' || $item->is_active == 'yes') ? 'checked' : '' }} class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Active</label>
+  <div class="row">
+    <div class="col-md-12">
+      <fieldset>
+        <legend>Purchased Items :</legend>
+        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Item Name</th>
+              <th>Purchase Price</th>
+              <th>Sale Price</th>
+              <th>Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+         <tbody id="items_append">
+          @foreach($purchase_items as $item)
+            <tr>
+              <td>{{$item->id}}</td>
+              <td>{{$item->item->item_name}}</td>
+              <td>{{$item->item->purchase_price}}</td>
+              <td>{{$item->item->sale_price}}</td>
+              <td>{{$item->qty}}</td>
+              <td><i class="glyphicon glyphicon-share"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+            </tr>
+          @endforeach{{$item->qty}}
+         </tbody>
+        </table>
+      </fieldset>
+    </div>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
-</form>
-{{-- form end --}}
+  <div class="row">
+    <div class="col-md-12">
+      <fieldset>
+        <legend>Returned Items :</legend>
+        <table class="table table-striped table-bordered table-hover" id="dataTables-return">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Item Name</th>
+              <th>Purchase Price</th>
+              <th>Sale Price</th>
+              <th>Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+         <tbody>
+          
+         </tbody>
+        </table>
+      </fieldset>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12" style="padding-top: 20px">
+      <button disabled type="button" id="submit" class="btn btn-primary">Update</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+    </div>
+  </div>
 
+{{-- form end --}}
+<!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-full">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Items</h4>
+        </div>
+        <div class="modal-body">
+          <table class="table table-striped table-bordered table-hover" id="items-datatable">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>Item Name</th>
+                    <th>Barcode</th>
+                    <th>Purchase price</th>
+                    <th>Sale Price</th>
+                </tr>
+            </thead>
+            <tbody>
+              @foreach($items as $item)
+              <tr>
+                <td>{{$item->id}}</td>
+                <td>{{$item->item_name}}</td>
+                <td>{{$item->barcode}}</td>
+                <td>{{$item->purchase_price}}</td>
+                <td>{{$item->sale_price}}</td>
+              </tr>
+              @endforeach
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </div>
 </div>
 @endsection
 @section('footer')
-@parent
-<script>
-$('#class').on('change',function(){
-  var class_id = $(this).val();
-  var token = $('input[name="_token"]').val();
-  $.ajax({
-    url:"{{url('subclass/getsubclass')}}",
-    method:"post",
-    dataType:'json',
-    data:{id:class_id,_token:token},
-    success:function(res){
-      var template = '<option value="">Select Subclass</option>';
-      for(var i = 0; i < res.length; i++){
-        template += '<option value="'+res[i].id+'">'+res[i].class_name+'</option>';
+  @parent
+  <!-- DataTables JavaScript -->
+  <script src="{{asset('js/dataTables/jquery.dataTables.min.js')}}"></script>
+  <script src="{{asset('js/dataTables/dataTables.bootstrap.min.js')}}"></script>
+  <script>
+      $(document).ready(function() {
+          $('#dataTables-example').DataTable({
+                  responsive: true,
+          });
+          $('#items-datatable').DataTable({
+                  responsive: true,
+          });
+          $('#dataTables-return').DataTable({
+                  responsive: true,
+          });
+          $('[data-toggle="tooltip"]').tooltip();
+      });
+      
+    $('#vendor_form').on('submit',function(e){
+      e.preventDefault();
+      var data = $(this).serialize();
+      if($('#vendorvoucher').val() == ''){
+        $('#vendor_voucher').text('This field is required');
+      }else{
+        $('#vendor_voucher').text('');
+      } 
+      if($('#voucher_date').val() == ''){
+        $('#voucherdate').text('This field is required');
+      }else{
+        $('#voucherdate').text('');
       }
-      $('#sub_class').html(template);
-    }
-  })
-})
-  
-</script>
+      if($('#supplier').val() == ''){
+        $('#supplier_msg').text('This field is required');
+      }else{
+        $('#supplier_msg').text('');
+      }
+      if($('#vendorvoucher').val() != '' && $('#voucher_date').val() != '' && $('#supplier').val() != ''){
+        $.ajax({
+          url:"{{url('voucher/addvoucher')}}",
+          type:"post",
+          dataType:"json",
+          data:data,
+          success:function(res){
+            $('#vouchernumber').val(res.id);
+            $('#purchase_price').prop('disabled',false);
+            $('#sale_price').prop('disabled',false);
+            $('#barcode').prop('disabled',false);
+            $('#quantity').prop('disabled',false);
+            $('#addItem').prop('disabled',false);
+          }
+        });
+      }
+      
+    });
+    
+    $("#vendorvoucher").on('blur',function(){
+      var voucher = $(this).val();
+      $.ajax({
+        url:"{{url('voucher/searchvoucher')}}",
+        type:"post",
+        dataType:"json",
+        data:{voucher:voucher,_token:"{{csrf_token()}}"},
+        success:function(res){
+          if(res != null){
+            $('#vendor_voucher').text('Voucher already exsist');
+            $('#save_vendor').prop('disabled',true);
+          }else{
+            $('#vendor_voucher').text('');
+            $('#save_vendor').prop('disabled',false);
+          }
+          
+        }
+      });
+    });
+    $("#barcode").on('blur',function(){
+      var barcode = $(this).val();
+      var voucher_id = $('#vouchernumber').val();
+      $.ajax({
+        url:"{{url('voucher/searchbarcode')}}",
+        type:"post",
+        dataType:"json",
+        data:{barcode:barcode,voucher_id:voucher_id,_token:"{{csrf_token()}}"},
+        success:function(res){
+          if(res.message){
+            $('#barcode_msg').text(res.message);
+            $('#addItem').prop('disabled',true);
+          }else{
+            if(res != null){
+              $('#purchase_price').val(res.purchase_price);
+              $('#sale_price').val(res.sale_price);
+              $('#itemId').val(res.id);
+              $('#addItem').prop('disabled',false);
+              $('#barcode_msg').text('');
+            }else{
+              $('#purchase_price').val('');
+              $('#sale_price').val('');
+              $('#itemId').val('');
+            }  
+          }
+        }
+      });
+    });
+    $('#addItem').on('click',function(){
+      var data  = {};
+      data.itemId    = $('#itemId').val();
+      data.quantity  = $('#quantity').val();
+      data.voucherId = $('#vouchernumber').val();
+      data.type      = "purchase";
+      data._token    = "{{csrf_token()}}";
+      if(data.quantity == ''){
+        $('#quantity_msg').text('This field is required');
+      }else{
+        $('#quantity_msg').text('');
+      } 
+      if($('#purchase_price').val() == ''){
+        $('#purchaseprice').text('This field is required');
+      }else{
+        $('#purchaseprice').text('');
+      }
+      if($('#barcode').val() == ''){
+        $('#barcode_msg').text('This field is required');
+      }else{
+        $('#barcode_msg').text('');
+      }
+      if($('#sale_price').val() == ''){
+        $('#saleprice').text('This field is required');
+      }else{
+        $('#saleprice').text('');
+      }
+      if(data.quantity != '' && $('purchase_price').val() != '' && $('sale_price').val() != ''){
+        $.ajax({
+          url:"{{url('voucher/additem')}}",
+          type:"post",
+          dataType:"json",
+          data:data,
+          success:function(res){
+            if(res != null){
+              var template = "";
+              for(var i = 0; i < res.length; i++){
+                template += "<tr><td>"+res[i].item.id+"</td>";
+                template += "<td>"+res[i].item.item_name+"</td>";
+                template += "<td>"+res[i].item.purchase_price+"</td>";
+                template += "<td>"+res[i].item.sale_price+"</td>";
+                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data.voucherId+","+res[i].item.id+","+data.quantity+")'></i></td></tr>";
+              }
 
+              $('#items_append').html(template);
+              $('#itemId').val('');
+              $('#barcode').val('');
+              $('#quantity').val('');
+              $('#purchase_price').val('');
+              $('#sale_price').val('');
+              $('#submit').prop('disabled',false);
+            }
+          }
+        });
+      }
+    })
+    $("#submit").on('click',function(){
+      var voucherId = $('#vouchernumber').val();
+      $.ajax({
+        url:"{{url('voucher/savevoucher')}}",
+        type:"post",
+        data:{voucherId:voucherId,_token:"{{csrf_token()}}"},
+        dataType:"json",
+        success:function(res){
+          if(res != null){
+            $('#alert').css('display','block');
+            $('#purchase_price').val('');
+            $('#sale_price').val('');
+            $('#itemId').val('');
+            $('#vouchernumber').val('');
+            $('#vendorvoucher').val('');
+            $('#barcode').val('');
+            $('#quantity').val('');
+            $('#items_append').html('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>');
+          }
+          $('#purchase_price').prop('disabled',true);
+          $('#sale_price').prop('disabled',true);
+          $('#barcode').prop('disabled',true);
+          $('#quantity').prop('disabled',true);
+          $('#addItem').prop('disabled',true);
+          $('#submit').prop('disabled',true);
+        }
+      });
+    })
+    function itemRemove(voucherId,itemId,qty){
+      $.ajax({
+        url: "{{url('voucher/removeitem')}}",
+        type:"post",
+        datatype:"json",
+        data:{voucherId:voucherId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
+        success:function(res){
+          var data = JSON.parse(res);
+          if(data.message != 'empty'){
+            var template = "";
+            for(var i = 0; i < data.length; i++){
+              template += "<tr><td>"+data[i].item.id+"</td>";
+              template += "<td>"+data[i].item.item_name+"</td>";
+              template += "<td>"+data[i].item.purchase_price+"</td>";
+              template += "<td>"+data[i].item.sale_price+"</td>";
+              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].voucher_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
+            }
+            $('#items_append').html(template);
+          }else{
+            $('#items_append').html('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>')
+          }
+        }
+      });
+    }
+  </script>
 @endsection

@@ -357,8 +357,6 @@
           }
         });
       }
-      
-
     })
     $("#submit").on('click',function(){
       var voucherId = $('#vouchernumber').val();

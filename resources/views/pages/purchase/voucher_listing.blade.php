@@ -42,7 +42,7 @@
 			                <th>Voucher No</th>
 			                <th>Supplier</th>
 			                <th>Total Amount</th>
-			                <th>Paid Aount</th>
+			                <th>Paid Amount</th>
 			                <th>Balance Amount</th>
 			                <th>Action</th>
 			            </tr>
