@@ -132,5 +132,20 @@ class PurchaseOrder extends Controller
         $items     = items::all();
         return view('pages.purchase.edit_voucher_form',compact('voucher','purchase_items','return_items','items','voucherId'));
     }
+    public function returnitem(Request $request){
+        try{
+            $item = new voucher_detail;
+            $item->voucher_id = $request->voucher_id;
+            $item->item_id = $request->item_id;
+            $item->qty = $request->quantity;
+            $item->type = 'return';
+            $item->save();
+            return $stock = stock::where('item_id',$request->item_id)->decrement('qty',$request->quantity);
+        }catch(Exeption $e){
+            dd($e->message);
+        }
+        
+
+    }
 
 }

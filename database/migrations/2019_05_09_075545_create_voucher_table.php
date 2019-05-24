@@ -18,6 +18,7 @@ class CreateVoucherTable extends Migration
             $table->string('voucher_no',200);
             $table->integer('supplier_id');
             $table->integer('total_amount')->nullable();
+            $table->integer('return_amount')->nullable();
             $table->integer('paid_amount')->nullable();
             $table->integer('balance_amount')->nullable();
             $table->timestamps();

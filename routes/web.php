@@ -147,6 +147,8 @@ Route::prefix('voucher')->group(function () {
     Route::post('savevoucher','Purchase\PurchaseOrder@savevoucher');
     Route::post('removeitem','Purchase\PurchaseOrder@removeitem');
     Route::get('editvoucher/{id}','Purchase\PurchaseOrder@editvoucher');
+    Route::post('returnitem','Purchase\PurchaseOrder@returnitem');
+
 });
 
 /*
