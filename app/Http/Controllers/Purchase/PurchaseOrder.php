@@ -9,7 +9,10 @@ use App\suppliers;
 use App\items;
 use App\voucher_detail;
 use App\stock;
+use App\item_ledger;
+use App\supplier_ledger;
 use DB;
+
 class PurchaseOrder extends Controller
 {
    /*
@@ -84,17 +87,24 @@ class PurchaseOrder extends Controller
             $item->qty = $request->quantity;
             $item->type = $request->type;
             $item->save();
+            if(stock::where('item_id',$request->itemId)->first()){
+                $stock = stock::where('item_id',$request->itemId)->increment('qty',$request->quantity);
+            }else{
+                $stock = new stock;
+                $stock->item_id = $item->item_id;
+                $stock->qty = $item->qty;
+                $stock->save();
+            }
+            $stock = stock::where('item_id',$request->itemId)->first();
+            $ledger = new item_ledger;
+            $ledger->item_id = $request->itemId;
+            $ledger->purchase = $request->quantity;
+            $ledger->left     = $stock->qty;
+            $ledger->save();
         }
     	
-    	if(stock::where('item_id',$request->itemId)->first()){
-    		$stock = stock::where('item_id',$request->itemId)->increment('qty',$request->quantity);
-    	}else{
-    		$stock = new stock;
-    		$stock->item_id = $item->item_id;
-    		$stock->qty = $item->qty;
-    		$stock->save();
-    	}
-
+    	
+        
     	$items = voucher_detail::with('item')->where('voucher_id',$item->voucher_id)->get();
     	return json_encode($items);
     }
