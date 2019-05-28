@@ -35,7 +35,7 @@
 		        Voucher Listing
 		    </div>
 		    <div class="panel-body">
-			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+			    <table class="table table-striped table-bordered table-hover" id="dataTables-voucher">
 			        <thead>
 			            <tr>
 			                <th>id</th>
@@ -78,9 +78,9 @@
 	<script src="{{asset('js/dataTables/dataTables.bootstrap.min.js')}}"></script>
 	<script>
 	    $(document).ready(function() {
-	        $('#dataTables-example').DataTable({
+	        $('#dataTables-voucher').DataTable({
 	                responsive: true,
-	                columnDefs: [ { orderable: false, targets: [8] } ]
+	                columnDefs: [ { orderable: false, targets: [6] } ]
 	        });
 	        $('[data-toggle="tooltip"]').tooltip();
 	    });

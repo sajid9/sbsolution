@@ -16,6 +16,9 @@ class CreateItemLedgerTable extends Migration
         Schema::create('item_ledger', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('item_id');
+            $table->integer('voucher_id')->nullable();
+            $table->integer('receipt_id')->nullable();
+            $table->integer('description')->nullable();
             $table->integer('purchase')->nullable();
             $table->integer('sale')->nullable();
             $table->integer('left');

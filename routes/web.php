@@ -162,3 +162,15 @@ Route::prefix('payment')->group(function(){
     Route::post('addpayment','payments\payment@addpayment');
 
 });
+
+/*
+*
+*Item Ledger
+*
+*/
+Route::prefix('ledger')->group(function(){
+    Route::get('itemledger','ledger\Ledger_item@item_ledgers');
+    Route::get('getitems','ledger\Ledger_item@search_item');
+
+});
+

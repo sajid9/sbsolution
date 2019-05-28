@@ -99,6 +99,8 @@ class PurchaseOrder extends Controller
             $ledger = new item_ledger;
             $ledger->item_id = $request->itemId;
             $ledger->purchase = $request->quantity;
+            $ledger->voucher_id = $request->voucherId;
+            $ledger->description = 'Purchase';
             $ledger->left     = $stock->qty;
             $ledger->save();
         }
@@ -114,8 +116,12 @@ class PurchaseOrder extends Controller
     *
     */
     public function savevoucher(Request $request){
-    	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->first();
+    	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('type','=','purchase')->first();
     	DB::table('voucher')->where('id',$request->voucherId)->update(['total_amount'=>$total->totalPrice]);
+        $supplier = new supplier_ledger;
+        $supplier->voucher_id = $request->voucherId;
+        $supplier->debit = $total->totalPrice;
+        $supplier->save();
     	return json_encode($total);
     }
     /*
@@ -150,7 +156,22 @@ class PurchaseOrder extends Controller
             $item->qty = $request->quantity;
             $item->type = 'return';
             $item->save();
-            return $stock = stock::where('item_id',$request->item_id)->decrement('qty',$request->quantity);
+            stock::where('item_id',$request->item_id)->decrement('qty',$request->quantity);
+            $stock = stock::where('item_id',$request->item_id)->first();
+            $ledger = new item_ledger;
+            $ledger->item_id = $request->item_id;
+            $ledger->voucher_id = $request->voucherId;
+            $ledger->description = 'Return';
+            $ledger->sale = $request->quantity;
+            $ledger->left     = $stock->qty;
+            $ledger->save();
+            $total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucher_id)->where('type','=','return')->first();
+            DB::table('voucher')->where('id',$request->voucher_id)->update(['return_amount'=>$total->totalPrice]);
+            $supplier = new supplier_ledger;
+            $supplier->voucher_id = $request->voucher_id;
+            $supplier->credit = $total->totalPrice;
+            $supplier->save();
+            return 1;
         }catch(Exeption $e){
             dd($e->message);
         }
