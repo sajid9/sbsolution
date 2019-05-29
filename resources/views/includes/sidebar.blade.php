@@ -108,6 +108,12 @@
                             <li>
                                 <a href="{{url('payment/paymentlisting')}}">Payments</a>
                             </li>
+                            <li>
+                                <a href="{{url('ledger/itemledger')}}">Item ledger</a>
+                            </li>
+                            <li>
+                                <a href="{{url('ledger/supplierledger')}}">Supplier ledger</a>
+                            </li>
                         </ul>
                     </li>
                     <li>

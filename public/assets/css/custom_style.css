@@ -1,3 +1,7 @@
 .cursor{
 	pointer:cursor;
 }
+#side-menu{
+	height: 600px;
+	overflow-y:scroll; 
+}

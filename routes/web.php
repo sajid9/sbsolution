@@ -171,6 +171,8 @@ Route::prefix('payment')->group(function(){
 Route::prefix('ledger')->group(function(){
     Route::get('itemledger','ledger\Ledger_item@item_ledgers');
     Route::get('getitems','ledger\Ledger_item@search_item');
+    Route::post('searchitem','ledger\Ledger_item@search_itemledger');
+    Route::get('supplierledger','ledger\Ledger_supplier@supplier_ledgers');
 
 });
 

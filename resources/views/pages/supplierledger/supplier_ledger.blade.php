@@ -52,22 +52,20 @@
 			                <th>id</th>
 			                <th>Date</th>
 			                <th>Voucher No</th>
-			                <th>Desc</th>
-			                <th>In/Dr Qty</th>
-			                <th>Out/Cr Qty</th>
-			                <th>Balance Qty</th>
+			                <th>Debit</th>
+			                <th>Credit</th>
+			                <th>Balance</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			        	@foreach($ledgers as $ledger)
 			        	<tr>
-			        		<td>{{$ledger->item_id}}</td>
+			        		<td>{{$ledger->id}}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
 			        		<td>{{$ledger->voucher_id}}</td>
-			        		<td>{{$ledger->description}}</td>
-			        		<td>{{$ledger->purchase}}</td>
-			        		<td>{{$ledger->sale}}</td>
-			        		<td>{{$ledger->left}}</td>
+			        		<td>{{$ledger->debit}}</td>
+			        		<td>{{$ledger->credit}}</td>
+			        		<td>{{$ledger->balance}}</td>
 			        	</tr>
 			        	@endforeach
 			        </tbody>
