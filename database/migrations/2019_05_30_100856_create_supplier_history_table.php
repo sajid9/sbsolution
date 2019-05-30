@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSupplierLedgerTable extends Migration
+class CreateSupplierHistoryTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateSupplierLedgerTable extends Migration
      */
     public function up()
     {
-        Schema::create('supplier_ledger', function (Blueprint $table) {
+        Schema::create('supplier_history', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('voucher_id');
+            $table->integer('supplier_id');
             $table->integer('debit')->nullable();
             $table->integer('credit')->nullable();
-            $table->integer('balance')->nullable();
+            $table->integer('balance');
             $table->string('type');
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreateSupplierLedgerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('supplier_ledger');
+        Schema::dropIfExists('supplier_history');
     }
 }
