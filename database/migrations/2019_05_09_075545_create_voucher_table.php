@@ -17,10 +17,10 @@ class CreateVoucherTable extends Migration
             $table->bigIncrements('id');
             $table->string('voucher_no',200);
             $table->integer('supplier_id');
-            $table->integer('total_amount')->nullable();
-            $table->integer('return_amount')->nullable();
-            $table->integer('paid_amount')->nullable();
-            $table->integer('balance_amount')->nullable();
+            $table->integer('total_amount')->default(0);
+            $table->integer('return_amount')->default(0);
+            $table->integer('paid_amount')->default(0);
+            $table->integer('balance_amount')->default(0);
             $table->timestamps();
         });
     }

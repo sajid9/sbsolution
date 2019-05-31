@@ -100,7 +100,7 @@
                                 <a href="{{url('item/itemlisting')}}">Add Item</a>
                             </li>
                             <li>
-                                <a href="{{url('voucher/voucherlisting')}}">Purchase order</a>
+                                <a href="{{url('voucher/voucherlisting')}}">Purchase Order</a>
                             </li>
                             <li>
                                 <a href="{{url('item/itemlisting')}}">Sale Order</a>
@@ -109,10 +109,13 @@
                                 <a href="{{url('payment/paymentlisting')}}">Payments</a>
                             </li>
                             <li>
-                                <a href="{{url('ledger/itemledger')}}">Item ledger</a>
+                                <a href="{{url('ledger/itemledger')}}">Item Ledger</a>
                             </li>
                             <li>
-                                <a href="{{url('ledger/supplierledger')}}">Supplier ledger</a>
+                                <a href="{{url('ledger/voucherhistory')}}">Voucher History</a>
+                            </li>
+                            <li>
+                                <a href="{{url('ledger/supplierhistory')}}">Supplier History</a>
                             </li>
                         </ul>
                     </li>

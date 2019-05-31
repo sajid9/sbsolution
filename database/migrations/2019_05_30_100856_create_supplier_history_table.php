@@ -16,8 +16,8 @@ class CreateSupplierHistoryTable extends Migration
         Schema::create('supplier_history', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('supplier_id');
-            $table->integer('debit')->nullable();
-            $table->integer('credit')->nullable();
+            $table->integer('debit')->default(0);
+            $table->integer('credit')->default(0);
             $table->integer('balance');
             $table->string('type');
             $table->timestamps();

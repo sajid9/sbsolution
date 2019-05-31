@@ -16,9 +16,9 @@ class CreateSupplierLedgerTable extends Migration
         Schema::create('supplier_ledger', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('voucher_id');
-            $table->integer('debit')->nullable();
-            $table->integer('credit')->nullable();
-            $table->integer('balance')->nullable();
+            $table->integer('debit')->default(0);
+            $table->integer('credit')->default(0);
+            $table->integer('balance')->default(0);
             $table->string('type');
             $table->timestamps();
         });
