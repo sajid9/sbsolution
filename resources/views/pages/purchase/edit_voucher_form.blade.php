@@ -37,7 +37,7 @@
 {{-- form start  --}}
 <div class="alert alert-success alert-dismissible" id="alert" style="display: none">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> Voucher Add Successfully
+  <strong>Success!</strong> Voucher Update Successfully
 </div>
   <div class="row">
     <div class="col-md-6">
@@ -100,21 +100,21 @@
             </tr>
             <tr>
               <td>Retun Item Amount:</td>
-              <td>12000</td>
+              <td>{{$voucher->return_amount}}</td>
               <td>Total Amount:</td>
-              <td>5000</td>
+              <td>{{$voucher->total_amount}}</td>
             </tr>
             <tr>
               <td>Paid Amount:</td>
               <td>{{$voucher->paid_amount}}</td>
               <td>Balance Amount:</td>
-              <td>{{$voucher->balance_amount}}</td>
+              <td>{{$voucher->total_amount - ($voucher->return_amount + $voucher->paid_amount)}}</td>
             </tr>
             <tr>
               <td>Supplier Name:</td>
-              <td>Muhammad sajid</td>
+              <td>{{$supplier->supplier_name}}</td>
               <td>Mobile:</td>
-              <td>0314998877</td>
+              <td>{{$supplier->mobile}}</td>
             </tr>
           </table>
         </div>
@@ -144,7 +144,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach
          </tbody>
@@ -167,7 +167,7 @@
               <th>Action</th>
             </tr>
           </thead>
-         <tbody>
+         <tbody id="return_item">
           @foreach($return_items as $item)
             <tr>
               <td>{{$item->id}}</td>
@@ -175,7 +175,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach
          </tbody>
@@ -185,7 +185,7 @@
   </div>
   <div class="row">
     <div class="col-md-12" style="padding-top: 20px">
-      <button disabled type="button" id="submit" class="btn btn-primary">Update</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+      <button type="button" id="submit" class="btn btn-primary">Update</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
     </div>
   </div>
 
@@ -270,6 +270,12 @@
   <!-- DataTables JavaScript -->
   <script src="{{asset('js/dataTables/jquery.dataTables.min.js')}}"></script>
   <script src="{{asset('js/dataTables/dataTables.bootstrap.min.js')}}"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
   <script>
       $(document).ready(function() {
           $('#dataTables-example').DataTable({
@@ -280,6 +286,10 @@
           });
           $('#dataTables-return').DataTable({
                   responsive: true,
+                  dom: 'Bfrtip',
+                  buttons: [
+                      'copy', 'csv', 'excel', 'pdf', 'print'
+                  ],
           });
           $('[data-toggle="tooltip"]').tooltip();
       });
@@ -309,9 +319,19 @@
         dataType:"json",
         data:data,
         success:function(res){
-          if(res === 1){
+          if(res !== null){
             $('#return_form')[0].reset();
             $('#returnItem').modal('hide');
+             var template = "";
+              for(var i = 0; i < res.length; i++){
+                template += "<tr><td>"+res[i].item.id+"</td>";
+                template += "<td>"+res[i].item.item_name+"</td>";
+                template += "<td>"+res[i].item.purchase_price+"</td>";
+                template += "<td>"+res[i].item.sale_price+"</td>";
+                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+res[i].id+","+res[i].voucher_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
+              }
+
+              $('#return_item').html(template);
           }
         }
       });
@@ -441,7 +461,7 @@
                 template += "<td>"+res[i].item.item_name+"</td>";
                 template += "<td>"+res[i].item.purchase_price+"</td>";
                 template += "<td>"+res[i].item.sale_price+"</td>";
-                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data.voucherId+","+res[i].item.id+","+data.quantity+")'></i></td></tr>";
+                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-share' onclick='returnItem("+res[i].voucher_id+","+res[i].item.id+","+res[i].qty+")'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+res[i].id+","+res[i].voucher_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
               }
 
               $('#items_append').html(template);
@@ -459,37 +479,23 @@
     $("#submit").on('click',function(){
       var voucherId = $('#vouchernumber').val();
       $.ajax({
-        url:"{{url('voucher/savevoucher')}}",
+        url:"{{url('voucher/updatevoucher')}}",
         type:"post",
         data:{voucherId:voucherId,_token:"{{csrf_token()}}"},
         dataType:"json",
         success:function(res){
           if(res != null){
             $('#alert').css('display','block');
-            $('#purchase_price').val('');
-            $('#sale_price').val('');
-            $('#itemId').val('');
-            $('#vouchernumber').val('');
-            $('#vendorvoucher').val('');
-            $('#barcode').val('');
-            $('#quantity').val('');
-            $('#items_append').html('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>');
           }
-          $('#purchase_price').prop('disabled',true);
-          $('#sale_price').prop('disabled',true);
-          $('#barcode').prop('disabled',true);
-          $('#quantity').prop('disabled',true);
-          $('#addItem').prop('disabled',true);
-          $('#submit').prop('disabled',true);
         }
       });
     })
-    function itemRemove(voucherId,itemId,qty){
+    function itemRemove(id,voucherId,itemId,qty){
       $.ajax({
         url: "{{url('voucher/removeitem')}}",
         type:"post",
         datatype:"json",
-        data:{voucherId:voucherId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
+        data:{id:id,voucherId:voucherId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
         success:function(res){
           var data = JSON.parse(res);
           if(data.message != 'empty'){
@@ -499,7 +505,7 @@
               template += "<td>"+data[i].item.item_name+"</td>";
               template += "<td>"+data[i].item.purchase_price+"</td>";
               template += "<td>"+data[i].item.sale_price+"</td>";
-              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].voucher_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
+              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].id+","+data[i].voucher_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
             }
             $('#items_append').html(template);
           }else{

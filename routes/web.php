@@ -145,6 +145,7 @@ Route::prefix('voucher')->group(function () {
     Route::post('searchbarcode','Purchase\PurchaseOrder@searchbarcode');
     Route::post('additem','Purchase\PurchaseOrder@additem');
     Route::post('savevoucher','Purchase\PurchaseOrder@savevoucher');
+    Route::post('updatevoucher','Purchase\PurchaseOrder@updatevoucher');
     Route::post('removeitem','Purchase\PurchaseOrder@removeitem');
     Route::get('editvoucher/{id}','Purchase\PurchaseOrder@editvoucher');
     Route::post('returnitem','Purchase\PurchaseOrder@returnitem');
@@ -174,6 +175,10 @@ Route::prefix('ledger')->group(function(){
     Route::post('searchitem','ledger\Ledger_item@search_itemledger');
     Route::get('voucherhistory','ledger\Ledger_supplier@supplier_ledgers');
     Route::get('supplierhistory','ledger\Ledger_supplier@supplier_history');
+    Route::get('getsupplier','ledger\Ledger_supplier@get_supplier');
+    Route::get('getvoucher','ledger\Ledger_supplier@get_voucher');
+    Route::post('searchvoucher','ledger\Ledger_supplier@search_voucher');
+    Route::post('searchsupplier','ledger\Ledger_supplier@search_supplier');
 
 });
 

@@ -19,11 +19,11 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12">
-		<form class="form-inline" method="post" action="{{url('ledger/searchitem')}}">
+		<form class="form-inline" method="post" action="{{url('ledger/searchsupplier')}}">
 			@csrf
 		  <div class="form-group">
-		    <label for="Item">Item:</label>
-		    <select class="items-dropdown form-control" name="item" id="Item">
+		    <label for="Supplier">Supplier:</label>
+		    <select class="items-dropdown form-control" name="supplier" id="Supplier">
 		    </select>
 		  </div>
 		  <div class="form-group">
@@ -43,7 +43,7 @@
 		{{-- panel start --}}
 		<div class="panel panel-default">
 		    <div class="panel-heading">
-		        Item Ledger
+		        Supplier History
 		    </div>
 		    <div class="panel-body">
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
@@ -105,7 +105,7 @@
 	         $('.items-dropdown').select2({
 	         	width: '200px',
 	         	ajax: {
-	         	    url: '{{url("ledger/getitems")}}',
+	         	    url: '{{url("ledger/getsupplier")}}',
 	         	    dataType: 'json',
 	         	    processResults: function (data) {
          	          	return {
@@ -115,11 +115,5 @@
 	         	  }
 	         });
 	    });
-	    function deleteItem(id){
-	    	if(window.confirm('do you really wanna delete this record?')){
-	    		var url = '{{url('item/deleteitem')}}';
-	    		window.location.href = url+'/'+id;
-	    	}
-	    }
 	</script>
 @endsection

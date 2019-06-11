@@ -108,7 +108,7 @@ class PurchaseOrder extends Controller
     	
     	
         
-    	$items = voucher_detail::with('item')->where('voucher_id',$item->voucher_id)->get();
+    	$items = voucher_detail::with('item')->where('voucher_id',$item->voucher_id)->where('type','purchase')->get();
     	return json_encode($items);
     }
     /*
@@ -136,11 +136,22 @@ class PurchaseOrder extends Controller
     }
     /*
     *
+    *update voucher total amount and return amount to voucher table 
+    *
+    */
+    public function updatevoucher(Request $request){
+        $total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('type','=','purchase')->first();
+        $return = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('type','=','return')->first();
+        DB::table('voucher')->where('id',$request->voucherId)->update(['total_amount'=>$total->totalPrice,'return_amount' => $return->totalPrice]);
+        return json_encode($total);
+    }
+    /*
+    *
     *remove item from voucher details table 
     *
     */
     public function removeitem(Request $request){
-    	$delete = voucher_detail::where('voucher_id',$request->voucherId)->where('item_id',$request->itemId)->delete();
+    	$delete = voucher_detail::where('id',$request->id)->delete();
     	stock::where('item_id',$request->itemId)->decrement('qty',$request->qty);
     	$items = voucher_detail::with('item')->where('voucher_id',$request->voucherId)->get();
     	if(sizeof($items) > 0){
@@ -153,10 +164,11 @@ class PurchaseOrder extends Controller
 
     public function editvoucher($voucherId){
         $voucher = voucher::find($voucherId);
+        $supplier = suppliers::where('id',$voucher->supplier_id)->first();
         $purchase_items = voucher_detail::with('item')->where('voucher_id',$voucherId)->where('type','=','purchase')->get();
         $return_items = voucher_detail::with('item')->where('voucher_id',$voucherId)->where('type','=','return')->get();
         $items     = items::all();
-        return view('pages.purchase.edit_voucher_form',compact('voucher','purchase_items','return_items','items','voucherId'));
+        return view('pages.purchase.edit_voucher_form',compact('voucher','purchase_items','return_items','items','voucherId','supplier'));
     }
     public function returnitem(Request $request){
         try{
@@ -193,7 +205,8 @@ class PurchaseOrder extends Controller
             $supplier_history->balance = $sup_bal->balance - $credit->creditbal;
             $supplier_history->type = "PR";
             $supplier_history->save();
-            return 1;
+            $returnItems = voucher_detail::with('item')->where('voucher_id',$request->voucher_id)->where('type','return')->get();
+            return json_encode($returnItems);
         }catch(Exeption $e){
             dd($e->message);
         }
