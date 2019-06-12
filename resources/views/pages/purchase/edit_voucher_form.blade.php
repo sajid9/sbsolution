@@ -175,7 +175,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td><i class="glyphicon glyphicon-trash cursor" onclick='removeReturnItem("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach
          </tbody>
@@ -328,7 +328,7 @@
                 template += "<td>"+res[i].item.item_name+"</td>";
                 template += "<td>"+res[i].item.purchase_price+"</td>";
                 template += "<td>"+res[i].item.sale_price+"</td>";
-                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+res[i].id+","+res[i].voucher_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
+                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='removeReturnItem("+res[i].id+","+res[i].voucher_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
               }
 
               $('#return_item').html(template);
@@ -510,6 +510,30 @@
             $('#items_append').html(template);
           }else{
             $('#items_append').html('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>')
+          }
+        }
+      });
+    }
+    function removeReturnItem(id,voucherId,itemId,qty){
+      $.ajax({
+        url: "{{url('voucher/removereturnitem')}}",
+        type:"post",
+        datatype:"json",
+        data:{id:id,voucherId:voucherId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
+        success:function(res){
+          var data = JSON.parse(res);
+          if(data.message != 'empty'){
+            var template = "";
+            for(var i = 0; i < data.length; i++){
+              template += "<tr><td>"+data[i].item.id+"</td>";
+              template += "<td>"+data[i].item.item_name+"</td>";
+              template += "<td>"+data[i].item.purchase_price+"</td>";
+              template += "<td>"+data[i].item.sale_price+"</td>";
+              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].id+","+data[i].voucher_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
+            }
+            $('#return_item').html(template);
+          }else{
+            $('#return_item').html('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>')
           }
         }
       });

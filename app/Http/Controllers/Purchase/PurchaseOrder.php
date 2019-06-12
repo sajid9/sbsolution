@@ -119,17 +119,19 @@ class PurchaseOrder extends Controller
     public function savevoucher(Request $request){
     	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('type','=','purchase')->first();
     	DB::table('voucher')->where('id',$request->voucherId)->update(['total_amount'=>$total->totalPrice]);
-        $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucherId)->first();
         $supplier = new supplier_ledger;
         $supplier->voucher_id = $request->voucherId;
         $supplier->debit = $total->totalPrice;
         $supplier->balance = $total->totalPrice;
         $supplier->type = "P";
         $supplier->save();
+        $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucherId)->first();
+        $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
+
         $supplier_history = new supplier_history;
         $supplier_history->supplier_id = $sup->supplier_id;
         $supplier_history->debit = $total->totalPrice;
-        $supplier_history->balance = $total->totalPrice;
+        $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total->totalPrice:$total->totalPrice;
         $supplier_history->type = "P";
         $supplier_history->save();
     	return json_encode($total);
@@ -153,13 +155,27 @@ class PurchaseOrder extends Controller
     public function removeitem(Request $request){
     	$delete = voucher_detail::where('id',$request->id)->delete();
     	stock::where('item_id',$request->itemId)->decrement('qty',$request->qty);
-    	$items = voucher_detail::with('item')->where('voucher_id',$request->voucherId)->get();
+    	$items = voucher_detail::with('item')->where('voucher_id',$request->voucherId)->where('type','purchase')->get();
     	if(sizeof($items) > 0){
     		return json_encode($items);
     	}else{
     		return json_encode(["message"=>"empty"]);
     	}
-    	
+    } 
+    /*
+    *
+    *remove item from voucher details table 
+    *
+    */
+    public function removereturnitem(Request $request){
+        $delete = voucher_detail::where('id',$request->id)->delete();
+        stock::where('item_id',$request->itemId)->decrement('qty',$request->qty);
+        $items = voucher_detail::with('item')->where('voucher_id',$request->voucherId)->where('type','return')->get();
+        if(sizeof($items) > 0){
+            return json_encode($items);
+        }else{
+            return json_encode(["message"=>"empty"]);
+        }
     }
 
     public function editvoucher($voucherId){
@@ -190,7 +206,7 @@ class PurchaseOrder extends Controller
             $total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucher_id)->where('type','=','return')->first();
             DB::table('voucher')->where('id',$request->voucher_id)->update(['return_amount'=>$total->totalPrice]);
             $credit = DB::table('items')->select(DB::raw('purchase_price *'.$request->quantity.' as creditbal'))->where('id',$request->item_id)->first();
-            $bal = DB::table('voucher')->select(DB::raw('total_amount - return_amount as balance'))->where('id',$request->voucher_id)->first();
+            $bal = DB::table('voucher')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->voucher_id)->first();
             $supplier = new supplier_ledger;
             $supplier->voucher_id = $request->voucher_id;
             $supplier->credit = $credit->creditbal;
