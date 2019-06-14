@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompaniesTable extends Migration
+class CreateReceiptDetailTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('receipt_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('company_name', 100);
-            $table->integer('discount')->nullable();
-            $table->string('description', 500)->nullable();
-            $table->enum('is_active', ['yes', 'no'])->default('no');
+            $table->integer('receipt_id');
+            $table->integer('item_id');
+            $table->integer('qty');
+            $table->string('type');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('receipt_detail');
     }
 }

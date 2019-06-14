@@ -103,7 +103,7 @@
                                 <a href="{{url('voucher/voucherlisting')}}">Purchase Order</a>
                             </li>
                             <li>
-                                <a href="{{url('item/itemlisting')}}">Sale Order</a>
+                                <a href="{{url('sale/saleorder')}}">Sale Order</a>
                             </li>
                             <li>
                                 <a href="{{url('payment/paymentlisting')}}">Payments</a>

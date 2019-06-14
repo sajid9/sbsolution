@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCompaniesTable extends Migration
+class CreateCustomerLedgerTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateCompaniesTable extends Migration
      */
     public function up()
     {
-        Schema::create('companies', function (Blueprint $table) {
+        Schema::create('customer_ledger', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('company_name', 100);
-            $table->integer('discount')->nullable();
-            $table->string('description', 500)->nullable();
-            $table->enum('is_active', ['yes', 'no'])->default('no');
+            $table->integer('customer_id');
+            $table->integer('debit')->default(0);
+            $table->integer('credit')->default(0);
+            $table->integer('balance')->default(0);
+            $table->string('type');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateCompaniesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('companies');
+        Schema::dropIfExists('customer_ledger');
     }
 }

@@ -182,4 +182,15 @@ Route::prefix('ledger')->group(function(){
     Route::post('searchsupplier','ledger\Ledger_supplier@search_supplier');
 
 });
-
+/*
+*
+*sale order
+*
+*/
+Route::prefix('sale')->group(function(){
+    Route::get('saleorder','sale\saleorder@salelisting');
+    Route::get('addreceiptform','sale\saleorder@receiptform');
+    Route::post('addreceipt','sale\saleorder@addreceipt');
+    Route::post('additem','sale\saleorder@additem');
+    Route::post('savereceipt','sale\saleorder@savereceipt');
+});

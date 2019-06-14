@@ -105,9 +105,6 @@ class PurchaseOrder extends Controller
             $ledger->left     = $stock->qty;
             $ledger->save();
         }
-    	
-    	
-        
     	$items = voucher_detail::with('item')->where('voucher_id',$item->voucher_id)->where('type','purchase')->get();
     	return json_encode($items);
     }
