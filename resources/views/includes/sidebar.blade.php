@@ -120,6 +120,9 @@
                             <li>
                                 <a href="{{url('ledger/customerledger')}}">Customer ledger</a>
                             </li>
+                            <li>
+                                <a href="{{url('ledger/receiptledger')}}">Receipt ledger</a>
+                            </li>
                         </ul>
                     </li>
                     <li>

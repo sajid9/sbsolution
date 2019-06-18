@@ -181,6 +181,7 @@ Route::prefix('ledger')->group(function(){
     Route::post('searchvoucher','ledger\Ledger_supplier@search_voucher');
     Route::post('searchsupplier','ledger\Ledger_supplier@search_supplier');
     Route::get('customerledger','ledger\customer_history@customer_ledger');
+    Route::get('receiptledger','ledger\receipt_history@receipt_ledger');
 });
 /*
 *
