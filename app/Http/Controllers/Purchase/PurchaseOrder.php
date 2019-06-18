@@ -223,8 +223,6 @@ class PurchaseOrder extends Controller
         }catch(Exeption $e){
             dd($e->message);
         }
-        
-
     }
 
 }

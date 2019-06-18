@@ -30,14 +30,14 @@
 @section('content')
 <div class="panel panel-default">
 <div class="panel-heading">
-    Add New Voucher
+    Add New receipt
 </div>
 <div class="panel-body">
 
 {{-- form start  --}}
 <div class="alert alert-success alert-dismissible" id="alert" style="display: none">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> Voucher Update Successfully
+  <strong>Success!</strong> receipt Update Successfully
 </div>
   <div class="row">
     <div class="col-md-6">
@@ -46,18 +46,18 @@
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
-              <input type="hidden" name="voucher_number" id="vouchernumber" value="{{$voucherId}}">
+              <input type="hidden" name="receipt_id" id="receiptId" value="{{$receiptId}}">
               <input type="hidden" name="item_id" id="itemId">
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
-                <input type="text" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
+                <input type="text" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="receipt number">
                 <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
               </div>
               <small id="barcode_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="quantity">Quantity <span class="text-danger">*</span></label>
-              <input type="number" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
+              <input type="number" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="receipt number">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>
@@ -83,38 +83,38 @@
     </div>
      <div class="col-md-6">
       <fieldset>
-        <legend>Voucher Detail:</legend>
+        <legend>receipt Detail:</legend>
         <div class="table-responsive">
           <table class="table" style="font-size: 12px">
             <tr>
-              <td>Voucher No:</td>
-              <td>{{$voucher->id}}</td>
-              <td>Vendor Voucher No:</td>
-              <td>{{$voucher->voucher_no}}</td>
+              <td>receipt No:</td>
+              <td>{{$receipt->id}}</td>
+              <td>Vendor receipt No:</td>
+              <td>{{$receipt->receipt_no}}</td>
             </tr>
             <tr>
-              <td>Voucher Date:</td>
-              <td>{{$voucher->voucher_date}}</td>
+              <td>receipt Date:</td>
+              <td>{{$receipt->receipt_date}}</td>
               <td>Amount:</td>
-              <td>{{$voucher->total_amount}}</td>
+              <td>{{$receipt->total_amount}}</td>
             </tr>
             <tr>
               <td>Retun Item Amount:</td>
-              <td>{{$voucher->return_amount}}</td>
+              <td>{{$receipt->return_amount}}</td>
               <td>Total Amount:</td>
-              <td>{{$voucher->total_amount}}</td>
+              <td>{{$receipt->total_amount}}</td>
             </tr>
             <tr>
               <td>Paid Amount:</td>
-              <td>{{$voucher->paid_amount}}</td>
+              <td>{{$receipt->paid_amount}}</td>
               <td>Balance Amount:</td>
-              <td>{{$voucher->total_amount - ($voucher->return_amount + $voucher->paid_amount)}}</td>
+              <td>{{$receipt->total_amount - ($receipt->return_amount + $receipt->paid_amount)}}</td>
             </tr>
             <tr>
-              <td>Supplier Name:</td>
-              <td>{{$supplier->supplier_name}}</td>
+              <td>Customer Name:</td>
+              <td>{{$customer->customer_name}}</td>
               <td>Mobile:</td>
-              <td>{{$supplier->mobile}}</td>
+              <td>{{$customer->mobile}}</td>
             </tr>
           </table>
         </div>
@@ -144,7 +144,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$receiptId}}','{{$item->item->id}}','{{$item->qty}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$receiptId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach
          </tbody>
@@ -175,7 +175,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><i class="glyphicon glyphicon-trash cursor" onclick='removeReturnItem("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td><i class="glyphicon glyphicon-trash cursor" onclick='removeReturnItem("{{$item->id}}","{{$receiptId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach
          </tbody>
@@ -244,7 +244,7 @@
         <div class="modal-body">
           <form id="return_form">
             @csrf
-            <input type="hidden" name="voucher_id" id="voucher_id">
+            <input type="hidden" name="receipt_id" id="receipt_id">
             <input type="hidden" name="item_id" id="item_id">
             <div class="form-group">
               <label for="t_qty">Total Quantity</label>
@@ -293,10 +293,10 @@
           });
           $('[data-toggle="tooltip"]').tooltip();
       });
-    function returnItem(voucherId,itemId,qty){
+    function returnItem(receiptId,itemId,qty){
       $('#returnItem').modal('show');
       $('#t_qty').val(qty);
-      $('#voucher_id').val(voucherId);
+      $('#receipt_id').val(receiptId);
       $('#item_id').val(itemId);
     } 
     $('#qty').on('keyup',function(){
@@ -314,7 +314,7 @@
       e.preventDefault();
       var data = $(this).serialize();
       $.ajax({
-        url:"{{url('voucher/returnitem')}}",
+        url:"{{url('sale/returnitem')}}",
         type:"post",
         dataType:"json",
         data:data,
@@ -328,7 +328,7 @@
                 template += "<td>"+res[i].item.item_name+"</td>";
                 template += "<td>"+res[i].item.purchase_price+"</td>";
                 template += "<td>"+res[i].item.sale_price+"</td>";
-                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='removeReturnItem("+res[i].id+","+res[i].voucher_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
+                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='removeReturnItem("+res[i].id+","+res[i].receipt_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
               }
 
               $('#return_item').html(template);
@@ -336,70 +336,16 @@
         }
       });
     })
-    $('#vendor_form').on('submit',function(e){
-      e.preventDefault();
-      var data = $(this).serialize();
-      if($('#vendorvoucher').val() == ''){
-        $('#vendor_voucher').text('This field is required');
-      }else{
-        $('#vendor_voucher').text('');
-      } 
-      if($('#voucher_date').val() == ''){
-        $('#voucherdate').text('This field is required');
-      }else{
-        $('#voucherdate').text('');
-      }
-      if($('#supplier').val() == ''){
-        $('#supplier_msg').text('This field is required');
-      }else{
-        $('#supplier_msg').text('');
-      }
-      if($('#vendorvoucher').val() != '' && $('#voucher_date').val() != '' && $('#supplier').val() != ''){
-        $.ajax({
-          url:"{{url('voucher/addvoucher')}}",
-          type:"post",
-          dataType:"json",
-          data:data,
-          success:function(res){
-            $('#vouchernumber').val(res.id);
-            $('#purchase_price').prop('disabled',false);
-            $('#sale_price').prop('disabled',false);
-            $('#barcode').prop('disabled',false);
-            $('#quantity').prop('disabled',false);
-            $('#addItem').prop('disabled',false);
-          }
-        });
-      }
-      
-    });
     
-    $("#vendorvoucher").on('blur',function(){
-      var voucher = $(this).val();
-      $.ajax({
-        url:"{{url('voucher/searchvoucher')}}",
-        type:"post",
-        dataType:"json",
-        data:{voucher:voucher,_token:"{{csrf_token()}}"},
-        success:function(res){
-          if(res != null){
-            $('#vendor_voucher').text('Voucher already exsist');
-            $('#save_vendor').prop('disabled',true);
-          }else{
-            $('#vendor_voucher').text('');
-            $('#save_vendor').prop('disabled',false);
-          }
-          
-        }
-      });
-    });
+    
     $("#barcode").on('blur',function(){
       var barcode = $(this).val();
-      var voucher_id = $('#vouchernumber').val();
+      var receipt_id = $('#receiptId').val();
       $.ajax({
-        url:"{{url('voucher/searchbarcode')}}",
+        url:"{{url('sale/searchbarcode')}}",
         type:"post",
         dataType:"json",
-        data:{barcode:barcode,voucher_id:voucher_id,_token:"{{csrf_token()}}"},
+        data:{barcode:barcode,receipt_id:receipt_id,_token:"{{csrf_token()}}"},
         success:function(res){
           if(res.message){
             $('#barcode_msg').text(res.message);
@@ -424,8 +370,8 @@
       var data  = {};
       data.itemId    = $('#itemId').val();
       data.quantity  = $('#quantity').val();
-      data.voucherId = $('#vouchernumber').val();
-      data.type      = "purchase";
+      data.receipt_id = $('#receiptId').val();
+      data.type      = "sale";
       data._token    = "{{csrf_token()}}";
       if(data.quantity == ''){
         $('#quantity_msg').text('This field is required');
@@ -449,7 +395,7 @@
       }
       if(data.quantity != '' && $('purchase_price').val() != '' && $('sale_price').val() != ''){
         $.ajax({
-          url:"{{url('voucher/additem')}}",
+          url:"{{url('sale/additem')}}",
           type:"post",
           dataType:"json",
           data:data,
@@ -461,7 +407,7 @@
                 template += "<td>"+res[i].item.item_name+"</td>";
                 template += "<td>"+res[i].item.purchase_price+"</td>";
                 template += "<td>"+res[i].item.sale_price+"</td>";
-                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-share' onclick='returnItem("+res[i].voucher_id+","+res[i].item.id+","+res[i].qty+")'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+res[i].id+","+res[i].voucher_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
+                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-share' onclick='returnItem("+res[i].receipt_id+","+res[i].item.id+","+res[i].qty+")'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+res[i].id+","+res[i].receipt_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
               }
 
               $('#items_append').html(template);
@@ -477,11 +423,11 @@
       }
     })
     $("#submit").on('click',function(){
-      var voucherId = $('#vouchernumber').val();
+      var receiptId = $('#receiptId').val();
       $.ajax({
-        url:"{{url('voucher/updatevoucher')}}",
+        url:"{{url('sale/updatereceipt')}}",
         type:"post",
-        data:{voucherId:voucherId,_token:"{{csrf_token()}}"},
+        data:{receiptId:receiptId,_token:"{{csrf_token()}}"},
         dataType:"json",
         success:function(res){
           if(res != null){
@@ -490,12 +436,12 @@
         }
       });
     })
-    function itemRemove(id,voucherId,itemId,qty){
+    function itemRemove(id,receiptId,itemId,qty){
       $.ajax({
-        url: "{{url('voucher/removeitem')}}",
+        url: "{{url('receipt/removeitem')}}",
         type:"post",
         datatype:"json",
-        data:{id:id,voucherId:voucherId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
+        data:{id:id,receiptId:receiptId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
         success:function(res){
           var data = JSON.parse(res);
           if(data.message != 'empty'){
@@ -505,7 +451,7 @@
               template += "<td>"+data[i].item.item_name+"</td>";
               template += "<td>"+data[i].item.purchase_price+"</td>";
               template += "<td>"+data[i].item.sale_price+"</td>";
-              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].id+","+data[i].voucher_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
+              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].id+","+data[i].receipt_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
             }
             $('#items_append').html(template);
           }else{
@@ -514,12 +460,12 @@
         }
       });
     }
-    function removeReturnItem(id,voucherId,itemId,qty){
+    function removeReturnItem(id,receiptId,itemId,qty){
       $.ajax({
-        url: "{{url('voucher/removereturnitem')}}",
+        url: "{{url('receipt/removereturnitem')}}",
         type:"post",
         datatype:"json",
-        data:{id:id,voucherId:voucherId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
+        data:{id:id,receiptId:receiptId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
         success:function(res){
           var data = JSON.parse(res);
           if(data.message != 'empty'){
@@ -529,7 +475,7 @@
               template += "<td>"+data[i].item.item_name+"</td>";
               template += "<td>"+data[i].item.purchase_price+"</td>";
               template += "<td>"+data[i].item.sale_price+"</td>";
-              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].id+","+data[i].voucher_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
+              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-share'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].id+","+data[i].receipt_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
             }
             $('#return_item').html(template);
           }else{

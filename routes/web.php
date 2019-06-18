@@ -180,7 +180,7 @@ Route::prefix('ledger')->group(function(){
     Route::get('getvoucher','ledger\Ledger_supplier@get_voucher');
     Route::post('searchvoucher','ledger\Ledger_supplier@search_voucher');
     Route::post('searchsupplier','ledger\Ledger_supplier@search_supplier');
-
+    Route::get('customerledger','ledger\customer_history@customer_ledger');
 });
 /*
 *
@@ -193,4 +193,8 @@ Route::prefix('sale')->group(function(){
     Route::post('addreceipt','sale\saleorder@addreceipt');
     Route::post('additem','sale\saleorder@additem');
     Route::post('savereceipt','sale\saleorder@savereceipt');
+    Route::get('editreceipt/{id}','sale\saleorder@editreceipt');
+    Route::post('returnitem','sale\saleorder@returnitem');
+    Route::post('updatereceipt','sale\saleorder@updatereceipt');
+    Route::post('searchbarcode','sale\saleorder@searchbarcode');
 });

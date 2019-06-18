@@ -117,6 +117,9 @@
                             <li>
                                 <a href="{{url('ledger/supplierhistory')}}">Supplier History</a>
                             </li>
+                            <li>
+                                <a href="{{url('ledger/customerledger')}}">Customer ledger</a>
+                            </li>
                         </ul>
                     </li>
                     <li>
