@@ -9,6 +9,7 @@ use App\item_ledger;
 use App\items;
 use App\suppliers;
 use App\customers;
+use App\cash;
 use App\supplier_history;
 use App\customer_ledger;
 use DB;
@@ -73,5 +74,23 @@ class opening_controller extends Controller
     	$ledger->type = 'OP';
     	$ledger->save();
     	return json_encode(['message'=> 'success']);
+    }
+    public function opening_cash(){
+        return view('pages.opening.opening_cash_form');
+    }
+    public function save_cash(Request $request){
+        $sup_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
+        $cash = new cash;
+        if($request->type == 'debit'){
+            $cash->debit = $request->amount;
+            $cash->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
+        }else{
+            $cash->credit = $request->amount;
+            $cash->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
+        }
+        $cash->event = 'OP';
+        $cash->desc  = $request->description;
+        $cash->save();
+        return json_encode(['message'=>'success']);
     }
 }

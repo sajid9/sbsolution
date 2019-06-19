@@ -132,6 +132,9 @@
                             <li>
                                 <a href="{{url('opening/customer')}}">opening Customer</a>
                             </li>
+                            <li>
+                                <a href="{{url('opening/cash')}}">opening Cash</a>
+                            </li>
                         </ul>
                     </li>
                     <li>

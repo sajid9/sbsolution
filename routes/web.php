@@ -178,8 +178,12 @@ Route::prefix('ledger')->group(function(){
     Route::get('supplierhistory','ledger\Ledger_supplier@supplier_history');
     Route::get('getsupplier','ledger\Ledger_supplier@get_supplier');
     Route::get('getvoucher','ledger\Ledger_supplier@get_voucher');
+    Route::get('getcustomer','ledger\Ledger_supplier@get_customer');
+    Route::get('getreceipt','ledger\Ledger_supplier@get_receipt');
     Route::post('searchvoucher','ledger\Ledger_supplier@search_voucher');
     Route::post('searchsupplier','ledger\Ledger_supplier@search_supplier');
+    Route::post('searchcustomer','ledger\Ledger_supplier@search_customer');
+    Route::post('searchreceipt','ledger\Ledger_supplier@search_receipt');
     Route::get('customerledger','ledger\customer_history@customer_ledger');
     Route::get('receiptledger','ledger\receipt_history@receipt_ledger');
 });
@@ -211,4 +215,6 @@ Route::prefix('opening')->group(function(){
     Route::post('savesupplier','opening\opening_controller@save_supplier');
     Route::get('customer','opening\opening_controller@customer');
     Route::post('savecustomer','opening\opening_controller@save_customer');
+    Route::get('cash','opening\opening_controller@opening_cash');
+    Route::post('savecash','opening\opening_controller@save_cash');
 });

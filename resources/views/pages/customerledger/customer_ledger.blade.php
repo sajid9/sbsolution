@@ -19,11 +19,11 @@
 @section('content')
 <div class="row">
 	<div class="col-md-12">
-		<form class="form-inline" method="post" action="{{url('ledger/searchvoucher')}}">
+		<form class="form-inline" method="post" action="{{url('ledger/searchcustomer')}}">
 			@csrf
 		  <div class="form-group">
-		    <label for="voucher">Voucher</label>
-		    <select class="items-dropdown form-control" name="voucher" id="voucher">
+		    <label for="customer">Customer</label>
+		    <select class="items-dropdown form-control" name="customer" id="customer">
 		    </select>
 		  </div>
 		  <div class="form-group">
@@ -103,7 +103,7 @@
 	         $('.items-dropdown').select2({
 	         	width: '200px',
 	         	ajax: {
-	         	    url: '{{url("ledger/getvoucher")}}',
+	         	    url: '{{url("ledger/getcustomer")}}',
 	         	    dataType: 'json',
 	         	    processResults: function (data) {
          	          	return {
