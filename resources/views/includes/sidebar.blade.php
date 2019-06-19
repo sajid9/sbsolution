@@ -123,6 +123,15 @@
                             <li>
                                 <a href="{{url('ledger/receiptledger')}}">Receipt ledger</a>
                             </li>
+                            <li>
+                                <a href="{{url('opening/addItem')}}">opening Item</a>
+                            </li>
+                            <li>
+                                <a href="{{url('opening/supplier')}}">opening Supplier</a>
+                            </li>
+                            <li>
+                                <a href="{{url('opening/customer')}}">opening Customer</a>
+                            </li>
                         </ul>
                     </li>
                     <li>

@@ -199,3 +199,16 @@ Route::prefix('sale')->group(function(){
     Route::post('updatereceipt','sale\saleorder@updatereceipt');
     Route::post('searchbarcode','sale\saleorder@searchbarcode');
 });
+/*
+*
+*opening
+*
+*/
+Route::prefix('opening')->group(function(){
+    Route::get('addItem','opening\opening_controller@addItem');
+    Route::post('saveitem','opening\opening_controller@save_item');
+    Route::get('supplier','opening\opening_controller@supplier');
+    Route::post('savesupplier','opening\opening_controller@save_supplier');
+    Route::get('customer','opening\opening_controller@customer');
+    Route::post('savecustomer','opening\opening_controller@save_customer');
+});
