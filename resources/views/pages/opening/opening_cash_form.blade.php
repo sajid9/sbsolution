@@ -14,9 +14,9 @@
     Add Opening Cash
 </div>
 <div class="panel-body">
-<div class="alert alert-success alert-dismissible" id="alert" style="display: none">
+<div class="alert alert-dismissible" id="alert" style="display: none">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> Record Added Successfully
+  <strong>Success!</strong> <span id="alert-msg">Record Added Successfully</span>
 </div>
 {{-- form start  --}}
 <form id="supplierForm">
@@ -66,8 +66,20 @@
       type:"post",
       dataType:"json",
       success:function(res){
-        $('#alert').css('display','block');
-        document.getElementById("supplierForm").reset();
+        if(res.message =='exsist'){
+          $('#alert-msg').text('Opening Cash Already Exsist');
+          $('#alert').removeClass('alert-success');
+          $('#alert').addClass('alert-danger');
+          $('#alert').css('display','block');
+          document.getElementById("supplierForm").reset();
+        }else{
+          $('#alert-msg').text('Data Added Successfully');
+          $('#alert').removeClass('alert-danger');
+          $('#alert').addClass('alert-success');
+          $('#alert').css('display','block');
+          document.getElementById("supplierForm").reset();
+        }
+        
       }
     });
   })

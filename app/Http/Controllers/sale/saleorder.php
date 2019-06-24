@@ -12,6 +12,7 @@ use App\stock;
 use App\item_ledger;
 use App\customer_ledger;
 use App\receipt_ledger;
+use App\cash;
 use DB;
 class saleorder extends Controller
 {
@@ -76,7 +77,7 @@ class saleorder extends Controller
     */
     public function savereceipt(Request $request){
     	$total = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receipt_id)->where('type','=','sale')->first();
-    	DB::table('receipt')->where('id',$request->receipt_id)->update(['total_amount'=>$total->totalPrice]);
+    	$receipt = DB::table('receipt')->where('id',$request->receipt_id)->update(['total_amount'=>$total->totalPrice]);
         $receipt = new receipt_ledger;
         $receipt->receipt_id = $request->receipt_id;
         $receipt->debit = $total->totalPrice;
@@ -92,7 +93,7 @@ class saleorder extends Controller
         $customer_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total->totalPrice:$total->totalPrice;
         $customer_history->type = "S";
         $customer_history->save();
-    	return json_encode($total);
+    	return json_encode($receipt);
     }
     public function editreceipt($receiptId){
         $receipt = receipt::find($receiptId);
@@ -138,6 +139,12 @@ class saleorder extends Controller
             $customer->balance = $sup_bal->balance - $credit->creditbal;
             $customer->type = "SR";
             $customer->save();
+            $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
+            $cash = new cash;
+            $cash->credit = $total->totalPrice;
+            $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $request->amount:$request->amount;
+            $cash->event = 'SR';
+            $cash->save();
             $returnItems = receipt_detail::with('item')->where('receipt_id',$request->receipt_id)->where('type','return')->get();
             return json_encode($returnItems);
         }catch(Exeption $e){

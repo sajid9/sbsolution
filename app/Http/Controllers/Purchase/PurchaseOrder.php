@@ -12,6 +12,7 @@ use App\stock;
 use App\item_ledger;
 use App\supplier_ledger;
 use App\supplier_history;
+use App\cash;
 use DB;
 
 class PurchaseOrder extends Controller
@@ -218,6 +219,12 @@ class PurchaseOrder extends Controller
             $supplier_history->balance = $sup_bal->balance - $credit->creditbal;
             $supplier_history->type = "PR";
             $supplier_history->save();
+            $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
+            $cash = new cash;
+            $cash->debit = $total->totalPrice;
+            $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance + $request->amount:$request->amount;
+            $cash->event = 'PR';
+            $cash->save();
             $returnItems = voucher_detail::with('item')->where('voucher_id',$request->voucher_id)->where('type','return')->get();
             return json_encode($returnItems);
         }catch(Exeption $e){

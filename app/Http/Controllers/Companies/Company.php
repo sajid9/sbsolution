@@ -75,9 +75,11 @@ class Company extends BaseController
     * 
     */
 
-    public function updatecompany(companyValidator $request){
+    public function updatecompany(Request $request){
         try{
-            $request->validated();
+            $request->validate([
+                'company_name' => 'required',
+            ]);
             $company = companies::find($request->id);
             $company->company_name = $request->company_name;
             $company->discount     = $request->discount;

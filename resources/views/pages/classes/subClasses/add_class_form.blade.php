@@ -32,9 +32,10 @@
     <label for="discription">Description</label>
     <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description">{{old('description')}}</textarea>
   </div>
-  <div class="form-check">
-    <input type="checkbox" name="is_active" value="yes" {{ (old('is_active') == 'yes') ? 'checked' : '' }} class="form-check-input" id="exampleCheck1">
-    <label class="form-check-label" for="exampleCheck1">Active</label>
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" data-toggle="toggle" name="is_active" value="yes" {{ (old('is_active') == 'yes') ? 'checked' : '' }} data-on="Active" data-off="Inactive">
+    </label>
   </div>
   <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('subclass/classlisting/'.$id)}}" class="btn btn-default">Back</a>
 </form>

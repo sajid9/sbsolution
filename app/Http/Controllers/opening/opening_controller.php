@@ -79,18 +79,23 @@ class opening_controller extends Controller
         return view('pages.opening.opening_cash_form');
     }
     public function save_cash(Request $request){
-        $sup_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
-        $cash = new cash;
-        if($request->type == 'debit'){
-            $cash->debit = $request->amount;
-            $cash->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
+        $check = DB::table('cash')->where('event','OP')->get();
+        if(sizeof($check) > 0){
+            return json_encode(['message'=>'exsist']);
         }else{
-            $cash->credit = $request->amount;
-            $cash->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
+            $sup_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
+            $cash = new cash;
+            if($request->type == 'debit'){
+                $cash->debit = $request->amount;
+                $cash->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
+            }else{
+                $cash->credit = $request->amount;
+                $cash->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
+            }
+            $cash->event = 'OP';
+            $cash->desc  = $request->description;
+            $cash->save();
+            return json_encode(['message'=>'success']);
         }
-        $cash->event = 'OP';
-        $cash->desc  = $request->description;
-        $cash->save();
-        return json_encode(['message'=>'success']);
     }
 }

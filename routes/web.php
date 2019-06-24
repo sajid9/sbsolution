@@ -162,6 +162,7 @@ Route::prefix('payment')->group(function(){
     Route::get('paymentlisting','payments\payment@paymentlisting');
     Route::get('addpaymentform','payments\payment@addpaymentform');
     Route::post('addpayment','payments\payment@addpayment');
+    Route::get('addsopayment/{receiptId}/{totalAmount}/{customerId}','payments\payment@addsopayment');
 
 });
 

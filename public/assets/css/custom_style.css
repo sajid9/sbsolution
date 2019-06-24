@@ -5,3 +5,9 @@
 	height: 600px;
 	overflow-y:scroll; 
 }
+#voucher_con{
+	display: none;
+}
+#receipt_con{
+	display: none;
+}

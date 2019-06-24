@@ -368,6 +368,8 @@
         dataType:"json",
         success:function(res){
           if(res != null){
+            console.log(res.receipt_no);
+            /*window.location.href = '{{url("payment/addsopayment")}}/'+res.receipt_no+'/'+res.total_amount+'/'+res.customer_id;*/
             $('#alert').css('display','block');
             $('#purchase_price').val('');
             $('#sale_price').val('');
