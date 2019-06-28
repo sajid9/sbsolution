@@ -6,19 +6,33 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Payment')
 
 @section('content')
 <div class="panel panel-default">
 <div class="panel-heading">
-    Add New Category
+    Add Payment
 </div>
 <div class="panel-body">
 
 {{-- form start  --}}
-<form method="post" action="{{url('payment/addpayment')}}">
+<form method="post" action="{{url('payment/addpaymentsale')}}">
 	@csrf
-  
+  <input type="hidden" name="type" value="SO">
+  <input type="hidden" name="voucher" value="">
+  <input type="hidden" name="receipt" value="{{$receipt->id}}">
+  <div class="form-group">
+    <label for="receipt_no">Receipt No</label>
+    <input type="text" value="{{$receipt->receipt_no}}" readOnly class="form-control" id="receipt_no">
+  </div>
+  <div class="form-group">
+    <label for="receipt_no">Customer</label>
+    <input type="text" value="{{$customer->customer_name}}" readOnly class="form-control" id="receipt_no">
+  </div>
+  <div class="form-group">
+    <label for="receipt_no">Total Amount</label>
+    <input type="text" value="{{$total}}" readOnly class="form-control" id="receipt_no">
+  </div>
   <div class="form-group">
     <label for="amount">Amount <span class="text-danger">*</span></label>
     <input type="number" name="amount" value="{{old('amount')}}" class="form-control" id="amount" aria-describedby="amount" placeholder="enter the amount">
@@ -40,21 +54,4 @@
 
 </div>
 </div>
-@endsection
-@section('footer')
-@parent
-<script>
-$('#type').on('change',function(){
-  var type = $(this).val();
-  if(type == 'SO'){
-    $('#voucher_con').css('display','none');
-    $('#receipt_con').css('display','block');
-  }else{
-    $('#receipt_con').css('display','none');
-    $('#voucher_con').css('display','block');
-  }
-  console.log(type);
-})
-
-</script>
 @endsection

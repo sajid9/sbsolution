@@ -19,24 +19,16 @@
 <form method="post" action="{{url('payment/addpayment')}}">
 	@csrf
   <div class="form-group">
-    <label for="type">Select Receipt Type</label>
-    <select name="type" class="form-control" id="type" aria-describedby="type">
+    <label for="paytype">Select Receipt Type</label>
+    <select name="paytype" class="form-control" id="paytype" aria-describedby="paytype_msg">
       <option value=""> Select type</option>
       <option value="SO">Receipt (SO)</option>
       <option value="PO">Voucher (PO)</option>
+      <option value="EX">Expenditure (PO)</option>
     </select>
-    <small id="type" class="form-text text-muted text-danger">{{$errors->first('type')}}</small>
+    <small id="paytype_msg" class="form-text text-muted text-danger">{{$errors->first('paytype')}}</small>
   </div>
-  <div class="form-group" id="voucher_con">
-    <label for="voucher">Voucher</label>
-    <select name="voucher" class="form-control" id="voucher" aria-describedby="voucher">
-      <option value=""> Select Voucher</option>
-      @foreach($vouchers as $voucher)
-      <option value="{{$voucher->id}}"> {{$voucher->voucher_no}}</option>
-      @endforeach
-    </select>
-    <small id="voucher" class="form-text text-muted text-danger">{{$errors->first('voucher')}}</small>
-  </div>
+  
   <div class="form-group" id="receipt_con">
     <label for="receipt">Receipt</label>
     <select name="receipt" class="form-control" id="receipt" aria-describedby="receipt_msg">
@@ -47,20 +39,8 @@
     </select>
     <small id="receipt_msg" class="form-text text-muted text-danger">{{$errors->first('receipt')}}</small>
   </div>
-  <div class="form-group">
-    <label for="amount">Amount <span class="text-danger">*</span></label>
-    <input type="number" name="amount" value="{{old('amount')}}" class="form-control" id="amount" aria-describedby="amount" placeholder="enter the amount">
-    <small id="amount" class="form-text text-muted text-danger">{{$errors->first('amount')}}</small>
-  </div>
-  <div class="form-group">
-    <label for="method">Method</label>
-    <select name="method" class="form-control" id="method" aria-describedby="method">
-      <option value=""> Select Method</option>
-      <option value="cheque"> Cheque</option>
-      <option value="cash"> Chash</option>
-    </select>
-    <small id="method" class="form-text text-muted text-danger">{{$errors->first('method')}}</small>
-  </div>
+
+  
 
   <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('payment/paymentlisting')}}" class="btn btn-default">Back</a>
 </form>
@@ -68,6 +48,56 @@
 
 </div>
 </div>
+{{-- voucher template --}}
+<template>
+  <div class="form-group" id="voucher_con">
+    <label for="voucher">Voucher</label>
+    <select name="voucher" class="form-control" id="voucher" aria-describedby="voucher">
+      <option value=""> Select Voucher</option>
+      @foreach($vouchers as $voucher)
+      <option value="{{$voucher->id}}"> {{$voucher->voucher_no}}</option>
+      @endforeach
+    </select>
+    <small id="voucher" class="form-text text-muted text-danger">{{$errors->first('voucher')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="payer">payer</label>
+    <select name="payer" class="form-control" id="payer" aria-describedby="payer_msg">
+      <option value=""> Select Payer</option>
+    </select>
+    <small id="payer_msg" class="form-text text-muted text-danger">{{$errors->first('payer')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="payee">Payee</label>
+    <select name="payee" class="form-control" id="payee" aria-describedby="payee_msg">
+      <option value=""> Select Payee</option>
+    </select>
+    <small id="payee_msg" class="form-text text-muted text-danger">{{$errors->first('payee')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="amount">Amount <span class="text-danger">*</span></label>
+    <input type="number" name="amount" value="{{old('amount')}}" class="form-control" id="amount" aria-describedby="amount" placeholder="enter the amount">
+    <small id="amount" class="form-text text-muted text-danger">{{$errors->first('amount')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="type">Type</label>
+    <select name="type" class="form-control" id="type" aria-describedby="type">
+      <option value=""> Select type</option>
+      <option value="debit"> Debit</option>
+      <option value="credit"> Credit</option>
+    </select>
+    <small id="type" class="form-text text-muted text-danger">{{$errors->first('type')}}</small>
+  </div>
+    <div class="form-group">
+    <label for="subtype">Subtype</label>
+    <select name="subtype" class="form-control" id="subtype" aria-describedby="subtype">
+      <option value=""> Select Subtype</option>
+      <option value="P"> Puchase</option>
+      <option value="PR"> Puchase Return</option>
+    </select>
+    <small id="subtype" class="form-text text-muted text-danger">{{$errors->first('subtype')}}</small>
+  </div>
+</template>
 @endsection
 @section('footer')
 @parent

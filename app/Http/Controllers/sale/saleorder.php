@@ -84,7 +84,7 @@ class saleorder extends Controller
         $receipt->balance = $total->totalPrice;
         $receipt->type = "S";
         $receipt->save();
-        $sup = DB::table('receipt')->select('customer_id')->where('id',$request->receipt_id)->first();
+        $sup = DB::table('receipt')->where('id',$request->receipt_id)->first();
         $sup_bal = DB::table('customer_ledger')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('customer_id',$sup->customer_id)->first();
 
         $customer_history = new customer_ledger;
@@ -93,7 +93,7 @@ class saleorder extends Controller
         $customer_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total->totalPrice:$total->totalPrice;
         $customer_history->type = "S";
         $customer_history->save();
-    	return json_encode($receipt);
+    	return json_encode($sup);
     }
     public function editreceipt($receiptId){
         $receipt = receipt::find($receiptId);

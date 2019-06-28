@@ -76,40 +76,36 @@
                         <a href="{{url('/')}}" class="active"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
                     </li>
                     <li>
-                        <a href="{{url('company/companylisting')}}"><i class="fa fa-building fa-fw"></i> Companies</a>
-                    </li>
-                    <li>
-                        <a href="{{url('category/categorylisting')}}"><i class="fa fa-list fa-fw"></i> Categories</a>
-                    </li>
-                    <li>
-                        <a href="{{url('class/classlisting')}}"><i class="fa fa-sitemap fa-fw"></i> Classes</a>
-                    </li>
-                    <li>
-                        <a href="{{url('supplier/supplierlisting')}}"><i class="fa fa-industry fa-fw"></i> Suppliers</a>
-                    </li>
-                    <li>
-                        <a href="{{url('customer/customerlisting')}}"><i class="fa fa-group fa-fw"></i> Customers</a>
-                    </li>
-                    <li>
                         <a href="{{url('country/countrylisting')}}"><i class="fa fa-flag fa-fw"></i> Countries</a>
                     </li>
+                    
+                    {{-- Item Info --}}
                     <li>
-                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Items <span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Items Info<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
                                 <a href="{{url('item/itemlisting')}}">Add Item</a>
                             </li>
                             <li>
-                                <a href="{{url('voucher/voucherlisting')}}">Purchase Order</a>
-                            </li>
-                            <li>
-                                <a href="{{url('sale/saleorder')}}">Sale Order</a>
-                            </li>
-                            <li>
-                                <a href="{{url('payment/paymentlisting')}}">Payments</a>
-                            </li>
-                            <li>
                                 <a href="{{url('ledger/itemledger')}}">Item Ledger</a>
+                            </li>
+                            <li>
+                                <a href="{{url('company/companylisting')}}"> Companies</a>
+                            </li>
+                            <li>
+                                <a href="{{url('category/categorylisting')}}">Categories</a>
+                            </li>
+                            <li>
+                                <a href="{{url('class/classlisting')}}">Classes</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- purchase info --}}
+                    <li>
+                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Purchase Info<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{url('voucher/voucherlisting')}}">Purchase Order</a>
                             </li>
                             <li>
                                 <a href="{{url('ledger/voucherhistory')}}">Voucher History</a>
@@ -118,22 +114,55 @@
                                 <a href="{{url('ledger/supplierhistory')}}">Supplier History</a>
                             </li>
                             <li>
+                                <a href="{{url('supplier/supplierlisting')}}"> Add Suppliers</a>
+                            </li>
+                            <li>
+                                <a href="{{url('opening/supplier')}}">opening Supplier</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- Sale info --}}
+                    <li>
+                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Sale Info<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{url('sale/saleorder')}}">Sale Order</a>
+                            </li>
+                            <li>
                                 <a href="{{url('ledger/customerledger')}}">Customer ledger</a>
                             </li>
                             <li>
                                 <a href="{{url('ledger/receiptledger')}}">Receipt ledger</a>
                             </li>
                             <li>
-                                <a href="{{url('opening/addItem')}}">opening Item</a>
-                            </li>
-                            <li>
-                                <a href="{{url('opening/supplier')}}">opening Supplier</a>
+                                <a href="{{url('customer/customerlisting')}}">Add Customers</a>
                             </li>
                             <li>
                                 <a href="{{url('opening/customer')}}">opening Customer</a>
                             </li>
+                        </ul>
+                    </li>
+                    {{-- Payment info --}}
+                    <li>
+                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Payment Info<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{url('opening/cash')}}">opening Cash</a>
+                                <a href="{{url('payment/paymentlisting')}}">Payments</a>
+                            </li>
+                            <li>
+                                <a href="{{url('payment/paymentlisting')}}">Payment Ledger</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- Account info --}}
+                    <li>
+                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Account Info<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
+                            <li>
+                                <a href="{{url('opening/accountlisting')}}">Accounts</a>
+                            </li>
+                            <li>
+                                <a href="{{url('payment/paymentlisting')}}">Payment Ledger</a>
                             </li>
                         </ul>
                     </li>

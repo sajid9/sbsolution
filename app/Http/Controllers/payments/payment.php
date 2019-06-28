@@ -12,6 +12,7 @@ use App\supplier_history;
 use App\customer_ledger;
 use App\receipt_ledger;
 use App\cash;
+use App\customers;
 use DB;
 class payment extends Controller
 {
@@ -26,8 +27,10 @@ class payment extends Controller
     	return view('pages.payments.add_payment_form',compact('vouchers','receipts'));
     }
     public function addsopayment(Request $request){
-        dd($request->receiptId,$request->totalAmount,$request->customerId);
-        return view('pages.payments.add_sopayment_form');
+       $receipt = receipt::where('id',$request->receiptId)->first();
+       $total = $request->totalAmount;
+       $customer = customers::where('id',$request->customerId)->first();
+        return view('pages.payments.add_so_payment_form',compact('receipt','customer','total'));
     }
     public function addpayment(Request $request){
         $request->validate([
@@ -99,5 +102,32 @@ class payment extends Controller
         }
 
     	return redirect()->to('payment/paymentlisting')->with('message','payment done successfully');
+    }
+    public function addpaymentsale(Request $request){
+        DB::table('receipt')->where('id',$request->receipt)->increment('paid_amount',$request->amount);
+        $sup = DB::table('receipt')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->receipt)->first();
+        $supplier = new receipt_ledger;
+        $supplier->receipt_id = $request->receipt;
+        $supplier->debit = $request->amount;
+        $supplier->balance = $sup->balance;
+        $supplier->type = "Payment";
+        $supplier->save();
+        $sup = DB::table('receipt')->select('customer_id')->where('id',$request->receipt)->first();
+        $sup_bal = DB::table('customer_ledger')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('customer_id',$sup->customer_id)->first();
+
+        $supplier_history = new customer_ledger;
+        $supplier_history->customer_id = $sup->customer_id;
+        $supplier_history->debit = $request->amount;
+        $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
+        $supplier_history->type = "Payment";
+        $supplier_history->save();
+        $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
+
+        $cash = new cash;
+        $cash->debit = $request->amount;
+        $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance + $request->amount:$request->amount;
+        $cash->event = "S";
+        $cash->save();
+        return redirect()->to('invoice/sale/'.$request->receipt);
     }
 }

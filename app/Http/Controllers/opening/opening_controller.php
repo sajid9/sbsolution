@@ -12,6 +12,7 @@ use App\customers;
 use App\cash;
 use App\supplier_history;
 use App\customer_ledger;
+use App\accounts;
 use DB;
 class opening_controller extends Controller
 {	
@@ -75,27 +76,29 @@ class opening_controller extends Controller
     	$ledger->save();
     	return json_encode(['message'=> 'success']);
     }
-    public function opening_cash(){
-        return view('pages.opening.opening_cash_form');
+    public function opening_account(){
+        return view('pages.opening.opening_account_form');
     }
-    public function save_cash(Request $request){
-        $check = DB::table('cash')->where('event','OP')->get();
-        if(sizeof($check) > 0){
-            return json_encode(['message'=>'exsist']);
-        }else{
-            $sup_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
-            $cash = new cash;
-            if($request->type == 'debit'){
-                $cash->debit = $request->amount;
-                $cash->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
-            }else{
-                $cash->credit = $request->amount;
-                $cash->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
-            }
-            $cash->event = 'OP';
-            $cash->desc  = $request->description;
-            $cash->save();
-            return json_encode(['message'=>'success']);
-        }
+    public function save_account(Request $request){
+        $request->validate([
+            "title"=>"required",
+            "date"=>"required",
+            "amount"=>"required"
+        ]);
+
+        $account = new accounts;
+        $account->account_title = $request->title;
+        $account->date = $request->date;
+        $account->balance = $request->amount;
+        $account->branch_name = $request->branchname;
+        $account->branch_code = $request->branchcode;
+        $account->account_number = $request->accountno;
+        $account->save();
+
+        return redirect()->back()->with('message','Record added successfully');
+    }
+    public function account_listing(){
+        $accounts = accounts::all();
+        return view('pages.opening.opening_account_listing',compact('accounts'));
     }
 }

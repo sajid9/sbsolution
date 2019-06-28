@@ -162,7 +162,9 @@ Route::prefix('payment')->group(function(){
     Route::get('paymentlisting','payments\payment@paymentlisting');
     Route::get('addpaymentform','payments\payment@addpaymentform');
     Route::post('addpayment','payments\payment@addpayment');
+    Route::post('addpaymentsale','payments\payment@addpaymentsale');
     Route::get('addsopayment/{receiptId}/{totalAmount}/{customerId}','payments\payment@addsopayment');
+
 
 });
 
@@ -216,6 +218,12 @@ Route::prefix('opening')->group(function(){
     Route::post('savesupplier','opening\opening_controller@save_supplier');
     Route::get('customer','opening\opening_controller@customer');
     Route::post('savecustomer','opening\opening_controller@save_customer');
-    Route::get('cash','opening\opening_controller@opening_cash');
-    Route::post('savecash','opening\opening_controller@save_cash');
+    Route::get('accounts','opening\opening_controller@opening_account');
+    Route::post('saveaccount','opening\opening_controller@save_account');
+    Route::get('accountlisting','opening\opening_controller@account_listing');
+});
+Route::prefix('invoice')->group(function(){
+    Route::get('sale/{id}','invoices\invoice@saleinvoice');
+    Route::get('salereturn/{id}','invoices\invoice@salereturninvoice');
+    Route::get('purchasereturn/{id}','invoices\invoice@purchasereturninvoice');
 });
