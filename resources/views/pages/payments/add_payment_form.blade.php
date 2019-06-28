@@ -39,7 +39,9 @@
     </select>
     <small id="receipt_msg" class="form-text text-muted text-danger">{{$errors->first('receipt')}}</small>
   </div>
-
+  <div id="append_con">
+    
+  </div>
   
 
   <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('payment/paymentlisting')}}" class="btn btn-default">Back</a>
@@ -49,8 +51,8 @@
 </div>
 </div>
 {{-- voucher template --}}
-<template>
-  <div class="form-group" id="voucher_con">
+<template id="voucher_con">
+  <div class="form-group">
     <label for="voucher">Voucher</label>
     <select name="voucher" class="form-control" id="voucher" aria-describedby="voucher">
       <option value=""> Select Voucher</option>
@@ -102,11 +104,12 @@
 @section('footer')
 @parent
 <script>
-$('#type').on('change',function(){
+$('#paytype').on('change',function(){
   var type = $(this).val();
-  if(type == 'SO'){
-    $('#voucher_con').css('display','none');
-    $('#receipt_con').css('display','block');
+  if(type == 'PO'){
+    alert();
+    var temp = $('#voucher_con').html();
+    $('#append_con').html(temp);
   }else{
     $('#receipt_con').css('display','none');
     $('#voucher_con').css('display','block');
