@@ -58,7 +58,7 @@
 			                <td>{{ $receipt->paid_amount }}</td>
 			                <td>{{ $receipt->return_amount }}</td>
 			                <td>{{ $receipt->balance_amount }}</td>
-			                <td><a href="{{url('sale/editreceipt/'.$receipt->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a></td>
+			                <td><a href="{{url('invoice/sale/'.$receipt->id)}}"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <a href="{{url('sale/editreceipt/'.$receipt->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a></td>
 			                
 			            </tr>
 			            @endforeach

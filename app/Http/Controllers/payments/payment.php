@@ -13,6 +13,9 @@ use App\customer_ledger;
 use App\receipt_ledger;
 use App\cash;
 use App\customers;
+use App\suppliers;
+use App\accounts;
+
 use DB;
 class payment extends Controller
 {
@@ -22,9 +25,12 @@ class payment extends Controller
     }
 
     public function addpaymentform(){
-    	$vouchers = voucher::all();
-        $receipts = receipt::all();
-    	return view('pages.payments.add_payment_form',compact('vouchers','receipts'));
+    	$vouchers  = voucher::all();
+        $receipts  = receipt::all();
+        $accounts  = accounts::all();
+        $customers = customers::all();
+        $suppliers = suppliers::all();
+    	return view('pages.payments.add_payment_form',compact('vouchers','receipts','accounts','customers','suppliers'));
     }
     public function addsopayment(Request $request){
        $receipt = receipt::where('id',$request->receiptId)->first();
@@ -33,7 +39,40 @@ class payment extends Controller
         return view('pages.payments.add_so_payment_form',compact('receipt','customer','total'));
     }
     public function addpayment(Request $request){
-        $request->validate([
+        
+        $payment = new payments;
+        $payment->account_id = $request->account;
+        if($request->paytype === "PO"){
+            $payment->voucher_id = $request->voucher;
+            $payment->supplier_id = $request->supplier; 
+            $payment->type = $request->subtype;   
+        }
+        if($request->paytype === "SO"){
+            $payment->receipt_id = $request->receipt;
+            $payment->customer_id = $request->customer;
+            $payment->type = $request->subtype;    
+        }
+        if($request->type === "debit"){
+            $payment->debit = $request->amount;
+        }
+        if($request->type === "credit"){
+            $payment->credit = $request->amount;
+        }
+        if($request->paytype === "EX"){
+            $payment->credit   = $request->amount;
+            $payment->month_id = $request->month;
+            $payment->exp_desc = $request->description;
+            $payment->exp_desc = $request->description;
+            $payment->exp_type_id = $request->headtype;
+            $payment->exp_subhead_id = $request->subhead;
+            $payment->type = "EXP";
+        }
+        if($request->salary == "checked"){
+            $payment->employee_id = $request->employee;
+        }
+        
+        $payment->save();
+        /*$request->validate([
             "type"=>"required",
             "amount"=>"required",
             "method"=>"required"
@@ -48,7 +87,7 @@ class payment extends Controller
         }
     	$payment->amount = $request->amount;
     	$payment->method = $request->method;
-    	$payment->save();
+    	$payment->save();*/
         if($request->voucher != null){
             DB::table('voucher')->where('id',$request->voucher)->increment('paid_amount',$request->amount);
             $sup = DB::table('voucher')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->voucher)->first();
@@ -74,7 +113,7 @@ class payment extends Controller
             $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $request->amount:$request->amount;
             $cash->event = "P";
             $cash->save();
-        }else{
+        }else if($request->receipt != null){
              DB::table('receipt')->where('id',$request->receipt)->increment('paid_amount',$request->amount);
             $sup = DB::table('receipt')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->receipt)->first();
             $supplier = new receipt_ledger;

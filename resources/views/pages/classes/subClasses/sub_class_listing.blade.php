@@ -40,7 +40,6 @@
 			            <tr>
 			                <th>id</th>
 			                <th>Class Name</th>
-			                <th>Discount</th>
 			                <th>Description</th>
 			                <th>Status</th>
 			                <th>Action</th>
@@ -51,7 +50,6 @@
 			            <tr class="odd gradeX">
 			                <td>{{ $class->id }}</td>
 			                <td>{{ $class->class_name }}</td>
-			                <td>{{ $class->discount }}</td>
 			                <td>{{ $class->description }}</td>
 			                <td>{!!($class->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
 			                <td><a href="{{url('subclass/editclass/'.$class->id)}}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a> <a onclick="deleteClass('{{$class->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="delete"></i></a></td>

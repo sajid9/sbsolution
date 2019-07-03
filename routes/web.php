@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/dashboard', function () {
     return view('pages.dashboard');
 });
 /*
@@ -227,3 +227,7 @@ Route::prefix('invoice')->group(function(){
     Route::get('salereturn/{id}','invoices\invoice@salereturninvoice');
     Route::get('purchasereturn/{id}','invoices\invoice@purchasereturninvoice');
 });
+
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');

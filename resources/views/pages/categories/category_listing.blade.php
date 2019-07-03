@@ -40,7 +40,6 @@
 			            <tr>
 			                <th>id</th>
 			                <th>Category Name</th>
-			                <th>Discount</th>
 			                <th>Description</th>
 			                <th>Status</th>
 			                <th>Action</th>
@@ -51,7 +50,6 @@
 			            <tr class="odd gradeX">
 			                <td>{{ $category->id }}</td>
 			                <td>{{ $category->category_name }}</td>
-			                <td>{{ $category->discount }}</td>
 			                <td>{{ $category->description }}</td>
 			                <td>{!!($category->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
 			                <td><a href="{{url('category/editcategory/'.$category->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deleteCategory('{{$category->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>

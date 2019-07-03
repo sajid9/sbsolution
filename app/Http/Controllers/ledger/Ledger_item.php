@@ -10,7 +10,7 @@ use DB;
 class Ledger_item extends Controller
 {
     public function item_ledgers(){
-    	$ledgers =item_ledger::all();
+    	$ledgers =item_ledger::with('items')->get();
     	return view('pages.itemledger.item_ledger',compact('ledgers'));
     }
     public function search_item(Request $request){

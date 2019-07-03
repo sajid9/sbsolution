@@ -55,7 +55,7 @@
             </div>
             <div class="form-group">
               <label for="vendorvoucher">Vendor Voucher Number <span class="text-danger">*</span></label>
-              <input type="text" name="vendor_voucher" value="{{old('vendor_voucher')}}" class="form-control" id="vendorvoucher" aria-describedby="vendor_voucher" placeholder="voucher number">
+              <input type="text" name="vendor_voucher" value="{{old('vendor_voucher')}}" class="form-control" id="vendorvoucher" aria-describedby="vendor_voucher" placeholder="receipt number">
               <small id="vendor_voucher" class="form-text text-muted text-danger"></small>
             </div>
           </div>
@@ -103,7 +103,7 @@
             </div>
             <div class="form-group">
               <label for="quantity">Quantity <span class="text-danger">*</span></label>
-              <input type="number" disabled name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
+              <input type="number" disabled name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="add quantity">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>

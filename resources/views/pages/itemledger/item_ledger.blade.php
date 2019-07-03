@@ -53,6 +53,7 @@
 			                <th>Date</th>
 			                <th>Voucher No</th>
 			                <th>Desc</th>
+			                <th>Item Name</th>
 			                <th>In/Dr Qty</th>
 			                <th>Out/Cr Qty</th>
 			                <th>Balance Qty</th>
@@ -65,6 +66,7 @@
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
 			        		<td>{{$ledger->voucher_id}}</td>
 			        		<td>{{$ledger->description}}</td>
+			        		<td>{{(isset($ledger->items)) ? $ledger->items->item_name : ""}}</td>
 			        		<td>{{$ledger->purchase}}</td>
 			        		<td>{{$ledger->sale}}</td>
 			        		<td>{{$ledger->left}}</td>

@@ -78,6 +78,7 @@
 		@endforeach
 	</tbody>
 </table>
+<div class="total"><strong>Total: </strong></div>
 </div>
 
 
