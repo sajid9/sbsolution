@@ -164,6 +164,10 @@ Route::prefix('payment')->middleware(['auth'])->group(function(){
     Route::post('addpayment','payments\payment@addpayment');
     Route::post('addpaymentsale','payments\payment@addpaymentsale');
     Route::get('addsopayment/{receiptId}/{totalAmount}/{customerId}','payments\payment@addsopayment');
+    Route::get('financialyear','payments\payment@financialyear');
+    Route::get('addfinancialyear','payments\payment@addfinancialyear');
+    Route::post('addfnyear','payments\payment@add_fnyear');
+
 
 
 });

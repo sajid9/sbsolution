@@ -173,6 +173,9 @@
                             <li>
                                 <a href="{{url('payment/paymentlisting')}}">Payment Ledger</a>
                             </li>
+                            <li>
+                                <a href="{{url('payment/financialyear')}}">Financial Year</a>
+                            </li>
                         </ul>
                     </li>
                     <li>

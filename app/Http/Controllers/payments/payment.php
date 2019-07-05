@@ -15,7 +15,7 @@ use App\cash;
 use App\customers;
 use App\suppliers;
 use App\accounts;
-
+use App\financial_year;
 use DB;
 class payment extends Controller
 {
@@ -168,5 +168,19 @@ class payment extends Controller
         $cash->event = "S";
         $cash->save();
         return redirect()->to('invoice/sale/'.$request->receipt);
+    }
+
+    public function financialyear(){
+        $years = financial_year::all();
+        return view('pages.payments.financial_year_listing',compact('years'));
+    }
+    public function addfinancialyear(){
+        return view('pages.payments.add_financial_year_form');
+    }
+    public function add_fnyear(Request $request){
+        $year = new financial_year;
+        $year->year = $request->fn_year;
+        $year->save();
+        return redirect()->to('payment/financialyear')->with('message','Record Added Successfully');
     }
 }
