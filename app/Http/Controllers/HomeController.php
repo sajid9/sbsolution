@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use DB;
 class HomeController extends Controller
 {
     /**
@@ -23,6 +23,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $payable = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0');
+        $receivable = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');
+        $totalpurchase = DB::table('voucher')->select(DB::raw('SUM(total_amount) as total'))->first();
+        $totalsale = DB::table('receipt')->select(DB::raw('SUM(total_amount) as total'))->first();
+        return view('home',compact('payable','receivable','totalpurchase','totalsale'));
     }
 }

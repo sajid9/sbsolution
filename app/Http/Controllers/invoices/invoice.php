@@ -24,4 +24,14 @@ class invoice extends Controller
     	$items = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->where('voucher_detail.type','return')->where('voucher_detail.voucher_id',$id)->get();
     	return view('pages.invoices.sale_invoice',compact('data','items'));
     }
+    public function amountpayable(){
+       $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0');
+       $data = DB::select('SELECT * FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0');
+       return view('pages.invoices.amount_payable_invoice',compact('total','data'));
+    }
+    public function amountreceivable(){
+       $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');
+       $data = DB::select('SELECT * FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');
+       return view('pages.invoices.amount_receivable_invoice',compact('total','data'));
+    }
 }

@@ -10,16 +10,16 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+/*
 Route::get('/dashboard', function () {
     return view('pages.dashboard');
-});
+})->name('dashboard');*/
 /*
 *
 *Company Routes
 *
 */
-Route::prefix('company')->group(function () {
+Route::prefix('company')->middleware(['auth'])->group(function () {
     Route::get('companylisting','Companies\Company@company_listing');
     Route::get('addcompanyform','Companies\Company@add_company_form');
     Route::post('addcompany','Companies\Company@addcompany');
@@ -34,7 +34,7 @@ Route::prefix('company')->group(function () {
 *Categories Routes
 *
 */
-Route::prefix('category')->group(function () {
+Route::prefix('category')->middleware(['auth'])->group(function () {
     Route::get('categorylisting','Categories\Category@category_listing');
     Route::get('addcategoryform','Categories\Category@add_category_form');
     Route::post('addcategory','Categories\Category@addcategory');
@@ -48,7 +48,7 @@ Route::prefix('category')->group(function () {
 *Classes Routes
 *
 */
-Route::prefix('class')->group(function () {
+Route::prefix('class')->middleware(['auth'])->group(function () {
     Route::get('classlisting','Classes\ClassController@class_listing');
     Route::get('addclassform','Classes\ClassController@add_class_form');
     Route::post('addclass','Classes\ClassController@addclass');
@@ -62,7 +62,7 @@ Route::prefix('class')->group(function () {
 *Subclasses Routes
 *
 */
-Route::prefix('subclass')->group(function () {
+Route::prefix('subclass')->middleware(['auth'])->group(function () {
     Route::get('classlisting/{id}','Classes\SubClassController@class_listing');
     Route::get('addsubclassform/{id}','Classes\SubClassController@add_sub_class_form');
     Route::post('addclass','Classes\SubClassController@addclass');
@@ -77,7 +77,7 @@ Route::prefix('subclass')->group(function () {
 *Supplier Routes
 *
 */
-Route::prefix('supplier')->group(function () {
+Route::prefix('supplier')->middleware(['auth'])->group(function () {
     Route::get('supplierlisting','Suppliers\Supplier@supplier_listing');
     Route::get('addsupplierform','Suppliers\Supplier@add_supplier_form');
     Route::post('addsupplier','Suppliers\Supplier@addsupplier');
@@ -92,7 +92,7 @@ Route::prefix('supplier')->group(function () {
 *Customer Routes
 *
 */
-Route::prefix('customer')->group(function () {
+Route::prefix('customer')->middleware(['auth'])->group(function () {
     Route::get('customerlisting','Customers\Customer@customer_listing');
     Route::get('addcustomerform','Customers\Customer@add_customer_form');
     Route::post('addcustomer','Customers\Customer@addcustomer');
@@ -107,7 +107,7 @@ Route::prefix('customer')->group(function () {
 *Countries Routes
 *
 */
-Route::prefix('country')->group(function () {
+Route::prefix('country')->middleware(['auth'])->group(function () {
     Route::get('countrylisting','Countries\Country@country_listing');
     Route::get('addcountryform','Countries\Country@add_country_form');
     Route::post('addcountry','Countries\Country@addcountry');
@@ -122,7 +122,7 @@ Route::prefix('country')->group(function () {
 *Items Routes
 *
 */
-Route::prefix('item')->group(function () {
+Route::prefix('item')->middleware(['auth'])->group(function () {
     Route::get('itemlisting','Items\Item@item_listing');
     Route::get('additemform','Items\Item@add_item_form');
     Route::post('additem','Items\Item@additem');
@@ -137,7 +137,7 @@ Route::prefix('item')->group(function () {
 *Items Voucher
 *
 */
-Route::prefix('voucher')->group(function () {
+Route::prefix('voucher')->middleware(['auth'])->group(function () {
     Route::get('voucherlisting','Purchase\PurchaseOrder@voucher_listing');
     Route::get('addvoucherform','Purchase\PurchaseOrder@add_voucher_form');
     Route::post('addvoucher','Purchase\PurchaseOrder@addvoucher');
@@ -158,7 +158,7 @@ Route::prefix('voucher')->group(function () {
 *Payments
 *
 */
-Route::prefix('payment')->group(function(){
+Route::prefix('payment')->middleware(['auth'])->group(function(){
     Route::get('paymentlisting','payments\payment@paymentlisting');
     Route::get('addpaymentform','payments\payment@addpaymentform');
     Route::post('addpayment','payments\payment@addpayment');
@@ -173,7 +173,7 @@ Route::prefix('payment')->group(function(){
 *Item Ledger
 *
 */
-Route::prefix('ledger')->group(function(){
+Route::prefix('ledger')->middleware(['auth'])->group(function(){
     Route::get('itemledger','ledger\Ledger_item@item_ledgers');
     Route::get('getitems','ledger\Ledger_item@search_item');
     Route::post('searchitem','ledger\Ledger_item@search_itemledger');
@@ -195,7 +195,7 @@ Route::prefix('ledger')->group(function(){
 *sale order
 *
 */
-Route::prefix('sale')->group(function(){
+Route::prefix('sale')->middleware(['auth'])->group(function(){
     Route::get('saleorder','sale\saleorder@salelisting');
     Route::get('addreceiptform','sale\saleorder@receiptform');
     Route::post('addreceipt','sale\saleorder@addreceipt');
@@ -211,7 +211,7 @@ Route::prefix('sale')->group(function(){
 *opening
 *
 */
-Route::prefix('opening')->group(function(){
+Route::prefix('opening')->middleware(['auth'])->group(function(){
     Route::get('addItem','opening\opening_controller@addItem');
     Route::post('saveitem','opening\opening_controller@save_item');
     Route::get('supplier','opening\opening_controller@supplier');
@@ -222,10 +222,20 @@ Route::prefix('opening')->group(function(){
     Route::post('saveaccount','opening\opening_controller@save_account');
     Route::get('accountlisting','opening\opening_controller@account_listing');
 });
-Route::prefix('invoice')->group(function(){
+Route::prefix('invoice')->middleware(['auth'])->group(function(){
     Route::get('sale/{id}','invoices\invoice@saleinvoice');
     Route::get('salereturn/{id}','invoices\invoice@salereturninvoice');
     Route::get('purchasereturn/{id}','invoices\invoice@purchasereturninvoice');
+    Route::get('amountpayable','invoices\invoice@amountpayable');
+    Route::get('amountreceivable','invoices\invoice@amountreceivable');
+});
+Route::prefix('store')->middleware(['auth'])->group(function(){
+    Route::get('storelisting','stores\store@store_listing');
+    Route::get('addstoreform','stores\store@add_store_form');
+    Route::get('editstore/{id}','stores\store@edit_store');
+    Route::get('deletestore/{id}','stores\store@delete_store');
+    Route::post('addstore','stores\store@add_store');
+    Route::post('updatestore','stores\store@update_store');
 });
 
 Auth::routes();

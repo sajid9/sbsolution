@@ -51,7 +51,7 @@
                     <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
                     </li>
                     <li class="divider"></li>
-                    <li><a href="#"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                    <li><a href="{{url('/logout')}}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
                     </li>
                 </ul>
             </li>
@@ -90,6 +90,9 @@
                                 <a href="{{url('ledger/itemledger')}}">Item Ledger</a>
                             </li>
                             <li>
+                                <a href="{{url('store/storelisting')}}"> Add Store</a>
+                            </li>
+                            <li>
                                 <a href="{{url('company/companylisting')}}"> Companies</a>
                             </li>
                             <li>
@@ -117,7 +120,10 @@
                                 <a href="{{url('supplier/supplierlisting')}}"> Add Suppliers</a>
                             </li>
                             <li>
-                                <a href="{{url('opening/supplier')}}">opening Supplier</a>
+                                <a href="{{url('opening/supplier')}}">Opening Supplier</a>
+                            </li>
+                            <li>
+                                <a href="{{url('invoice/amountpayable')}}">Amount Payable</a>
                             </li>
                         </ul>
                     </li>
@@ -139,6 +145,9 @@
                             </li>
                             <li>
                                 <a href="{{url('opening/customer')}}">opening Customer</a>
+                            </li>
+                            <li>
+                                <a href="{{url('invoice/amountreceivable')}}">Amount Receivable</a>
                             </li>
                         </ul>
                     </li>

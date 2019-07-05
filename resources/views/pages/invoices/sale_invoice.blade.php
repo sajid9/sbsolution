@@ -78,7 +78,27 @@
 		@endforeach
 	</tbody>
 </table>
-<div class="total"><strong>Total: </strong></div>
+<div class="col-md-4 col-md-offset-7">
+          <table class="table" style="font-size: 12px">
+            <tr>
+              <td><strong>Total:</strong></td>
+              <td>{{$data->total_amount}}</td>
+            </tr>
+            <tr>
+              <td><strong>Received Amount:</strong></td>
+              <td>{{$data->paid_amount}}</td>
+            </tr>
+            <tr>
+              <td><strong>Return Amount:</strong></td>
+              <td>{{$data->return_amount}}</td>
+            </tr>
+            <tr>
+              <td><strong>Balance Amount:</strong></td>
+              <td>{{$data->total_amount - ($data->paid_amount + $data->return_amount)}}</td>
+            </tr>
+            
+          </table>
+        </div>
 </div>
 
 

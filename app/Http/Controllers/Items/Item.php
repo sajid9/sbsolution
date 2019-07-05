@@ -9,6 +9,7 @@ use App\companies;
 use App\categories;
 use App\classes;
 use App\suppliers;
+use App\stores;
 
 use App\Http\Requests\itemValidator;
 class Item extends Controller
@@ -29,10 +30,11 @@ class Item extends Controller
     *
     */
     public function add_item_form(){
-    	$companies  = companies::all();
-    	$categories = categories::all();
+        $stores     = stores::where('is_active','yes')->get();
+    	$companies  = companies::where('is_active','yes')->get();
+    	$categories = categories::where('is_active','yes')->get();
     	$classes    = classes::where('parent_id',0)->get();
-    	return view('pages.items.add_item_form',compact('companies','categories','classes'));
+    	return view('pages.items.add_item_form',compact('companies','categories','classes','stores'));
     }
 
     /*
@@ -54,6 +56,7 @@ class Item extends Controller
 		    $item->class_id       = $request->class;
 		    $item->sub_class_id   = $request->sub_class;
 		    $item->item_desc      = $request->description;
+            $item->store_id      = $request->store;
 		    if($request->has('is_active')){
 		    	$item->is_active    = $request->is_active;
 		    }else{
