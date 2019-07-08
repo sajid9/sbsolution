@@ -30,7 +30,8 @@ class payment extends Controller
         $accounts  = accounts::all();
         $customers = customers::all();
         $suppliers = suppliers::all();
-    	return view('pages.payments.add_payment_form',compact('vouchers','receipts','accounts','customers','suppliers'));
+        $years     = financial_year::all();
+    	return view('pages.payments.add_payment_form',compact('vouchers','receipts','accounts','customers','suppliers','years'));
     }
     public function addsopayment(Request $request){
        $receipt = receipt::where('id',$request->receiptId)->first();
@@ -70,7 +71,7 @@ class payment extends Controller
         if($request->salary == "checked"){
             $payment->employee_id = $request->employee;
         }
-        
+        $payment->financial_year = $request->fn_year;
         $payment->save();
         /*$request->validate([
             "type"=>"required",
@@ -182,5 +183,10 @@ class payment extends Controller
         $year->year = $request->fn_year;
         $year->save();
         return redirect()->to('payment/financialyear')->with('message','Record Added Successfully');
+    }
+    public function delete_year($id){
+        $year = financial_year::find($id);
+        $year->delete();
+        return redirect()->to('payment/financialyear');
     }
 }

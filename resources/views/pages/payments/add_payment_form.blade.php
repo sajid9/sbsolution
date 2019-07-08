@@ -83,7 +83,17 @@
     </select>
     <small id="type" class="form-text text-muted text-danger">{{$errors->first('type')}}</small>
   </div>
-    <div class="form-group">
+  <div class="form-group">
+    <label for="fn_year">Fianancial Year</label>
+    <select name="fn_year" class="form-control" id="fn_year" aria-describedby="fn_year">
+      <option value=""> Select Fianancial Year</option>
+      @foreach($years as $year)
+      <option>{{$year->year}}</option>
+      @endforeach
+    </select>
+    <small id="fn_year" class="form-text text-muted text-danger">{{$errors->first('fn_year')}}</small>
+  </div>
+  <div class="form-group">
     <label for="subtype">Subtype</label>
     <select name="subtype" class="form-control" id="subtype" aria-describedby="subtype">
       <option value=""> Select Subtype</option>
@@ -131,6 +141,16 @@
     <small id="amount" class="form-text text-muted text-danger">{{$errors->first('amount')}}</small>
   </div>
   <div class="form-group">
+    <label for="fn_year">Fianancial Year</label>
+    <select name="fn_year" class="form-control" id="fn_year" aria-describedby="fn_year">
+      <option value=""> Select Fianancial Year</option>
+      @foreach($years as $year)
+      <option>{{$year->year}}</option>
+      @endforeach
+    </select>
+    <small id="fn_year" class="form-text text-muted text-danger">{{$errors->first('fn_year')}}</small>
+  </div>
+  <div class="form-group">
     <label for="type">Type</label>
     <select name="type" class="form-control" id="type" aria-describedby="type">
       <option value=""> Select type</option>
@@ -175,6 +195,16 @@
       <option value="3">july</option>
     </select>
     <small id="month" class="form-text text-muted text-danger">{{$errors->first('month')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="fn_year">Fianancial Year</label>
+    <select name="fn_year" class="form-control" id="fn_year" aria-describedby="fn_year">
+      <option value=""> Select Fianancial Year</option>
+      @foreach($years as $year)
+      <option>{{$year->year}}</option>
+      @endforeach
+    </select>
+    <small id="fn_year" class="form-text text-muted text-danger">{{$errors->first('fn_year')}}</small>
   </div>
   <div class="form-group">
     <label for="description">Description <span class="text-danger">*</span></label>
