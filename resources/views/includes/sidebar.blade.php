@@ -87,6 +87,9 @@
                                 <a href="{{url('item/itemlisting')}}">Add Item</a>
                             </li>
                             <li>
+                                <a href="{{url('opening/addItem')}}">Opening Item</a>
+                            </li>
+                            <li>
                                 <a href="{{url('ledger/itemledger')}}">Item Ledger</a>
                             </li>
                             <li>

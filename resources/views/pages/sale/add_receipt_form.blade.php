@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Receipt')
 @section('header')
 @parent
 <style>

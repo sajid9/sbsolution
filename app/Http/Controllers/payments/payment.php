@@ -94,20 +94,20 @@ class payment extends Controller
             $sup = DB::table('voucher')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->voucher)->first();
             $supplier = new supplier_ledger;
             $supplier->voucher_id = $request->voucher;
-            $supplier->credit = $request->amount;
+            $supplier->debit = $request->amount;
             $supplier->balance = $sup->balance;
             $supplier->type = "Payment";
             $supplier->save();
             $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucher)->first();
-            $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
+            $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
 
             $supplier_history = new supplier_history;
             $supplier_history->supplier_id = $sup->supplier_id;
-            $supplier_history->credit = $request->amount;
+            $supplier_history->debit = $request->amount;
             $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
             $supplier_history->type = "Payment";
             $supplier_history->save();
-            $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
+            $cash_bal = DB::table('cash')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->first();
 
             $cash = new cash;
             $cash->credit = $request->amount;
@@ -119,7 +119,7 @@ class payment extends Controller
             $sup = DB::table('receipt')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->receipt)->first();
             $supplier = new receipt_ledger;
             $supplier->receipt_id = $request->receipt;
-            $supplier->debit = $request->amount;
+            $supplier->credit = $request->amount;
             $supplier->balance = $sup->balance;
             $supplier->type = "Payment";
             $supplier->save();
@@ -128,15 +128,15 @@ class payment extends Controller
 
             $supplier_history = new customer_ledger;
             $supplier_history->customer_id = $sup->customer_id;
-            $supplier_history->debit = $request->amount;
-            $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
+            $supplier_history->credit = $request->amount;
+            $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
             $supplier_history->type = "Payment";
             $supplier_history->save();
             $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
 
             $cash = new cash;
             $cash->debit = $request->amount;
-            $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance + $request->amount:$request->amount;
+            $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $request->amount:$request->amount;
             $cash->event = "S";
             $cash->save();
         }
@@ -148,7 +148,7 @@ class payment extends Controller
         $sup = DB::table('receipt')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->receipt)->first();
         $supplier = new receipt_ledger;
         $supplier->receipt_id = $request->receipt;
-        $supplier->debit = $request->amount;
+        $supplier->credit = $request->amount;
         $supplier->balance = $sup->balance;
         $supplier->type = "Payment";
         $supplier->save();
@@ -157,8 +157,8 @@ class payment extends Controller
 
         $supplier_history = new customer_ledger;
         $supplier_history->customer_id = $sup->customer_id;
-        $supplier_history->debit = $request->amount;
-        $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
+        $supplier_history->credit = $request->amount;
+        $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
         $supplier_history->type = "Payment";
         $supplier_history->save();
         $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();

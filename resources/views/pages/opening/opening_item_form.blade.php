@@ -14,12 +14,11 @@
     Add Opening Item
 </div>
 <div class="panel-body">
-<div class="alert alert-success alert-dismissible" id="alert" style="display: none">
-  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> Record Added Successfully
-</div>
+@include('includes.alerts')
+
+
 {{-- form start  --}}
-<form method="post" action="{{url('item/additem')}}">
+<form method="post" action="{{url('opening/saveitem')}}">
 	@csrf
   <div class="row">
     <div class="col-md-6">
@@ -30,29 +29,19 @@
           <input type="text"  name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
           <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
         </div>
-        <small id="barcode_msg" class="form-text text-muted text-danger"></small>
-      </div>
-      <div class="form-group">
-        <label for="quantity">Quantity <span class="text-danger">*</span></label>
-        <input type="number"  name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
-        <small id="quantity_msg" class="form-text text-muted text-danger"></small>
+        <small id="barcode_msg" class="form-text text-muted text-danger">{{$errors->first('item_id')}}</small>
       </div>
     </div>
     <div class="col-md-6">
-      <div class="form-group">
-        <label for="">Purchase Price <span class="text-danger">*</span></label>
-        <input type="text"  name="purchase_price" value="{{old('purchase_price')}}" class="form-control" id="purchase_price" aria-describedby="purchaseprice" placeholder="purchase price">
-        <small id="purchaseprice" class="form-text text-muted text-danger"></small>
-      </div>
-      <div class="form-group">
-        <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
-        <input type="text"  name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="sale price">
-        <small id="saleprice" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
-      </div>
+     <div class="form-group">
+       <label for="quantity">Quantity <span class="text-danger">*</span></label>
+       <input type="number"  name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
+       <small id="quantity_msg" class="form-text text-muted text-danger"></small>
+     </div>
     </div>
   </div>
   
-  <button type="button"  class="btn btn-primary" id="addItem">Add Item</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+  <button type="submit"  class="btn btn-primary" id="addItem">Add Item</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
 </form>
 {{-- form end --}}
 <!-- Modal -->
@@ -102,52 +91,7 @@
 @section('footer')
 @parent
 <script>
-  $('#addItem').on('click',function(){
-    var data  = {};
-    data.itemId    = $('#itemId').val();
-    data.quantity  = $('#quantity').val();
-    data.voucherId = $('#vouchernumber').val();
-    data.type      = "purchase";
-    data._token    = "{{csrf_token()}}";
-    if(data.quantity == ''){
-      $('#quantity_msg').text('This field is required');
-    }else{
-      $('#quantity_msg').text('');
-    } 
-    if($('#purchase_price').val() == ''){
-      $('#purchaseprice').text('This field is required');
-    }else{
-      $('#purchaseprice').text('');
-    }
-    if($('#barcode').val() == ''){
-      $('#barcode_msg').text('This field is required');
-    }else{
-      $('#barcode_msg').text('');
-    }
-    if($('#sale_price').val() == ''){
-      $('#saleprice').text('This field is required');
-    }else{
-      $('#saleprice').text('');
-    }
-    if(data.quantity != '' && $('purchase_price').val() != '' && $('sale_price').val() != ''){
-      $.ajax({
-        url:"{{url('opening/saveitem')}}",
-        type:"post",
-        dataType:"json",
-        data:data,
-        success:function(res){
-          if(res != null){
-            $('#alert').css('display','block');
-            $('#itemId').val('');
-            $('#barcode').val('');
-            $('#quantity').val('');
-            $('#purchase_price').val('');
-            $('#sale_price').val('');
-          }
-        }
-      });
-    }
-  })
+
   $("#barcode").on('blur',function(){
       var barcode = $(this).val();
       var voucher_id = $('#vouchernumber').val();

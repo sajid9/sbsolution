@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Category')
 
 @section('content')
 <div class="panel panel-default">
@@ -23,10 +23,10 @@
     <input type="text" name="category_name" value="{{old('category_name')}}" class="form-control" id="categoryname" aria-describedby="categoryname" placeholder="Category Name">
     <small id="categoryname" class="form-text text-muted text-danger">{{$errors->first('category_name')}}</small>
   </div>
-  <div class="form-group">
+  {{-- <div class="form-group">
     <label for="discount">Discount</label>
     <input type="number" name="discount" value="{{old('discount')}}" class="form-control" id="discount" placeholder="discount in percentage(%)" aria-describedby="discount">
-  </div>
+  </div> --}}
   <div class="form-group">
     <label for="discription">Description</label>
     <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description">{{old('description')}}</textarea>

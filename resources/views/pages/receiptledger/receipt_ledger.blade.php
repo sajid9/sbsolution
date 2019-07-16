@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Receipt Ledger')
 
 {{-- add css which use only for this page --}}
 @section('header')
@@ -52,6 +52,7 @@
 			                <th>id</th>
 			                <th>Date</th>
 			                <th>receipt</th>
+			                <th>Type</th>
 			                <th>Debit</th>
 			                <th>Credit</th>
 			                <th>Balance</th>
@@ -63,6 +64,7 @@
 			        		<td>{{$ledger->id}}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
 			        		<td>{{$ledger->receipt_id}}</td>
+			        		<td>{{$ledger->type}}</td>
 			        		<td>{{$ledger->debit}}</td>
 			        		<td>{{$ledger->credit}}</td>
 			        		<td>{{$ledger->balance}}</td>

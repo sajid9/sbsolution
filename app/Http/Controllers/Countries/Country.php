@@ -70,9 +70,12 @@ class Country extends Controller
     * 
     */
 
-    public function updatecountry(countryValidator $request){
+    public function updatecountry(Request $request){
         try{
-            $request->validated();
+            $request->validate([
+                'name'       =>'required',
+                'short_code' =>'required'
+            ]);
             $country = countries::find($request->id);
             $country->name         = $request->name;
             $country->short_code   = $request->short_code;

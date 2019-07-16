@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Supplier History')
 
 {{-- add css which use only for this page --}}
 @section('header')
@@ -64,7 +64,7 @@
 			        		<td>{{$ledger->id}}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
 			        		<td>{{$ledger->type}}</td>
-			        		<td>{{$ledger->supplier_id}}</td>
+			        		<td>{{$ledger->supplier->supplier_name}}</td>
 			        		<td>{{$ledger->debit}}</td>
 			        		<td>{{$ledger->credit}}</td>
 			        		<td>{{$ledger->balance}}</td>

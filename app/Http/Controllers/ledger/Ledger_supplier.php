@@ -19,7 +19,7 @@ class Ledger_supplier extends Controller
     }
 
     public function supplier_history(){
-    	$ledgers =supplier_history::all();
+    	$ledgers =supplier_history::with('supplier')->get();
     	return view('pages.supplierhistory.supplier_history',compact('ledgers'));
     }
     public function get_supplier(Request $request){

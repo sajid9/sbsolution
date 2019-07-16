@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Item Ledger')
 
 {{-- add css which use only for this page --}}
 @section('header')
@@ -52,10 +52,11 @@
 			                <th>id</th>
 			                <th>Date</th>
 			                <th>Voucher No</th>
+			                <th>Receipt No</th>
 			                <th>Desc</th>
 			                <th>Item Name</th>
-			                <th>In/Dr Qty</th>
-			                <th>Out/Cr Qty</th>
+			                <th>In Qty</th>
+			                <th>Out Qty</th>
 			                <th>Balance Qty</th>
 			            </tr>
 			        </thead>
@@ -65,6 +66,7 @@
 			        		<td>{{$ledger->item_id}}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
 			        		<td>{{$ledger->voucher_id}}</td>
+			        		<td>{{$ledger->receipt_id}}</td>
 			        		<td>{{$ledger->description}}</td>
 			        		<td>{{(isset($ledger->items)) ? $ledger->items->item_name : ""}}</td>
 			        		<td>{{$ledger->purchase}}</td>

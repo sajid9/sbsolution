@@ -52,6 +52,7 @@
 			                <th>id</th>
 			                <th>Date</th>
 			                <th>Voucher No</th>
+			                <th>Type</th>
 			                <th>Debit</th>
 			                <th>Credit</th>
 			                <th>Balance</th>
@@ -63,6 +64,7 @@
 			        		<td>{{$ledger->id}}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
 			        		<td>{{$ledger->voucher_id}}</td>
+			        		<td>{{$ledger->type}}</td>
 			        		<td>{{$ledger->debit}}</td>
 			        		<td>{{$ledger->credit}}</td>
 			        		<td>{{$ledger->balance}}</td>

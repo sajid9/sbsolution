@@ -24,8 +24,9 @@
     <small id="storename" class="form-text text-muted text-danger">{{$errors->first('store_name')}}</small>
   </div>
   <div class="form-group">
-    <label for="address">Description</label>
+    <label for="address">Address</label>
     <textarea class="form-control" name="address" id="address" rows="3" aria-describedby="address">{{old('address')}}</textarea>
+    <small id="address" class="form-text text-muted text-danger">{{$errors->first('address')}}</small>
   </div>
   <div class="checkbox">
     <label>

@@ -76,7 +76,7 @@ class saleorder extends Controller
     *
     */
     public function savereceipt(Request $request){
-    	$total = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receipt_id)->where('type','=','sale')->first();
+    	$total = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.sale_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receipt_id)->where('type','=','sale')->first();
     	$receipt = DB::table('receipt')->where('id',$request->receipt_id)->update(['total_amount'=>$total->totalPrice]);
         $receipt = new receipt_ledger;
         $receipt->receipt_id = $request->receipt_id;
@@ -117,7 +117,7 @@ class saleorder extends Controller
             $ledger = new item_ledger;
             $ledger->item_id = $request->item_id;
             $ledger->receipt_id = $request->receipt_id;
-            $ledger->description = 'Return';
+            $ledger->description = 'Sale Return';
             $ledger->purchase = $request->quantity;
             $ledger->left     = $stock->qty;
             $ledger->save();
@@ -152,7 +152,7 @@ class saleorder extends Controller
         }
     }
     public function updatereceipt(Request $request){
-        $total = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receiptId)->where('type','=','sale')->first();
+        $total = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.sale_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receiptId)->where('type','=','sale')->first();
         $return = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receiptId)->where('type','=','return')->first();
         DB::table('receipt')->where('id',$request->receiptId)->update(['total_amount'=>$total->totalPrice,'return_amount' => $return->totalPrice]);
         return json_encode($total);

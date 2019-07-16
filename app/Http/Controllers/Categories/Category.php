@@ -72,9 +72,11 @@ class Category extends Controller
     * 
     */
 
-    public function updatecategory(categoryValidator $request){
+    public function updatecategory(Request $request){
         try{
-            $request->validated();
+            $request->validate([
+                'category_name' => 'required'
+            ]);
             $category = categories::find($request->id);
             $category->category_name = $request->category_name;
             $category->discount     = $request->discount;

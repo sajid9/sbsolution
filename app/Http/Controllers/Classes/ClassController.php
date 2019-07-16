@@ -73,9 +73,9 @@ class ClassController extends Controller
     * 
     */
 
-    public function updateclass(classValidator $request){
+    public function updateclass(Request $request){
         try{
-            $request->validated();
+            $request->validate(['class_name'=>'required']);
             $class = Classes::find($request->id);
             $class->class_name = $request->class_name;
             $class->discount     = $request->discount;

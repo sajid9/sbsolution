@@ -21,22 +21,25 @@ class opening_controller extends Controller
     	return view('pages.opening.opening_item_form',compact('items'));
     }
     public function save_item(Request $request){
-    	if(stock::where('item_id',$request->itemId)->first()){
-            $stock = stock::where('item_id',$request->itemId)->increment('qty',$request->quantity);
+        $request->validate([
+            'item_id' =>'unique:item_ledger,item_id'
+        ]);
+    	if(stock::where('item_id',$request->item_id)->first()){
+            $stock = stock::where('item_id',$request->item_id)->increment('qty',$request->quantity);
         }else{
             $stock = new stock;
-            $stock->item_id = $request->itemId;
+            $stock->item_id = $request->item_id;
             $stock->qty = $request->quantity;
             $stock->save();
         }
-        $stock = stock::where('item_id',$request->itemId)->first();
+        $stock = stock::where('item_id',$request->item_id)->first();
         $ledger = new item_ledger;
-        $ledger->item_id = $request->itemId;
+        $ledger->item_id = $request->item_id;
         $ledger->purchase = $request->quantity;
         $ledger->description = 'Opening';
         $ledger->left     = $stock->qty;
         $ledger->save();
-    	return json_encode(['message'=>'success']);
+    	return redirect()->to('opening/addItem')->with('message','Opening Added Successfully');
     }
     public function supplier(){
     	$suppliers = suppliers::all();

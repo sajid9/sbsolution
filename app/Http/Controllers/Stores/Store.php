@@ -15,6 +15,10 @@ class Store extends Controller
     	return view('pages.stores.add_store_form');
     }
     public function add_store(Request $request){
+        $request->validate([
+            'store_name' => 'required',
+            'address'    => 'required'
+        ]);
     	$store = new stores;
     	$store->name = $request->store_name;
     	$store->address = $request->address;
