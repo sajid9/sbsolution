@@ -23,10 +23,18 @@
     <input type="text" name="fn_year" value="{{old('fn_year')}}" class="form-control" id="year" aria-describedby="year" placeholder="Add Financial Year">
     <small id="year" class="form-text text-muted text-danger">{{$errors->first('fn_year')}}</small>
   <br>
-  <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('payments/financialyear')}}" class="btn btn-default">Back</a>
+  <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('payment/financialyear')}}" class="btn btn-default">Back</a>
 </form>
 {{-- form end --}}
 
 </div>
 </div>
+@endsection
+@section('footer')
+@parent
+<script src="{{ asset('js/jquery.maskedinput.js') }}"></script>
+<script>
+   $("#year").mask("9999-99");
+   
+</script>
 @endsection

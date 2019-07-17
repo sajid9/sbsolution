@@ -49,7 +49,7 @@
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
-			                <th>id</th>
+			                <th>Sr #</th>
 			                <th>Date</th>
 			                <th>Voucher No</th>
 			                <th>Receipt No</th>
@@ -61,9 +61,10 @@
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	<?php $count = 0; ?>
 			        	@foreach($ledgers as $ledger)
 			        	<tr>
-			        		<td>{{$ledger->item_id}}</td>
+			        		<td>{{ ++$count }}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
 			        		<td>{{$ledger->voucher_id}}</td>
 			        		<td>{{$ledger->receipt_id}}</td>

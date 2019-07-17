@@ -60,7 +60,7 @@
 			                <td>{{ $supplier->mobile }}</td>
 			                <td>{{ $supplier->website }}</td>
 			                <td>{{ $supplier->cnic }}</td>
-			                <td><a href="{{url('supplier/editsupplier/'.$supplier->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deletesupplier('{{$supplier->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
+			                <td><a href="{{url('supplier/editsupplier/'.$supplier->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deletesupplier('{{$supplier->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

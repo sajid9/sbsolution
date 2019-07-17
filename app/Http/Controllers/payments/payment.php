@@ -20,7 +20,7 @@ use DB;
 class payment extends Controller
 {
     public function paymentlisting(){
-    	$payments = payments::all();
+    	$payments = payments::with('voucher','receipt','account','customer','supplier')->get();
     	return view('pages.payments.payment_listing',compact('payments'));
     }
 
@@ -179,6 +179,7 @@ class payment extends Controller
         return view('pages.payments.add_financial_year_form');
     }
     public function add_fnyear(Request $request){
+        $request->validate(['fn_year' => 'required|unique:financial_year,year']);
         $year = new financial_year;
         $year->year = $request->fn_year;
         $year->save();

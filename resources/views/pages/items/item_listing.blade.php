@@ -38,7 +38,7 @@
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
-			                <th>id</th>
+			                <th>Sr #</th>
 			                <th>item Name</th>
 			                <th>Barcode</th>
 			                <th>Purchase Price</th>
@@ -50,9 +50,10 @@
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	<?php $count = 0; ?>
 			        	@foreach($items as $item)
 			            <tr class="odd gradeX">
-			                <td>{{ $item->id }}</td>
+			                <td>{{ ++$count }}</td>
 			                <td>{{ $item->item_name }}</td>
 			                <td>{{ $item->barcode }}</td>
 			                <td>{{ $item->purchase_price }}</td>
@@ -60,7 +61,7 @@
 			                <td>{{ ($item->suppliers)? $item->suppliers->supplier_name: 'NULL' }}</td>
 			                <td>{{ ($item->categories)?$item->categories->category_name:'NULL' }}</td>
 			                <td>{!!($item->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
-			                <td><a href="{{url('item/edititem/'.$item->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deleteItem('{{$item->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
+			                <td><a href="{{url('item/edititem/'.$item->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deleteItem('{{$item->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

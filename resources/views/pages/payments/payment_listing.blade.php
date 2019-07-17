@@ -39,9 +39,15 @@
 			        <thead>
 			            <tr>
 			                <th>ID</th>
-			                <th>Amount</th>
-			                <th>Method</th>
-			                <th>Transfer Type</th>
+			                <th>Account</th>
+			                <th>Supplier</th>
+			                <th>Voucher</th>
+			                <th>Customer</th>
+			                <th>Receipt</th>
+			                <th>Type</th>
+			                <th>Debit</th>
+			                <th>Credit</th>
+			                <th>Date</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
@@ -49,10 +55,16 @@
 			        	@foreach($payments as $payment)
 			            <tr class="odd gradeX">
 			                <td>{{ $payment->id }}</td>
-			                <td>{{ $payment->amount }}</td>
-			                <td>{{ $payment->method }}</td>
-			                <td>{{ $payment->trans_type }}</td>
-			                <td><a href="{{url('payment/editpayment/'.$payment->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deletepayment('{{$payment->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
+			                <td>{{($payment->account != null) ? $payment->account->account_title : "null" }}</td>
+			                <td>{{ ($payment->supplier != null) ? $payment->supplier->supplier_name : "null" }}</td>
+			                <td>{{ ($payment->voucher != null) ? $payment->voucher->voucher_no : "null" }}</td>
+			                <td>{{ ($payment->customer != null) ? $payment->customer->customer_name : "null"}}</td>
+			                <td>{{ ($payment->receipt != null) ? $payment->receipt->receipt_no : "null" }}</td>
+			                <td>{{ $payment->debit }}</td>
+			                <td>{{ $payment->credit }}</td>
+			                <td>{{ $payment->type }}</td>
+			                <td>{{ date_format($payment->created_at,'d M Y') }}</td>
+			                <td><a href="{{url('payment/editpayment/'.$payment->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i>{{-- </a> <a onclick="deletepayment('{{$payment->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

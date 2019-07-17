@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Financial Year')
 
 {{-- add css which use only for this page --}}
 @section('header')
@@ -40,7 +40,7 @@
 			            <tr>
 			                <th>ID</th>
 			                <th>Financial Year</th>
-			                <th>Action</th>
+			                {{-- <th>Action</th> --}}
 			            </tr>
 			        </thead>
 			        <tbody>
@@ -48,7 +48,7 @@
 			            <tr class="odd gradeX">
 			                <td>{{ $year->id }}</td>
 			                <td>{{ $year->year }}</td>
-			                <td><a onclick="deletepayment('{{$year->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
+			                {{-- <td><a onclick="deletepayment('{{$year->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td> --}}
 			            </tr>
 			            @endforeach
 			        </tbody>
