@@ -38,7 +38,7 @@
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
-			                <th>ID</th>
+			                <th>Sr#</th>
 			                <th>Account Title</th>
 			                <th>Date</th>
 			                <th>Balance</th>
@@ -48,9 +48,10 @@
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	<?php $count = 0; ?>
 			        	@foreach($accounts as $account)
 			            <tr class="odd gradeX">
-			                <td>{{ $account->id }}</td>
+			                <td>{{ ++$count }}</td>
 			                <td>{{ $account->account_title }}</td>
 			                <td>{{ $account->date }}</td>
 			                <td>{{ $account->balance }}</td>

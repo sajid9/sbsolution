@@ -38,15 +38,16 @@
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
-			                <th>ID</th>
+			                <th>Sr#</th>
 			                <th>Financial Year</th>
 			                {{-- <th>Action</th> --}}
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	<?php $count = 0; ?>
 			        	@foreach($years as $year)
 			            <tr class="odd gradeX">
-			                <td>{{ $year->id }}</td>
+			                <td>{{ ++$count }}</td>
 			                <td>{{ $year->year }}</td>
 			                {{-- <td><a onclick="deletepayment('{{$year->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td> --}}
 			            </tr>

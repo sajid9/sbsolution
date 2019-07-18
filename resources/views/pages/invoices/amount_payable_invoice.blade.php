@@ -18,6 +18,7 @@
 			<th>Voucher Number</th>
 			<th>Total Amount</th>
 			<th>Paid Amount</th>
+			<th>Return Amount</th>
 			<th>Balance</th>
 		</tr>
 	</thead>
@@ -29,6 +30,7 @@
 				<td>{{$voucher->voucher_no}}</td>
 				<td>{{$voucher->total_amount}}</td>
 				<td>{{$voucher->paid_amount}}</td>
+				<td>{{$voucher->return_amount}}</td>
 				<td>{{$voucher->total_amount - ($voucher->return_amount + $voucher->paid_amount)}}</td>
 			</tr>
 		@endforeach

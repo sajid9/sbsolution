@@ -38,7 +38,7 @@
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
-			                <th>id</th>
+			                <th>Sr#</th>
 			                <th>Customer Name</th>
 			                <th>Address</th>
 			                <th>Phone</th>
@@ -50,9 +50,10 @@
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	<?php $count = 0; ?>
 			        	@foreach($customers as $customer)
 			            <tr class="odd gradeX">
-			                <td>{{ $customer->id }}</td>
+			                <td>{{ ++$count }}</td>
 			                <td>{{ $customer->customer_name }}</td>
 			                <td>{{ $customer->email }}</td>
 			                <td>{{ $customer->address }}</td>

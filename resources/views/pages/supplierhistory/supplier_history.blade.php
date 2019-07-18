@@ -49,7 +49,7 @@
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
-			                <th>id</th>
+			                <th>Sr#</th>
 			                <th>Date</th>
 			                <th>Type</th>
 			                <th>Supplier</th>
@@ -59,9 +59,10 @@
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	<?php $count = 0; ?>
 			        	@foreach($ledgers as $ledger)
 			        	<tr>
-			        		<td>{{$ledger->id}}</td>
+			        		<td>{{++$count}}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
 			        		<td>{{$ledger->type}}</td>
 			        		<td>{{$ledger->supplier->supplier_name}}</td>

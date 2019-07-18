@@ -38,7 +38,7 @@
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-voucher">
 			        <thead>
 			            <tr>
-			                <th>id</th>
+			                <th>Sr#</th>
 			                <th>Voucher No</th>
 			                <th>Supplier</th>
 			                <th>Total Amount</th>
@@ -49,9 +49,10 @@
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	<?php $count = 0; ?>
 			        	@foreach($vouchers as $voucher)
 			            <tr class="odd gradeX">
-			                <td>{{ $voucher->id }}</td>
+			                <td>{{ ++$count }}</td>
 			                <td>{{ $voucher->voucher_no }}</td>
 			                <td>{{ $voucher->supplier_id }}</td>
 			                <td>{{ $voucher->total_amount }}</td>

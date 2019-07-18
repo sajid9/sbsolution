@@ -38,7 +38,7 @@
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
-			                <th>id</th>
+			                <th>Sr#</th>
 			                <th>Class Name</th>
 			                <th>Description</th>
 			                <th>Status</th>
@@ -46,9 +46,10 @@
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	<?php $count = 0; ?>
 			        	@foreach($classes as $class)
 			            <tr class="odd gradeX">
-			                <td>{{ $class->id }}</td>
+			                <td>{{ ++$count }}</td>
 			                <td>{{ $class->class_name }}</td>
 			                <td>{{ $class->description }}</td>
 			                <td>{!!($class->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>

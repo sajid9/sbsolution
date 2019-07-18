@@ -52,6 +52,19 @@
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	<tr>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td>Opening Balance:</td>
+			        		<td>{{$payments[0]->account->balance}}</td>
+			        		<td></td>
+			        		<td></td>
+			        	</tr>
 			        	<?php $count = 0; ?>
 			        	@foreach($payments as $payment)
 			            <tr class="odd gradeX">
@@ -61,14 +74,27 @@
 			                <td>{{ ($payment->voucher != null) ? $payment->voucher->voucher_no : "null" }}</td>
 			                <td>{{ ($payment->customer != null) ? $payment->customer->customer_name : "null"}}</td>
 			                <td>{{ ($payment->receipt != null) ? $payment->receipt->receipt_no : "null" }}</td>
+			                <td>{{ $payment->type }}</td>
 			                <td>{{ $payment->debit }}</td>
 			                <td>{{ $payment->credit }}</td>
-			                <td>{{ $payment->type }}</td>
 			                <td>{{ date_format($payment->created_at,'d M Y') }}</td>
 			                <td><a href="{{url('payment/editpayment/'.$payment->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i>{{-- </a> <a onclick="deletepayment('{{$payment->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach
+			            <tr>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td></td>
+			        		<td>Net Balance:</td>
+			        		<td>{{$payments[0]->account->balance - $total->total }}</td>
+			        		<td></td>
+			        		<td></td>
+			        	</tr>
 			        </tbody>
 			    </table>
 		</div>

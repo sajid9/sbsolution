@@ -192,6 +192,8 @@ Route::prefix('ledger')->middleware(['auth'])->group(function(){
     Route::post('searchreceipt','ledger\Ledger_supplier@search_receipt');
     Route::get('customerledger','ledger\customer_history@customer_ledger');
     Route::get('receiptledger','ledger\receipt_history@receipt_ledger');
+    Route::get('accountledgerform','ledger\accountledger@accountledgerform');
+    Route::post('accountledger','ledger\accountledger@accountledger');
 });
 /*
 *
@@ -231,6 +233,10 @@ Route::prefix('invoice')->middleware(['auth'])->group(function(){
     Route::get('purchasereturn/{id}','invoices\invoice@purchasereturninvoice');
     Route::get('amountpayable','invoices\invoice@amountpayable');
     Route::get('amountreceivable','invoices\invoice@amountreceivable');
+    Route::get('supplierpayable','invoices\invoice@supplierpayable');
+    Route::get('customerreceivable','invoices\invoice@customerreceivable');
+    Route::post('supplierpayableinvoice','invoices\invoice@supplierpayableinvoice');
+    Route::post('customerreceivableinvoice','invoices\invoice@customerreceivableinvoice');
 });
 Route::prefix('store')->middleware(['auth'])->group(function(){
     Route::get('storelisting','stores\store@store_listing');

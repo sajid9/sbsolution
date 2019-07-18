@@ -5,6 +5,8 @@ namespace App\Http\Controllers\invoices;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
+use App\suppliers;
+use App\customers;
 class invoice extends Controller
 {
     public function saleinvoice($id){
@@ -32,6 +34,29 @@ class invoice extends Controller
     public function amountreceivable(){
        $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');
        $data = DB::select('SELECT * FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');
+       return view('pages.invoices.amount_receivable_invoice',compact('total','data'));
+    }
+    public function supplierpayable()
+    {
+      $suppliers = suppliers::all();
+      return view('pages.invoices.supplier_payable_form',compact('suppliers'));
+    }
+    public function customerreceivable()
+    {
+      $customers = customers::all();
+      return view('pages.invoices.customer_receivable_form',compact('customers'));
+    }
+    public function supplierpayableinvoice(Request $request)
+    {
+      $id = $request->supplier_id;
+      $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0 AND supplier_id ='.$id);
+      $data = DB::select('SELECT * FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0 AND supplier_id ='.$id);
+      return view('pages.invoices.amount_payable_invoice',compact('total','data'));
+    }
+    public function customerreceivableinvoice(Request $request){
+      $id = $request->customer_id;
+       $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0 AND customer_id ='.$id);
+       $data = DB::select('SELECT * FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0 AND customer_id ='.$id);
        return view('pages.invoices.amount_receivable_invoice',compact('total','data'));
     }
 }

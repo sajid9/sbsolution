@@ -125,6 +125,9 @@
                             <li>
                                 <a href="{{url('invoice/amountpayable')}}">Amount Payable</a>
                             </li>
+                            <li>
+                                <a href="{{url('invoice/supplierpayable')}}">Supplier Payable</a>
+                            </li>
                         </ul>
                     </li>
                     {{-- Sale info --}}
@@ -149,6 +152,9 @@
                             <li>
                                 <a href="{{url('invoice/amountreceivable')}}">Amount Receivable</a>
                             </li>
+                            <li>
+                                <a href="{{url('invoice/customerreceivable')}}">Customer Receivable</a>
+                            </li>
                         </ul>
                     </li>
                     {{-- Payment info --}}
@@ -171,7 +177,7 @@
                                 <a href="{{url('opening/accountlisting')}}">Accounts</a>
                             </li>
                             <li>
-                                <a href="{{url('payment/paymentlisting')}}">Payment Ledger</a>
+                                <a href="{{url('ledger/accountledgerform')}}">Accounts Ledger</a>
                             </li>
                             <li>
                                 <a href="{{url('payment/financialyear')}}">Financial Year</a>
