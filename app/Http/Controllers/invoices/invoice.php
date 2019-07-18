@@ -28,12 +28,12 @@ class invoice extends Controller
     }
     public function amountpayable(){
        $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0');
-       $data = DB::select('SELECT * FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0');
+       $data = DB::select('SELECT * FROM voucher Left Join suppliers ON voucher.supplier_id = suppliers.id  WHERE total_amount - (paid_amount + return_amount) > 0');
        return view('pages.invoices.amount_payable_invoice',compact('total','data'));
     }
     public function amountreceivable(){
        $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');
-       $data = DB::select('SELECT * FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');
+       $data = DB::select('SELECT * FROM receipt Left Join customers ON receipt.customer_id = customers.id WHERE total_amount - (paid_amount + return_amount) > 0');
        return view('pages.invoices.amount_receivable_invoice',compact('total','data'));
     }
     public function supplierpayable()
@@ -50,13 +50,13 @@ class invoice extends Controller
     {
       $id = $request->supplier_id;
       $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0 AND supplier_id ='.$id);
-      $data = DB::select('SELECT * FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0 AND supplier_id ='.$id);
+      $data = DB::select('SELECT * FROM voucher Left Join suppliers ON voucher.supplier_id = suppliers.id  WHERE total_amount - (paid_amount + return_amount) > 0 AND supplier_id ='.$id);
       return view('pages.invoices.amount_payable_invoice',compact('total','data'));
     }
     public function customerreceivableinvoice(Request $request){
       $id = $request->customer_id;
        $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0 AND customer_id ='.$id);
-       $data = DB::select('SELECT * FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0 AND customer_id ='.$id);
+       $data = DB::select('SELECT * FROM receipt Left Join customers ON receipt.customer_id = customers.id WHERE total_amount - (paid_amount + return_amount) > 0 AND customer_id ='.$id);
        return view('pages.invoices.amount_receivable_invoice',compact('total','data'));
     }
 }

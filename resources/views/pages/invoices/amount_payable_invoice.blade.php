@@ -16,6 +16,7 @@
 		<tr>
 			<th>Sr#</th>
 			<th>Voucher Number</th>
+			<th>Supplier</th>
 			<th>Total Amount</th>
 			<th>Paid Amount</th>
 			<th>Return Amount</th>
@@ -28,6 +29,7 @@
 			<tr>
 				<td>{{++$count}}</td>
 				<td>{{$voucher->voucher_no}}</td>
+				<td>{{$voucher->supplier_name}}</td>
 				<td>{{$voucher->total_amount}}</td>
 				<td>{{$voucher->paid_amount}}</td>
 				<td>{{$voucher->return_amount}}</td>

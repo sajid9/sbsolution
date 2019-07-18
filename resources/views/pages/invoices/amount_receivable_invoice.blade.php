@@ -16,6 +16,7 @@
 		<tr>
 			<th>Sr#</th>
 			<th>Receipt Number</th>
+			<th>Customer</th>
 			<th>Total Amount</th>
 			<th>Paid Amount</th>
 			<th>Balance</th>
@@ -27,6 +28,7 @@
 			<tr>
 				<td>{{++$count}}</td>
 				<td>{{$receipt->receipt_no}}</td>
+				<td>{{$receipt->customer_name}}</td>
 				<td>{{$receipt->total_amount}}</td>
 				<td>{{$receipt->paid_amount}}</td>
 				<td>{{$receipt->total_amount - ($receipt->return_amount + $receipt->paid_amount)}}</td>

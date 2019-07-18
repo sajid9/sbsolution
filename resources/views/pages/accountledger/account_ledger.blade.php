@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Account Ledger')
 
 {{-- add css which use only for this page --}}
 @section('header')
@@ -17,13 +17,7 @@
 
 {{-- page content --}}
 @section('content')
-<div class="row" style="padding-bottom: 10px">
-	<div class="col-md-12">
-		<a href="{{url('payment/addpaymentform')}}" class="btn btn-social btn-bitbucket pull-right">
-		    <i class="fa fa-plus"></i> Add Payment
-		</a>
-	</div>
-</div>
+
 <div class="row">
 	<div class="col-md-12">
 		{{-- alets messages --}}		
@@ -32,7 +26,7 @@
 		{{-- panel start --}}
 		<div class="panel panel-default">
 		    <div class="panel-heading">
-		        Payment Listing
+		        Account ledger
 		    </div>
 		    <div class="panel-body">
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
