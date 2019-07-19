@@ -20,6 +20,7 @@ class CreateItemsTable extends Migration
             $table->string('barcode',100);
             $table->integer('purchase_price');
             $table->integer('sale_price');
+            $table->integer('store_id')->nullable();
             $table->integer('company_id')->nullable();
             $table->integer('category_id')->nullable();
             $table->integer('class_id')->nullable();

@@ -18,6 +18,9 @@ class CreateVoucherDetailTable extends Migration
             $table->integer('voucher_id');
             $table->integer('item_id');
             $table->integer('qty');
+            $table->integer('sale_price');
+            $table->integer('discounted_price')->nullable();
+            $table->integer('total_price');
             $table->enum('type', ['purchase', 'return'])->default('purchase');
             $table->timestamps();
         });

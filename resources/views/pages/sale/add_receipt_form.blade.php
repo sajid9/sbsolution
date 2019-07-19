@@ -109,14 +109,28 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
-              <input type="text" disabled name="purchase_price" value="{{old('purchase_price')}}" class="form-control" id="purchase_price" aria-describedby="purchaseprice" placeholder="purchase price">
-              <small id="purchaseprice" class="form-text text-muted text-danger"></small>
-            </div>
-            <div class="form-group">
               <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
               <input type="text" disabled name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="sale price">
               <small id="saleprice" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
+            </div>
+            <div class="form-group">
+              <label for="discount">Discount %</label>
+              <input type="text" disabled name="discount" value="{{old('discount')}}" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
+              <small id="discount_msg" class="form-text text-muted text-danger">{{$errors->first('discount')}}</small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="discounted_price">Discounted Price<span class="text-danger">*</span></label>
+              <input type="text" disabled name="discounted_price" value="{{old('discounted_price')}}" class="form-control" id="discounted_price" aria-describedby="dis_price" placeholder="discounted price">
+              <small id="dis_price" class="form-text text-muted text-danger">{{$errors->first('discounted_price')}}</small>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="total_price">Total Price %</label>
+              <input type="text" disabled name="total_price" value="{{old('total_price')}}" class="form-control" id="total_price" aria-describedby="total_price_msg" placeholder="total price">
+              <small id="total_price_msg" class="form-text text-muted text-danger">{{$errors->first('total_price')}}</small>
             </div>
           </div>
         </div>
@@ -244,7 +258,6 @@
           data:data,
           success:function(res){
             $('#receiptid').val(res.id);
-            $('#purchase_price').prop('disabled',false);
             $('#sale_price').prop('disabled',false);
             $('#barcode').prop('disabled',false);
             $('#quantity').prop('disabled',false);
@@ -291,11 +304,11 @@
             if(res != null){
               $('#purchase_price').val(res.purchase_price);
               $('#sale_price').val(res.sale_price);
+              $('#total_price').val(res.sale_price);
               $('#itemId').val(res.id);
               $('#addItem').prop('disabled',false);
               $('#barcode_msg').text('');
             }else{
-              $('#purchase_price').val('');
               $('#sale_price').val('');
               $('#itemId').val('');
             }  
@@ -315,11 +328,7 @@
       }else{
         $('#quantity_msg').text('');
       } 
-      if($('#purchase_price').val() == ''){
-        $('#purchaseprice').text('This field is required');
-      }else{
-        $('#purchaseprice').text('');
-      }
+      
       if($('#barcode').val() == ''){
         $('#barcode_msg').text('This field is required');
       }else{
@@ -370,7 +379,6 @@
           if(res != null){
             window.location.href = '{{url("payment/addsopayment")}}/'+res.id+'/'+res.total_amount+'/'+res.customer_id;
             $('#alert').css('display','block');
-            $('#purchase_price').val('');
             $('#sale_price').val('');
             $('#itemId').val('');
             $('#receiptid').val('');

@@ -17,7 +17,7 @@ class CreateStoresTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('address');
-            $table->string('isactive');
+            $table->string('is_active');
             $table->timestamps();
         });
     }
