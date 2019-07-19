@@ -282,22 +282,19 @@
         dataType:"json",
         data:{barcode:barcode,voucher_id:voucher_id,_token:"{{csrf_token()}}"},
         success:function(res){
-          console.log(res.message);
-          if(res.message){
+          if(res.message == 'item already added'){
             $('#barcode_msg').text(res.message);
             $('#addItem').prop('disabled',true);
+          }else if(res.message == 'not found'){
+            $('#purchase_price').val('');
+            $('#sale_price').val('');
+            $('#itemId').val('');
           }else{
-            if(res != null){
-              $('#purchase_price').val(res.purchase_price);
-              $('#sale_price').val(res.sale_price);
-              $('#itemId').val(res.id);
-              $('#addItem').prop('disabled',false);
-              $('#barcode_msg').text('');
-            }else{
-              $('#purchase_price').val('');
-              $('#sale_price').val('');
-              $('#itemId').val('');
-            }  
+            $('#purchase_price').val(res.purchase_price);
+            $('#sale_price').val(res.sale_price);
+            $('#itemId').val(res.id);
+            $('#addItem').prop('disabled',false);
+            $('#barcode_msg').text('');
           }
         }
       });

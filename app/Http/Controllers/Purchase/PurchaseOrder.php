@@ -66,13 +66,18 @@ class PurchaseOrder extends Controller
     *
     */
     public function searchbarcode(Request $request){
-    	$item = items::where('barcode',$request->barcode)->first();
-
-        $exsist = voucher_detail::where('item_id',$item->id)->where('voucher_id',$request->voucher_id)->get();
+    	$item = items::where('barcode',$request->barcode)->get();
+        $exsist = [];
+        if(sizeof($item) > 0){
+            $exsist = voucher_detail::where('item_id',$item[0]->id)->where('voucher_id',$request->voucher_id)->get();
+        }
+        
         if(sizeof($exsist) > 0){
             return json_encode(["message"=>"item already added"]);
+        }else if(sizeof($item) > 0){
+        	return json_encode($item[0]);
         }else{
-        	return json_encode($item);
+            return json_encode(["message"=>"not found"]);
         }
     } 
     /*
