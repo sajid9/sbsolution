@@ -150,6 +150,8 @@ Route::prefix('voucher')->middleware(['auth'])->group(function () {
     Route::post('removereturnitem','Purchase\PurchaseOrder@removereturnitem');
     Route::get('editvoucher/{id}','Purchase\PurchaseOrder@editvoucher');
     Route::post('returnitem','Purchase\PurchaseOrder@returnitem');
+    Route::post('selectsupplier','Purchase\PurchaseOrder@selectsupplier');
+    Route::get('selectsupplier','Purchase\PurchaseOrder@selectsupplier');
 
 });
 

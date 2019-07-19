@@ -16,7 +16,7 @@
 <div class="panel-body">
 <div class="alert alert-success alert-dismissible" id="alert" style="display: none">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-  <strong>Success!</strong> Record Added Successfully
+  <span id="alert-message"></span>
 </div>
 {{-- form start  --}}
 <form id="supplierForm">
@@ -72,10 +72,12 @@
       dataType:"json",
       success:function(res){
         $('#alert').css('display','block');
+        $('#alert-message').html(res.message);
         document.getElementById("supplierForm").reset();
       }
     });
   })
+
 </script>
 
 @endsection

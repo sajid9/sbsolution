@@ -123,7 +123,7 @@
                                 <a href="{{url('opening/supplier')}}">Opening Supplier</a>
                             </li>
                             <li>
-                                <a href="{{url('invoice/amountpayable')}}">Amount Payable</a>
+                                <a target="_blank" href="{{url('invoice/amountpayable')}}">Voucher Payable</a>
                             </li>
                             <li>
                                 <a href="{{url('invoice/supplierpayable')}}">Supplier Payable</a>
@@ -150,7 +150,7 @@
                                 <a href="{{url('opening/customer')}}">opening Customer</a>
                             </li>
                             <li>
-                                <a href="{{url('invoice/amountreceivable')}}">Amount Receivable</a>
+                                <a href="{{url('invoice/amountreceivable')}}">Receipt Receivable</a>
                             </li>
                             <li>
                                 <a href="{{url('invoice/customerreceivable')}}">Customer Receivable</a>

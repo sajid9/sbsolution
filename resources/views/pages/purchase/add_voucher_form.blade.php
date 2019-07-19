@@ -113,11 +113,11 @@
               <input type="text" disabled name="purchase_price" value="{{old('purchase_price')}}" class="form-control" id="purchase_price" aria-describedby="purchaseprice" placeholder="purchase price">
               <small id="purchaseprice" class="form-text text-muted text-danger"></small>
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
               <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
               <input type="text" disabled name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="sale price">
               <small id="saleprice" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
-            </div>
+            </div> --}}
           </div>
         </div>
         <div class="row">
@@ -301,11 +301,12 @@
     });
     $('#addItem').on('click',function(){
       var data  = {};
-      data.itemId    = $('#itemId').val();
-      data.quantity  = $('#quantity').val();
-      data.voucherId = $('#vouchernumber').val();
-      data.type      = "purchase";
-      data._token    = "{{csrf_token()}}";
+      data.itemId        = $('#itemId').val();
+      data.quantity      = $('#quantity').val();
+      data.voucherId     = $('#vouchernumber').val();
+      data.purchasePrice = $('#purchase_price').val();
+      data.type          = "purchase";
+      data._token        = "{{csrf_token()}}";
       if(data.quantity == ''){
         $('#quantity_msg').text('This field is required');
       }else{

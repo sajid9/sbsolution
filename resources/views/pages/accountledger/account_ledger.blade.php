@@ -55,7 +55,7 @@
 			        		<td></td>
 			        		<td></td>
 			        		<td>Opening Balance:</td>
-			        		<td>{{(sizeof($payments) > 0) ? $payments[0]->account->balance : ''}}</td>
+			        		<td>{{$account->balance}}</td>
 			        		<td></td>
 			        		<td></td>
 			        	</tr>
@@ -85,7 +85,7 @@
 			        		<td></td>
 			        		<td></td>
 			        		<td>Net Balance:</td>
-			        		<td>{{ (sizeof($payments) > 0) ? $payments[0]->account->balance - $total->total : "" }}</td>
+			        		<td>{{ (sizeof($payments) > 0) ? $payments[0]->account->balance - $total->total : $account->balance }}</td>
 			        		<td></td>
 			        		<td></td>
 			        	</tr>

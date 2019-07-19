@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Item')
 
 {{-- add css which use only for this page --}}
 @section('header')
@@ -43,7 +43,6 @@
 			                <th>Barcode</th>
 			                <th>Purchase Price</th>
 			                <th>Sale Price</th>
-			                <th>Supplier</th>
 			                <th>Category</th>
 			                <th>Status</th>
 			                <th>Action</th>
@@ -58,7 +57,7 @@
 			                <td>{{ $item->barcode }}</td>
 			                <td>{{ $item->purchase_price }}</td>
 			                <td>{{ $item->sale_price }}</td>
-			                <td>{{ ($item->suppliers)? $item->suppliers->supplier_name: 'NULL' }}</td>
+			                
 			                <td>{{ ($item->categories)?$item->categories->category_name:'NULL' }}</td>
 			                <td>{!!($item->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
 			                <td><a href="{{url('item/edititem/'.$item->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deleteItem('{{$item->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
@@ -85,7 +84,7 @@
 	    $(document).ready(function() {
 	        $('#dataTables-example').DataTable({
 	                responsive: true,
-	                columnDefs: [ { orderable: false, targets: [8] } ]
+	                columnDefs: [ { orderable: false, targets: [7] } ]
 	        });
 	        $('[data-toggle="tooltip"]').tooltip();
 	    });

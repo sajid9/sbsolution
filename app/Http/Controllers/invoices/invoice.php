@@ -49,9 +49,10 @@ class invoice extends Controller
     public function supplierpayableinvoice(Request $request)
     {
       $id = $request->supplier_id;
+      $op_bal = DB::table('supplier_history')->where('type','OP')->where('supplier_id',$id)->get();
       $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0 AND supplier_id ='.$id);
       $data = DB::select('SELECT * FROM voucher Left Join suppliers ON voucher.supplier_id = suppliers.id  WHERE total_amount - (paid_amount + return_amount) > 0 AND supplier_id ='.$id);
-      return view('pages.invoices.amount_payable_invoice',compact('total','data'));
+      return view('pages.invoices.amount_payable_invoice',compact('total','data','op_bal'));
     }
     public function customerreceivableinvoice(Request $request){
       $id = $request->customer_id;

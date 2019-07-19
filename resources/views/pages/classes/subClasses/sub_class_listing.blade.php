@@ -20,7 +20,7 @@
 <div class="row" style="padding-bottom: 10px">
 	<div class="col-md-12">
 		<a href="{{ url('subclass/addsubclassform' )}}/{{ Request::segment(3) }}" class="btn btn-social btn-bitbucket pull-right">
-		    <i class="fa fa-plus"></i> Add Class
+		    <i class="fa fa-plus"></i> Add Sub-Class
 		</a>
 	</div>
 </div>
@@ -53,7 +53,7 @@
 			                <td>{{ $class->class_name }}</td>
 			                <td>{{ $class->description }}</td>
 			                <td>{!!($class->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
-			                <td><a href="{{url('subclass/editclass/'.$class->id)}}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a> <a onclick="deleteClass('{{$class->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="delete"></i></a></td>
+			                <td><a href="{{url('subclass/editclass/'.$class->id)}}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a> {{-- <a onclick="deleteClass('{{$class->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

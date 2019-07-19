@@ -93,6 +93,7 @@ class PurchaseOrder extends Controller
             $item->item_id = $request->itemId;
             $item->qty = $request->quantity;
             $item->type = $request->type;
+            $item->purchase_price = $request->purchasePrice;
             $item->save();
             if(stock::where('item_id',$request->itemId)->first()){
                 $stock = stock::where('item_id',$request->itemId)->increment('qty',$request->quantity);
@@ -235,6 +236,12 @@ class PurchaseOrder extends Controller
         }catch(Exeption $e){
             dd($e->message);
         }
+    }
+    public function selectsupplier(Request $request)
+    {
+        $voucher = voucher::find($request->id);
+        $supplier = suppliers::find($voucher->supplier_id);
+        return json_encode($supplier);
     }
 
 }

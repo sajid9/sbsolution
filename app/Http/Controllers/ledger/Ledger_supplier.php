@@ -27,7 +27,7 @@ class Ledger_supplier extends Controller
     	return json_encode($allsuppliers);
     }
     public function search_supplier(Request $request){
-    	$search = DB::table('supplier_history');
+    	$search = DB::table('supplier_history')->leftJoin('suppliers','suppliers.id','=','supplier_history.supplier_id');
     	if($request->supplier){
     		$search->where('supplier_id',$request->supplier);
     	}

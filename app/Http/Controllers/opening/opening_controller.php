@@ -22,7 +22,7 @@ class opening_controller extends Controller
     }
     public function save_item(Request $request){
         $request->validate([
-            'item_id' =>'unique:item_ledger,item_id'
+            'item_id' =>'required|unique:item_ledger,item_id'
         ]);
     	if(stock::where('item_id',$request->item_id)->first()){
             $stock = stock::where('item_id',$request->item_id)->increment('qty',$request->quantity);
@@ -46,19 +46,26 @@ class opening_controller extends Controller
     	return view('pages.opening.opening_supplier_form',compact('suppliers'));
     }
     public function save_supplier(Request $request){
-    	$sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('supplier_id',$request->supplier)->first();
-    	$ledger = new supplier_history;
-    	$ledger->supplier_id = $request->supplier;
-    	if($request->type == 'debit'){
-    		$ledger->debit = $request->amount;
-    		$ledger->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
-    	}else{
-    		$ledger->credit = $request->amount;
-    		$ledger->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
-    	}
-    	$ledger->type = 'OP';
-    	$ledger->save();
-    	return json_encode(['message'=> 'success']);
+        $check = DB::table('supplier_history')->where('type','OP')->where('supplier_id',$request->supplier)->get();
+        if(sizeof($check) == 0){
+            $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('supplier_id',$request->supplier)->first();
+            $ledger = new supplier_history;
+            $ledger->supplier_id = $request->supplier;
+            if($request->type == 'debit'){
+                $ledger->debit = $request->amount;
+                $ledger->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
+            }else{
+                $ledger->credit = $request->amount;
+                $ledger->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
+            }
+            $ledger->type = 'OP';
+            $ledger->save();
+            return json_encode(['message'=> 'Record Added Successfully']);
+        }else{
+            return json_encode(['message'=> 'Already Exsist']);
+        }
+    	
+    	
     }
     public function customer(){
     	$customers = customers::all();

@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Payments')
 
 @section('content')
 <div class="panel panel-default">
@@ -41,13 +41,19 @@
 <template id="voucher_con">
   <div class="form-group">
     <label for="voucher">Voucher</label>
-    <select name="voucher" class="form-control" id="voucher" aria-describedby="voucher">
+    <select name="voucher" class="form-control" id="voucherId" aria-describedby="voucher_msg">
       <option value=""> Select Voucher</option>
       @foreach($vouchers as $voucher)
       <option value="{{$voucher->id}}"> {{$voucher->voucher_no}}</option>
       @endforeach
     </select>
-    <small id="voucher" class="form-text text-muted text-danger">{{$errors->first('voucher')}}</small>
+    <small id="voucher_msg" class="form-text text-muted text-danger">{{$errors->first('voucher')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="supplier">supplier</label>
+    <input type="hidden" name="supplier" value="" id="supplier_id">
+    <input type="text" class="form-control" id="supplier" readonly="readonly">
+    <small id="supplier_msg" class="form-text text-muted text-danger">{{$errors->first('supplier')}}</small>
   </div>
   <div class="form-group">
     <label for="account">Account</label>
@@ -58,16 +64,6 @@
       @endforeach
     </select>
     <small id="account_msg" class="form-text text-muted text-danger">{{$errors->first('account')}}</small>
-  </div>
-  <div class="form-group">
-    <label for="supplier">supplier</label>
-    <select name="supplier" class="form-control" id="supplier" aria-describedby="supplier_msg">
-      <option value=""> Select supplier</option>
-      @foreach ($suppliers as $supplier)
-        <option value="{{$supplier->id}}" {{($voucher->supplier_id == $supplier->id) ? "selected" : ""}}>{{$supplier->supplier_name}}</option>
-      @endforeach
-    </select>
-    <small id="supplier_msg" class="form-text text-muted text-danger">{{$errors->first('supplier')}}</small>
   </div>
   <div class="form-group">
     <label for="amount">Amount <span class="text-danger">*</span></label>
@@ -267,7 +263,20 @@ $('#paytype').on('change',function(){
     var temp = $('#exp_con').html();
     $('#append_con').html(temp);
   }
-})
+});
+$(document).on('change','#voucherId',function(){
+  var val = $(this).val();
+  $.ajax({
+    url:"{{url('voucher/selectsupplier')}}",
+    data:{id:val,_token:"{{csrf_token()}}"},
+    type:"post",
+    dataType:"json",
+    success:function(res){
+      $('#supplier').val(res.supplier_name);
+      $('#supplier_id').val(res.id);
+    }
+  })
+});
 
 </script>
 @endsection

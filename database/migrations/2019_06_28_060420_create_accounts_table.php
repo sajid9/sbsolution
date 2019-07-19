@@ -20,7 +20,7 @@ class CreateAccountsTable extends Migration
             $table->integer('balance');
             $table->string('branch_name')->nullable();
             $table->string('branch_code')->nullable();
-            $table->integer('account_number')->nullable();
+            $table->bigInteger('account_number')->nullable();
             $table->timestamps();
         });
     }

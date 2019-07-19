@@ -51,8 +51,8 @@
 			            <tr>
 			                <th>Sr#</th>
 			                <th>Date</th>
-			                <th>Type</th>
 			                <th>Supplier</th>
+			                <th>Type</th>
 			                <th>Debit</th>
 			                <th>Credit</th>
 			                <th>Balance</th>
@@ -64,8 +64,8 @@
 			        	<tr>
 			        		<td>{{++$count}}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
+			        		<td>{{(isset($ledger->supplier))?$ledger->supplier->supplier_name : $ledger->supplier_name}}</td>
 			        		<td>{{$ledger->type}}</td>
-			        		<td>{{$ledger->supplier->supplier_name}}</td>
 			        		<td>{{$ledger->debit}}</td>
 			        		<td>{{$ledger->credit}}</td>
 			        		<td>{{$ledger->balance}}</td>
