@@ -16,6 +16,8 @@ use App\customers;
 use App\suppliers;
 use App\accounts;
 use App\financial_year;
+use App\head;
+use App\month;
 use DB;
 class payment extends Controller
 {
@@ -31,7 +33,9 @@ class payment extends Controller
         $customers = customers::all();
         $suppliers = suppliers::all();
         $years     = financial_year::all();
-    	return view('pages.payments.add_payment_form',compact('vouchers','receipts','accounts','customers','suppliers','years'));
+        $heads     = head::all();
+        $months    = month::all();
+    	return view('pages.payments.add_payment_form',compact('vouchers','receipts','accounts','customers','suppliers','years','heads','months'));
     }
     public function addsopayment(Request $request){
        $receipt = receipt::where('id',$request->receiptId)->first();

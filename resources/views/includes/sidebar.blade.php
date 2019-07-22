@@ -90,7 +90,7 @@
                                 <a href="{{url('ledger/itemledger')}}">Item Ledger</a>
                             </li>
                             <li>
-                                <a href="{{url('store/storelisting')}}"> Add Store</a>
+                                <a href="{{url('store/storelisting')}}">Stores</a>
                             </li>
                             <li>
                                 <a href="{{url('company/companylisting')}}"> Companies</a>
@@ -100,6 +100,12 @@
                             </li>
                             <li>
                                 <a href="{{url('class/classlisting')}}">Classes</a>
+                            </li>
+                            <li>
+                                <a href="{{url('expenditure/headlisting')}}">Heads</a>
+                            </li>
+                            <li>
+                                <a href="{{url('expenditure/monthlisting')}}">Months</a>
                             </li>
                         </ul>
                     </li>

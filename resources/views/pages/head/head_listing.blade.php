@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Voucher')
+@section('pagetitle', 'Head')
 
 {{-- add css which use only for this page --}}
 @section('header')
@@ -19,8 +19,8 @@
 @section('content')
 <div class="row" style="padding-bottom: 10px">
 	<div class="col-md-12">
-		<a href="{{url('voucher/addvoucherform')}}" class="btn btn-social btn-bitbucket pull-right">
-		    <i class="fa fa-plus"></i> Add Voucher
+		<a href="{{url('expenditure/addhead')}}" class="btn btn-social btn-bitbucket pull-right">
+		    <i class="fa fa-plus"></i> Add Head
 		</a>
 	</div>
 </div>
@@ -32,34 +32,26 @@
 		{{-- panel start --}}
 		<div class="panel panel-default">
 		    <div class="panel-heading">
-		        Voucher Listing
+		        Head Listing
 		    </div>
 		    <div class="panel-body">
-			    <table class="table table-striped table-bordered table-hover" id="dataTables-voucher">
+			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
 			                <th>Sr#</th>
-			                <th>Voucher No</th>
-			                <th>Supplier</th>
-			                <th>Total Amount</th>
-			                <th>Return Amount</th>
-			                <th>Paid Amount</th>
-			                <th>Balance Amount</th>
+			                <th>name</th>
+			                <th>Status</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			        	<?php $count = 0; ?>
-			        	@foreach($vouchers as $voucher)
+			        	@foreach($heads as $head)
 			            <tr class="odd gradeX">
 			                <td>{{ ++$count }}</td>
-			                <td>{{ $voucher->voucher_no }}</td>
-			                <td>{{ $voucher->supplier_id }}</td>
-			                <td>{{ $voucher->total_amount }}</td>
-			                <td>{{ $voucher->return_amount }}</td>
-			                <td>{{ $voucher->paid_amount }}</td>
-			                <td>{{ $voucher->total_amount - ($voucher->return_amount + $voucher->paid_amount) }}</td>
-			                <td><a href="{{url('voucher/editvoucher/'.$voucher->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deletevoucher('{{$voucher->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
+			                <td>{{ $head->name }}</td>
+			                <td>{!!($head->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
+			                <td><a href="{{url('expenditure/edithead/'.$head->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a href="{{url('expenditure/subheadlisting/'.$head->id)}}"><i class="fa fa-plus" data-toggle="tooltip" title="Add Subhead"></i></a></td>
 			                
 			            </tr>
 			            @endforeach
@@ -81,15 +73,14 @@
 	<script src="{{asset('js/dataTables/dataTables.bootstrap.min.js')}}"></script>
 	<script>
 	    $(document).ready(function() {
-	        $('#dataTables-voucher').DataTable({
-	                responsive: true,
-	                columnDefs: [ { orderable: false, targets: [6] } ]
+	        $('#dataTables-example').DataTable({
+	                responsive: true
 	        });
 	        $('[data-toggle="tooltip"]').tooltip();
 	    });
-	    function deletevoucher(id){
+	    function deleteCompany(id){
 	    	if(window.confirm('do you really wanna delete this record?')){
-	    		var url = '{{url('item/deleteitem')}}';
+	    		var url = '{{url('company/deletecompany')}}';
 	    		window.location.href = url+'/'+id;
 	    	}
 	    }

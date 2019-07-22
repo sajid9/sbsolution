@@ -11,7 +11,7 @@
 @section('content')
 <div class="panel panel-default">
 <div class="panel-heading">
-    Add New Category
+    Payment
 </div>
 <div class="panel-body">
 
@@ -186,9 +186,9 @@
     <label for="month">month <span class="text-danger">*</span></label>
     <select name="month" class="form-control" id="month" aria-describedby="month_msg">
       <option value=""> Select Month</option>
-      <option value="1">may</option>
-      <option value="2">june</option>
-      <option value="3">july</option>
+      @foreach($months as $month)
+      <option value="{{$month->id}}">{{$month->name}}</option>
+      @endforeach
     </select>
     <small id="month" class="form-text text-muted text-danger">{{$errors->first('month')}}</small>
   </div>
@@ -208,12 +208,19 @@
     <small id="description" class="form-text text-muted text-danger">{{$errors->first('description')}}</small>
   </div>
   <div class="form-group">
+    <label for="head">Exp Head</label>
+    <select name="head" class="form-control" id="head" aria-describedby="head">
+      <option value=""> Select Head</option>
+      @foreach($heads as $head)
+      <option value="{{$head->id}}">{{$head->name}}</option>
+      @endforeach
+    </select>
+    <small id="head" class="form-text text-muted text-danger">{{$errors->first('head')}}</small>
+  </div>
+  <div class="form-group">
     <label for="subhead">Exp Subhead</label>
     <select name="subhead" class="form-control" id="subhead" aria-describedby="subhead">
       <option value=""> Select Subhead</option>
-      <option value="1"> utility bill</option>
-      <option value="2"> ptcl bill</option>
-      <option value="3"> electric city bill</option>
     </select>
     <small id="subhead" class="form-text text-muted text-danger">{{$errors->first('subhead')}}</small>
   </div>
@@ -274,6 +281,22 @@ $(document).on('change','#voucherId',function(){
     success:function(res){
       $('#supplier').val(res.supplier_name);
       $('#supplier_id').val(res.id);
+    }
+  })
+});
+$(document).on('change','#head',function(){
+  var val = $(this).val();
+  $.ajax({
+    url:"{{url('expenditure/getsubhead')}}",
+    data:{id:val,_token:"{{csrf_token()}}"},
+    type:"post",
+    dataType:"json",
+    success:function(res){
+      var template = "<option value=''>Select Subhead </option>";
+      for( var i = 0; i < res.length; i++ ){
+        template += "<option value='"+res[i].id+"'>"+res[i].name+"</option>";
+      }
+      $("#subhead").html(template);
     }
   })
 });

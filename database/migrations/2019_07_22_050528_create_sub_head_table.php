@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVoucherDetailTable extends Migration
+class CreateSubHeadTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,11 @@ class CreateVoucherDetailTable extends Migration
      */
     public function up()
     {
-        Schema::create('voucher_detail', function (Blueprint $table) {
+        Schema::create('sub_head', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('voucher_id');
-            $table->integer('item_id');
-            $table->integer('qty');
-            $table->integer('purchase_price');
-            $table->enum('type', ['purchase', 'return'])->default('purchase');
+            $table->string('name');
+            $table->integer('head_id');
+            $table->enum('is_active',['yes','no'])->default('no');
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ class CreateVoucherDetailTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('voucher_detail');
+        Schema::dropIfExists('sub_head');
     }
 }
