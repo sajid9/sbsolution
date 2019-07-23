@@ -75,12 +75,17 @@
               </select>
               <small id="customer_msg" class="form-text text-muted text-danger"></small>
             </div>
-            
           </div>
-          
         </div>
         <div class="row">
-          <div class="col-md-12">
+          <div class="col-md-6">
+            <div class="checkbox" style="margin-top:0px;">
+              <label>
+                <input type="checkbox" id="check" data-toggle="toggle" name="type" value="quotation" {{ (old('type') == 'quotation') ? 'checked' : '' }} data-on="Quotation" data-off="Sale">
+              </label>
+            </div>
+          </div>
+          <div class="col-md-6">
             <button type="submit" class="btn btn-primary" id="save_receipt">Save Receipt</button>
           </div>
         </div>
@@ -262,6 +267,9 @@
             $('#barcode').prop('disabled',false);
             $('#quantity').prop('disabled',false);
             $('#addItem').prop('disabled',false);
+            $('#discount').prop('disabled',false);
+            $('#discounted_price').prop('disabled',false);
+            $('#total_price').prop('disabled',false);
           }
         });
       }
@@ -318,11 +326,20 @@
     });
     $('#addItem').on('click',function(){
       var data  = {};
-      data.itemId    = $('#itemId').val();
-      data.quantity  = $('#quantity').val();
-      data.receipt_id = $('#receiptid').val();
-      data.type      = "sale";
-      data._token    = "{{csrf_token()}}";
+      data.itemId           = $('#itemId').val();
+      data.quantity         = $('#quantity').val();
+      data.receipt_id       = $('#receiptid').val();
+      data.sale_price       = $('#sale_price').val();
+      data.discounted_price = $('#discounted_price').val();
+      data.total_price      = $('#total_price').val();
+      data.type             = "sale";
+      data._token           = "{{csrf_token()}}";
+      if ($('#check').parent().hasClass('off'))
+      {
+        data.check = "sale";
+      }else{
+         data.check = "quotation";
+      }
       if(data.quantity == ''){
         $('#quantity_msg').text('This field is required');
       }else{
@@ -370,22 +387,20 @@
     })
     $("#submit").on('click',function(){
       var receipt_id = $('#receiptid').val();
+      if ($('#check').parent().hasClass('off'))
+      {
+        var check = "sale";
+      }else{
+        var check = "quotation";
+      }
       $.ajax({
         url:"{{url('sale/savereceipt')}}",
         type:"post",
-        data:{receipt_id:receipt_id,_token:"{{csrf_token()}}"},
+        data:{receipt_id:receipt_id,check:check,_token:"{{csrf_token()}}"},
         dataType:"json",
         success:function(res){
           if(res != null){
             window.location.href = '{{url("payment/addsopayment")}}/'+res.id+'/'+res.total_amount+'/'+res.customer_id;
-            $('#alert').css('display','block');
-            $('#sale_price').val('');
-            $('#itemId').val('');
-            $('#receiptid').val('');
-            $('#receiptnumber').val('');
-            $('#barcode').val('');
-            $('#quantity').val('');
-            $('#items_append').html('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>');
           }
           $('#purchase_price').prop('disabled',true);
           $('#sale_price').prop('disabled',true);
@@ -420,5 +435,21 @@
         }
       });
     }
+    $('#discount').on('blur',function(){
+      var salePrice = $('#sale_price').val();
+      var qty = $('#quantity').val();
+      if(salePrice == '' || qty == ''){
+        alert('please first fill the sale price and quantity field');
+        $(this).val('');
+      }else{
+        var price = salePrice * qty;
+        var percent = $(this).val() / 100;
+        var disPrice = percent * price;
+        $('#discounted_price').val(disPrice);
+        var totalPrice = price - disPrice;
+        $('#total_price').val(totalPrice);
+      }
+    });
+   
   </script>
 @endsection

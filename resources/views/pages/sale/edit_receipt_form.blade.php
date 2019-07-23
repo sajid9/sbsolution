@@ -184,7 +184,14 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12" style="padding-top: 20px">
+    <div class="col-md-6">
+      <div class="checkbox" style="margin-top:0px;padding-top: 20px;">
+        <label>
+          <input type="checkbox" id="check" data-toggle="toggle" name="type" value="quotation" {{ ($receipt->type == 'quotation') ? 'checked' : '' }} data-on="Quotation" data-off="Sale">
+        </label>
+      </div>
+    </div>
+    <div class="col-md-6" style="padding-top: 20px">
       <button type="button" id="submit" class="btn btn-primary">Update</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
     </div>
   </div>
@@ -424,10 +431,16 @@
     })
     $("#submit").on('click',function(){
       var receiptId = $('#receiptId').val();
+      if ($('#check').parent().hasClass('off'))
+      {
+        var check = "sale";
+      }else{
+        var check = "quotation";
+      }
       $.ajax({
         url:"{{url('sale/updatereceipt')}}",
         type:"post",
-        data:{receiptId:receiptId,_token:"{{csrf_token()}}"},
+        data:{receiptId:receiptId,check:check,_token:"{{csrf_token()}}"},
         dataType:"json",
         success:function(res){
           if(res != null){

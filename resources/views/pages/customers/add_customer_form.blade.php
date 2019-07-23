@@ -6,7 +6,7 @@
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
-@section('pagetitle', 'Dashboard')
+@section('pagetitle', 'Add Customer')
 
 @section('content')
 <div class="panel panel-default">

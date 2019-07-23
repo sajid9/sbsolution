@@ -22,6 +22,7 @@ class CreateReceiptTable extends Migration
             $table->integer('paid_amount')->default(0);
             $table->integer('return_amount')->default(0);
             $table->integer('balance_amount')->default(0);
+            $table->enum('type',['quotation','sale'])->default('sale');
             $table->date('receipt_date');
             $table->timestamps();
         });

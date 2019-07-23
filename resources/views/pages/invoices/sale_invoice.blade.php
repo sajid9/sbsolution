@@ -101,6 +101,8 @@
 				<th>Qty</th>
 				<th>Price</th>
 				<th>Total</th>
+				<th>Discount</th>
+				<th>Amount</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -112,6 +114,8 @@
 					<td>{{$item->qty}}</td>
 					<td>{{$item->sale_price}}</td>
 					<td>{{$item->sale_price * $item->qty}}</td>
+					<td>{{$item->discount}}</td>
+					<td>{{$item->total_price}}</td>
 				</tr>
 			@endforeach
 		</tbody>

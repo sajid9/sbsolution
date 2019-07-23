@@ -30,6 +30,11 @@ class saleorder extends Controller
     	$receipt->receipt_no = $request->receipt_number;
     	$receipt->customer_id = $request->customer;
     	$receipt->receipt_date = $request->receipt_date;
+        if($request->has('type')){
+            $receipt->type    = $request->type;
+        }else{
+            $receipt->type    = 'sale';
+        }
     	$receipt->save();
     	return json_encode($receipt);
     }
@@ -44,25 +49,23 @@ class saleorder extends Controller
             $item = new receipt_detail;
             $item->receipt_id = $request->receipt_id;
             $item->item_id = $request->itemId;
+            $item->sale_price = $request->sale_price;
+            $item->discount = $request->discounted_price;
+            $item->total_price = $request->total_price;
             $item->qty = $request->quantity;
             $item->type = $request->type;
             $item->save();
-            if(stock::where('item_id',$request->itemId)->first()){
+            if ($request->check !== 'quotation') {
                 $stock = stock::where('item_id',$request->itemId)->decrement('qty',$request->quantity);
-            }else{
-                $stock = new stock;
-                $stock->item_id = $item->item_id;
-                $stock->qty = $item->qty;
-                $stock->save();
+                $stock = stock::where('item_id',$request->itemId)->first();
+                $ledger = new item_ledger;
+                $ledger->item_id = $request->itemId;
+                $ledger->sale = $request->quantity;
+                $ledger->receipt_id = $request->receipt_id;
+                $ledger->description = 'Sale';
+                $ledger->left     = $stock->qty;
+                $ledger->save();
             }
-            $stock = stock::where('item_id',$request->itemId)->first();
-            $ledger = new item_ledger;
-            $ledger->item_id = $request->itemId;
-            $ledger->sale = $request->quantity;
-            $ledger->receipt_id = $request->receipt_id;
-            $ledger->description = 'Sale';
-            $ledger->left     = $stock->qty;
-            $ledger->save();
         }
     	
     	
@@ -76,23 +79,28 @@ class saleorder extends Controller
     *
     */
     public function savereceipt(Request $request){
-    	$total = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.sale_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receipt_id)->where('type','=','sale')->first();
+    	$total = DB::table('receipt_detail')->select(DB::raw('SUM(total_price) as totalPrice'))->where('receipt_detail.receipt_id',$request->receipt_id)->where('type','=','sale')->first();
     	$receipt = DB::table('receipt')->where('id',$request->receipt_id)->update(['total_amount'=>$total->totalPrice]);
-        $receipt = new receipt_ledger;
-        $receipt->receipt_id = $request->receipt_id;
-        $receipt->debit = $total->totalPrice;
-        $receipt->balance = $total->totalPrice;
-        $receipt->type = "S";
-        $receipt->save();
-        $sup = DB::table('receipt')->where('id',$request->receipt_id)->first();
-        $sup_bal = DB::table('customer_ledger')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('customer_id',$sup->customer_id)->first();
+        if($request->check !== 'quotation'){
+            $receipt = new receipt_ledger;
+            $receipt->receipt_id = $request->receipt_id;
+            $receipt->debit = $total->totalPrice;
+            $receipt->balance = $total->totalPrice;
+            $receipt->type = "S";
+            $receipt->save();
+            $sup = DB::table('receipt')->where('id',$request->receipt_id)->first();
+            $sup_bal = DB::table('customer_ledger')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('customer_id',$sup->customer_id)->first();
 
-        $customer_history = new customer_ledger;
-        $customer_history->customer_id = $sup->customer_id;
-        $customer_history->debit = $total->totalPrice;
-        $customer_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total->totalPrice:$total->totalPrice;
-        $customer_history->type = "S";
-        $customer_history->save();
+            $customer_history = new customer_ledger;
+            $customer_history->customer_id = $sup->customer_id;
+            $customer_history->debit = $total->totalPrice;
+            $customer_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total->totalPrice:$total->totalPrice;
+            $customer_history->type = "S";
+            $customer_history->save();
+        }else{
+            $sup = DB::table('receipt')->where('id',$request->receipt_id)->first();
+        }
+        
     	return json_encode($sup);
     }
     public function editreceipt($receiptId){
@@ -152,9 +160,42 @@ class saleorder extends Controller
         }
     }
     public function updatereceipt(Request $request){
-        $total = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.sale_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receiptId)->where('type','=','sale')->first();
-        $return = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receiptId)->where('type','=','return')->first();
+        $total = DB::table('receipt_detail')->select(DB::raw('SUM(total_price) as totalPrice'))->where('receipt_detail.receipt_id',$request->receiptId)->where('type','=','sale')->first();
+        $return = DB::table('receipt_detail')->select(DB::raw('SUM(total_price) as totalPrice'))->where('receipt_detail.receipt_id',$request->receiptId)->where('type','=','return')->first();
         DB::table('receipt')->where('id',$request->receiptId)->update(['total_amount'=>$total->totalPrice,'return_amount' => $return->totalPrice]);
+        if($request->check !== 'quotation'){
+            $ledger = DB::table('receipt_ledger')->where('receipt_id',$request->receiptId)->where('type','S')->get();
+            if(sizeof($ledger) == 0){
+                $receipt = new receipt_ledger;
+                $receipt->receipt_id = $request->receiptId;
+                $receipt->debit = $total->totalPrice;
+                $receipt->balance = $total->totalPrice;
+                $receipt->type = "S";
+                $receipt->save();
+                $sup = DB::table('receipt')->where('id',$request->receiptId)->first();
+                $sup_bal = DB::table('customer_ledger')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('customer_id',$sup->customer_id)->first();
+
+                $customer_history = new customer_ledger;
+                $customer_history->customer_id = $sup->customer_id;
+                $customer_history->debit = $total->totalPrice;
+                $customer_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total->totalPrice:$total->totalPrice;
+                $customer_history->type = "S";
+                $customer_history->save();
+                $items = DB::table('receipt_detail')->where('receipt_id')->get();
+                foreach ($items as $item) {
+                   $stock = stock::where('item_id',$item->item_id)->decrement('qty',$item->qty);
+                   $stock = stock::where('item_id',$item->item_id)->first();
+                   $ledger = new item_ledger;
+                   $ledger->item_id = $item->item_id;
+                   $ledger->sale = $item->qty;
+                   $ledger->receipt_id = $item->receipt_id;
+                   $ledger->description = 'Sale';
+                   $ledger->left     = $stock->qty;
+                   $ledger->save();
+                }
+                
+            }
+        }
         return json_encode($total);
     }
     public function searchbarcode(Request $request){
