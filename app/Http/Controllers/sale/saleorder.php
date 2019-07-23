@@ -162,6 +162,9 @@ class saleorder extends Controller
     public function updatereceipt(Request $request){
         $total = DB::table('receipt_detail')->select(DB::raw('SUM(total_price) as totalPrice'))->where('receipt_detail.receipt_id',$request->receiptId)->where('type','=','sale')->first();
         $return = DB::table('receipt_detail')->select(DB::raw('SUM(total_price) as totalPrice'))->where('receipt_detail.receipt_id',$request->receiptId)->where('type','=','return')->first();
+        if($return->totalPrice === null){
+            $return->totalPrice = 0;
+        }
         DB::table('receipt')->where('id',$request->receiptId)->update(['total_amount'=>$total->totalPrice,'return_amount' => $return->totalPrice]);
         if($request->check !== 'quotation'){
             $ledger = DB::table('receipt_ledger')->where('receipt_id',$request->receiptId)->where('type','S')->get();
