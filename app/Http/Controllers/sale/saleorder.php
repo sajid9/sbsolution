@@ -181,7 +181,7 @@ class saleorder extends Controller
                 $customer_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total->totalPrice:$total->totalPrice;
                 $customer_history->type = "S";
                 $customer_history->save();
-                $items = DB::table('receipt_detail')->where('receipt_id')->get();
+                $items = DB::table('receipt_detail')->where('receipt_id',$request->receiptId)->get();
                 foreach ($items as $item) {
                    $stock = stock::where('item_id',$item->item_id)->decrement('qty',$item->qty);
                    $stock = stock::where('item_id',$item->item_id)->first();
