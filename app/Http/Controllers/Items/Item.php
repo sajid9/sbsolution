@@ -56,7 +56,7 @@ class Item extends Controller
 		    $item->class_id       = $request->class;
 		    $item->sub_class_id   = $request->sub_class;
 		    $item->item_desc      = $request->description;
-            $item->store_id      = $request->store;
+            $item->store_id       = $request->store;
 		    if($request->has('is_active')){
 		    	$item->is_active    = $request->is_active;
 		    }else{
@@ -76,12 +76,13 @@ class Item extends Controller
     *
     */
     public function edititem($id){
-       $item = items::find($id);
+       $stores     = stores::where('is_active','yes')->get();
+       $item       = items::find($id);
        $companies  = companies::all();
        $categories = categories::all();
        $classes    = classes::where('parent_id',0)->get();
        $sub_classes = classes::where('id',$item->sub_class_id)->get();
-       return view('pages.items.edit_item_form',compact('item','companies','categories','classes','sub_classes'));
+       return view('pages.items.edit_item_form',compact('item','companies','categories','classes','sub_classes','stores'));
     }
 
      /*
@@ -102,6 +103,7 @@ class Item extends Controller
             $item->class_id       = $request->class;
             $item->sub_class_id   = $request->sub_class;
             $item->item_desc      = $request->description;
+            $item->store_id       = $request->store;
             if($request->has('is_active')){
                 $item->is_active    = $request->is_active;
             }else{

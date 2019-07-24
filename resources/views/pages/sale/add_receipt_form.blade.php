@@ -171,7 +171,7 @@
   </div>
   <div class="row">
     <div class="col-md-12" style="padding-top: 20px">
-      <button disabled type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+      <button disabled type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('sale/saleorder')}}" class="btn btn-default">Back</a>
     </div>
   </div>
 
@@ -379,6 +379,9 @@
               $('#quantity').val('');
               $('#purchase_price').val('');
               $('#sale_price').val('');
+              $('#discount').val('');
+              $('#discounted_price').val('');
+              $('#total_price').val('');
               $('#submit').prop('disabled',false);
             }
           }
@@ -399,15 +402,12 @@
         data:{receipt_id:receipt_id,check:check,_token:"{{csrf_token()}}"},
         dataType:"json",
         success:function(res){
-          if(res != null){
+          if(res != null && check == "sale"){
             window.location.href = '{{url("payment/addsopayment")}}/'+res.id+'/'+res.total_amount+'/'+res.customer_id;
+          }else{
+            window.location.href = '{{url("sale/saleorder")}}';
           }
-          $('#purchase_price').prop('disabled',true);
-          $('#sale_price').prop('disabled',true);
-          $('#barcode').prop('disabled',true);
-          $('#quantity').prop('disabled',true);
-          $('#addItem').prop('disabled',true);
-          $('#submit').prop('disabled',true);
+          
         }
       });
     })

@@ -50,17 +50,17 @@ class payment extends Controller
         if($request->paytype === "PO"){
             $payment->voucher_id = $request->voucher;
             $payment->supplier_id = $request->supplier; 
-            $payment->type = $request->subtype;   
+            $payment->type = ($request->type == 'to') ? 'P' : 'PR';   
         }
         if($request->paytype === "SO"){
             $payment->receipt_id = $request->receipt;
             $payment->customer_id = $request->customer;
-            $payment->type = $request->subtype;    
+            $payment->type = ($request->type == 'to') ? 'SR' : 'S';    
         }
-        if($request->type === "debit"){
+        if($request->type === "to"){
             $payment->debit = $request->amount;
         }
-        if($request->type === "credit"){
+        if($request->type === "from"){
             $payment->credit = $request->amount;
         }
         if($request->paytype === "EX"){

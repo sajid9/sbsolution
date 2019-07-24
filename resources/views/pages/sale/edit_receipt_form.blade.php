@@ -144,7 +144,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$receiptId}}','{{$item->item->id}}','{{$item->qty}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$receiptId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$receiptId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->sale_price}}','{{$item->discount}}','{{$item->total_price}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$receiptId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach
          </tbody>
@@ -192,7 +192,7 @@
       </div>
     </div>
     <div class="col-md-6" style="padding-top: 20px">
-      <button type="button" id="submit" class="btn btn-primary">Update</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+      <button type="button" id="submit" class="btn btn-primary">Update</button> <a href="{{url('sale/saleorder')}}" class="btn btn-default">Back</a>
     </div>
   </div>
 
@@ -253,6 +253,9 @@
             @csrf
             <input type="hidden" name="receipt_id" id="receipt_id">
             <input type="hidden" name="item_id" id="item_id">
+            <input type="hidden" name="sale_price" id="sale_price_modal">
+            <input type="hidden" name="discount" id="discount_modal">
+            <input type="hidden" name="total_price" id="total_price_modal">
             <div class="form-group">
               <label for="t_qty">Total Quantity</label>
               <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
@@ -300,11 +303,14 @@
           });
           $('[data-toggle="tooltip"]').tooltip();
       });
-    function returnItem(receiptId,itemId,qty){
+    function returnItem(receiptId,itemId,qty,salePrice,discount,totalPrice){
       $('#returnItem').modal('show');
       $('#t_qty').val(qty);
       $('#receipt_id').val(receiptId);
       $('#item_id').val(itemId);
+      $('#sale_price_modal').val(salePrice);
+      $('#discount_modal').val(discount);
+      $('#total_price_modal').val(totalPrice);
     } 
     $('#qty').on('keyup',function(){
       var total_qty = parseInt($('#t_qty').val());

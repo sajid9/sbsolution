@@ -52,7 +52,7 @@
     </div>
   </div>
   
-  <button type="submit" class="btn btn-primary">submit</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+  <button type="submit" class="btn btn-primary">submit</button> <a href="{{url('/')}}" class="btn btn-default">Back</a>
 </form>
 {{-- form end --}}
 

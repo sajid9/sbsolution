@@ -8,7 +8,10 @@
 </head>
 <body>
 
-<h1 style="text-align: center;">Amount Payable</h1>
+<h1 style="text-align: center;">Amount Receivable</h1>
+@if(isset($op_bal))
+<h3 style="text-align: right; padding-right: 20px;">Opening Balance: {{(sizeof($op_bal) > 0) ? $op_bal[0]->debit : 0}}</h3>
+@endif
 <div style="padding:10px;">
 
 <table class="table table-striped">
@@ -40,7 +43,11 @@
           <table class="table" style="font-size: 12px">
             <tr>
               <td><strong>Total:</strong></td>
+              @if(isset($op_bal))
+              <td>{{(sizeof($op_bal) > 0) ? $op_bal[0]->debit + $total[0]->total : $total[0]->total}}</td>
+              @else
               <td>{{$total[0]->total}}</td>
+              @endif
             </tr>
           </table>
         </div>

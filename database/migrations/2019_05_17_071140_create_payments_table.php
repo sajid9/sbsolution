@@ -20,8 +20,8 @@ class CreatePaymentsTable extends Migration
             $table->string('method')->nullable();
             $table->string('financial_year')->nullable();
             $table->integer('account_id');
-            $table->integer('credit')->nullable();
-            $table->integer('debit')->nullable();
+            $table->integer('credit')->default(0);
+            $table->integer('debit')->default(0);
             $table->integer('customer_id')->nullable();
             $table->integer('supplier_id')->nullable();
             $table->enum('type',['P','PR','EXP','S','SR']);

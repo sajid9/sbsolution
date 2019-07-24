@@ -152,7 +152,7 @@
   </div>
   <div class="row">
     <div class="col-md-12" style="padding-top: 20px">
-      <button disabled type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+      <button disabled type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('voucher/voucherlisting')}}" class="btn btn-default">Back</a>
     </div>
   </div>
 

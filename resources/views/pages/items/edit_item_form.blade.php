@@ -48,6 +48,16 @@
     </div>
     <div class="col-md-6">
       <div class="form-group">
+        <label for="store">Store </label>
+        <select name="store" class="form-control" id="store" aria-describedby="store">
+          <option value="">Select store</option>
+          @foreach($stores as $store)
+            <option value="{{$store->id}}" {{($item->store_id == $store->id) ? 'selected' : ''}}>{{ $store->name}}</option>
+          @endforeach
+        </select>
+        <small id="store" class="form-text text-muted text-danger">{{$errors->first('store')}}</small>
+      </div>
+      <div class="form-group">
         <label for="company">Company </label>
         <select name="company" class="form-control" id="company" aria-describedby="company">
           <option value="">Select Company</option>

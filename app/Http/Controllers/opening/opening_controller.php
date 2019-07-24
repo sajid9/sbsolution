@@ -48,15 +48,15 @@ class opening_controller extends Controller
     public function save_supplier(Request $request){
         $check = DB::table('supplier_history')->where('type','OP')->where('supplier_id',$request->supplier)->get();
         if(sizeof($check) == 0){
-            $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('supplier_id',$request->supplier)->first();
+            $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$request->supplier)->first();
             $ledger = new supplier_history;
             $ledger->supplier_id = $request->supplier;
             if($request->type == 'debit'){
                 $ledger->debit = $request->amount;
-                $ledger->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
+                $ledger->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
             }else{
                 $ledger->credit = $request->amount;
-                $ledger->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
+                $ledger->balance = ($sup_bal->balance != null)? $sup_bal->balance + $request->amount:$request->amount;
             }
             $ledger->type = 'OP';
             $ledger->save();

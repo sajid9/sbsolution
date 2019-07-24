@@ -24,7 +24,7 @@ class invoice extends Controller
     public function purchasereturninvoice($id){
     	$data = DB::table('voucher')->leftJoin('suppliers','voucher.supplier_id','=','suppliers.id')->where('voucher.id',$id)->first();
     	$items = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->where('voucher_detail.type','return')->where('voucher_detail.voucher_id',$id)->get();
-    	return view('pages.invoices.sale_invoice',compact('data','items'));
+    	return view('pages.invoices.puchase_return_invoice',compact('data','items'));
     }
     public function amountpayable(){
        $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0');
@@ -56,8 +56,9 @@ class invoice extends Controller
     }
     public function customerreceivableinvoice(Request $request){
       $id = $request->customer_id;
+      $op_bal = DB::table('customer_ledger')->where('type','OP')->where('customer_id',$id)->get();
        $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0 AND customer_id ='.$id);
        $data = DB::select('SELECT * FROM receipt Left Join customers ON receipt.customer_id = customers.id WHERE total_amount - (paid_amount + return_amount) > 0 AND customer_id ='.$id);
-       return view('pages.invoices.amount_receivable_invoice',compact('total','data'));
+       return view('pages.invoices.amount_receivable_invoice',compact('total','data','op_bal'));
     }
 }

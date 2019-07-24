@@ -114,11 +114,17 @@ class saleorder extends Controller
 
     public function returnitem(Request $request){
         try{
+            $price = $request->sale_price * $request->quantity;
+            $total_price = $request->total_price / $request->quantity;
+            $discount = $price - $total_price;
             $item = new receipt_detail;
-            $item->receipt_id = $request->receipt_id;
-            $item->item_id = $request->item_id;
-            $item->qty = $request->quantity;
-            $item->type = 'return';
+            $item->receipt_id  = $request->receipt_id;
+            $item->item_id     = $request->item_id;
+            $item->qty         = $request->quantity;
+            $item->sale_price  = $request->sale_price;
+            $item->discount    = $discount;
+            $item->total_price = $total_price;
+            $item->type        = 'return';
             $item->save();
             stock::where('item_id',$request->item_id)->increment('qty',$request->quantity);
             $stock = stock::where('item_id',$request->item_id)->first();
@@ -129,7 +135,7 @@ class saleorder extends Controller
             $ledger->purchase = $request->quantity;
             $ledger->left     = $stock->qty;
             $ledger->save();
-            $total = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * receipt_detail.qty) as totalPrice'))->where('receipt_detail.receipt_id',$request->receipt_id)->where('type','=','return')->first();
+            $total = DB::table('receipt_detail')->select(DB::raw('SUM(total_price) as totalPrice'))->where('receipt_id',$request->receipt_id)->where('type','=','return')->first();
             DB::table('receipt')->where('id',$request->receipt_id)->update(['return_amount'=>$total->totalPrice]);
             $credit = DB::table('items')->select(DB::raw('purchase_price *'.$request->quantity.' as creditbal'))->where('id',$request->item_id)->first();
             $bal = DB::table('receipt')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->receipt_id)->first();

@@ -117,10 +117,10 @@
                                 <a href="{{url('voucher/voucherlisting')}}">Purchase Order</a>
                             </li>
                             <li>
-                                <a href="{{url('ledger/voucherhistory')}}">Voucher History</a>
+                                <a href="{{url('ledger/voucherhistory')}}" target="_blank">Voucher History</a>
                             </li>
                             <li>
-                                <a href="{{url('ledger/supplierhistory')}}">Supplier History</a>
+                                <a href="{{url('ledger/supplierhistory')}}" target="_blank">Supplier History</a>
                             </li>
                             <li>
                                 <a href="{{url('supplier/supplierlisting')}}"> Add Suppliers</a>
@@ -144,10 +144,10 @@
                                 <a href="{{url('sale/saleorder')}}">Sale Order</a>
                             </li>
                             <li>
-                                <a href="{{url('ledger/customerledger')}}">Customer ledger</a>
+                                <a href="{{url('ledger/customerledger')}}" target="_blank">Customer ledger</a>
                             </li>
                             <li>
-                                <a href="{{url('ledger/receiptledger')}}">Receipt ledger</a>
+                                <a href="{{url('ledger/receiptledger')}}" target="_blank">Receipt ledger</a>
                             </li>
                             <li>
                                 <a href="{{url('customer/customerlisting')}}">Add Customers</a>
@@ -156,7 +156,7 @@
                                 <a href="{{url('opening/customer')}}">opening Customer</a>
                             </li>
                             <li>
-                                <a href="{{url('invoice/amountreceivable')}}">Receipt Receivable</a>
+                                <a href="{{url('invoice/amountreceivable')}}" target="_blank">Receipt Receivable</a>
                             </li>
                             <li>
                                 <a href="{{url('invoice/customerreceivable')}}">Customer Receivable</a>

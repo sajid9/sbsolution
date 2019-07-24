@@ -29,7 +29,7 @@
     <small id="supplier" class="form-text text-muted text-danger">{{$errors->first('supplier_id')}}</small>
   </div>
   
-  <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('category/categorylisting')}}" class="btn btn-default">Back</a>
+  <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('/')}}" class="btn btn-default">Back</a>
 </form>
 {{-- form end --}}
 

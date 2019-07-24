@@ -144,7 +144,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->purchase_price}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach
          </tbody>
@@ -185,7 +185,7 @@
   </div>
   <div class="row">
     <div class="col-md-12" style="padding-top: 20px">
-      <button type="button" id="submit" class="btn btn-primary">Update</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
+      <button type="button" id="submit" class="btn btn-primary">Update</button> <a href="{{url('voucher/voucherlisting')}}" class="btn btn-default">Back</a>
     </div>
   </div>
 
@@ -246,6 +246,7 @@
             @csrf
             <input type="hidden" name="voucher_id" id="voucher_id">
             <input type="hidden" name="item_id" id="item_id">
+            <input type="hidden" name="purchase_price" id="purchase_price_modal">
             <div class="form-group">
               <label for="t_qty">Total Quantity</label>
               <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
@@ -293,11 +294,12 @@
           });
           $('[data-toggle="tooltip"]').tooltip();
       });
-    function returnItem(voucherId,itemId,qty){
+    function returnItem(voucherId,itemId,qty,purchasePrice){
       $('#returnItem').modal('show');
       $('#t_qty').val(qty);
       $('#voucher_id').val(voucherId);
       $('#item_id').val(itemId);
+      $('#purchase_price_modal').val(purchasePrice);
     } 
     $('#qty').on('keyup',function(){
       var total_qty = parseInt($('#t_qty').val());
@@ -423,11 +425,12 @@
     });
     $('#addItem').on('click',function(){
       var data  = {};
-      data.itemId    = $('#itemId').val();
-      data.quantity  = $('#quantity').val();
-      data.voucherId = $('#vouchernumber').val();
-      data.type      = "purchase";
-      data._token    = "{{csrf_token()}}";
+      data.itemId         = $('#itemId').val();
+      data.quantity       = $('#quantity').val();
+      data.voucherId      = $('#vouchernumber').val();
+      data.purchasePrice = $('#purchase_price').val();
+      data.type           = "purchase";
+      data._token         = "{{csrf_token()}}";
       if(data.quantity == ''){
         $('#quantity_msg').text('This field is required');
       }else{

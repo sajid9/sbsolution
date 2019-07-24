@@ -16,7 +16,7 @@
 <div class="panel-body">
 
 {{-- form start  --}}
-<form method="post" action="{{url('invoice/customerreceivableinvoice')}}">
+<form method="post" action="{{url('invoice/customerreceivableinvoice')}}" target="_blank">
 	@csrf
   <div class="form-group">
     <label for="customer">Customer <span class="text-danger">*</span></label>

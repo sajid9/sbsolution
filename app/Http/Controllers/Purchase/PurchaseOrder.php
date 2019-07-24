@@ -196,6 +196,7 @@ class PurchaseOrder extends Controller
             $item->voucher_id = $request->voucher_id;
             $item->item_id = $request->item_id;
             $item->qty = $request->quantity;
+            $item->purchase_price = $request->purchase_price;
             $item->type = 'return';
             $item->save();
             stock::where('item_id',$request->item_id)->decrement('qty',$request->quantity);

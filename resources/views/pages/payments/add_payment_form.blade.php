@@ -74,8 +74,8 @@
     <label for="type">Type</label>
     <select name="type" class="form-control" id="type" aria-describedby="type">
       <option value=""> Select type</option>
-      <option value="debit"> Debit</option>
-      <option value="credit"> Credit</option>
+      <option value="to">Payment to Supplier</option>
+      <option value="from">Payment from Supplier</option>
     </select>
     <small id="type" class="form-text text-muted text-danger">{{$errors->first('type')}}</small>
   </div>
@@ -88,15 +88,6 @@
       @endforeach
     </select>
     <small id="fn_year" class="form-text text-muted text-danger">{{$errors->first('fn_year')}}</small>
-  </div>
-  <div class="form-group">
-    <label for="subtype">Subtype</label>
-    <select name="subtype" class="form-control" id="subtype" aria-describedby="subtype">
-      <option value=""> Select Subtype</option>
-      <option value="P"> Puchase</option>
-      <option value="PR"> Puchase Return</option>
-    </select>
-    <small id="subtype" class="form-text text-muted text-danger">{{$errors->first('subtype')}}</small>
   </div>
 </template>
 {{-- receipt template --}}
@@ -150,19 +141,10 @@
     <label for="type">Type</label>
     <select name="type" class="form-control" id="type" aria-describedby="type">
       <option value=""> Select type</option>
-      <option value="debit"> Debit</option>
-      <option value="credit"> Credit</option>
+      <option value="to"> Payment to Customer</option>
+      <option value="from"> Payment from Customer</option>
     </select>
     <small id="type" class="form-text text-muted text-danger">{{$errors->first('type')}}</small>
-  </div>
-    <div class="form-group">
-    <label for="subtype">Subtype</label>
-    <select name="subtype" class="form-control" id="subtype" aria-describedby="subtype">
-      <option value=""> Select Subtype</option>
-      <option value="S"> Sale</option>
-      <option value="SR"> Sale Return</option>
-    </select>
-    <small id="subtype" class="form-text text-muted text-danger">{{$errors->first('subtype')}}</small>
   </div>
 </template>
 {{-- expenditure template --}}
