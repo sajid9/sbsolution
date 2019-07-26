@@ -118,9 +118,7 @@
         notes: [
           { "date": "2019-7-6", "note": ["Happy New Year 2016"] }
           ],
-    
         showNotes: true,
-    
     });
     my_calendar.build();
 

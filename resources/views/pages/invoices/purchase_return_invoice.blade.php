@@ -10,16 +10,16 @@
 	<?php $date=date_create($data->created_at); ?>
 <div class="container">
 	<div class="row">
-		<div class="col-md-6 col-xs-6"><img src="{{ asset('images/SB.png') }}" alt=""></div>
+		<div class="col-md-6 col-xs-6"><img class="img-responsive"  src="{{ env('APP_URL') }}/storage/app/{{$company->logo}}" alt=""></div>
 		<div class="col-md-6 col-xs-6" style="text-align: right;"><h1>Purchase Return INVOICE</h1></div>
 	</div>
 	<div class="row">
 		<div class="col-md-3 col-xs-3">
-			<h6>SB Sofware Solutions</h6>
-			<h6>123 Main Street</h6>
-			<h6>Hamiton,OH 616</h6>
-			<h6>(021) 9996999</h6>
-			<h6>Email Address</h6>
+			<h6>{{$company->name}}</h6>
+			<h6>{{$company->address}}</h6>
+			<h6>{{$company->phone}}</h6>
+			<h6>{{$company->email}}</h6>
+			<h6>{{$company->website}}</h6>
 		</div>
 		<div class="col-md-3 col-xs-3 col-md-offset-6 col-xs-offset-6">
 			<div style="background-color: #efefef;text-align: center;">Date</div>
@@ -101,8 +101,6 @@
 				<th>Qty</th>
 				<th>Price</th>
 				<th>Total</th>
-				<th>Discount</th>
-				<th>Amount</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -112,10 +110,8 @@
 					<td>{{++$count}}</td>
 					<td>{{$item->item_name}}</td>
 					<td>{{$item->qty}}</td>
-					<td>{{$item->sale_price}}</td>
-					<td>{{$item->sale_price * $item->qty}}</td>
-					<td>{{$item->discount}}</td>
-					<td>{{$item->total_price}}</td>
+					<td>{{$item->purchase_price}}</td>
+					<td>{{$item->purchase_price * $item->qty}}</td>
 				</tr>
 			@endforeach
 		</tbody>
@@ -149,8 +145,8 @@
 		<div class="row">
 			<div class="col-md-12" style="text-align: center;">
 				For question concerning this invoice please contact 
-				<div>Phone: 051-5738082</div>
-				<div>Email: info@sbsoftwaresolutions.com</div>
+				<div>Phone: {{$company->phone}}</div>
+				<div>Email: {{$company->email}}</div>
 			</div>
 		</div>
 	</div>

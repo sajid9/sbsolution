@@ -25,6 +25,7 @@
       <option value="SO">Receipt (SO)</option>
       <option value="PO">Voucher (PO)</option>
       <option value="EX">Expenditure (EXP)</option>
+      <option value="DPTS">Direct payment to supplier</option>
     </select>
     <small id="paytype_msg" class="form-text text-muted text-danger">{{$errors->first('paytype')}}</small>
   </div>
@@ -90,17 +91,67 @@
     <small id="fn_year" class="form-text text-muted text-danger">{{$errors->first('fn_year')}}</small>
   </div>
 </template>
+
+{{-- direct payment to supplier --}}
+
+<template id="dpts_con">
+  <div class="form-group">
+    <label for="supplier">supplier</label>
+    <select  class="form-control" name="supplier" id="supplier">
+      <option value="">Select Supplier</option>
+      @foreach($suppliers as $supplier)
+      <option value="{{$supplier->id}}">{{$supplier->supplier_name}}</option>
+      @endforeach
+    </select>
+    <small id="supplier_msg" class="form-text text-muted text-danger">{{$errors->first('supplier')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="account">Account</label>
+    <select name="account" class="form-control" id="account" aria-describedby="account_msg">
+      <option value=""> Select Account</option>
+      @foreach($accounts as $account)
+      <option value="{{$account->id}}">{{$account->account_title}}</option>
+      @endforeach
+    </select>
+    <small id="account_msg" class="form-text text-muted text-danger">{{$errors->first('account')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="amount">Amount <span class="text-danger">*</span></label>
+    <input type="number" name="amount" value="{{old('amount')}}" class="form-control" id="amount" aria-describedby="amount" placeholder="enter the amount">
+    <small id="amount" class="form-text text-muted text-danger">{{$errors->first('amount')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="type">Type</label>
+    <select name="type" class="form-control" id="type" aria-describedby="type">
+      <option value=""> Select type</option>
+      <option value="to">Payment to Supplier</option>
+      <option value="from">Payment from Supplier</option>
+    </select>
+    <small id="type" class="form-text text-muted text-danger">{{$errors->first('type')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="fn_year">Fianancial Year</label>
+    <select name="fn_year" class="form-control" id="fn_year" aria-describedby="fn_year">
+      <option value=""> Select Fianancial Year</option>
+      @foreach($years as $year)
+      <option>{{$year->year}}</option>
+      @endforeach
+    </select>
+    <small id="fn_year" class="form-text text-muted text-danger">{{$errors->first('fn_year')}}</small>
+  </div>
+</template>
+
 {{-- receipt template --}}
 <template id="receipt_con">
   <div class="form-group">
     <label for="receipt">Receipt</label>
-    <select name="receipt" class="form-control" id="receipt" aria-describedby="receipt">
+    <select name="receipt" class="form-control" id="receipt" aria-describedby="receipt_msg">
       <option value=""> Select receipt</option>
       @foreach($receipts as $receipt)
       <option value="{{$receipt->id}}"> {{$receipt->receipt_no}}</option>
       @endforeach
     </select>
-    <small id="receipt" class="form-text text-muted text-danger">{{$errors->first('receipt')}}</small>
+    <small id="receipt_msg" class="form-text text-muted text-danger">{{$errors->first('receipt')}}</small>
   </div>
   <div class="form-group">
     <label for="account">Account</label>
@@ -248,8 +299,11 @@ $('#paytype').on('change',function(){
   }else if(type == 'SO'){
     var temp = $('#receipt_con').html();
     $('#append_con').html(temp);
-  }else{
+  }else if(type == 'EX'){
     var temp = $('#exp_con').html();
+    $('#append_con').html(temp);
+  }else{
+    var temp = $('#dpts_con').html();
     $('#append_con').html(temp);
   }
 });
@@ -282,6 +336,31 @@ $(document).on('change','#head',function(){
     }
   })
 });
+$(document).on('blur','#amount',function(){
+  var data = {};
+      data.voucher = $('#voucherId').val();
+      data.amount  = $(this).val();
+      data._token  = "{{csrf_token()}}";
+      if(data.voucher == ''){
+        alert('please select the voucher first');
+        $('#amount').val('');
+        return 0;
+      }
+  $.ajax({
+    url:'{{url("payment/checkamount")}}',
+    type:'post',
+    dataType:'json',
+    data:data,
+    success:function(res){
+      var paid = res.paid_amount + res.return_amount;
+      var bal  = res.total_amount - paid;
+      if(data.amount > bal){
+        alert('paid amount should be less then balance amount.Balance amount is '+bal);
+        $('#amount').val('');
+      }
+    }
+  });
+})
 
 </script>
 @endsection

@@ -52,6 +52,10 @@ class payment extends Controller
             $payment->supplier_id = $request->supplier; 
             $payment->type = ($request->type == 'to') ? 'P' : 'PR';   
         }
+        if($request->paytype === "DPTS"){
+            $payment->supplier_id = $request->supplier; 
+            $payment->type = ($request->type == 'to') ? 'P' : 'PR';   
+        }
         if($request->paytype === "SO"){
             $payment->receipt_id = $request->receipt;
             $payment->customer_id = $request->customer;
@@ -77,22 +81,15 @@ class payment extends Controller
         }
         $payment->financial_year = $request->fn_year;
         $payment->save();
-        /*$request->validate([
-            "type"=>"required",
-            "amount"=>"required",
-            "method"=>"required"
-        ]);
-    	$payment = new payments;
-        if($request->voucher != null){
-    	    $payment->voucher_id = $request->voucher;
-            $payment->trans_type = 'credit';
-        }else{
-            $payment->trans_type = 'debit';
-            $payment->receipt_id = $request->receipt;
+        if($request->voucher == null && $request->supplier != null){
+            $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$request->supplier)->first();
+            $supplier_history = new supplier_history;
+            $supplier_history->supplier_id = $request->supplier;
+            $supplier_history->debit = $request->amount;
+            $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
+            $supplier_history->type = "Payment";
+            $supplier_history->save();
         }
-    	$payment->amount = $request->amount;
-    	$payment->method = $request->method;
-    	$payment->save();*/
         if($request->voucher != null){
             DB::table('voucher')->where('id',$request->voucher)->increment('paid_amount',$request->amount);
             $sup = DB::table('voucher')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->voucher)->first();
@@ -104,7 +101,6 @@ class payment extends Controller
             $supplier->save();
             $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucher)->first();
             $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
-
             $supplier_history = new supplier_history;
             $supplier_history->supplier_id = $sup->supplier_id;
             $supplier_history->debit = $request->amount;
@@ -112,7 +108,6 @@ class payment extends Controller
             $supplier_history->type = "Payment";
             $supplier_history->save();
             $cash_bal = DB::table('cash')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->first();
-
             $cash = new cash;
             $cash->credit = $request->amount;
             $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $request->amount:$request->amount;
@@ -129,7 +124,6 @@ class payment extends Controller
             $supplier->save();
             $sup = DB::table('receipt')->select('customer_id')->where('id',$request->receipt)->first();
             $sup_bal = DB::table('customer_ledger')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('customer_id',$sup->customer_id)->first();
-
             $supplier_history = new customer_ledger;
             $supplier_history->customer_id = $sup->customer_id;
             $supplier_history->credit = $request->amount;
@@ -137,14 +131,12 @@ class payment extends Controller
             $supplier_history->type = "Payment";
             $supplier_history->save();
             $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
-
             $cash = new cash;
             $cash->debit = $request->amount;
             $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $request->amount:$request->amount;
             $cash->event = "S";
             $cash->save();
         }
-
     	return redirect()->to('payment/paymentlisting')->with('message','payment done successfully');
     }
     public function addpaymentsale(Request $request){
@@ -193,5 +185,10 @@ class payment extends Controller
         $year = financial_year::find($id);
         $year->delete();
         return redirect()->to('payment/financialyear');
+    }
+    public function check_paid_amount(Request $request)
+    {
+        $voucher = voucher::find($request->voucher);
+        return json_encode($voucher);
     }
 }

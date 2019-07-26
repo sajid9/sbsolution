@@ -114,16 +114,19 @@ class saleorder extends Controller
 
     public function returnitem(Request $request){
         try{
-            $price = $request->sale_price * $request->quantity;
-            $total_price = $request->total_price / $request->quantity;
-            $discount = $price - $total_price;
+            /*calculate the discount and total price of returned items*/
+            $one_piece_price = $request->total_price / $request->total_quantity;
+            $price = $one_piece_price * $request->quantity;
+            $one_piece_discount = $request->discount / $request->total_quantity;
+            $discount = $one_piece_discount * $request->quantity;
+            
             $item = new receipt_detail;
             $item->receipt_id  = $request->receipt_id;
             $item->item_id     = $request->item_id;
             $item->qty         = $request->quantity;
             $item->sale_price  = $request->sale_price;
             $item->discount    = $discount;
-            $item->total_price = $total_price;
+            $item->total_price = $price;
             $item->type        = 'return';
             $item->save();
             stock::where('item_id',$request->item_id)->increment('qty',$request->quantity);

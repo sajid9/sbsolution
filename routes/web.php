@@ -170,6 +170,7 @@ Route::prefix('payment')->middleware(['auth'])->group(function(){
     Route::get('addfinancialyear','payments\payment@addfinancialyear');
     Route::post('addfnyear','payments\payment@add_fnyear');
     Route::get('deleteyear/{id}','payments\payment@delete_year');
+    Route::post('checkamount','payments\payment@check_paid_amount');
 
 });
 
@@ -266,6 +267,10 @@ Route::prefix('expenditure')->middleware(['auth'])->group(function(){
     Route::post('updatemonth','expenditure\expenditure@updatemonth');
     Route::post('getsubhead','expenditure\expenditure@getsubhead');
     
+});
+Route::prefix('user')->middleware(['auth'])->group(function(){
+    Route::get('companysetting','User\User@company_setting');
+    Route::post('addcompanysetting','User\User@add_company_setting');
 });
 
 Auth::routes();

@@ -175,7 +175,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><a href="{{url('invoice/salereturn/'.$receipt->id)}}"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <i class="glyphicon glyphicon-trash cursor" onclick='removeReturnItem("{{$item->id}}","{{$receiptId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td><a target="_blank" href="{{url('invoice/salereturn/'.$receipt->id)}}"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <i class="glyphicon glyphicon-trash cursor" onclick='removeReturnItem("{{$item->id}}","{{$receiptId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach
          </tbody>
@@ -258,7 +258,7 @@
             <input type="hidden" name="total_price" id="total_price_modal">
             <div class="form-group">
               <label for="t_qty">Total Quantity</label>
-              <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
+              <input type="number" name="total_quantity" readonly="" class="form-control" id="t_qty">
             </div>
             <div class="form-group">
               <label for="qty">Quantity</label>
