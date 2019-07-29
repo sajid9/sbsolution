@@ -52,4 +52,32 @@ class User extends Controller
     	}
     	
     }
+    public function profile()
+    {
+        return view('pages.user.add_profile_form');    
+    }
+    public function update_profile(Request $request)
+    {
+        $user = \Auth::user();
+        $user->name = $request->user_name;
+        $user->email = $request->user_email;
+        $user->save();
+        return redirect()->back()->with('message','Profile Updated Successfully');
+    }
+    public function change_password()
+    {
+        return view('pages.user.update_password_form');
+    }
+    public function update_password(Request $request)
+    {
+        $request->validate([
+            'password_confirmation' => 'required',
+            'password' => 'required|confirmed'
+        ]);
+
+        $user = \Auth::user();
+        $user->password = bcrypt($request->password);
+        $user->save();
+        return redirect()->to('/logout');
+    }
 }

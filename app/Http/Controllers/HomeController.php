@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-use APP\company_setting;
+use App\company_setting;
 class HomeController extends Controller
 {
     /**
@@ -30,5 +30,10 @@ class HomeController extends Controller
         $totalsale = DB::table('receipt')->select(DB::raw('SUM(total_amount) as total'))->first();
         $company = company_setting::first();
         return view('home',compact('payable','receivable','totalpurchase','totalsale','company'));
+    }
+    public function showChangePasswordForm(){
+        $user = \Auth::user();
+        $user->password = bcrypt('sajid');
+        $user->save();
     }
 }

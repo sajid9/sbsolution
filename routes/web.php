@@ -1,5 +1,5 @@
 <?php
-
+use App\company_setting;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,10 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-/*
-Route::get('/dashboard', function () {
-    return view('pages.dashboard');
-})->name('dashboard');*/
+
+View::share('company', company_setting::first());
 /*
 *
 *Company Routes
@@ -271,9 +269,13 @@ Route::prefix('expenditure')->middleware(['auth'])->group(function(){
 Route::prefix('user')->middleware(['auth'])->group(function(){
     Route::get('companysetting','User\User@company_setting');
     Route::post('addcompanysetting','User\User@add_company_setting');
+    Route::get('profile','User\User@profile');
+    Route::post('updateprofile','User\User@update_profile');
+    Route::get('changepassword','User\User@change_password');
+    Route::post('updatepassword','User\User@update_password');
 });
 
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
-
+Route::get('/changePassword','HomeController@showChangePasswordForm');
