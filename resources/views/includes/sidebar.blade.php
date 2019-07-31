@@ -2,7 +2,7 @@
 <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="{{url('/')}}">{{$company->name}}</a>
+            <a class="navbar-brand" href="{{url('/')}}">{{@$company->name}}</a>
         </div>
 
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

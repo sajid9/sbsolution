@@ -17,6 +17,8 @@
 
 <!-- Custom CSS -->
 <link href="{{ asset('css/startmin.css') }}" rel="stylesheet">
+{{-- toast messages --}}
+<link href="{{ asset('css/jquery.toast.css') }}" rel="stylesheet">
 
 <!-- Morris Charts CSS -->
 <link href="{{ asset('css/morris.css') }}" rel="stylesheet">

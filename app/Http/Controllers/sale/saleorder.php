@@ -140,11 +140,11 @@ class saleorder extends Controller
             $ledger->save();
             $total = DB::table('receipt_detail')->select(DB::raw('SUM(total_price) as totalPrice'))->where('receipt_id',$request->receipt_id)->where('type','=','return')->first();
             DB::table('receipt')->where('id',$request->receipt_id)->update(['return_amount'=>$total->totalPrice]);
-            $credit = DB::table('items')->select(DB::raw('purchase_price *'.$request->quantity.' as creditbal'))->where('id',$request->item_id)->first();
+            
             $bal = DB::table('receipt')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->receipt_id)->first();
             $receipt = new receipt_ledger;
             $receipt->receipt_id = $request->receipt_id;
-            $receipt->credit = $credit->creditbal;
+            $receipt->credit = $price;
             $receipt->balance = $bal->balance;
             $receipt->type = "SR";
             $receipt->save();
@@ -152,16 +152,12 @@ class saleorder extends Controller
             $sup_bal = DB::table('customer_ledger')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('customer_id',$sup->customer_id)->first();
             $customer = new customer_ledger;
             $customer->customer_id = $sup->customer_id;
-            $customer->credit = $credit->creditbal;
-            $customer->balance = $sup_bal->balance - $credit->creditbal;
+            $customer->credit = $price;
+            $customer->balance = $sup_bal->balance - $price;
             $customer->type = "SR";
             $customer->save();
             $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
-            $cash = new cash;
-            $cash->credit = $total->totalPrice;
-            $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $request->amount:$request->amount;
-            $cash->event = 'SR';
-            $cash->save();
+            
             $returnItems = receipt_detail::with('item')->where('receipt_id',$request->receipt_id)->where('type','return')->get();
             return json_encode($returnItems);
         }catch(Exeption $e){
@@ -219,5 +215,11 @@ class saleorder extends Controller
         }else{
             return json_encode($item);
         }
+    }
+    public function selectcustomer(Request $request)
+    {
+        $receipt = receipt::find($request->id);
+        $customer = customers::find($receipt->customer_id);
+        return json_encode(['customer' => $customer,'receipt'=> $receipt]);
     }
 }

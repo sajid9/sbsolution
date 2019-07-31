@@ -2,6 +2,7 @@
 
 <!-- jQuery -->
 <script src="<?php echo e(asset('js/jquery.min.js')); ?>"></script>
+<script src="<?php echo e(asset('js/jquery.toast.js')); ?>"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="<?php echo e(asset('js/bootstrap.min.js')); ?>"></script>

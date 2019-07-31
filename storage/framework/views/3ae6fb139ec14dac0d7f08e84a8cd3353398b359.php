@@ -1,5 +1,5 @@
 <?php $__env->startSection('title', 'Dashboard'); ?>
-<?php $__env->startSection('pagetitle', 'Sale Order'); ?>
+<?php $__env->startSection('pagetitle', 'Supplier'); ?>
 
 
 <?php $__env->startSection('header'); ?>
@@ -12,8 +12,8 @@
 <?php $__env->startSection('content'); ?>
 <div class="row" style="padding-bottom: 10px">
 	<div class="col-md-12">
-		<a href="<?php echo e(url('sale/addreceiptform')); ?>" class="btn btn-social btn-bitbucket pull-right">
-		    <i class="fa fa-plus"></i> Add Receipt
+		<a href="<?php echo e(url('supplier/addsupplierform')); ?>" class="btn btn-social btn-bitbucket pull-right">
+		    <i class="fa fa-plus"></i> Add Supplier
 		</a>
 	</div>
 </div>
@@ -21,38 +21,40 @@
 	<div class="col-md-12">
 				
 		<?php echo $__env->make('includes.alerts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+		
 		
 		<div class="panel panel-default">
 		    <div class="panel-heading">
-		        Receipt Listing
+		        Supplier Listing
 		    </div>
 		    <div class="panel-body">
-			    <table class="table table-striped table-bordered table-hover" id="dataTables-voucher">
+			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
 			                <th>Sr#</th>
-			                <th>Receipt No</th>
-			                <th>Customer</th>
-			                <th>Total Amount</th>
-			                <th>Paid Amount</th>
-			                <th>Return Amount</th>
-			                <th>Balance Amount</th>
+			                <th>Supplier Name</th>
+			                <th>Phone</th>
+			                <th>Mobile</th>
+			                <th>Email</th>
+			                <th>Address</th>
+			                <th>Website</th>
+			                <th>Cnic</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			        	<?php $count = 0; ?>
-			        	<?php $__currentLoopData = $receipts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $receipt): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+			        	<?php $__currentLoopData = $suppliers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $supplier): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 			            <tr class="odd gradeX">
 			                <td><?php echo e(++$count); ?></td>
-			                <td><?php echo e($receipt->receipt_no); ?></td>
-			                <td><?php echo e($receipt->customer_id); ?></td>
-			                <td><?php echo e($receipt->total_amount); ?></td>
-			                <td><?php echo e($receipt->paid_amount); ?></td>
-			                <td><?php echo e($receipt->return_amount); ?></td>
-			                <td><?php echo e($receipt->total_amount - ($receipt->paid_amount + $receipt->return_amount)); ?></td>
-			                <td><a href="<?php echo e(url('invoice/sale/'.$receipt->id)); ?>"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <a href="<?php echo e(url('sale/editreceipt/'.$receipt->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a></td>
+			                <td><?php echo e($supplier->supplier_name); ?></td>
+			                <td><?php echo e($supplier->phone); ?></td>
+			                <td><?php echo e($supplier->mobile); ?></td>
+			                <td><?php echo e($supplier->email); ?></td>
+			                <td><?php echo e($supplier->address); ?></td>
+			                <td><?php echo e($supplier->website); ?></td>
+			                <td><?php echo e($supplier->cnic); ?></td>
+			                <td><a href="<?php echo e(url('supplier/editsupplier/'.$supplier->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -74,12 +76,18 @@
 	<script src="<?php echo e(asset('js/dataTables/dataTables.bootstrap.min.js')); ?>"></script>
 	<script>
 	    $(document).ready(function() {
-	        $('#dataTables-voucher').DataTable({
+	        $('#dataTables-example').DataTable({
 	                responsive: true,
-	                columnDefs: [ { orderable: false, targets: [7] } ]
+	                columnDefs: [ { orderable: false, targets: [8] } ]
 	        });
 	        $('[data-toggle="tooltip"]').tooltip();
 	    });
+	    function deletesupplier(id){
+	    	if(window.confirm('do you really wanna delete this record?')){
+	    		var url = '<?php echo e(url('supplier/deletesupplier')); ?>';
+	    		window.location.href = url+'/'+id;
+	    	}
+	    }
 	</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

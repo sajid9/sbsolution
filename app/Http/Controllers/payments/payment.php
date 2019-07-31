@@ -41,7 +41,11 @@ class payment extends Controller
        $receipt = receipt::where('id',$request->receiptId)->first();
        $total = $request->totalAmount;
        $customer = customers::where('id',$request->customerId)->first();
-        return view('pages.payments.add_so_payment_form',compact('receipt','customer','total'));
+       $accounts  = accounts::all();
+       $years     = financial_year::all();
+       $heads     = head::all();
+       $months    = month::all();
+       return view('pages.payments.add_so_payment_form',compact('receipt','customer','total','years','heads','months','accounts'));
     }
     public function addpayment(Request $request){
         
@@ -158,6 +162,14 @@ class payment extends Controller
         $supplier_history->type = "Payment";
         $supplier_history->save();
         $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
+        $payment = new payments;
+        $payment->account_id = $request->account;
+        $payment->receipt_id = $request->receipt;
+        $payment->customer_id = $request->customer;
+        $payment->type = ($request->type == 'to') ? 'SR' : 'S';    
+        $payment->credit = $request->amount;
+        $payment->financial_year = $request->fn_year;
+        $payment->save();
 
         $cash = new cash;
         $cash->debit = $request->amount;

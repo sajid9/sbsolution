@@ -149,8 +149,6 @@ Route::prefix('voucher')->middleware(['auth'])->group(function () {
     Route::get('editvoucher/{id}','Purchase\PurchaseOrder@editvoucher');
     Route::post('returnitem','Purchase\PurchaseOrder@returnitem');
     Route::post('selectsupplier','Purchase\PurchaseOrder@selectsupplier');
-    Route::get('selectsupplier','Purchase\PurchaseOrder@selectsupplier');
-
 });
 
 /*
@@ -211,6 +209,7 @@ Route::prefix('sale')->middleware(['auth'])->group(function(){
     Route::post('returnitem','sale\saleorder@returnitem');
     Route::post('updatereceipt','sale\saleorder@updatereceipt');
     Route::post('searchbarcode','sale\saleorder@searchbarcode');
+    Route::post('selectcustomer','sale\saleorder@selectcustomer');
 });
 /*
 *
@@ -228,6 +227,11 @@ Route::prefix('opening')->middleware(['auth'])->group(function(){
     Route::post('saveaccount','opening\opening_controller@save_account');
     Route::get('accountlisting','opening\opening_controller@account_listing');
 });
+/*
+*
+*invoice
+*
+*/
 Route::prefix('invoice')->middleware(['auth'])->group(function(){
     Route::get('sale/{id}','invoices\invoice@saleinvoice');
     Route::get('salereturn/{id}','invoices\invoice@salereturninvoice');
@@ -239,6 +243,11 @@ Route::prefix('invoice')->middleware(['auth'])->group(function(){
     Route::post('supplierpayableinvoice','invoices\invoice@supplierpayableinvoice');
     Route::post('customerreceivableinvoice','invoices\invoice@customerreceivableinvoice');
 });
+/*
+*
+*store
+*
+*/
 Route::prefix('store')->middleware(['auth'])->group(function(){
     Route::get('storelisting','stores\store@store_listing');
     Route::get('addstoreform','stores\store@add_store_form');
@@ -247,6 +256,11 @@ Route::prefix('store')->middleware(['auth'])->group(function(){
     Route::post('addstore','stores\store@add_store');
     Route::post('updatestore','stores\store@update_store');
 });
+/*
+*
+*expenditure
+*
+*/
 Route::prefix('expenditure')->middleware(['auth'])->group(function(){
     Route::get('headlisting','expenditure\expenditure@headlisting');
     Route::get('addhead','expenditure\expenditure@addhead');
@@ -264,8 +278,12 @@ Route::prefix('expenditure')->middleware(['auth'])->group(function(){
     Route::get('editmonth/{id}','expenditure\expenditure@editmonth');
     Route::post('updatemonth','expenditure\expenditure@updatemonth');
     Route::post('getsubhead','expenditure\expenditure@getsubhead');
-    
 });
+/*
+*
+*user
+*
+*/
 Route::prefix('user')->middleware(['auth'])->group(function(){
     Route::get('companysetting','User\User@company_setting');
     Route::post('addcompanysetting','User\User@add_company_setting');

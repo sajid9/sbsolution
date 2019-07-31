@@ -22,6 +22,7 @@
 			<th>Customer</th>
 			<th>Total Amount</th>
 			<th>Paid Amount</th>
+			<th>Return Amount</th>
 			<th>Balance</th>
 		</tr>
 	</thead>
@@ -34,6 +35,7 @@
 				<td><?php echo e($receipt->customer_name); ?></td>
 				<td><?php echo e($receipt->total_amount); ?></td>
 				<td><?php echo e($receipt->paid_amount); ?></td>
+				<td><?php echo e($receipt->return_amount); ?></td>
 				<td><?php echo e($receipt->total_amount - ($receipt->return_amount + $receipt->paid_amount)); ?></td>
 			</tr>
 		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

@@ -1,26 +1,19 @@
-{{-- extend  --}}
-@extends('layout.app')
-@extends('includes.header')
-@extends('includes.footer')
-@extends('includes.sidebar')
+<?php $__env->startSection('title', 'Dashboard'); ?>
+<?php $__env->startSection('pagetitle', 'Supplier History'); ?>
 
-{{-- page titles --}}
-@section('title', 'Dashboard')
-@section('pagetitle', 'Supplier History')
 
-{{-- add css which use only for this page --}}
-@section('header')
-	@parent
+<?php $__env->startSection('header'); ?>
+	##parent-placeholder-594fd1615a341c77829e83ed988f137e1ba96231##
 	<!-- Social Buttons CSS -->
-	<link href="{{asset('css/bootstrap-social.css')}}" rel="stylesheet">
-@endsection
+	<link href="<?php echo e(asset('css/bootstrap-social.css')); ?>" rel="stylesheet">
+<?php $__env->stopSection(); ?>
 
-{{-- page content --}}
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-md-12">
-		<form class="form-inline" method="post" action="{{url('ledger/searchsupplier')}}">
-			@csrf
+		<form class="form-inline" method="post" action="<?php echo e(url('ledger/searchsupplier')); ?>">
+			<?php echo csrf_field(); ?>
 		  <div class="form-group">
 		    <label for="Supplier">Supplier:</label>
 		    <select class="items-dropdown form-control" name="supplier" id="Supplier">
@@ -40,7 +33,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		{{-- panel start --}}
+		
 		<div class="panel panel-default">
 		    <div class="panel-heading">
 		        Supplier History
@@ -61,18 +54,18 @@
 			        </thead>
 			        <tbody>
 			        	<?php $count = 0; ?>
-			        	@foreach($ledgers as $ledger)
+			        	<?php $__currentLoopData = $ledgers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ledger): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 			        	<tr>
-			        		<td>{{++$count}}</td>
-			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
-			        		<td>{{(isset($ledger->supplier))?$ledger->supplier->supplier_name : ''}}</td>
-			        		<td>{{(isset($ledger->voucher)) ? $ledger->voucher->voucher_no : ''}}</td>
-			        		<td>{{$ledger->type}}</td>
-			        		<td>{{$ledger->debit}}</td>
-			        		<td>{{$ledger->credit}}</td>
-			        		<td>{{$ledger->balance}}</td>
+			        		<td><?php echo e(++$count); ?></td>
+			        		<td><?php echo e(date_format(date_create($ledger->created_at),"d M Y H:i:s")); ?></td>
+			        		<td><?php echo e((isset($ledger->supplier))?$ledger->supplier->supplier_name : ''); ?></td>
+			        		<td><?php echo e((isset($ledger->voucher)) ? $ledger->voucher->voucher_no : ''); ?></td>
+			        		<td><?php echo e($ledger->type); ?></td>
+			        		<td><?php echo e($ledger->debit); ?></td>
+			        		<td><?php echo e($ledger->credit); ?></td>
+			        		<td><?php echo e($ledger->balance); ?></td>
 			        	</tr>
-			        	@endforeach
+			        	<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 			        </tbody>
 			    </table>
 		</div>
@@ -80,15 +73,15 @@
 	</div>
 </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-{{-- add js files which use only for this current page --}}
 
-@section('footer')
-	@parent
+
+<?php $__env->startSection('footer'); ?>
+	##parent-placeholder-d7eb6b340a11a367a1bec55e4a421d949214759f##
 	<!-- DataTables JavaScript -->
-	<script src="{{asset('js/dataTables/jquery.dataTables.min.js')}}"></script>
-	<script src="{{asset('js/dataTables/dataTables.bootstrap.min.js')}}"></script>
+	<script src="<?php echo e(asset('js/dataTables/jquery.dataTables.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/dataTables/dataTables.bootstrap.min.js')); ?>"></script>
 	<script src="https://cdn.datatables.net/buttons/1.5.6/js/dataTables.buttons.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.print.min.js"></script>
 	<script src="https://cdn.datatables.net/buttons/1.5.6/js/buttons.html5.min.js"></script>
@@ -108,7 +101,7 @@
 	         $('.items-dropdown').select2({
 	         	width: '200px',
 	         	ajax: {
-	         	    url: '{{url("ledger/getsupplier")}}',
+	         	    url: '<?php echo e(url("ledger/getsupplier")); ?>',
 	         	    dataType: 'json',
 	         	    processResults: function (data) {
          	          	return {
@@ -119,4 +112,8 @@
 	         });
 	    });
 	</script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

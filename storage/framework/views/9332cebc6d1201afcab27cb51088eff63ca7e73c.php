@@ -18,6 +18,8 @@
 <!-- Custom CSS -->
 <link href="<?php echo e(asset('css/startmin.css')); ?>" rel="stylesheet">
 
+<link href="<?php echo e(asset('css/jquery.toast.css')); ?>" rel="stylesheet">
+
 <!-- Morris Charts CSS -->
 <link href="<?php echo e(asset('css/morris.css')); ?>" rel="stylesheet">
 

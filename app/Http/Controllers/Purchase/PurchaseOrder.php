@@ -123,17 +123,20 @@ class PurchaseOrder extends Controller
     public function savevoucher(Request $request){
     	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('type','=','purchase')->first();
     	DB::table('voucher')->where('id',$request->voucherId)->update(['total_amount'=>$total->totalPrice]);
+        $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucherId)->first();
+        $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
+
         $supplier = new supplier_ledger;
         $supplier->voucher_id = $request->voucherId;
+        $supplier->supplier_id = $sup->supplier_id;
         $supplier->credit = $total->totalPrice;
         $supplier->balance = $total->totalPrice;
         $supplier->type = "P";
         $supplier->save();
-        $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucherId)->first();
-        $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
-
+        
         $supplier_history = new supplier_history;
         $supplier_history->supplier_id = $sup->supplier_id;
+        $supplier_history->voucher_id = $request->voucherId;
         $supplier_history->credit = $total->totalPrice;
         $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total->totalPrice:$total->totalPrice;
         $supplier_history->type = "P";
@@ -242,7 +245,7 @@ class PurchaseOrder extends Controller
     {
         $voucher = voucher::find($request->id);
         $supplier = suppliers::find($voucher->supplier_id);
-        return json_encode($supplier);
+        return json_encode(['supplier' => $supplier,'voucher'=> $voucher]);
     }
 
 }

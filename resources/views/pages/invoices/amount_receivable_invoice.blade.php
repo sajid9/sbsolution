@@ -22,6 +22,7 @@
 			<th>Customer</th>
 			<th>Total Amount</th>
 			<th>Paid Amount</th>
+			<th>Return Amount</th>
 			<th>Balance</th>
 		</tr>
 	</thead>
@@ -34,6 +35,7 @@
 				<td>{{$receipt->customer_name}}</td>
 				<td>{{$receipt->total_amount}}</td>
 				<td>{{$receipt->paid_amount}}</td>
+				<td>{{$receipt->return_amount}}</td>
 				<td>{{$receipt->total_amount - ($receipt->return_amount + $receipt->paid_amount)}}</td>
 			</tr>
 		@endforeach

@@ -2,7 +2,7 @@
 <!-- Navigation -->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="<?php echo e(url('/')); ?>"><?php echo e($company->name); ?></a>
+            <a class="navbar-brand" href="<?php echo e(url('/')); ?>"><?php echo e(@$company->name); ?></a>
         </div>
 
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">

@@ -1,14 +1,7 @@
-{{-- extend  --}}
-@extends('layout.app')
-@extends('includes.header')
-@extends('includes.footer')
-@extends('includes.sidebar')
-
-{{-- page titles --}}
-@section('title', 'Dashboard')
-@section('pagetitle', 'Receipt')
-@section('header')
-@parent
+<?php $__env->startSection('title', 'Dashboard'); ?>
+<?php $__env->startSection('pagetitle', 'Receipt'); ?>
+<?php $__env->startSection('header'); ?>
+##parent-placeholder-594fd1615a341c77829e83ed988f137e1ba96231##
 <style>
   fieldset { 
     display: block;
@@ -26,15 +19,15 @@
     border-bottom:none;
   }
 </style>
-@endsection
-@section('content')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('content'); ?>
 <div class="panel panel-default">
 <div class="panel-heading">
     Add New Receipt
 </div>
 <div class="panel-body">
 
-{{-- form start  --}}
+
 <div class="alert alert-success alert-dismissible" id="alert" style="display: none">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
   <strong>Success!</strong> Receipt Add Successfully
@@ -45,33 +38,33 @@
         <legend>Receipt:</legend>
           
         <form id="vendor_form">
-          @csrf
+          <?php echo csrf_field(); ?>
         <div class="row">
           <div class="col-md-6">
             <div class="form-group">
               <label for="vouchernumber">Receipt Id <span class="text-danger">*</span></label>
-              <input type="text" readonly="readonly" name="receipt_id" value="{{old('receipt_id')}}" class="form-control" id="receiptid" aria-describedby="receipt_id" placeholder="receipt id">
+              <input type="text" readonly="readonly" name="receipt_id" value="<?php echo e(old('receipt_id')); ?>" class="form-control" id="receiptid" aria-describedby="receipt_id" placeholder="receipt id">
               <small id="receipt_id" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="receiptnumber">Receipt Number <span class="text-danger">*</span></label>
-              <input type="text" name="receipt_number" value="{{old('receipt_number')}}" class="form-control" id="receiptnumber" aria-describedby="receipt_number" placeholder="receipt number">
+              <input type="text" name="receipt_number" value="<?php echo e(old('receipt_number')); ?>" class="form-control" id="receiptnumber" aria-describedby="receipt_number" placeholder="receipt number">
               <small id="receipt_number" class="form-text text-muted text-danger"></small>
             </div>
           </div>
           <div class="col-md-6">
            <div class="form-group">
               <label for="receipt_date">Receipt Date <span class="text-danger">*</span></label>
-              <input type="date" name="receipt_date" value="{{old('receipt_date')}}" class="form-control" id="receipt_date" placeholder="Short Code" aria-describedby="receipt_date">
+              <input type="date" name="receipt_date" value="<?php echo e(old('receipt_date')); ?>" class="form-control" id="receipt_date" placeholder="Short Code" aria-describedby="receipt_date">
               <small id="receiptdate" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="customer">Customer </label>
               <select name="customer" class="form-control" id="customer" aria-describedby="customer">
                 <option value="">Select Customer</option>
-                @foreach($customers as $customer)
-                <option value="{{$customer->id}}"> {{$customer->customer_name}}</option>
-                @endforeach
+                <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                <option value="<?php echo e($customer->id); ?>"> <?php echo e($customer->customer_name); ?></option>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </select>
               <small id="customer_msg" class="form-text text-muted text-danger"></small>
             </div>
@@ -81,7 +74,7 @@
           <div class="col-md-6">
             <div class="checkbox" style="margin-top:0px;">
               <label>
-                <input type="checkbox" id="check" data-toggle="toggle" name="type" value="quotation" {{ (old('type') == 'quotation') ? 'checked' : '' }} data-on="Quotation" data-off="Sale">
+                <input type="checkbox" id="check" data-toggle="toggle" name="type" value="quotation" <?php echo e((old('type') == 'quotation') ? 'checked' : ''); ?> data-on="Quotation" data-off="Sale">
               </label>
             </div>
           </div>
@@ -101,41 +94,41 @@
               <input type="hidden" name="item_id" id="itemId">
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
-                <input type="text" disabled name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
+                <input type="text" disabled name="barcode" value="<?php echo e(old('barcode')); ?>" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
                 <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
               </div>
               <small id="barcode_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="quantity">Quantity <span class="text-danger">*</span></label>
-              <input type="number" disabled name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
+              <input type="number" disabled name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
-              <input type="text" disabled readonly="readonly" name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="sale price">
-              <small id="saleprice" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
+              <input type="text" disabled readonly="readonly" name="sale_price" value="<?php echo e(old('sale_price')); ?>" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="sale price">
+              <small id="saleprice" class="form-text text-muted text-danger"><?php echo e($errors->first('sale_price')); ?></small>
             </div>
             <div class="form-group">
               <label for="discount">Discount %</label>
-              <input type="text" disabled name="discount" value="{{old('discount')}}" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
-              <small id="discount_msg" class="form-text text-muted text-danger">{{$errors->first('discount')}}</small>
+              <input type="text" disabled name="discount" value="<?php echo e(old('discount')); ?>" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
+              <small id="discount_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('discount')); ?></small>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="discounted_price">Discounted Price<span class="text-danger">*</span></label>
-              <input type="text" disabled name="discounted_price" value="{{old('discounted_price')}}" class="form-control" id="discounted_price" aria-describedby="dis_price" placeholder="discounted price">
-              <small id="dis_price" class="form-text text-muted text-danger">{{$errors->first('discounted_price')}}</small>
+              <input type="text" disabled name="discounted_price" value="<?php echo e(old('discounted_price')); ?>" class="form-control" id="discounted_price" aria-describedby="dis_price" placeholder="discounted price">
+              <small id="dis_price" class="form-text text-muted text-danger"><?php echo e($errors->first('discounted_price')); ?></small>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="total_price">Total Price %</label>
-              <input type="text" disabled name="total_price" value="{{old('total_price')}}" class="form-control" id="total_price" aria-describedby="total_price_msg" placeholder="total price">
-              <small id="total_price_msg" class="form-text text-muted text-danger">{{$errors->first('total_price')}}</small>
+              <input type="text" disabled name="total_price" value="<?php echo e(old('total_price')); ?>" class="form-control" id="total_price" aria-describedby="total_price_msg" placeholder="total price">
+              <small id="total_price_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('total_price')); ?></small>
             </div>
           </div>
         </div>
@@ -171,11 +164,11 @@
   </div>
   <div class="row">
     <div class="col-md-12" style="padding-top: 20px">
-      <button disabled type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('sale/saleorder')}}" class="btn btn-default">Back</a>
+      <button disabled type="button" id="submit" class="btn btn-primary">Submit</button> <a href="<?php echo e(url('sale/saleorder')); ?>" class="btn btn-default">Back</a>
     </div>
   </div>
 
-{{-- form end --}}
+
 <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-full">
@@ -198,15 +191,15 @@
                 </tr>
             </thead>
             <tbody>
-              @foreach($items as $item)
+              <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
               <tr>
-                <td>{{$item->id}}</td>
-                <td>{{$item->item_name}}</td>
-                <td>{{$item->barcode}}</td>
-                <td>{{$item->purchase_price}}</td>
-                <td>{{$item->sale_price}}</td>
+                <td><?php echo e($item->id); ?></td>
+                <td><?php echo e($item->item_name); ?></td>
+                <td><?php echo e($item->barcode); ?></td>
+                <td><?php echo e($item->purchase_price); ?></td>
+                <td><?php echo e($item->sale_price); ?></td>
               </tr>
-              @endforeach
+              <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
           </table>
         </div>
@@ -219,12 +212,12 @@
   </div>
 </div>
 </div>
-@endsection
-@section('footer')
-  @parent
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('footer'); ?>
+  ##parent-placeholder-d7eb6b340a11a367a1bec55e4a421d949214759f##
   <!-- DataTables JavaScript -->
-  <script src="{{asset('js/dataTables/jquery.dataTables.min.js')}}"></script>
-  <script src="{{asset('js/dataTables/dataTables.bootstrap.min.js')}}"></script>
+  <script src="<?php echo e(asset('js/dataTables/jquery.dataTables.min.js')); ?>"></script>
+  <script src="<?php echo e(asset('js/dataTables/dataTables.bootstrap.min.js')); ?>"></script>
   <script>
       $(document).ready(function() {
           $('#dataTables-example').DataTable({
@@ -257,7 +250,7 @@
       }
       if($('#receiptnumber').val() != '' && $('#receipt_date').val() != '' && $('#customer').val() != ''){
         $.ajax({
-          url:"{{url('sale/addreceipt')}}",
+          url:"<?php echo e(url('sale/addreceipt')); ?>",
           type:"post",
           dataType:"json",
           data:data,
@@ -287,10 +280,10 @@
     $("#vendorvoucher").on('blur',function(){
       var voucher = $(this).val();
       $.ajax({
-        url:"{{url('voucher/searchvoucher')}}",
+        url:"<?php echo e(url('voucher/searchvoucher')); ?>",
         type:"post",
         dataType:"json",
-        data:{voucher:voucher,_token:"{{csrf_token()}}"},
+        data:{voucher:voucher,_token:"<?php echo e(csrf_token()); ?>"},
         success:function(res){
           if(res != null){
             $('#vendor_voucher').text('Voucher already exsist');
@@ -307,10 +300,10 @@
       var barcode = $(this).val();
       var voucher_id = $('#vouchernumber').val();
       $.ajax({
-        url:"{{url('voucher/searchbarcode')}}",
+        url:"<?php echo e(url('voucher/searchbarcode')); ?>",
         type:"post",
         dataType:"json",
-        data:{barcode:barcode,voucher_id:voucher_id,_token:"{{csrf_token()}}"},
+        data:{barcode:barcode,voucher_id:voucher_id,_token:"<?php echo e(csrf_token()); ?>"},
         success:function(res){
           console.log(res.message);
           if(res.message){
@@ -341,7 +334,7 @@
       data.discounted_price = $('#discounted_price').val();
       data.total_price      = $('#total_price').val();
       data.type             = "sale";
-      data._token           = "{{csrf_token()}}";
+      data._token           = "<?php echo e(csrf_token()); ?>";
       if ($('#check').parent().hasClass('off'))
       {
         data.check = "sale";
@@ -366,7 +359,7 @@
       }
       if(data.quantity != '' && $('purchase_price').val() != '' && $('sale_price').val() != ''){
         $.ajax({
-          url:"{{url('sale/additem')}}",
+          url:"<?php echo e(url('sale/additem')); ?>",
           type:"post",
           dataType:"json",
           data:data,
@@ -413,17 +406,17 @@
         var check = "quotation";
       }
       $.ajax({
-        url:"{{url('sale/savereceipt')}}",
+        url:"<?php echo e(url('sale/savereceipt')); ?>",
         type:"post",
-        data:{receipt_id:receipt_id,check:check,_token:"{{csrf_token()}}"},
+        data:{receipt_id:receipt_id,check:check,_token:"<?php echo e(csrf_token()); ?>"},
         dataType:"json",
         success:function(res){
           if(res != null && check == "sale"){
             window.open(
-              '{{url("payment/addsopayment")}}/'+res.id+'/'+res.total_amount+'/'+res.customer_id,'_blank');
-            window.location.href = '{{ url('sale/addreceiptform') }}';
+              '<?php echo e(url("payment/addsopayment")); ?>/'+res.id+'/'+res.total_amount+'/'+res.customer_id,'_blank');
+            window.location.href = '<?php echo e(url('sale/addreceiptform')); ?>';
           }else{
-            window.location.href = '{{url("sale/saleorder")}}';
+            window.location.href = '<?php echo e(url("sale/saleorder")); ?>';
           }
           
         }
@@ -431,10 +424,10 @@
     })
     function itemRemove(voucherId,itemId,qty){
       $.ajax({
-        url: "{{url('voucher/removeitem')}}",
+        url: "<?php echo e(url('voucher/removeitem')); ?>",
         type:"post",
         datatype:"json",
-        data:{voucherId:voucherId,itemId:itemId,qty:qty,_token:"{{csrf_token()}}"},
+        data:{voucherId:voucherId,itemId:itemId,qty:qty,_token:"<?php echo e(csrf_token()); ?>"},
         success:function(res){
           var data = JSON.parse(res);
           if(data.message != 'empty'){
@@ -470,4 +463,8 @@
     });
    
   </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
