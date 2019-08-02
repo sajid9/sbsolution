@@ -18,6 +18,11 @@
 {{-- form start  --}}
 <form method="post" action="{{url('item/additem')}}">
 	@csrf
+  <div class="checkbox">
+    <label>
+      <input type="checkbox" id="type" data-toggle="toggle" name="type" value="tile" {{ (old('type') == 'tile') ? 'checked' : '' }} data-on="Tile" data-off="Item">
+    </label>
+  </div>
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
@@ -29,6 +34,9 @@
         <label for="barcode">Barcode <span class="text-danger">*</span></label>
         <input type="text" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" placeholder="Short Code" aria-describedby="barcode">
         <small id="barcode" class="form-text text-muted text-danger">{{$errors->first('barcode')}}</small>
+      </div>
+      <div id="tile_attr">
+        
       </div>
       <div class="form-group">
         <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
@@ -103,7 +111,18 @@
   <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('item/itemlisting')}}" class="btn btn-default">Back</a>
 </form>
 {{-- form end --}}
-
+<template id="tile_temp">
+  <div class="form-group">
+    <label for="color">Color <span class="text-danger">*</span></label>
+    <input type="text" name="color_name" value="{{old('color_name')}}" class="form-control" id="color" aria-describedby="color" placeholder="item Name">
+    <small id="color" class="form-text text-muted text-danger">{{$errors->first('color_name')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="piece_in_box">Pieces Per Box <span class="text-danger">*</span></label>
+    <input type="text" name="piece_in_box" value="{{old('piece_in_box')}}" class="form-control" id="piece_in_box" aria-describedby="piece_in_box_msg" placeholder="item Name">
+    <small id="piece_in_box" class="form-text text-muted text-danger">{{$errors->first('piece_in_box_msg')}}</small>
+  </div>
+</template>
 </div>
 </div>
 @endsection
@@ -127,7 +146,13 @@ $('#class').on('change',function(){
     }
   })
 })
-  
+$('#type').on('change',function(){
+  if($(this).parent().hasClass('off')){
+    $('#tile_attr').html('');
+  }else{
+    $('#tile_attr').html($('#tile_temp').html());
+  }
+})
 </script>
 
 @endsection

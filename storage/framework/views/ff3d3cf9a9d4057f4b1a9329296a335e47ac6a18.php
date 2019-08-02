@@ -24,6 +24,20 @@
         <input type="text" name="barcode" value="<?php echo e(old('barcode',$item->barcode)); ?>" class="form-control" id="barcode" placeholder="Short Code" aria-describedby="barcode">
         <small id="barcode" class="form-text text-muted text-danger"><?php echo e($errors->first('barcode')); ?></small>
       </div>
+      <?php if($item->type == 'tile'): ?>
+      <div class="form-group">
+        <input type="hidden" name="type" value="tile">
+        <label for="color">Color <span class="text-danger">*</span></label>
+        <input type="text" name="color_name" value="<?php echo e($item->color); ?>" class="form-control" id="color" aria-describedby="color" placeholder="item Name">
+        <small id="color" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="piece_in_box">Pieces Per Box <span class="text-danger">*</span></label>
+        <input type="text" name="piece_in_box" value="<?php echo e($item->pieces); ?>" class="form-control" id="piece_in_box" aria-describedby="piece_in_box_msg" placeholder="item Name">
+        <small id="piece_in_box" class="form-text text-muted text-danger"><?php echo e($errors->first('piece_in_box_msg')); ?></small>
+      </div>
+
+      <?php endif; ?>
       <div class="form-group">
         <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
         <input type="number" name="purchase_price" value="<?php echo e(old('purchase_price',$item->purchase_price)); ?>" class="form-control" id="purchase_price" placeholder="Short Code" aria-describedby="purchase_price">

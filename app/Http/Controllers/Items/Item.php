@@ -57,6 +57,14 @@ class Item extends Controller
 		    $item->sub_class_id   = $request->sub_class;
 		    $item->item_desc      = $request->description;
             $item->store_id       = $request->store;
+            if($request->has('type')){
+                $item->color  = $request->color_name;
+                $item->pieces = $request->piece_in_box;
+                $item->type   = 'tile';
+            }else{
+                $item->type = 'item';
+            }
+
 		    if($request->has('is_active')){
 		    	$item->is_active    = $request->is_active;
 		    }else{
@@ -104,6 +112,13 @@ class Item extends Controller
             $item->sub_class_id   = $request->sub_class;
             $item->item_desc      = $request->description;
             $item->store_id       = $request->store;
+            if($request->has('type')){
+                $item->color  = $request->color_name;
+                $item->pieces = $request->piece_in_box;
+                $item->type   = 'tile';
+            }else{
+                $item->type = 'item';
+            }
             if($request->has('is_active')){
                 $item->is_active    = $request->is_active;
             }else{

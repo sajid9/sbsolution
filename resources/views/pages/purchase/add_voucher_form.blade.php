@@ -109,6 +109,7 @@
               <input type="text" disabled readonly="readonly" name="purchase_price" value="{{old('purchase_price')}}" class="form-control" id="purchase_price" aria-describedby="purchaseprice" placeholder="purchase price">
               <small id="purchaseprice" class="form-text text-muted text-danger"></small>
             </div>
+            <div id="tile_attr"></div>
             {{-- <div class="form-group">
               <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
               <input type="text" disabled name="sale_price" value="{{old('sale_price')}}" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="sale price">
@@ -196,6 +197,13 @@
   </div>
 </div>
 </div>
+<template id="tile_temp">
+  <div class="form-group">
+    <label for="pieces">Pieces Per Box<span class="text-danger">*</span></label>
+    <input type="text" readonly="readonly" name="pieces" value="" class="form-control" id="pieces" aria-describedby="pieces_msg" placeholder="purchase price">
+    <small id="pieces_msg" class="form-text text-muted text-danger"></small>
+  </div>
+</template>
 @endsection
 @section('footer')
   @parent
@@ -299,6 +307,11 @@
             $('#itemId').val(res.id);
             $('#addItem').prop('disabled',false);
             $('#barcode_msg').text('');
+            if(res.type == 'tile'){
+              $('#tile_attr').html($('#tile_temp').html());
+              $('#pieces').val(res.pieces);
+            }
+            
           }
         }
       });
