@@ -99,7 +99,7 @@
             </div>
             <div class="form-group">
               <label for="quantity">Quantity <span class="text-danger">*</span></label>
-              <input type="number" disabled name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="add quantity">
+              <input type="number" disabled name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>
@@ -136,7 +136,7 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Quantity</th>
+              <th>Quantity / Meter</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -198,10 +198,15 @@
 </div>
 </div>
 <template id="tile_temp">
-  <div class="form-group">
+  {{-- <div class="form-group">
     <label for="pieces">Pieces Per Box<span class="text-danger">*</span></label>
     <input type="text" readonly="readonly" name="pieces" value="" class="form-control" id="pieces" aria-describedby="pieces_msg" placeholder="purchase price">
     <small id="pieces_msg" class="form-text text-muted text-danger"></small>
+  </div> --}}
+  <div class="form-group">
+    <label for="meter">Meter Per Box<span class="text-danger">*</span></label>
+    <input type="text" readonly="readonly" name="meter" value="" class="form-control" id="meter" aria-describedby="meter_msg" placeholder="purchase price">
+    <small id="meter_msg" class="form-text text-muted text-danger"></small>
   </div>
 </template>
 @endsection
@@ -309,7 +314,8 @@
             $('#barcode_msg').text('');
             if(res.type == 'tile'){
               $('#tile_attr').html($('#tile_temp').html());
-              $('#pieces').val(res.pieces);
+              /*$('#pieces').val(res.pieces);*/
+              $('#meter').val(res.meter);
             }
             
           }
@@ -322,6 +328,7 @@
       data.quantity      = $('#quantity').val();
       data.voucherId     = $('#vouchernumber').val();
       data.purchasePrice = $('#purchase_price').val();
+      data.meter         = $('#meter').val();
       data.type          = "purchase";
       data._token        = "{{csrf_token()}}";
       if(data.quantity == ''){

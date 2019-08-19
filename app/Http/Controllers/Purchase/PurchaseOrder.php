@@ -88,25 +88,31 @@ class PurchaseOrder extends Controller
     public function additem(Request $request){
         $check = voucher_detail::where('voucher_id',$request->voucherId)->where('item_id',$request->itemId)->first();
         if($check === null){
+            if($request->meter != ''){
+                $quantity = $request->quantity * $request->meter;
+            }else{
+                $quantity = $request->quantity;
+            }
             $item = new voucher_detail;
             $item->voucher_id = $request->voucherId;
             $item->item_id = $request->itemId;
-            $item->qty = $request->quantity;
+            $item->qty = $quantity;
             $item->type = $request->type;
             $item->purchase_price = $request->purchasePrice;
             $item->save();
+
             if(stock::where('item_id',$request->itemId)->first()){
-                $stock = stock::where('item_id',$request->itemId)->increment('qty',$request->quantity);
+                $stock = stock::where('item_id',$request->itemId)->increment('qty',$quantity);
             }else{
                 $stock = new stock;
                 $stock->item_id = $item->item_id;
-                $stock->qty = $item->qty;
+                $stock->qty = $quantity;
                 $stock->save();
             }
             $stock = stock::where('item_id',$request->itemId)->first();
             $ledger = new item_ledger;
             $ledger->item_id = $request->itemId;
-            $ledger->purchase = $request->quantity;
+            $ledger->purchase = $quantity;
             $ledger->voucher_id = $request->voucherId;
             $ledger->description = 'Purchase';
             $ledger->left     = $stock->qty;
@@ -121,7 +127,7 @@ class PurchaseOrder extends Controller
     *
     */
     public function savevoucher(Request $request){
-    	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('type','=','purchase')->first();
+    	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('voucher_detail.type','=','purchase')->first();
     	DB::table('voucher')->where('id',$request->voucherId)->update(['total_amount'=>$total->totalPrice]);
         $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucherId)->first();
         $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();

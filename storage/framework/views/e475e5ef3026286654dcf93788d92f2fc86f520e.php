@@ -33,13 +33,18 @@
       </div>
       <div class="form-group">
         <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
-        <input type="number" name="purchase_price" value="<?php echo e(old('purchase_price')); ?>" class="form-control" id="purchase_price" placeholder="Short Code" aria-describedby="purchase_price">
+        <input type="number" name="purchase_price" value="<?php echo e(old('purchase_price')); ?>" class="form-control" id="purchase_price" placeholder="Purchase Price" aria-describedby="purchase_price">
         <small id="purchase_price" class="form-text text-muted text-danger"><?php echo e($errors->first('purchase_price')); ?></small>
       </div>
       <div class="form-group">
         <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
-        <input type="number" name="sale_price" value="<?php echo e(old('sale_price')); ?>" class="form-control" id="sale_price" placeholder="Short Code" aria-describedby="sale_price">
+        <input type="number" name="sale_price" value="<?php echo e(old('sale_price')); ?>" class="form-control" id="sale_price" placeholder="Sale Price" aria-describedby="sale_price">
         <small id="sale_price" class="form-text text-muted text-danger"><?php echo e($errors->first('sale_price')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="opening">Opening Item <span class="text-danger">*</span></label>
+        <input type="number" name="opening" value="<?php echo e(old('opening')); ?>" class="form-control" id="opening" placeholder="Opening Item" aria-describedby="opening_msg">
+        <small id="opening_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('opening')); ?></small>
       </div>
       <div class="form-group">
         <label for="discription">Description</label>
@@ -107,13 +112,33 @@
 <template id="tile_temp">
   <div class="form-group">
     <label for="color">Color <span class="text-danger">*</span></label>
-    <input type="text" name="color_name" value="<?php echo e(old('color_name')); ?>" class="form-control" id="color" aria-describedby="color" placeholder="item Name">
+    <input type="text" name="color_name" value="<?php echo e(old('color_name')); ?>" class="form-control" id="color" aria-describedby="color" placeholder="Color">
     <small id="color" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
   </div>
   <div class="form-group">
+    <label for="quality">quality <span class="text-danger">*</span></label>
+    <select name="quality" class="form-control" id="quality" aria-describedby="quality_msg">
+      <option>Select Qualitiy</option>
+      <option>Ceramic</option>
+      <option>TB</option>
+      <option>Tiles</option>
+    </select>
+    <small id="quality_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quality')); ?></small>
+  </div>
+  <div class="form-group">
+    <label for="size">Size <span class="text-danger">*</span></label>
+    <input type="text" name="size" value="<?php echo e(old('size')); ?>" class="form-control" id="size" aria-describedby="size_msg" placeholder="Size 12 * 8">
+    <small id="size_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('size')); ?></small>
+  </div>
+  <div class="form-group">
+    <label for="meter_per_box">Meter Per Box <span class="text-danger">*</span></label>
+    <input type="text" name="meter_per_box" value="<?php echo e(old('meter_per_box')); ?>" class="form-control" id="meter_per_box" aria-describedby="meter_per_box_msg" placeholder="Meter Per Box">
+    <small id="meter_per_box_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('meter_per_box')); ?></small>
+  </div>
+  <div class="form-group">
     <label for="piece_in_box">Pieces Per Box <span class="text-danger">*</span></label>
-    <input type="text" name="piece_in_box" value="<?php echo e(old('piece_in_box')); ?>" class="form-control" id="piece_in_box" aria-describedby="piece_in_box_msg" placeholder="item Name">
-    <small id="piece_in_box" class="form-text text-muted text-danger"><?php echo e($errors->first('piece_in_box_msg')); ?></small>
+    <input type="text" name="piece_in_box" value="<?php echo e(old('piece_in_box')); ?>" class="form-control" id="piece_in_box" aria-describedby="piece_in_box_msg" placeholder="Pieces Per Box">
+    <small id="piece_in_box_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('piece_in_box')); ?></small>
   </div>
 </template>
 </div>

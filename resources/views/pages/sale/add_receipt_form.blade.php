@@ -107,8 +107,8 @@
               <small id="barcode_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
-              <label for="quantity">Quantity <span class="text-danger">*</span></label>
-              <input type="number" disabled name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
+              <label for="quantity"> Quantity / Meter <span class="text-danger">*</span></label>
+              <input type="number" disabled name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity / Meter">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>
@@ -158,7 +158,7 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Quantity</th>
+              <th>Quantity / Meter</th>
               <th>Action</th>
             </tr>
           </thead>

@@ -10,6 +10,8 @@ use App\categories;
 use App\classes;
 use App\suppliers;
 use App\stores;
+use App\stock;
+use App\item_ledger;
 
 use App\Http\Requests\itemValidator;
 class Item extends Controller
@@ -44,6 +46,7 @@ class Item extends Controller
     */
     public function additem(itemValidator $request){
     	try{
+
 			$request->validated();
 
 			$item = new items;
@@ -60,6 +63,9 @@ class Item extends Controller
             if($request->has('type')){
                 $item->color  = $request->color_name;
                 $item->pieces = $request->piece_in_box;
+                $item->size   = $request->size;
+                $item->quality= $request->quality;
+                $item->meter  = $request->meter_per_box;
                 $item->type   = 'tile';
             }else{
                 $item->type = 'item';
@@ -71,7 +77,19 @@ class Item extends Controller
 		    	$item->is_active    = 'no';
 		    }
 		    $item->save();
-
+            if($request->opening != ''){
+                $stock = new stock;
+                $stock->item_id = $item->id;
+                $stock->qty = $request->opening;
+                $stock->save();
+                $stock = stock::where('item_id',$item->id)->first();
+                $ledger = new item_ledger;
+                $ledger->item_id = $item->id;
+                $ledger->purchase = $request->opening;
+                $ledger->description = 'Opening';
+                $ledger->left     = $stock->qty;
+                $ledger->save();
+            }
 		    return redirect()->to('item/itemlisting')->with('message','Item added successfully.');
     	}catch(\Exception $e){
     		return $e->getMessage();
