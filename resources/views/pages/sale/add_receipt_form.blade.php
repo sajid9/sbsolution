@@ -138,10 +138,11 @@
               <small id="total_price_msg" class="form-text text-muted text-danger">{{$errors->first('total_price')}}</small>
             </div>
           </div>
+          <div id="tile_container"></div>
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button disabled class="btn btn-primary" id="addItem">Add Item</button>
+            <button disabled class="btn btn-primary" id="addItem">Add Item</button><div id="box"></div>
           </div>
         </div>
       </fieldset>
@@ -219,6 +220,23 @@
   </div>
 </div>
 </div>
+<template id="tile_template">
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="meter">Meter Per Box</label>
+      <input type="text" disabled name="meter" value="{{old('meter')}}" class="form-control" id="meter" aria-describedby="meter_msg" placeholder="total price">
+      <small id="meter_msg" class="form-text text-muted text-danger">{{$errors->first('meter')}}</small>
+    </div>
+  </div>
+  <div class="col-md-6">
+    <div class="form-group">
+      <label for="pieces">Pieces Per Box</label>
+      <input type="text" disabled name="pieces" value="{{old('pieces')}}" class="form-control" id="pieces" aria-describedby="pieces_msg" placeholder="total price">
+      <small id="pieces_msg" class="form-text text-muted text-danger">{{$errors->first('pieces')}}</small>
+    </div>
+  </div>
+</template>
+
 @endsection
 @section('footer')
   @parent
@@ -324,6 +342,14 @@
               $('#itemId').val(res.id);
               $('#addItem').prop('disabled',false);
               $('#barcode_msg').text('');
+              if(res.type == 'tile'){
+                var temp = $('#tile_template').html();
+                $('#tile_container').html(temp);
+                $('#meter').val(res.meter);
+                $('#pieces').val(res.pieces);
+              }else{
+                $('#tile_container').html('');
+              }
             }else{
               $('#sale_price').val('');
               $('#itemId').val('');
@@ -468,6 +494,16 @@
         $('#total_price').val(totalPrice);
       }
     });
-   
+    $('#quantity').on('blur',function(){
+      var meter     = $(this).val();
+      var meterBox  = $('#meter').val();
+      var piecesBox = $('#pieces').val();
+      var boxes = parseInt(meter / meterBox);
+      var num = boxes * meterBox;
+      var mod = meter - num;
+      var onePiece = meterBox / piecesBox;
+      var pieces = mod / onePiece;
+      $('#box').html('<h2>'+boxes+' Boxes and '+pieces+' Pieces </h2>');
+    })
   </script>
 @endsection

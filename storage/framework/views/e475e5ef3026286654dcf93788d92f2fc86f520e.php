@@ -13,7 +13,7 @@
 	<?php echo csrf_field(); ?>
   <div class="checkbox">
     <label>
-      <input type="checkbox" id="type" data-toggle="toggle" name="type" value="tile" <?php echo e((old('type') == 'tile') ? 'checked' : ''); ?> data-on="Tile" data-off="Item">
+      <input type="checkbox" checked="checked" id="type" data-toggle="toggle" name="type" value="tile" data-on="Tile" data-off="Item">
     </label>
   </div>
   <div class="row">
@@ -42,9 +42,10 @@
         <small id="sale_price" class="form-text text-muted text-danger"><?php echo e($errors->first('sale_price')); ?></small>
       </div>
       <div class="form-group">
-        <label for="opening">Opening Item <span class="text-danger">*</span></label>
-        <input type="number" name="opening" value="<?php echo e(old('opening')); ?>" class="form-control" id="opening" placeholder="Opening Item" aria-describedby="opening_msg">
-        <small id="opening_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('opening')); ?></small>
+        <input type="hidden" name="opening" id="opening">
+        <label for="cal_open">Opening Item <span class="text-danger">*</span></label>
+        <input type="number" name="cal_open" value="<?php echo e(old('cal_open')); ?>" class="form-control" id="cal_open" placeholder="Opening Item" aria-describedby="cal_open_msg">
+        <small id="cal_open_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('cal_open')); ?></small>
       </div>
       <div class="form-group">
         <label for="discription">Description</label>
@@ -147,6 +148,17 @@
 <?php $__env->startSection('footer'); ?>
 ##parent-placeholder-d7eb6b340a11a367a1bec55e4a421d949214759f##
 <script>
+$(document).ready(function(){
+  $('#tile_attr').html($('#tile_temp').html());
+  $('#cal_open').on('blur',function(){
+    if($('#type').parent().hasClass('off')){
+      $('#opening').val($(this).val());
+    }else{
+      $('#opening').val(parseInt($(this).val()) * parseFloat($('#meter_per_box').val()));
+    }
+  }) 
+})
+
 $('#class').on('change',function(){
   var class_id = $(this).val();
   var token = $('input[name="_token"]').val();
