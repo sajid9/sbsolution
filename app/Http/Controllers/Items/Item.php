@@ -130,9 +130,11 @@ class Item extends Controller
             $item->sub_class_id   = $request->sub_class;
             $item->item_desc      = $request->description;
             $item->store_id       = $request->store;
-            if($request->has('type')){
+            if($request->type == 'tile'){
                 $item->color  = $request->color_name;
                 $item->pieces = $request->piece_in_box;
+                $item->size = $request->size;
+                $item->quality = $request->quality;
                 $item->type   = 'tile';
             }else{
                 $item->type = 'item';

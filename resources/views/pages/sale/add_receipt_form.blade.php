@@ -498,11 +498,12 @@
       var meter     = $(this).val();
       var meterBox  = $('#meter').val();
       var piecesBox = $('#pieces').val();
-      var boxes = parseInt(meter / meterBox);
-      var num = boxes * meterBox;
-      var mod = meter - num;
-      var onePiece = meterBox / piecesBox;
-      var pieces = mod / onePiece;
+      /*calculate the boxes and pieces from meter*/
+      var boxes     = parseInt(meter / meterBox);
+      var num       = boxes * meterBox;
+      var mod       = meter - num;
+      var onePiece  = meterBox / piecesBox;
+      var pieces    = mod / onePiece;
       $('#box').html('<h2>'+boxes+' Boxes and '+pieces+' Pieces </h2>');
     })
   </script>

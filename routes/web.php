@@ -258,6 +258,15 @@ Route::prefix('store')->middleware(['auth'])->group(function(){
 });
 /*
 *
+*group
+*
+*/
+Route::prefix('group')->middleware(['auth'])->group(function(){
+    Route::get('grouplisting','groups\group@group_listing');
+    
+});
+/*
+*
 *expenditure
 *
 */

@@ -17,7 +17,7 @@ class CreateReceiptDetailTable extends Migration
             $table->bigIncrements('id');
             $table->integer('receipt_id');
             $table->integer('item_id');
-            $table->integer('qty');
+            $table->float('qty');
             $table->integer('sale_price')->nullable();
             $table->integer('discount')->nullable();
             $table->integer('total_price')->nullable();

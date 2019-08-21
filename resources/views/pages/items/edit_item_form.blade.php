@@ -33,16 +33,36 @@
       </div>
       @if($item->type == 'tile')
       <div class="form-group">
-        <input type="hidden" name="type" value="tile">
-        <label for="color">Color <span class="text-danger">*</span></label>
-        <input type="text" name="color_name" value="{{ $item->color}}" class="form-control" id="color" aria-describedby="color" placeholder="item Name">
-        <small id="color" class="form-text text-muted text-danger">{{$errors->first('color_name')}}</small>
-      </div>
-      <div class="form-group">
-        <label for="piece_in_box">Pieces Per Box <span class="text-danger">*</span></label>
-        <input type="text" name="piece_in_box" value="{{$item->pieces}}" class="form-control" id="piece_in_box" aria-describedby="piece_in_box_msg" placeholder="item Name">
-        <small id="piece_in_box" class="form-text text-muted text-danger">{{$errors->first('piece_in_box_msg')}}</small>
-      </div>
+          <input type="hidden" name="type" value="tile">
+          <label for="color">Color <span class="text-danger">*</span></label>
+          <input type="text" name="color_name" value="{{$item->color}}" class="form-control" id="color" aria-describedby="color" placeholder="Color">
+          <small id="color" class="form-text text-muted text-danger">{{$errors->first('color_name')}}</small>
+        </div>
+        <div class="form-group">
+          <label for="quality">quality <span class="text-danger">*</span></label>
+          <select name="quality" class="form-control" id="quality" aria-describedby="quality_msg">
+            <option>Select Qualitiy</option>
+            <option {{($item->quality == 'Ceramic') ? 'selected':''}}>Ceramic</option>
+            <option {{($item->quality == 'TB') ? 'selected':''}}>TB</option>
+            <option {{($item->quality == 'Tiles') ? 'selected':''}}>Tiles</option>
+          </select>
+          <small id="quality_msg" class="form-text text-muted text-danger">{{$errors->first('quality')}}</small>
+        </div>
+        <div class="form-group">
+          <label for="size">Size <span class="text-danger">*</span></label>
+          <input type="text" name="size" value="{{$item->size}}" class="form-control" id="size" aria-describedby="size_msg" placeholder="Size 12 * 8">
+          <small id="size_msg" class="form-text text-muted text-danger">{{$errors->first('size')}}</small>
+        </div>
+        <div class="form-group">
+          <label for="meter_per_box">Meter Per Box <span class="text-danger">*</span></label>
+          <input type="text" readonly="" name="meter_per_box" value="{{$item->meter}}" class="form-control" id="meter_per_box" aria-describedby="meter_per_box_msg" placeholder="Meter Per Box">
+          <small id="meter_per_box_msg" class="form-text text-muted text-danger">{{$errors->first('meter_per_box')}}</small>
+        </div>
+        <div class="form-group">
+          <label for="piece_in_box">Pieces Per Box <span class="text-danger">*</span></label>
+          <input type="text" readonly="" name="piece_in_box" value="{{$item->pieces}}" class="form-control" id="piece_in_box" aria-describedby="piece_in_box_msg" placeholder="Pieces Per Box">
+          <small id="piece_in_box_msg" class="form-text text-muted text-danger">{{$errors->first('piece_in_box')}}</small>
+        </div>
 
       @endif
       <div class="form-group">

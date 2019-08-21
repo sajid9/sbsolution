@@ -97,6 +97,9 @@
                                 <a href="{{url('store/storelisting')}}">Stores</a>
                             </li>
                             <li>
+                                <a href="{{url('group/grouplisting')}}">Groups</a>
+                            </li>
+                            <li>
                                 <a href="{{url('company/companylisting')}}"> Companies</a>
                             </li>
                             <li>

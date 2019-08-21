@@ -19,9 +19,9 @@ class CreateItemLedgerTable extends Migration
             $table->integer('voucher_id')->nullable();
             $table->integer('receipt_id')->nullable();
             $table->string('description')->nullable();
-            $table->integer('purchase')->default(0);
-            $table->integer('sale')->default(0);
-            $table->integer('left');
+            $table->float('purchase')->default(0);
+            $table->float('sale')->default(0);
+            $table->float('left');
             $table->timestamps();
         });
     }
