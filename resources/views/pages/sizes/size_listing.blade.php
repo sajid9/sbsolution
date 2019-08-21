@@ -5,8 +5,8 @@
 @extends('includes.sidebar')
 
 {{-- page titles --}}
-@section('title', 'Groups')
-@section('pagetitle', 'Groups')
+@section('title', 'Sizes')
+@section('pagetitle', 'Sizes')
 
 {{-- add css which use only for this page --}}
 @section('header')
@@ -19,8 +19,8 @@
 @section('content')
 <div class="row" style="padding-bottom: 10px">
 	<div class="col-md-12">
-		<a href="{{url('group/addgroupform')}}" class="btn btn-social btn-bitbucket pull-right">
-		    <i class="fa fa-plus"></i> Add Group
+		<a href="{{url('size/addsizeform')}}" class="btn btn-social btn-bitbucket pull-right">
+		    <i class="fa fa-plus"></i> Add Sizes
 		</a>
 	</div>
 </div>
@@ -32,26 +32,26 @@
 		{{-- panel start --}}
 		<div class="panel panel-default">
 		    <div class="panel-heading">
-		        Group Listing
+		        Size Listing
 		    </div>
 		    <div class="panel-body">
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
 			                <th>Sr #</th>
-			                <th>Group Name</th>
+			                <th>Size</th>
 			                <th>Status</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			        	<?php $count = 0; ?>
-			        	@foreach($groups as $group)
+			        	@foreach($sizes as $size)
 			            <tr class="odd gradeX">
 			                <td>{{ ++$count }}</td>
-			                <td>{{ $group->name }}</td>
-			                <td>{!!($group->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
-			                <td><a href="{{url('group/editgroup/'.$group->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deletestore('{{$store->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
+			                <td>{{ $size->size }}</td>
+			                <td>{!!($size->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
+			                <td><a href="{{url('size/editsize/'.$size->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deletestore('{{$store->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

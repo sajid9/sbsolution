@@ -49,10 +49,14 @@
         <small id="sale_price" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
       </div>
       <div class="form-group">
-        <input type="hidden" name="opening" id="opening">
         <label for="cal_open">Opening Item <span class="text-danger">*</span></label>
         <input type="number" name="cal_open" value="{{old('cal_open')}}" class="form-control" id="cal_open" placeholder="Opening Item" aria-describedby="cal_open_msg">
         <small id="cal_open_msg" class="form-text text-muted text-danger">{{$errors->first('cal_open')}}</small>
+      </div>
+      <div class="form-group">
+        <label for="total_meter">Total Meter <span class="text-danger">*</span></label>
+        <input type="number" name="opening" value="{{old('opening')}}" class="form-control" id="opening" placeholder="Opening Item" aria-describedby="total_meter_msg">
+        <small id="total_meter_msg" class="form-text text-muted text-danger">{{$errors->first('opening')}}</small>
       </div>
       <div class="form-group">
         <label for="discription">Description</label>
@@ -60,6 +64,16 @@
       </div>
     </div>
     <div class="col-md-6">
+      <div class="form-group">
+        <label for="group">group </label>
+        <select name="group" class="form-control" id="group" aria-describedby="group_msg">
+          <option value="">Select group</option>
+          @foreach($groups as $group)
+            <option value="{{$group->id}}">{{ $group->name}}</option>
+          @endforeach
+        </select>
+        <small id="group_msg" class="form-text text-muted text-danger">{{$errors->first('group')}}</small>
+      </div>
       <div class="form-group">
         <label for="store">Store </label>
         <select name="store" class="form-control" id="store" aria-describedby="store">
@@ -135,7 +149,12 @@
   </div>
   <div class="form-group">
     <label for="size">Size <span class="text-danger">*</span></label>
-    <input type="text" name="size" value="{{old('size')}}" class="form-control" id="size" aria-describedby="size_msg" placeholder="Size 12 * 8">
+    <select  name="size" class="form-control" id="size" aria-describedby="size_msg" >
+      <option value="">Select Size</option>
+      @foreach($sizes as $size)
+      <option>{{$size->size}}</option>
+      @endforeach
+    </select>
     <small id="size_msg" class="form-text text-muted text-danger">{{$errors->first('size')}}</small>
   </div>
   <div class="form-group">
@@ -157,6 +176,7 @@
 <script>
 $(document).ready(function(){
   $('#tile_attr').html($('#tile_temp').html());
+
   $('#cal_open').on('blur',function(){
     if($('#type').parent().hasClass('off')){
       $('#opening').val($(this).val());
@@ -164,6 +184,13 @@ $(document).ready(function(){
       $('#opening').val(parseInt($(this).val()) * parseFloat($('#meter_per_box').val()));
     }
   }) 
+  $('#meter_per_box').on('blur',function(){
+    if($('#type').parent().hasClass('off')){
+      $('#opening').val($('#cal_open').val());
+    }else{
+      $('#opening').val(parseInt($('#cal_open').val()) * parseFloat($(this).val()));
+    }
+  })
 })
 
 $('#class').on('change',function(){

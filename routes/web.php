@@ -263,6 +263,23 @@ Route::prefix('store')->middleware(['auth'])->group(function(){
 */
 Route::prefix('group')->middleware(['auth'])->group(function(){
     Route::get('grouplisting','groups\group@group_listing');
+    Route::get('addgroupform','groups\group@add_group_form');
+    Route::post('addgroup','groups\group@add_group');
+    Route::get('editgroup/{id}','groups\group@edit_group');
+    Route::post('updategroup','groups\group@update_group');
+    
+});
+/*
+*
+*size
+*
+*/
+Route::prefix('size')->middleware(['auth'])->group(function(){
+    Route::get('sizelisting','sizes\size@size_listing');
+    Route::get('addsizeform','sizes\size@add_size_form');
+    Route::post('addsize','sizes\size@add_size');
+    Route::get('editsize/{id}','sizes\size@edit_size');
+    Route::post('updatesize','sizes\size@update_size');
     
 });
 /*

@@ -50,7 +50,12 @@
         </div>
         <div class="form-group">
           <label for="size">Size <span class="text-danger">*</span></label>
-          <input type="text" name="size" value="{{$item->size}}" class="form-control" id="size" aria-describedby="size_msg" placeholder="Size 12 * 8">
+          <select  name="size" class="form-control" id="size" aria-describedby="size_msg" >
+            <option value="">Select Size</option>
+            @foreach($sizes as $size)
+            <option {{($item->size == $size->size)? 'selected':''}}>{{$size->size}}</option>
+            @endforeach
+          </select>
           <small id="size_msg" class="form-text text-muted text-danger">{{$errors->first('size')}}</small>
         </div>
         <div class="form-group">
@@ -82,6 +87,16 @@
     </div>
     <div class="col-md-6">
       <div class="form-group">
+        <div class="form-group">
+        <label for="group">group </label>
+        <select name="group" class="form-control" id="group" aria-describedby="group_msg">
+          <option value="">Select group</option>
+          @foreach($groups as $group)
+            <option value="{{$group->id}}" {{($item->group_id == $group->id) ? 'selected' : ''}}>{{ $group->name}}</option>
+          @endforeach
+        </select>
+        <small id="group_msg" class="form-text text-muted text-danger">{{$errors->first('group')}}</small>
+      </div>
         <label for="store">Store </label>
         <select name="store" class="form-control" id="store" aria-describedby="store">
           <option value="">Select store</option>

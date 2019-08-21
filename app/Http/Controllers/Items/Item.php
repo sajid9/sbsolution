@@ -12,7 +12,8 @@ use App\suppliers;
 use App\stores;
 use App\stock;
 use App\item_ledger;
-
+use App\groups;
+use App\sizes;
 use App\Http\Requests\itemValidator;
 class Item extends Controller
 {
@@ -35,8 +36,10 @@ class Item extends Controller
         $stores     = stores::where('is_active','yes')->get();
     	$companies  = companies::where('is_active','yes')->get();
     	$categories = categories::where('is_active','yes')->get();
+        $groups     = groups::where('is_active','yes')->get();
+        $sizes      = sizes::where('is_active','yes')->get();
     	$classes    = classes::where('parent_id',0)->get();
-    	return view('pages.items.add_item_form',compact('companies','categories','classes','stores'));
+    	return view('pages.items.add_item_form',compact('companies','categories','classes','stores','groups','sizes'));
     }
 
     /*
@@ -60,6 +63,7 @@ class Item extends Controller
 		    $item->sub_class_id   = $request->sub_class;
 		    $item->item_desc      = $request->description;
             $item->store_id       = $request->store;
+            $item->group_id       = $request->group;
             if($request->has('type')){
                 $item->color  = $request->color_name;
                 $item->pieces = $request->piece_in_box;
@@ -103,12 +107,14 @@ class Item extends Controller
     */
     public function edititem($id){
        $stores     = stores::where('is_active','yes')->get();
+       $groups     = groups::where('is_active','yes')->get();
+       $sizes      = sizes::where('is_active','yes')->get();
        $item       = items::find($id);
        $companies  = companies::all();
        $categories = categories::all();
        $classes    = classes::where('parent_id',0)->get();
        $sub_classes = classes::where('id',$item->sub_class_id)->get();
-       return view('pages.items.edit_item_form',compact('item','companies','categories','classes','sub_classes','stores'));
+       return view('pages.items.edit_item_form',compact('item','companies','categories','classes','sub_classes','stores','groups','sizes'));
     }
 
      /*
@@ -130,6 +136,7 @@ class Item extends Controller
             $item->sub_class_id   = $request->sub_class;
             $item->item_desc      = $request->description;
             $item->store_id       = $request->store;
+            $item->group_id       = $request->group;
             if($request->type == 'tile'){
                 $item->color  = $request->color_name;
                 $item->pieces = $request->piece_in_box;
