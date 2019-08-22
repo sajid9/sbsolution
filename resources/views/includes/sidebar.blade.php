@@ -100,6 +100,9 @@
                                 <a href="{{url('group/grouplisting')}}">Groups</a>
                             </li>
                             <li>
+                                <a href="{{url('measuring/unitlisting')}}">Measuring Unit</a>
+                            </li>
+                            <li>
                                 <a href="{{url('size/sizelisting')}}">sizes</a>
                             </li>
                             <li>

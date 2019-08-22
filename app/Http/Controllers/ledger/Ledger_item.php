@@ -18,7 +18,7 @@ class Ledger_item extends Controller
     	return json_encode($items);
     }
     public function search_itemledger(Request $request){
-    	$search = DB::table('item_ledger');
+    	$search = item_ledger::with('items.groups');
     	if($request->item){
     		$search->where('item_id',$request->item);
     	}

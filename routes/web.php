@@ -284,6 +284,18 @@ Route::prefix('size')->middleware(['auth'])->group(function(){
 });
 /*
 *
+*measuring unit
+*
+*/
+Route::prefix('measuring')->middleware(['auth'])->group(function(){
+    Route::get('unitlisting','measuring\unit@unit_listing');
+    Route::get('addunitform','measuring\unit@add_unit_form');
+    Route::post('addunit','measuring\unit@addunit');
+    Route::get('editunit/{id}','measuring\unit@edit_unit');
+    Route::post('updateunit','measuring\unit@update_unit');
+});
+/*
+*
 *expenditure
 *
 */

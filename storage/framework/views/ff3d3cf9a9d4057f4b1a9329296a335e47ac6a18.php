@@ -80,7 +80,6 @@
     </div>
     <div class="col-md-6">
       <div class="form-group">
-        <div class="form-group">
         <label for="group">group </label>
         <select name="group" class="form-control" id="group" aria-describedby="group_msg">
           <option value="">Select group</option>
@@ -90,6 +89,17 @@
         </select>
         <small id="group_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('group')); ?></small>
       </div>
+      <div class="form-group">
+        <label for="unit">Unit </label>
+        <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
+          <option value="">Select Unit</option>
+          <?php $__currentLoopData = $units; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $unit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($unit->id); ?>" <?php echo e(($item->unit_id == $unit->id) ? 'selected' : ''); ?>><?php echo e($unit->unit); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </select>
+        <small id="unit_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('unit')); ?></small>
+      </div>
+      <div class="form-group">
         <label for="store">Store </label>
         <select name="store" class="form-control" id="store" aria-describedby="store">
           <option value="">Select store</option>

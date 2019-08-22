@@ -10,7 +10,7 @@
 	<?php $date=date_create($data->created_at); ?>
 <div class="container">
 	<div class="row">
-		<div class="col-md-6 col-xs-6"><img class="img-responsive"  src="{{ env('APP_URL') }}/storage/app/{{$company->logo}}" alt=""></div>
+		<div class="col-md-6 col-xs-6"><img class="img-responsive"  src="{{ env('APP_URL') }}/storage/app/{{(isset($company->logo))? $company->logo :'default.png'}}" alt=""></div>
 		<div class="col-md-6 col-xs-6" style="text-align: right;"><h1>Purchase Return INVOICE</h1></div>
 	</div>
 	<div class="row">

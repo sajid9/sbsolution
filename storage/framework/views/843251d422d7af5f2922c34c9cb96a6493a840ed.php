@@ -78,6 +78,9 @@
                                 <a href="<?php echo e(url('group/grouplisting')); ?>">Groups</a>
                             </li>
                             <li>
+                                <a href="<?php echo e(url('measuring/unitlisting')); ?>">Measuring Unit</a>
+                            </li>
+                            <li>
                                 <a href="<?php echo e(url('size/sizelisting')); ?>">sizes</a>
                             </li>
                             <li>
