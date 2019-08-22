@@ -25,4 +25,8 @@ class items extends Model
     {
         return $this->hasOne('App\classes', 'id', 'class_id');
     }
+    public function groups()
+    {
+        return $this->hasOne('App\groups', 'id', 'group_id');
+    }
 }

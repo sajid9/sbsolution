@@ -10,11 +10,11 @@ use DB;
 class Ledger_item extends Controller
 {
     public function item_ledgers(){
-    	$ledgers =item_ledger::with('items')->get();
+    	$ledgers =item_ledger::with('items.groups')->get();
     	return view('pages.itemledger.item_ledger',compact('ledgers'));
     }
     public function search_item(Request $request){
-    	$items = items::select('id','item_name as text')->where('item_name','like','%'.$request->term.'%')->get();
+    	$items = items::select('id','barcode as text')->where('barcode','like','%'.$request->term.'%')->get();
     	return json_encode($items);
     }
     public function search_itemledger(Request $request){

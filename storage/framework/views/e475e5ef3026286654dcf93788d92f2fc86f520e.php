@@ -19,14 +19,19 @@
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
+        <label for="barcode">Barcode <span class="text-danger">*</span></label>
+        <input type="text" name="barcode" value="<?php echo e(old('barcode')); ?>" class="form-control" id="barcode" placeholder="Short Code" aria-describedby="barcode">
+        <small id="barcode" class="form-text text-muted text-danger"><?php echo e($errors->first('barcode')); ?></small>
+      </div>
+      <div class="form-group">
         <label for="itemname">Item Name <span class="text-danger">*</span></label>
         <input type="text" name="item_name" value="<?php echo e(old('item_name')); ?>" class="form-control" id="itemname" aria-describedby="itemname" placeholder="item Name">
         <small id="itemname" class="form-text text-muted text-danger"><?php echo e($errors->first('item_name')); ?></small>
       </div>
       <div class="form-group">
-        <label for="barcode">Barcode <span class="text-danger">*</span></label>
-        <input type="text" name="barcode" value="<?php echo e(old('barcode')); ?>" class="form-control" id="barcode" placeholder="Short Code" aria-describedby="barcode">
-        <small id="barcode" class="form-text text-muted text-danger"><?php echo e($errors->first('barcode')); ?></small>
+        <label for="color">Color</label>
+        <input type="text" name="color_name" value="<?php echo e(old('color_name')); ?>" class="form-control" id="color" aria-describedby="color" placeholder="Color">
+        <small id="color" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
       </div>
       <div id="tile_attr">
         
@@ -47,8 +52,8 @@
         <small id="cal_open_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('cal_open')); ?></small>
       </div>
       <div class="form-group">
-        <label for="total_meter">Total Meter <span class="text-danger">*</span></label>
-        <input type="number" name="opening" value="<?php echo e(old('opening')); ?>" class="form-control" id="opening" placeholder="Opening Item" aria-describedby="total_meter_msg">
+        <label for="total_meter">Total Meter</label>
+        <input type="number" step="any" readonly="" name="opening" value="<?php echo e(old('opening')); ?>" class="form-control" id="opening" placeholder="Opening Item" aria-describedby="total_meter_msg">
         <small id="total_meter_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('opening')); ?></small>
       </div>
       <div class="form-group">
@@ -126,21 +131,6 @@
 
 <template id="tile_temp">
   <div class="form-group">
-    <label for="color">Color <span class="text-danger">*</span></label>
-    <input type="text" name="color_name" value="<?php echo e(old('color_name')); ?>" class="form-control" id="color" aria-describedby="color" placeholder="Color">
-    <small id="color" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
-  </div>
-  <div class="form-group">
-    <label for="quality">quality <span class="text-danger">*</span></label>
-    <select name="quality" class="form-control" id="quality" aria-describedby="quality_msg">
-      <option>Select Qualitiy</option>
-      <option>Ceramic</option>
-      <option>TB</option>
-      <option>Tiles</option>
-    </select>
-    <small id="quality_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quality')); ?></small>
-  </div>
-  <div class="form-group">
     <label for="size">Size <span class="text-danger">*</span></label>
     <select  name="size" class="form-control" id="size" aria-describedby="size_msg" >
       <option value="">Select Size</option>
@@ -183,6 +173,10 @@ $(document).ready(function(){
     }else{
       $('#opening').val(parseInt($('#cal_open').val()) * parseFloat($(this).val()));
     }
+  })
+  $('#barcode').on('keyup',function(){
+    var barcoad = $(this).val();
+    $('#itemname').val(barcoad);
   })
 })
 
