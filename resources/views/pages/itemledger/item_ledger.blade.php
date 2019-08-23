@@ -59,6 +59,8 @@
 			                <th>In Qty</th>
 			                <th>Out Qty</th>
 			                <th>Balance Qty</th>
+			                <th>boxes</th>
+			                <th>pieces</th>
 			            </tr>
 			        </thead>
 			        <tbody>
@@ -75,6 +77,18 @@
 			        		<td>{{$ledger->purchase}}</td>
 			        		<td>{{$ledger->sale}}</td>
 			        		<td>{{$ledger->left}}</td>
+			        		<td>{{($ledger->items->type == 'tile')? intval($ledger->left / $ledger->items->pieces) :''}}</td>
+			        		<td>
+			        			<?php 
+			        			if($ledger->items->type == 'tile'){
+			        			$boxes = intval($ledger->left / $ledger->items->pieces);
+			        			$num = $boxes * $ledger->items->pieces;
+			        			$pieces = $ledger->left - $num;
+			        			echo intval($pieces);
+			        			}
+			        			?>
+			        				
+			        		</td>
 			        	</tr>
 			        	@endforeach
 			        </tbody>

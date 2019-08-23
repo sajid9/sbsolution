@@ -190,14 +190,12 @@ $(document).ready(function(){
   $('#pieces').on('blur',function(){
     
       var meterPerBox = parseFloat($('#meter_per_box').val());
-      var piecesPerBox = $('#piece_in_box').val();
-      var boxes = $('#boxes').val();
-      var pieces = $('#pieces').val();
-      var meterPerPiece = meterPerBox / piecesPerBox;
-      var meterOfBoxes = parseInt(boxes) * meterPerBox;
-      var meterOfPieces = parseInt(pieces) * parseFloat(meterPerPiece);
-      var totalMeter = meterOfBoxes + meterOfPieces;
-      $('#opening').val(totalMeter);
+      var piecesPerBox = parseInt($('#piece_in_box').val());
+      var boxes = parseInt($('#boxes').val());
+      var pieces = parseInt($('#pieces').val());
+      var convertedPieces = boxes * piecesPerBox;
+      var totalPieces = convertedPieces + pieces;
+      $('#opening').val(totalPieces);
    
   }) 
   /*$('#meter_per_box').on('blur',function(){

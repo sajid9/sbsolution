@@ -1,5 +1,5 @@
 <?php $__env->startSection('title', 'Dashboard'); ?>
-<?php $__env->startSection('pagetitle', 'Item Ledger'); ?>
+<?php $__env->startSection('pagetitle', 'Voucher History'); ?>
 
 
 <?php $__env->startSection('header'); ?>
@@ -12,11 +12,11 @@
 <?php $__env->startSection('content'); ?>
 <div class="row">
 	<div class="col-md-12">
-		<form class="form-inline" method="post" action="<?php echo e(url('ledger/searchitem')); ?>">
+		<form class="form-inline" method="post" action="<?php echo e(url('ledger/searchvoucher')); ?>">
 			<?php echo csrf_field(); ?>
 		  <div class="form-group">
-		    <label for="Item">Item:</label>
-		    <select class="items-dropdown form-control" name="item" id="Item">
+		    <label for="voucher">Voucher</label>
+		    <select class="items-dropdown form-control" name="voucher" id="voucher">
 		    </select>
 		  </div>
 		  <div class="form-group">
@@ -36,24 +36,20 @@
 		
 		<div class="panel panel-default">
 		    <div class="panel-heading">
-		        Item Ledger
+		        Voucher Ledger
 		    </div>
 		    <div class="panel-body">
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
-			                <th>Sr #</th>
+			                <th>Sr#</th>
 			                <th>Date</th>
 			                <th>Voucher No</th>
-			                <th>Receipt No</th>
-			                <th>Desc</th>
-			                <th>Item Name</th>
-			                <th>Group</th>
-			                <th>In Qty</th>
-			                <th>Out Qty</th>
-			                <th>Balance Qty</th>
-			                <th>boxes</th>
-			                <th>pieces</th>
+			                <th>Supplier</th>
+			                <th>Type</th>
+			                <th>Debit</th>
+			                <th>Credit</th>
+			                <th>Balance</th>
 			            </tr>
 			        </thead>
 			        <tbody>
@@ -63,25 +59,11 @@
 			        		<td><?php echo e(++$count); ?></td>
 			        		<td><?php echo e(date_format(date_create($ledger->created_at),"d M Y H:i:s")); ?></td>
 			        		<td><?php echo e($ledger->voucher_id); ?></td>
-			        		<td><?php echo e($ledger->receipt_id); ?></td>
-			        		<td><?php echo e($ledger->description); ?></td>
-			        		<td><?php echo e((isset($ledger->items)) ? $ledger->items->item_name : ""); ?></td>
-			        		<td><?php echo e((isset($ledger->items->groups)) ? $ledger->items->groups->name : ""); ?></td>
-			        		<td><?php echo e($ledger->purchase); ?></td>
-			        		<td><?php echo e($ledger->sale); ?></td>
-			        		<td><?php echo e($ledger->left); ?></td>
-			        		<td><?php echo e(($ledger->items->type == 'tile')? intval($ledger->left / $ledger->items->pieces) :''); ?></td>
-			        		<td>
-			        			<?php 
-			        			if($ledger->items->type == 'tile'){
-			        			$boxes = intval($ledger->left / $ledger->items->pieces);
-			        			$num = $boxes * $ledger->items->pieces;
-			        			$pieces = $ledger->left - $num;
-			        			echo intval($pieces);
-			        			}
-			        			?>
-			        				
-			        		</td>
+			        		<td><?php echo e((isset($ledger->supplier))? $ledger->supplier->supplier_name : ''); ?></td>
+			        		<td><?php echo e($ledger->type); ?></td>
+			        		<td><?php echo e($ledger->debit); ?></td>
+			        		<td><?php echo e($ledger->credit); ?></td>
+			        		<td><?php echo e($ledger->balance); ?></td>
 			        	</tr>
 			        	<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 			        </tbody>
@@ -119,7 +101,7 @@
 	         $('.items-dropdown').select2({
 	         	width: '200px',
 	         	ajax: {
-	         	    url: '<?php echo e(url("ledger/getitems")); ?>',
+	         	    url: '<?php echo e(url("ledger/getvoucher")); ?>',
 	         	    dataType: 'json',
 	         	    processResults: function (data) {
          	          	return {

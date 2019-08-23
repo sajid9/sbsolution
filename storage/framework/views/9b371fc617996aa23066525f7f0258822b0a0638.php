@@ -100,8 +100,8 @@
               <small id="barcode_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
-              <label for="quantity"> Quantity / Meter <span class="text-danger">*</span></label>
-              <input type="number" disabled name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity / Meter">
+              <label for="quantity"> Quantity<span class="text-danger">*</span></label>
+              <input type="number" disabled name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>
@@ -215,6 +215,7 @@
 </div>
 <template id="tile_template">
   <div class="col-md-6">
+    <input type="hidden" name="type" id="typ">
     <div class="form-group">
       <label for="meter">Meter Per Box</label>
       <input type="text" disabled name="meter" value="<?php echo e(old('meter')); ?>" class="form-control" id="meter" aria-describedby="meter_msg" placeholder="total price">
@@ -340,6 +341,7 @@
                 $('#tile_container').html(temp);
                 $('#meter').val(res.meter);
                 $('#pieces').val(res.pieces);
+                $('#typ').val(res.type);
               }else{
                 $('#tile_container').html('');
               }
@@ -488,16 +490,18 @@
       }
     });
     $('#quantity').on('blur',function(){
-      var meter     = $(this).val();
+      var SalePieces     = $(this).val();
+
+
       var meterBox  = $('#meter').val();
       var piecesBox = $('#pieces').val();
-      /*calculate the boxes and pieces from meter*/
-      var boxes     = parseInt(meter / meterBox);
-      var num       = boxes * meterBox;
-      var mod       = meter - num;
       var onePiece  = meterBox / piecesBox;
-      var pieces    = mod / onePiece;
-      $('#box').html('<h2>'+boxes+' Boxes and '+pieces+' Pieces </h2>');
+      var meter     = onePiece * SalePieces;
+      /*calculate the boxes and pieces from meter*/
+      var boxes     = parseInt(SalePieces / piecesBox);
+      var num       = piecesBox * boxes;
+      var pieces    = SalePieces - num;
+      $('#box').html('<h2>Total Meter '+meter+' Boxes '+boxes+' and '+pieces+' Pieces </h2>');
     })
   </script>
 <?php $__env->stopSection(); ?>

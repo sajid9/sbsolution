@@ -88,8 +88,8 @@ class PurchaseOrder extends Controller
     public function additem(Request $request){
         $check = voucher_detail::where('voucher_id',$request->voucherId)->where('item_id',$request->itemId)->first();
         if($check === null){
-            if($request->meter != ''){
-                $quantity = $request->quantity * $request->meter;
+            if($request->pieces != ''){
+                $quantity = $request->quantity * $request->pieces;
             }else{
                 $quantity = $request->quantity;
             }

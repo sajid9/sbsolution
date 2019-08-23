@@ -25,7 +25,6 @@ class itemValidator extends FormRequest
     {
         return [
             'item_name' => 'required',
-            'cal_open'  => 'required',
             'barcode' => 'required|unique:items,barcode',
             'purchase_price' => 'required',
             'sale_price' => 'required',

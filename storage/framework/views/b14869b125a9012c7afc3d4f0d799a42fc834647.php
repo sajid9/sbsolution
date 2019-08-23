@@ -194,7 +194,12 @@
     <small id="meter_msg" class="form-text text-muted text-danger"></small>
   </div>
   <div class="form-group">
-    <label for="totalMeter">totalMeter Per Box<span class="text-danger">*</span></label>
+    <label for="pieces">Pieces Per Box<span class="text-danger">*</span></label>
+    <input type="text" readonly="readonly" name="pieces" value="" class="form-control" id="pieces" aria-describedby="pieces_msg" placeholder="pieces Per Box">
+    <small id="pieces_msg" class="form-text text-muted text-danger"></small>
+  </div>
+  <div class="form-group">
+    <label for="totalMeter">totalMeter<span class="text-danger">*</span></label>
     <input type="text" readonly="readonly" name="totalMeter" class="form-control" id="totalMeter" aria-describedby="totalMeter_msg" placeholder="Total Meter">
     <small id="totalMeter_msg" class="form-text text-muted text-danger"></small>
   </div>
@@ -310,6 +315,7 @@
               $('#tile_attr').html($('#tile_temp').html());
               /*$('#pieces').val(res.pieces);*/
               $('#meter').val(res.meter);
+              $('#pieces').val(res.pieces);
             }
             
           }
@@ -322,7 +328,7 @@
       data.quantity      = $('#quantity').val();
       data.voucherId     = $('#vouchernumber').val();
       data.purchasePrice = $('#purchase_price').val();
-      data.meter         = $('#meter').val();
+      data.pieces        = $('#pieces').val();
       data.type          = "purchase";
       data._token        = "<?php echo e(csrf_token()); ?>";
       if(data.quantity == ''){
