@@ -84,19 +84,7 @@ class Item extends Controller
 		    	$item->is_active    = 'no';
 		    }
 		    $item->save();
-            if($request->opening != ''){
-                $stock = new stock;
-                $stock->item_id = $item->id;
-                $stock->qty = $request->opening;
-                $stock->save();
-                $stock = stock::where('item_id',$item->id)->first();
-                $ledger = new item_ledger;
-                $ledger->item_id = $item->id;
-                $ledger->purchase = $request->opening;
-                $ledger->description = 'Opening';
-                $ledger->left     = $stock->qty;
-                $ledger->save();
-            }
+            
 		    return redirect()->to('item/itemlisting')->with('message','Item added successfully.');
     	}catch(\Exception $e){
     		return $e->getMessage();

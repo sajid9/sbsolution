@@ -31,29 +31,7 @@
       <div id="tile_attr">
         
       </div>
-      <div class="row" id="bp">
-        <div class="form-group col-md-6">
-          <label for="boxes">Boxes<span class="text-danger">*</span></label>
-          <input type="number" name="boxes" value="<?php echo e(old('boxes')); ?>" class="form-control" id="boxes" placeholder="Boxes" aria-describedby="boxes_msg">
-          <small id="boxes_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('boxes')); ?></small>
-        </div>
-        <div class="form-group col-md-6">
-          <label for="pieces">Pieces<span class="text-danger">*</span></label>
-          <input type="number" name="pieces" value="<?php echo e(old('pieces')); ?>" class="form-control" id="pieces" placeholder="Pieces" aria-describedby="pieces_msg">
-          <small id="pieces_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('pieces')); ?></small>
-        </div>
-      </div>
-      
-      <div class="form-group" id="op" style="display: none">
-        <label for="cal_open">Opening Item <span class="text-danger">*</span></label>
-        <input type="number" name="cal_open" value="<?php echo e(old('cal_open')); ?>" class="form-control" id="cal_open" placeholder="Opening Item" aria-describedby="cal_open_msg">
-        <small id="cal_open_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('cal_open')); ?></small>
-      </div>
-      <div class="form-group">
-        <label for="total_meter">Total</label>
-        <input type="number" step="any" readonly="" name="opening" value="<?php echo e(old('opening')); ?>" class="form-control" id="opening" placeholder="Opening Item" aria-describedby="total_meter_msg">
-        <small id="total_meter_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('opening')); ?></small>
-      </div>
+     
       <div class="form-group">
         <label for="unit"> Measuring Unit</label>
         <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
@@ -86,17 +64,7 @@
         <small id="sale_price" class="form-text text-muted text-danger"><?php echo e($errors->first('sale_price')); ?></small>
       </div>
       <div class="form-group">
-        <label for="store">Store </label>
-        <select name="store" class="form-control" id="store" aria-describedby="store">
-          <option value="">Select store</option>
-          <?php $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($store->id); ?>"><?php echo e($store->name); ?></option>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-        <small id="store" class="form-text text-muted text-danger"><?php echo e($errors->first('store')); ?></small>
-      </div>
-      <div class="form-group">
-        <label for="group">group </label>
+        <label for="group">group <span class="text-danger">*</span></label>
         <select name="group" class="form-control" id="group" aria-describedby="group_msg">
           <option value="">Select group</option>
           <?php $__currentLoopData = $groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
@@ -187,17 +155,7 @@ $(document).ready(function(){
   $('#cal_open').on('blur',function(){
     $('#opening').val($(this).val());
   })
-  $('#pieces').on('blur',function(){
-    
-      var meterPerBox = parseFloat($('#meter_per_box').val());
-      var piecesPerBox = parseInt($('#piece_in_box').val());
-      var boxes = parseInt($('#boxes').val());
-      var pieces = parseInt($('#pieces').val());
-      var convertedPieces = boxes * piecesPerBox;
-      var totalPieces = convertedPieces + pieces;
-      $('#opening').val(totalPieces);
-   
-  }) 
+  
   /*$('#meter_per_box').on('blur',function(){
     if($('#type').parent().hasClass('off')){
       $('#opening').val($('#cal_open').val());
@@ -231,12 +189,8 @@ $('#class').on('change',function(){
 $('#type').on('change',function(){
   if($(this).parent().hasClass('off')){
     $('#tile_attr').html('');
-    $('#bp').hide();
-    $('#op').show();
   }else{
     $('#tile_attr').html($('#tile_temp').html());
-    $('#bp').show();
-    $('#op').hide();
   }
 })
 </script>

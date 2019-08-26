@@ -20,6 +20,15 @@
 		    </select>
 		  </div>
 		  <div class="form-group">
+		    <label for="store">Stores:</label>
+		    <select class="form-control" name="store" id="store">
+		    	<option value="">Select Store</option>
+		    	<?php $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+		    	<option value="<?php echo e($store->id); ?>"><?php echo e($store->name); ?></option>
+		    	<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+		    </select>
+		  </div>
+		  <div class="form-group">
 		    <label for="frm">From:</label>
 		    <input type="date" class="form-control" id="frm" name="from">
 		  </div>
@@ -49,6 +58,7 @@
 			                <th>Desc</th>
 			                <th>Item Name</th>
 			                <th>Group</th>
+			                <th>Store</th>
 			                <th>In Qty</th>
 			                <th>Out Qty</th>
 			                <th>Balance Qty</th>
@@ -67,6 +77,7 @@
 			        		<td><?php echo e($ledger->description); ?></td>
 			        		<td><?php echo e((isset($ledger->items)) ? $ledger->items->item_name : ""); ?></td>
 			        		<td><?php echo e((isset($ledger->items->groups)) ? $ledger->items->groups->name : ""); ?></td>
+			        		<td><?php echo e((isset($ledger->stores)) ? $ledger->stores->name : ""); ?></td>
 			        		<td><?php echo e($ledger->purchase); ?></td>
 			        		<td><?php echo e($ledger->sale); ?></td>
 			        		<td><?php echo e($ledger->left); ?></td>

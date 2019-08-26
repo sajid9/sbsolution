@@ -12,4 +12,8 @@ class item_ledger extends Model
     {
         return $this->hasOne('App\items','id','item_id');
     }
+    public function stores()
+    {
+        return $this->hasOne('App\stores','id','store');
+    }
 }

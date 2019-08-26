@@ -27,6 +27,15 @@
 		    </select>
 		  </div>
 		  <div class="form-group">
+		    <label for="store">Stores:</label>
+		    <select class="form-control" name="store" id="store">
+		    	<option value="">Select Store</option>
+		    	@foreach($stores as $store)
+		    	<option value="{{$store->id}}">{{$store->name}}</option>
+		    	@endforeach
+		    </select>
+		  </div>
+		  <div class="form-group">
 		    <label for="frm">From:</label>
 		    <input type="date" class="form-control" id="frm" name="from">
 		  </div>
@@ -56,6 +65,7 @@
 			                <th>Desc</th>
 			                <th>Item Name</th>
 			                <th>Group</th>
+			                <th>Store</th>
 			                <th>In Qty</th>
 			                <th>Out Qty</th>
 			                <th>Balance Qty</th>
@@ -74,6 +84,7 @@
 			        		<td>{{$ledger->description}}</td>
 			        		<td>{{(isset($ledger->items)) ? $ledger->items->item_name : ""}}</td>
 			        		<td>{{(isset($ledger->items->groups)) ? $ledger->items->groups->name : ""}}</td>
+			        		<td>{{(isset($ledger->stores)) ? $ledger->stores->name : ""}}</td>
 			        		<td>{{$ledger->purchase}}</td>
 			        		<td>{{$ledger->sale}}</td>
 			        		<td>{{$ledger->left}}</td>

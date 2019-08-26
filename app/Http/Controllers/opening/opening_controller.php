@@ -13,23 +13,30 @@ use App\cash;
 use App\supplier_history;
 use App\customer_ledger;
 use App\accounts;
+use App\stores;
 use DB;
 class opening_controller extends Controller
 {	
     public function addItem(){
-    	$items = items::all();
-    	return view('pages.opening.opening_item_form',compact('items'));
+    	$items  = items::all();
+        $stores = stores::all(); 
+    	return view('pages.opening.opening_item_form',compact('items','stores'));
     }
     public function save_item(Request $request){
         $request->validate([
-            'item_id' =>'required|unique:item_ledger,item_id'
+            'store' =>'required'
         ]);
+        $check = item_ledger::where('item_id',$request->item_id)->where('store',$request->store)->get();
+        if(sizeof($check) > 0){
+            return redirect()->to('opening/addItem')->with('error','opening already exsist');
+        }
     	if(stock::where('item_id',$request->item_id)->first()){
             $stock = stock::where('item_id',$request->item_id)->increment('qty',$request->quantity);
         }else{
             $stock = new stock;
             $stock->item_id = $request->item_id;
             $stock->qty = $request->quantity;
+            $stock->store = $request->store;
             $stock->save();
         }
         $stock = stock::where('item_id',$request->item_id)->first();
@@ -38,6 +45,7 @@ class opening_controller extends Controller
         $ledger->purchase = $request->quantity;
         $ledger->description = 'Opening';
         $ledger->left     = $stock->qty;
+        $ledger->store    = $request->store;
         $ledger->save();
     	return redirect()->to('opening/addItem')->with('message','Opening Added Successfully');
     }

@@ -44,6 +44,7 @@
 			                <th>Purchase Price</th>
 			                <th>Sale Price</th>
 			                <th>Category</th>
+			                <th>Type</th>
 			                <th>Status</th>
 			                <th>Action</th>
 			            </tr>
@@ -59,6 +60,7 @@
 			                <td>{{ $item->sale_price }}</td>
 			                
 			                <td>{{ ($item->categories)?$item->categories->category_name:'NULL' }}</td>
+			                <td>{{$item->type}}</td>
 			                <td>{!!($item->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
 			                <td><a href="{{url('item/edititem/'.$item->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deleteItem('{{$item->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                

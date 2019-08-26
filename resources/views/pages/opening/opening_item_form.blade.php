@@ -33,14 +33,42 @@
       </div>
     </div>
     <div class="col-md-6">
-     <div class="form-group">
-       <label for="quantity">Quantity <span class="text-danger">*</span></label>
-       <input type="number"  name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="voucher number">
-       <small id="quantity_msg" class="form-text text-muted text-danger"></small>
-     </div>
+      <div class="form-group">
+        <label for="store">Store <span class="text-danger">*</span></label>
+        <select name="store" class="form-control" id="store" aria-describedby="store">
+          <option value="">Select store</option>
+          @foreach($stores as $store)
+            <option value="{{$store->id}}">{{ $store->name}}</option>
+          @endforeach
+        </select>
+        <small id="store" class="form-text text-muted text-danger">{{$errors->first('store')}}</small>
+      </div>
     </div>
   </div>
-  
+  <div class="row" id="bp" style="display: none">
+     <div class="form-group col-md-6">
+      <input type="hidden" id="meter_per_box">
+      <input type="hidden" id="piece_in_box">
+       <label for="boxes">Boxes<span class="text-danger">*</span></label>
+       <input type="number" name="boxes" value="{{old('boxes')}}" class="form-control" id="boxes" placeholder="Boxes" aria-describedby="boxes_msg">
+       <small id="boxes_msg" class="form-text text-muted text-danger">{{$errors->first('boxes')}}</small>
+     </div>
+     <div class="form-group col-md-6">
+       <label for="pieces">Pieces<span class="text-danger">*</span></label>
+       <input type="number" name="pieces" value="{{old('pieces')}}" class="form-control" id="pieces" placeholder="Pieces" aria-describedby="pieces_msg">
+       <small id="pieces_msg" class="form-text text-muted text-danger">{{$errors->first('pieces')}}</small>
+     </div>
+  </div>
+  <div class="form-group" id="op" style="display: none">
+        <label for="cal_open">Opening Item <span class="text-danger">*</span></label>
+        <input type="number" name="cal_open" value="{{old('cal_open')}}" class="form-control" id="cal_open" placeholder="Opening Item" aria-describedby="cal_open_msg">
+        <small id="cal_open_msg" class="form-text text-muted text-danger">{{$errors->first('cal_open')}}</small>
+      </div>
+      <div class="form-group">
+        <label for="total_meter">Total</label>
+        <input type="number" step="any" readonly="" name="quantity" value="{{old('quantity')}}" class="form-control" id="opening" placeholder="Opening Item" aria-describedby="total_meter_msg">
+        <small id="total_meter_msg" class="form-text text-muted text-danger">{{$errors->first('quantity')}}</small>
+      </div>
   <button type="submit"  class="btn btn-primary" id="addItem">Add Item</button> <a href="{{url('/')}}" class="btn btn-default">Back</a>
 </form>
 {{-- form end --}}
@@ -91,7 +119,9 @@
 @section('footer')
 @parent
 <script>
-
+  $('#cal_open').on('blur',function(){
+    $('#opening').val($(this).val());
+  })
   $("#barcode").on('blur',function(){
       var barcode = $(this).val();
       var voucher_id = $('#vouchernumber').val();
@@ -112,6 +142,15 @@
               $('#itemId').val(res.id);
               $('#addItem').prop('disabled',false);
               $('#barcode_msg').text('');
+              if(res.type == 'tile'){
+                $('#meter_per_box').val(res.meter);
+                $('#piece_in_box').val(res.pieces);
+                $('#bp').show();
+                $('#op').hide();
+              }else{
+                $('#bp').hide();
+                $('#op').show();
+              }
             }else{
               $('#purchase_price').val('');
               $('#sale_price').val('');
@@ -121,7 +160,15 @@
         }
       });
     });
-  
+  $('#pieces').on('blur',function(){
+    var meterPerBox = parseFloat($('#meter_per_box').val());
+    var piecesPerBox = parseInt($('#piece_in_box').val());
+    var boxes = parseInt($('#boxes').val());
+    var pieces = parseInt($('#pieces').val());
+    var convertedPieces = boxes * piecesPerBox;
+    var totalPieces = convertedPieces + pieces;
+    $('#opening').val(totalPieces);
+  }) 
 </script>
 
 @endsection

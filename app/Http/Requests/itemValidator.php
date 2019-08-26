@@ -29,6 +29,7 @@ class itemValidator extends FormRequest
             'purchase_price' => 'required',
             'sale_price' => 'required',
             'sale_price' => 'required',
+            'group' => 'required',
         ];
     }
 }

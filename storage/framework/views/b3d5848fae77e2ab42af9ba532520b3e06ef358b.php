@@ -1,5 +1,5 @@
 <?php $__env->startSection('title', 'Dashboard'); ?>
-<?php $__env->startSection('pagetitle', 'Item'); ?>
+<?php $__env->startSection('pagetitle', 'Subhead'); ?>
 
 
 <?php $__env->startSection('header'); ?>
@@ -12,8 +12,8 @@
 <?php $__env->startSection('content'); ?>
 <div class="row" style="padding-bottom: 10px">
 	<div class="col-md-12">
-		<a href="<?php echo e(url('item/additemform')); ?>" class="btn btn-social btn-bitbucket pull-right">
-		    <i class="fa fa-plus"></i> Add Item
+		<a href="<?php echo e(url('expenditure/addsubhead/'.Request::segment(3))); ?>" class="btn btn-social btn-bitbucket pull-right">
+		    <i class="fa fa-plus"></i> Add Subhead
 		</a>
 	</div>
 </div>
@@ -25,37 +25,28 @@
 		
 		<div class="panel panel-default">
 		    <div class="panel-heading">
-		        Item Listing
+		        Subhead Listing
 		    </div>
 		    <div class="panel-body">
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
-			                <th>Sr #</th>
-			                <th>item Name</th>
-			                <th>Barcode</th>
-			                <th>Purchase Price</th>
-			                <th>Sale Price</th>
-			                <th>Category</th>
-			                <th>Type</th>
+			                <th>Sr#</th>
+			                <th>Head Name</th>
+			                <th>Subhead Name</th>
 			                <th>Status</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			        	<?php $count = 0; ?>
-			        	<?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+			        	<?php $__currentLoopData = $subheads; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $subhead): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 			            <tr class="odd gradeX">
 			                <td><?php echo e(++$count); ?></td>
-			                <td><?php echo e($item->item_name); ?></td>
-			                <td><?php echo e($item->barcode); ?></td>
-			                <td><?php echo e($item->purchase_price); ?></td>
-			                <td><?php echo e($item->sale_price); ?></td>
-			                
-			                <td><?php echo e(($item->categories)?$item->categories->category_name:'NULL'); ?></td>
-			                <td><?php echo e($item->type); ?></td>
-			                <td><?php echo ($item->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'; ?></td>
-			                <td><a href="<?php echo e(url('item/edititem/'.$item->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
+			                <td><?php echo e(isset($subhead->head) ? $subhead->head->name : ''); ?></td>
+			                <td><?php echo e($subhead->name); ?></td>
+			                <td><?php echo ($subhead->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'; ?></td>
+			                <td><a href="<?php echo e(url('expenditure/editsubhead/'.$subhead->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -78,14 +69,13 @@
 	<script>
 	    $(document).ready(function() {
 	        $('#dataTables-example').DataTable({
-	                responsive: true,
-	                columnDefs: [ { orderable: false, targets: [7] } ]
+	                responsive: true
 	        });
 	        $('[data-toggle="tooltip"]').tooltip();
 	    });
-	    function deleteItem(id){
+	    function deleteCompany(id){
 	    	if(window.confirm('do you really wanna delete this record?')){
-	    		var url = '<?php echo e(url('item/deleteitem')); ?>';
+	    		var url = '<?php echo e(url('company/deletecompany')); ?>';
 	    		window.location.href = url+'/'+id;
 	    	}
 	    }
