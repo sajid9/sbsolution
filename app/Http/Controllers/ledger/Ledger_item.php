@@ -11,7 +11,7 @@ use DB;
 class Ledger_item extends Controller
 {
     public function item_ledgers(){
-    	$ledgers =item_ledger::with('items.groups','stores')->get();
+    	$ledgers =item_ledger::with('items.groups','stores','voucher')->get();
         $stores  = stores::all();
     	return view('pages.itemledger.item_ledger',compact('ledgers','stores'));
     }

@@ -59,8 +59,12 @@
     </select>
     <small id="account_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('account')); ?></small>
   </div>
+   <div class="form-group">
+    <label for="bal_amount_account">Balance Amount of Account</label>
+    <input type="number" disabled="disabled" name="bal_amount_account" value="" class="form-control" id="bal_amount_account">
+  </div>
   <div class="form-group">
-    <label for="bal_amount">Balance Amount</label>
+    <label for="bal_amount">Balance Amount of Voucher</label>
     <input type="number" disabled="disabled" name="bal_amount" value="" class="form-control" id="bal_amount">
   </div>
   <div class="form-group">
@@ -303,6 +307,18 @@ $('#paytype').on('change',function(){
     var temp = $('#dpts_con').html();
     $('#append_con').html(temp);
   }
+});
+$(document).on('change','#account',function(){
+  var id = $(this).val();
+  $.ajax({
+    url:"<?php echo e(url('payment/getaccountinfo')); ?>",
+    type:"post",
+    dataType:"json",
+    data:{id:id,_token:"<?php echo e(csrf_token()); ?>"},
+    success:function(res){
+      $('#bal_amount_account').val(res.left_bal);
+    }
+  });
 });
 $(document).on('change','#voucherId',function(){
   var val = $(this).val();

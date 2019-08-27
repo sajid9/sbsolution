@@ -16,4 +16,8 @@ class item_ledger extends Model
     {
         return $this->hasOne('App\stores','id','store');
     }
+    public function voucher()
+    {
+        return $this->hasOne('App\voucher','id','voucher_id');
+    }
 }

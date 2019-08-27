@@ -164,7 +164,7 @@
                     <th>Sale Price</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="table-body">
               <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
               <tr>
                 <td><?php echo e($item->id); ?></td>
@@ -219,6 +219,11 @@
                   responsive: true,
           });
           $('[data-toggle="tooltip"]').tooltip();
+          $(document).on('dblclick','#table-body',function(e){
+            var barcode = $(e.target).closest('tr').find('td').eq(2).text();
+            $('#barcode').val(barcode).trigger('blur');
+            $('#myModal').modal('hide');
+          });
       });
       
     $('#vendor_form').on('submit',function(e){

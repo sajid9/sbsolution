@@ -67,9 +67,11 @@ class payment extends Controller
         }
         if($request->type === "to"){
             $payment->debit = $request->amount;
+            DB::table('accounts')->where('id',$request->account)->decrement('left_bal',$request->amount);
         }
         if($request->type === "from"){
             $payment->credit = $request->amount;
+            DB::table('accounts')->where('id',$request->account)->increment('left_bal',$request->amount);
         }
         if($request->paytype === "EX"){
             $payment->credit   = $request->amount;
@@ -85,6 +87,7 @@ class payment extends Controller
         }
         $payment->financial_year = $request->fn_year;
         $payment->save();
+
         if($request->voucher == null && $request->supplier != null){
             $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$request->supplier)->first();
             $supplier_history = new supplier_history;
@@ -99,6 +102,7 @@ class payment extends Controller
             $sup = DB::table('voucher')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->voucher)->first();
             $supplier = new supplier_ledger;
             $supplier->voucher_id = $request->voucher;
+            $supplier->supplier_id = $request->supplier;
             $supplier->debit = $request->amount;
             $supplier->balance = $sup->balance;
             $supplier->type = "Payment";
@@ -107,6 +111,7 @@ class payment extends Controller
             $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
             $supplier_history = new supplier_history;
             $supplier_history->supplier_id = $sup->supplier_id;
+            $supplier_history->voucher_id = $request->voucher;
             $supplier_history->debit = $request->amount;
             $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
             $supplier_history->type = "Payment";
@@ -202,5 +207,10 @@ class payment extends Controller
     {
         $voucher = voucher::find($request->voucher);
         return json_encode($voucher);
+    }
+    public function get_account_info(Request $request)
+    {
+        $account = accounts::find($request->id);
+        return json_encode($account);
     }
 }

@@ -167,7 +167,7 @@ Route::prefix('payment')->middleware(['auth'])->group(function(){
     Route::post('addfnyear','payments\payment@add_fnyear');
     Route::get('deleteyear/{id}','payments\payment@delete_year');
     Route::post('checkamount','payments\payment@check_paid_amount');
-
+    Route::post('getaccountinfo','payments\payment@get_account_info');
 });
 
 /*

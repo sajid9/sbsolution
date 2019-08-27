@@ -108,6 +108,7 @@ class opening_controller extends Controller
         $account->account_title = $request->title;
         $account->date = $request->date;
         $account->balance = $request->amount;
+        $account->left_bal = $request->amount;
         $account->branch_name = $request->branchname;
         $account->branch_code = $request->branchcode;
         $account->account_number = $request->accountno;

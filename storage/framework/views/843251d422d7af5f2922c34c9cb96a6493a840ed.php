@@ -97,16 +97,16 @@
                     </li>
                     
                     <li>
-                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Purchase Info<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Voucher Info<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="<?php echo e(url('voucher/voucherlisting')); ?>">Purchase Order</a>
+                                <a href="<?php echo e(url('voucher/voucherlisting')); ?>">Voucher</a>
                             </li>
                             <li>
-                                <a href="<?php echo e(url('ledger/voucherhistory')); ?>" target="_blank">Voucher History</a>
+                                <a href="<?php echo e(url('ledger/voucherhistory')); ?>" target="_blank">Voucher ledger</a>
                             </li>
                             <li>
-                                <a href="<?php echo e(url('ledger/supplierhistory')); ?>" target="_blank">Supplier History</a>
+                                <a href="<?php echo e(url('ledger/supplierhistory')); ?>" target="_blank">Supplier ledger</a>
                             </li>
                             <li>
                                 <a href="<?php echo e(url('supplier/supplierlisting')); ?>"> Add Suppliers</a>

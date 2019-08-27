@@ -175,7 +175,7 @@
                     <th>Sale Price</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="table-body">
               @foreach($items as $item)
               <tr>
                 <td>{{$item->id}}</td>
@@ -234,6 +234,11 @@
                   responsive: true,
           });
           $('[data-toggle="tooltip"]').tooltip();
+          $(document).on('dblclick','#table-body',function(e){
+            var barcode = $(e.target).closest('tr').find('td').eq(2).text();
+            $('#barcode').val(barcode).trigger('blur');
+            $('#myModal').modal('hide');
+          });
       });
       
     $('#vendor_form').on('submit',function(e){

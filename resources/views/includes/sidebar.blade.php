@@ -119,16 +119,16 @@
                     </li>
                     {{-- purchase info --}}
                     <li>
-                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Purchase Info<span class="fa arrow"></span></a>
+                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Voucher Info<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{url('voucher/voucherlisting')}}">Purchase Order</a>
+                                <a href="{{url('voucher/voucherlisting')}}">Voucher</a>
                             </li>
                             <li>
-                                <a href="{{url('ledger/voucherhistory')}}" target="_blank">Voucher History</a>
+                                <a href="{{url('ledger/voucherhistory')}}" target="_blank">Voucher ledger</a>
                             </li>
                             <li>
-                                <a href="{{url('ledger/supplierhistory')}}" target="_blank">Supplier History</a>
+                                <a href="{{url('ledger/supplierhistory')}}" target="_blank">Supplier ledger</a>
                             </li>
                             <li>
                                 <a href="{{url('supplier/supplierlisting')}}"> Add Suppliers</a>

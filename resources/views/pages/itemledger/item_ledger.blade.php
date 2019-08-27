@@ -71,6 +71,7 @@
 			                <th>Balance Qty</th>
 			                <th>boxes</th>
 			                <th>pieces</th>
+			                <th>Total Meters</th>
 			            </tr>
 			        </thead>
 			        <tbody>
@@ -79,7 +80,7 @@
 			        	<tr>
 			        		<td>{{ ++$count }}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
-			        		<td>{{$ledger->voucher_id}}</td>
+			        		<td>{{(isset($ledger->voucher))?$ledger->voucher->voucher_no:''}}</td>
 			        		<td>{{$ledger->receipt_id}}</td>
 			        		<td>{{$ledger->description}}</td>
 			        		<td>{{(isset($ledger->items)) ? $ledger->items->item_name : ""}}</td>
@@ -99,6 +100,16 @@
 			        			}
 			        			?>
 			        				
+			        		</td>
+			        		<td>
+			        			<?php 
+			        			if($ledger->items->type == 'tile'){
+			        			$boxes = intval($ledger->left / $ledger->items->pieces);
+			        			$num = $boxes * $ledger->items->pieces;
+			        			$pieces = $ledger->left - $num;
+			        			echo ($boxes * $ledger->items->meter) + (($ledger->items->meter / $ledger->items->pieces) * $pieces);
+			        			}
+			        			?>
 			        		</td>
 			        	</tr>
 			        	@endforeach

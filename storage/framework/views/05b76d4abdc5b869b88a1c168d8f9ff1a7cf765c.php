@@ -38,8 +38,9 @@
       </div>
     </div>
   </div>
-  <div class="row" id="bp" style="display: none">
-     <div class="form-group col-md-6">
+  <div id="bp" style="display: none">
+    <div class="row">
+      <div class="form-group col-md-6">
       <input type="hidden" id="meter_per_box">
       <input type="hidden" id="piece_in_box">
        <label for="boxes">Boxes<span class="text-danger">*</span></label>
@@ -51,17 +52,28 @@
        <input type="number" name="pieces" value="<?php echo e(old('pieces')); ?>" class="form-control" id="pieces" placeholder="Pieces" aria-describedby="pieces_msg">
        <small id="pieces_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('pieces')); ?></small>
      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <label for="total_meter">Total Meter</label>
+          <input type="number" step="any" readonly="" name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="meter" placeholder="Opening Item" aria-describedby="total_meter_msg">
+          <small id="total_meter_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quantity')); ?></small>
+        </div>
+      </div>
+     
+    </div>
   </div>
   <div class="form-group" id="op" style="display: none">
-        <label for="cal_open">Opening Item <span class="text-danger">*</span></label>
-        <input type="number" name="cal_open" value="<?php echo e(old('cal_open')); ?>" class="form-control" id="cal_open" placeholder="Opening Item" aria-describedby="cal_open_msg">
-        <small id="cal_open_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('cal_open')); ?></small>
-      </div>
-      <div class="form-group">
-        <label for="total_meter">Total</label>
-        <input type="number" step="any" readonly="" name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="opening" placeholder="Opening Item" aria-describedby="total_meter_msg">
-        <small id="total_meter_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quantity')); ?></small>
-      </div>
+    <label for="cal_open">Opening Item <span class="text-danger">*</span></label>
+    <input type="number" name="cal_open" value="<?php echo e(old('cal_open')); ?>" class="form-control" id="cal_open" placeholder="Opening Item" aria-describedby="cal_open_msg">
+    <small id="cal_open_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('cal_open')); ?></small>
+  </div>
+  <div class="form-group">
+    <label for="total_pieces">Total Pieces</label>
+    <input type="number" step="any" readonly="" name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="opening" placeholder="Opening Item" aria-describedby="total_pieces_msg">
+    <small id="total_pieces_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quantity')); ?></small>
+  </div>
   <button type="submit"  class="btn btn-primary" id="addItem">Add Item</button> <a href="<?php echo e(url('/')); ?>" class="btn btn-default">Back</a>
 </form>
 
@@ -86,7 +98,7 @@
                     <th>Sale Price</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="table-body">
               <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
               <tr>
                 <td><?php echo e($item->id); ?></td>
@@ -112,6 +124,11 @@
 <?php $__env->startSection('footer'); ?>
 ##parent-placeholder-d7eb6b340a11a367a1bec55e4a421d949214759f##
 <script>
+  $(document).on('dblclick','#table-body',function(e){
+    var barcode = $(e.target).closest('tr').find('td').eq(2).text();
+    $('#barcode').val(barcode).trigger('blur');
+    $('#myModal').modal('hide');
+  })
   $('#cal_open').on('blur',function(){
     $('#opening').val($(this).val());
   })
@@ -160,7 +177,11 @@
     var pieces = parseInt($('#pieces').val());
     var convertedPieces = boxes * piecesPerBox;
     var totalPieces = convertedPieces + pieces;
+    var meterOnePiece = meterPerBox / piecesPerBox;
+    var totalMeter = totalPieces * meterOnePiece;
+
     $('#opening').val(totalPieces);
+    $('#meter').val(totalMeter);
   }) 
 </script>
 
