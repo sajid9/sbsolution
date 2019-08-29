@@ -149,6 +149,12 @@ Route::prefix('voucher')->middleware(['auth'])->group(function () {
     Route::get('editvoucher/{id}','Purchase\PurchaseOrder@editvoucher');
     Route::post('returnitem','Purchase\PurchaseOrder@returnitem');
     Route::post('selectsupplier','Purchase\PurchaseOrder@selectsupplier');
+    Route::get('receivinglisting/{voucher}/{item}','Purchase\Voucherreceiving@receiving_listing');
+    Route::get('add_receiving_form/{voucher}/{item}','Purchase\Voucherreceiving@add_receiving_form');
+    Route::post('addreceiving','Purchase\Voucherreceiving@add_receiving');
+    Route::get('receivingstore/{voucher}/{item}/{qty}/{receiving_id}','Purchase\Voucherreceiving@receiving_store');
+    Route::get('addreceivingstoreform/{voucher}/{item}/{qty}/{receiving_id}','Purchase\Voucherreceiving@add_receiving_store_form');
+    Route::post('addreceivingstore','Purchase\Voucherreceiving@add_receiving_store');
 });
 
 /*

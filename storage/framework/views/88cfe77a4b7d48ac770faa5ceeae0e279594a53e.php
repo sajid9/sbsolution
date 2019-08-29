@@ -137,7 +137,7 @@
               <td><?php echo e($item->item->purchase_price); ?></td>
               <td><?php echo e($item->item->sale_price); ?></td>
               <td><?php echo e($item->qty); ?></td>
-              <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($voucherId); ?>','<?php echo e($item->item->id); ?>','<?php echo e($item->qty); ?>','<?php echo e($item->purchase_price); ?>')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("<?php echo e($item->id); ?>","<?php echo e($voucherId); ?>","<?php echo e($item->item->id); ?>","<?php echo e($item->qty); ?>")'></i></td>
+              <td><a href="<?php echo e(url('voucher/receivinglisting/'.$item->voucher_id.'/'.$item->item_id)); ?>"><i class="glyphicon glyphicon-plus cursor" data-toggle="tooltip" title="voucher receive"></i></a></td>
             </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
          </tbody>
@@ -225,37 +225,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="returnItem" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Items</h4>
-        </div>
-        <div class="modal-body">
-          <form id="return_form">
-            <?php echo csrf_field(); ?>
-            <input type="hidden" name="voucher_id" id="voucher_id">
-            <input type="hidden" name="item_id" id="item_id">
-            <input type="hidden" name="purchase_price" id="purchase_price_modal">
-            <div class="form-group">
-              <label for="t_qty">Total Quantity</label>
-              <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
-            </div>
-            <div class="form-group">
-              <label for="qty">Quantity</label>
-              <input type="number" name="quantity" class="form-control" id="qty" placeholder="Enter the quantity to return">
-              <small id="qty_msg" class="form-text text-muted text-danger"></small>
-            </div>
-            <button type="submit" id="qty_sub" class="btn btn-default">Submit</button>
-          </form>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  
 </div>
 </div>
 <?php $__env->stopSection(); ?>
@@ -294,17 +264,7 @@
       $('#item_id').val(itemId);
       $('#purchase_price_modal').val(purchasePrice);
     } 
-    $('#qty').on('keyup',function(){
-      var total_qty = parseInt($('#t_qty').val());
-      var qty = parseInt($('#qty').val());
-      if(qty > total_qty){
-        $('#qty_msg').text('Quantity should be less then total quantity');
-        $('#qty_sub').prop('disabled',true);
-      }else{
-        $('#qty_msg').text('');
-        $('#qty_sub').prop('disabled',false);
-      }
-    })
+    
     $('#return_form').on('submit',function(e){
       e.preventDefault();
       var data = $(this).serialize();

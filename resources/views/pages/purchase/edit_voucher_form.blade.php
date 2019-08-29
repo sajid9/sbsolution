@@ -144,7 +144,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->purchase_price}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td>{{-- <i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->purchase_price}}')"></i> --}}<a href="{{url('voucher/receivinglisting/'.$item->voucher_id.'/'.$item->item_id)}}"><i class="glyphicon glyphicon-plus cursor" data-toggle="tooltip" title="voucher receive"></i></a>{{-- <i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i> --}}</td>
             </tr>
           @endforeach
          </tbody>
@@ -232,37 +232,7 @@
     </div>
   </div>
 
-  <div class="modal fade" id="returnItem" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Items</h4>
-        </div>
-        <div class="modal-body">
-          <form id="return_form">
-            @csrf
-            <input type="hidden" name="voucher_id" id="voucher_id">
-            <input type="hidden" name="item_id" id="item_id">
-            <input type="hidden" name="purchase_price" id="purchase_price_modal">
-            <div class="form-group">
-              <label for="t_qty">Total Quantity</label>
-              <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
-            </div>
-            <div class="form-group">
-              <label for="qty">Quantity</label>
-              <input type="number" name="quantity" class="form-control" id="qty" placeholder="Enter the quantity to return">
-              <small id="qty_msg" class="form-text text-muted text-danger"></small>
-            </div>
-            <button type="submit" id="qty_sub" class="btn btn-default">Submit</button>
-          </form>
-        </div>
-      </div>
-      
-    </div>
-  </div>
+  
 </div>
 </div>
 @endsection
@@ -301,17 +271,7 @@
       $('#item_id').val(itemId);
       $('#purchase_price_modal').val(purchasePrice);
     } 
-    $('#qty').on('keyup',function(){
-      var total_qty = parseInt($('#t_qty').val());
-      var qty = parseInt($('#qty').val());
-      if(qty > total_qty){
-        $('#qty_msg').text('Quantity should be less then total quantity');
-        $('#qty_sub').prop('disabled',true);
-      }else{
-        $('#qty_msg').text('');
-        $('#qty_sub').prop('disabled',false);
-      }
-    })
+    
     $('#return_form').on('submit',function(e){
       e.preventDefault();
       var data = $(this).serialize();

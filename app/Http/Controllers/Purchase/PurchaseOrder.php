@@ -13,6 +13,7 @@ use App\item_ledger;
 use App\supplier_ledger;
 use App\supplier_history;
 use App\cash;
+use App\stores;
 use DB;
 
 class PurchaseOrder extends Controller
@@ -100,23 +101,6 @@ class PurchaseOrder extends Controller
             $item->type = $request->type;
             $item->purchase_price = $request->purchasePrice;
             $item->save();
-
-            if(stock::where('item_id',$request->itemId)->first()){
-                $stock = stock::where('item_id',$request->itemId)->increment('qty',$quantity);
-            }else{
-                $stock = new stock;
-                $stock->item_id = $item->item_id;
-                $stock->qty = $quantity;
-                $stock->save();
-            }
-            $stock = stock::where('item_id',$request->itemId)->first();
-            $ledger = new item_ledger;
-            $ledger->item_id = $request->itemId;
-            $ledger->purchase = $quantity;
-            $ledger->voucher_id = $request->voucherId;
-            $ledger->description = 'Purchase';
-            $ledger->left     = $stock->qty;
-            $ledger->save();
         }
     	$items = voucher_detail::with('item')->where('voucher_id',$item->voucher_id)->where('type','purchase')->get();
     	return json_encode($items);
