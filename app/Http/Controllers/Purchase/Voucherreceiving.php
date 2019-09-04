@@ -8,7 +8,12 @@ use App\voucher_receiving;
 use App\item_ledger;
 use App\stores;
 use App\stock;
-
+use App\voucher_detail;
+use App\voucher;
+use App\supplier_ledger;
+use App\supplier_history;
+use App\items;
+use DB;
 class Voucherreceiving extends Controller
 {
     public function receiving_listing($voucher,$item)
@@ -51,7 +56,7 @@ class Voucherreceiving extends Controller
                 $stock->store = $request->store;
                 $stock->save();
             }
-            $stock = stock::where('item_id',$request->item)->first();
+            $stock = stock::where('item_id',$request->item)->where('store',$request->store)->first();
             $ledger = new item_ledger;
             $ledger->item_id = $request->item;
             $ledger->purchase = $request->quantity;
@@ -63,5 +68,40 @@ class Voucherreceiving extends Controller
             $ledger->save();
     	
     	return redirect()->to('voucher/receivingstore/'.$request->voucher.'/'.$request->item.'/'.$request->total_qty.'/'.$request->receiving_id)->with('message','Record Added successfully');
+    }
+    public function return_item(Request $request){
+        $receiving = DB::table('voucher_receiving')->where('id',$request->receiving_id)->decrement('qty',$request->quantity); 
+        $item = items::find($request->item_id);
+
+        $voucher_detail = new voucher_detail;
+        $voucher_detail->voucher_id = $request->voucher_id;
+        $voucher_detail->item_id = $request->item_id;
+        $voucher_detail->qty = $request->quantity;
+        $voucher_detail->purchase_price = $item->purchase_price;
+        $voucher_detail->type = "return";
+        $voucher_detail->save();
+        $stock = DB::table('stock')->where('item_id',$request->item_id)->where('store',$request->store)->decrement('qty',$request->quantity);
+        $voucher = voucher::find($request->voucher_id);
+        $voucher->return_amount =  $item->purchase_price * $request->quantity;
+        $voucher->save();
+
+        $vouch = voucher::find($request->voucher_id);
+        $sup_bal = DB::table('supplier_ledger')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('voucher_id',$request->voucher_id)->first();
+        $voucher_history = new supplier_ledger;
+        $voucher_history->voucher_id = $request->voucher_id;
+        $voucher_history->supplier_id = $vouch->supplier_id;
+        $voucher_history->debit = $item->purchase_price * $request->quantity;
+        $voucher_history->balance = $sup_bal->balance - ($item->purchase_price * $request->quantity);
+        $voucher_history->type = "PR";
+        $voucher_history->save();
+        
+        $voucher_history = new supplier_history;
+        $voucher_history->voucher_id = $request->voucher_id;
+        $voucher_history->supplier_id = $vouch->supplier_id;
+        $voucher_history->debit = $item->purchase_price * $request->quantity;
+        $voucher_history->balance = $sup_bal->balance - ($item->purchase_price * $request->quantity);
+        $voucher_history->type = "PR";
+        $voucher_history->save();
+        dd($request->all());
     }
 }

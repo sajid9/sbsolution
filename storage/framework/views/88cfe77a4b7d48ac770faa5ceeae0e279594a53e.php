@@ -265,33 +265,7 @@
       $('#purchase_price_modal').val(purchasePrice);
     } 
     
-    $('#return_form').on('submit',function(e){
-      e.preventDefault();
-      var data = $(this).serialize();
-      $.ajax({
-        url:"<?php echo e(url('voucher/returnitem')); ?>",
-        type:"post",
-        dataType:"json",
-        data:data,
-        success:function(res){
-          if(res !== null){
-            $('#return_form')[0].reset();
-            $('#returnItem').modal('hide');
-             /*var template = "";
-              for(var i = 0; i < res.length; i++){
-                template += "<tr><td>"+res[i].item.id+"</td>";
-                template += "<td>"+res[i].item.item_name+"</td>";
-                template += "<td>"+res[i].item.purchase_price+"</td>";
-                template += "<td>"+res[i].item.sale_price+"</td>";
-                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='removeReturnItem("+res[i].id+","+res[i].voucher_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
-              }
-
-              $('#return_item').html(template);*/
-              window.location.href = "<?php echo e(url('voucher/editvoucher')); ?>/"+res[0].voucher_id;
-          }
-        }
-      });
-    })
+    
     $('#vendor_form').on('submit',function(e){
       e.preventDefault();
       var data = $(this).serialize();

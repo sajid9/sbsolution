@@ -49,7 +49,7 @@
 			                <td><?php echo e($item->item_id); ?></td>
 			                <td><?php echo e($item->purchase); ?></td>
 			                <td><?php echo e($item->store); ?></td>
-			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($item->voucher_id); ?>','<?php echo e($item->item_id); ?>','<?php echo e($item->purchase); ?>','<?php echo e($item->purchase_price); ?>')"></i></td>
+			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($item->voucher_id); ?>','<?php echo e($item->item_id); ?>','<?php echo e($item->purchase); ?>','<?php echo e(Request::segment(6)); ?>','<?php echo e($item->store); ?>')"></i></td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -73,7 +73,8 @@
             <?php echo csrf_field(); ?>
             <input type="hidden" name="voucher_id" id="voucher_id">
             <input type="hidden" name="item_id" id="item_id">
-            <input type="hidden" name="purchase_price" id="purchase_price_modal">
+            <input type="hidden" name="receiving_id" id="receiving_id">
+            <input type="hidden" name="store" id="store">
             <div class="form-group">
               <label for="t_qty">Total Quantity</label>
               <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
@@ -118,13 +119,31 @@
 	          }
 	        })
 	    });
-	    function returnItem(voucherId,itemId,qty,purchasePrice){
+	    function returnItem(voucherId,itemId,qty,receivingId,store){
     	  $('#returnItem').modal('show');
     	  $('#t_qty').val(qty);
     	  $('#voucher_id').val(voucherId);
     	  $('#item_id').val(itemId);
-    	  $('#purchase_price_modal').val(purchasePrice);
+    	  $('#receiving_id').val(receivingId);
+    	  $('#store').val(store);
     	}
+    	$('#return_form').on('submit',function(e){
+    	  e.preventDefault();
+    	  var data = $(this).serialize();
+    	  $.ajax({
+    	    url:"<?php echo e(url('voucher/returnitem')); ?>",
+    	    type:"post",
+    	    dataType:"json",
+    	    data:data,
+    	    success:function(res){
+    	      if(res !== null){
+    	        $('#return_form')[0].reset();
+    	        $('#returnItem').modal('hide');
+    	         
+    	      }
+    	    }
+    	  });
+    	})
 	    function deletestore(id){
 	    	if(window.confirm('do you really wanna delete this record?')){
 	    		var url = '<?php echo e(url('group/deletegroup')); ?>';

@@ -31,7 +31,11 @@
       <div id="tile_attr">
         
       </div>
-     
+      <div class="form-group">
+        <label for="low_stock">Low Stock</label>
+        <input type="number" name="low_stock_name" value="<?php echo e(old('low_stock_name')); ?>" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
+        <small id="low_stock_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
+      </div>
       <div class="form-group">
         <label for="unit"> Measuring Unit</label>
         <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
@@ -110,6 +114,16 @@
           <option value="">Select Subclass</option>
         </select>
         <small id="sub_class" class="form-text text-muted text-danger"><?php echo e($errors->first('sub_class')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="tile_type">Tile Type</label>
+        <select name="tile_type" class="form-control" id="tile_type" aria-describedby="tile_type">
+          <option value="">Select Tile Type</option>
+          <option>Floor</option>
+          <option>Wall</option>
+          <option>Kitchen</option>
+        </select>
+        <small id="tile_type" class="form-text text-muted text-danger"><?php echo e($errors->first('tile_type')); ?></small>
       </div>
     </div>
   </div>
