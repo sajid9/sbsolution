@@ -27,18 +27,20 @@ class Voucherreceiving extends Controller
     }
     public function add_receiving(Request $request)
     {
+        $item = items::find($request->item);
     	$receiving = new voucher_receiving;
     	$receiving->voucher_id = $request->voucher;
     	$receiving->item_id = $request->item;
-    	$receiving->qty = $request->quantity;
+    	$receiving->qty = $request->quantity * $item->pieces;
     	$receiving->date = $request->date;
     	$receiving->save();
     	return redirect()->to('voucher/receivinglisting/'.$request->voucher.'/'.$request->item)->with('message','Record Added successfully');
     }
     public function receiving_store($voucher,$item,$qty,$receiving_id)
     {
-    	$items = item_ledger::where('voucher_id',$voucher)->where('item_id',$item)->where('voucher_receiving_id',$receiving_id)->where('description','Purchase')->get();
-    	return view('pages.purchase.receiving_in_stores.receiving_store_listing',compact('items'));
+        $return = DB::table('item_ledger')->select(DB::raw('SUM(purchase) as returnitem'))->where('item_id',$item)->where('voucher_receiving_id',$receiving_id)->where('description','Return')->get();
+    	$items = item_ledger::where('voucher_id',$voucher)->where('item_id',$item)->where('voucher_receiving_id',$receiving_id)->where('description','=','Purchase')->get();
+    	return view('pages.purchase.receiving_in_stores.receiving_store_listing',compact('items','return'));
     }
     public function add_receiving_store_form($value='')
     {
@@ -47,19 +49,20 @@ class Voucherreceiving extends Controller
     }
     public function add_receiving_store(Request $request)
     {
+        $item = items::find($request->item);
     	if(stock::where('item_id',$request->item)->where('store',$request->store)->first()){
-                $stock = stock::where('item_id',$request->item)->where('store',$request->store)->increment('qty',$request->quantity);
+                $stock = stock::where('item_id',$request->item)->where('store',$request->store)->increment('qty',$request->quantity * $item->pieces);
             }else{
                 $stock = new stock;
                 $stock->item_id = $request->item;
-                $stock->qty = $request->quantity;
+                $stock->qty = $request->quantity * $item->pieces;
                 $stock->store = $request->store;
                 $stock->save();
             }
             $stock = stock::where('item_id',$request->item)->where('store',$request->store)->first();
             $ledger = new item_ledger;
             $ledger->item_id = $request->item;
-            $ledger->purchase = $request->quantity;
+            $ledger->purchase = $request->quantity * $item->pieces;
             $ledger->voucher_id = $request->voucher;
             $ledger->description = 'Purchase';
             $ledger->left     = $stock->qty;
@@ -70,19 +73,30 @@ class Voucherreceiving extends Controller
     	return redirect()->to('voucher/receivingstore/'.$request->voucher.'/'.$request->item.'/'.$request->total_qty.'/'.$request->receiving_id)->with('message','Record Added successfully');
     }
     public function return_item(Request $request){
-        $receiving = DB::table('voucher_receiving')->where('id',$request->receiving_id)->decrement('qty',$request->quantity); 
         $item = items::find($request->item_id);
+        $receiving = DB::table('voucher_receiving')->where('id',$request->receiving_id)->decrement('qty',$request->quantity * $item->pieces);
+        DB::table('stock')->where('item_id',$request->item_id)->where('store',$request->store)->decrement('qty',$request->quantity * $item->pieces); 
+        $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->first();
+        $ledger = new item_ledger;
+        $ledger->item_id = $request->item_id;
+        $ledger->purchase = $request->quantity * $item->pieces;
+        $ledger->voucher_id = $request->voucher_id;
+        $ledger->description = 'Return';
+        $ledger->left     = $stock->qty;
+        $ledger->store     = $request->store;
+        $ledger->voucher_receiving_id = $request->receiving_id;
+        $ledger->save();
 
         $voucher_detail = new voucher_detail;
         $voucher_detail->voucher_id = $request->voucher_id;
         $voucher_detail->item_id = $request->item_id;
-        $voucher_detail->qty = $request->quantity;
+        $voucher_detail->qty = $request->quantity * $item->pieces;
         $voucher_detail->purchase_price = $item->purchase_price;
         $voucher_detail->type = "return";
         $voucher_detail->save();
-        $stock = DB::table('stock')->where('item_id',$request->item_id)->where('store',$request->store)->decrement('qty',$request->quantity);
+        
         $voucher = voucher::find($request->voucher_id);
-        $voucher->return_amount =  $item->purchase_price * $request->quantity;
+        $voucher->return_amount +=  $item->purchase_price * ($request->quantity * $item->meter);
         $voucher->save();
 
         $vouch = voucher::find($request->voucher_id);
@@ -90,18 +104,18 @@ class Voucherreceiving extends Controller
         $voucher_history = new supplier_ledger;
         $voucher_history->voucher_id = $request->voucher_id;
         $voucher_history->supplier_id = $vouch->supplier_id;
-        $voucher_history->debit = $item->purchase_price * $request->quantity;
-        $voucher_history->balance = $sup_bal->balance - ($item->purchase_price * $request->quantity);
+        $voucher_history->debit = $item->purchase_price * ($request->quantity * $item->meter);
+        $voucher_history->balance = $sup_bal->balance - ($item->purchase_price * ($request->quantity * $item->meter));
         $voucher_history->type = "PR";
         $voucher_history->save();
         
         $voucher_history = new supplier_history;
         $voucher_history->voucher_id = $request->voucher_id;
         $voucher_history->supplier_id = $vouch->supplier_id;
-        $voucher_history->debit = $item->purchase_price * $request->quantity;
-        $voucher_history->balance = $sup_bal->balance - ($item->purchase_price * $request->quantity);
+        $voucher_history->debit = $item->purchase_price * ($request->quantity * $item->meter);
+        $voucher_history->balance = $sup_bal->balance - ($item->purchase_price * ($request->quantity * $item->meter));
         $voucher_history->type = "PR";
         $voucher_history->save();
-        dd($request->all());
+        return json_encode(['message'=>'successfully']);
     }
 }

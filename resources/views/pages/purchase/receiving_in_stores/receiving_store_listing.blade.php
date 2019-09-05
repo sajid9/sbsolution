@@ -142,10 +142,17 @@
     	    dataType:"json",
     	    data:data,
     	    success:function(res){
-    	      if(res !== null){
+    	      if(res.message == 'successfully'){
     	        $('#return_form')[0].reset();
     	        $('#returnItem').modal('hide');
-    	         
+    	        $.toast({
+	                        heading: 'SUCCESS',
+	                        text: 'Item Returned Successfully',
+	                        icon: 'success',
+	                        position: 'top-right', 
+	                        loader: true,        // Change it to false to disable loader
+	                        loaderBg: '#9EC600'  // To change the background
+	                    })
     	      }
     	    }
     	  });

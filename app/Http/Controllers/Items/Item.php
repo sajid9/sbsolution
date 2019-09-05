@@ -68,14 +68,17 @@ class Item extends Controller
             $item->group_id       = $request->group;
             $item->unit_id        = $request->unit;
             if($request->has('type')){
-                $item->color  = $request->color_name;
-                $item->pieces = $request->piece_in_box;
-                $item->size   = $request->size;
-                $item->quality= $request->quality;
-                $item->meter  = $request->meter_per_box;
-                $item->type   = 'tile';
+                $item->color      = $request->color_name;
+                $item->pieces     = $request->piece_in_box;
+                $item->size       = $request->size;
+                $item->quality    = $request->quality;
+                $item->meter      = $request->meter_per_box;
+                $item->low_stock  = $request->low_stock * $request->piece_in_box;
+                $item->tile_type  = $request->tile_type;
+                $item->type       = 'tile';
             }else{
                 $item->type = 'item';
+                $item->low_stock  = $request->low_stock;
             }
 
 		    if($request->has('is_active')){

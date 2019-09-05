@@ -111,7 +111,7 @@ class PurchaseOrder extends Controller
     *
     */
     public function savevoucher(Request $request){
-    	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * voucher_detail.qty) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('voucher_detail.type','=','purchase')->first();
+    	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * ((voucher_detail.qty / items.pieces) * items.meter)) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('voucher_detail.type','=','purchase')->first();
     	DB::table('voucher')->where('id',$request->voucherId)->update(['total_amount'=>$total->totalPrice]);
         $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucherId)->first();
         $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();

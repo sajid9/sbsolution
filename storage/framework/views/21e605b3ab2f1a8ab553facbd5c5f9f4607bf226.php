@@ -50,7 +50,6 @@
 			                <td><?php echo e($item->purchase); ?></td>
 			                <td><?php echo e($item->store); ?></td>
 			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($item->voucher_id); ?>','<?php echo e($item->item_id); ?>','<?php echo e($item->purchase); ?>','<?php echo e(Request::segment(6)); ?>','<?php echo e($item->store); ?>')"></i></td>
-			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 			        </tbody>
@@ -136,10 +135,17 @@
     	    dataType:"json",
     	    data:data,
     	    success:function(res){
-    	      if(res !== null){
+    	      if(res.message == 'successfully'){
     	        $('#return_form')[0].reset();
     	        $('#returnItem').modal('hide');
-    	         
+    	        $.toast({
+	                        heading: 'SUCCESS',
+	                        text: 'Item Returned Successfully',
+	                        icon: 'success',
+	                        position: 'top-right', 
+	                        loader: true,        // Change it to false to disable loader
+	                        loaderBg: '#9EC600'  // To change the background
+	                    })
     	      }
     	    }
     	  });
