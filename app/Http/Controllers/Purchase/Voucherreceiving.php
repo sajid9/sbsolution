@@ -65,7 +65,7 @@ class Voucherreceiving extends Controller
             $ledger->purchase = $request->quantity * $item->pieces;
             $ledger->voucher_id = $request->voucher;
             $ledger->description = 'Purchase';
-            $ledger->left     = $stock->qty;
+            $ledger->left      = $stock->qty;
             $ledger->store     = $request->store;
             $ledger->voucher_receiving_id = $request->receiving_id;
             $ledger->save();
