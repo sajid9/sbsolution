@@ -94,6 +94,9 @@
                                 <a href="{{url('ledger/itemledger')}}">Item Ledger</a>
                             </li>
                             <li>
+                                <a target="_blank" href="{{url('ledger/stockreport')}}">Stock Report</a>
+                            </li>
+                            <li>
                                 <a href="{{url('store/storelisting')}}">Stores</a>
                             </li>
                             <li>

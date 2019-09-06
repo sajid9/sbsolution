@@ -199,6 +199,7 @@ Route::prefix('ledger')->middleware(['auth'])->group(function(){
     Route::get('receiptledger','ledger\receipt_history@receipt_ledger');
     Route::get('accountledgerform','ledger\accountledger@accountledgerform');
     Route::post('accountledger','ledger\accountledger@accountledger');
+    Route::get('stockreport','ledger\accountledger@stockreport');
 });
 /*
 *

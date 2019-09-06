@@ -18,7 +18,7 @@ class Voucherreceiving extends Controller
 {
     public function receiving_listing($voucher,$item)
     {
-    	$receivings = voucher_receiving::where('voucher_id',$voucher)->where('item_id',$item)->get();
+    	$receivings = voucher_receiving::with('item')->where('voucher_id',$voucher)->where('item_id',$item)->get();
     	return view('pages.purchase.voucher_receiving.receiving_listing',compact('receivings'));
     }
     public function add_receiving_form()
@@ -38,9 +38,14 @@ class Voucherreceiving extends Controller
     }
     public function receiving_store($voucher,$item,$qty,$receiving_id)
     {
-        $return = DB::table('item_ledger')->select(DB::raw('SUM(purchase) as returnitem'))->where('item_id',$item)->where('voucher_receiving_id',$receiving_id)->where('description','Return')->get();
-    	$items = item_ledger::where('voucher_id',$voucher)->where('item_id',$item)->where('voucher_receiving_id',$receiving_id)->where('description','=','Purchase')->get();
-    	return view('pages.purchase.receiving_in_stores.receiving_store_listing',compact('items','return'));
+        $items = item_ledger::where('voucher_id',$voucher)->where('item_id',$item)->where('voucher_receiving_id',$receiving_id)->where('description','=','Purchase')->get();
+        foreach($items as $item){
+            $item->return_item = DB::table('item_ledger')->select(DB::raw('SUM(purchase) as returnitem'))->where('item_id',$item->item_id)->where('voucher_id',$item->voucher_id)->where('voucher_receiving_id',$receiving_id)->where('store',$item->store)->where('description','Return')->first();
+            $item->item = DB::table('items')->where('id',$item->item_id)->first();
+
+        }
+        
+    	return view('pages.purchase.receiving_in_stores.receiving_store_listing',compact('items'));
     }
     public function add_receiving_store_form($value='')
     {
@@ -79,7 +84,7 @@ class Voucherreceiving extends Controller
         $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->first();
         $ledger = new item_ledger;
         $ledger->item_id = $request->item_id;
-        $ledger->purchase = $request->quantity * $item->pieces;
+        $ledger->sale = $request->quantity * $item->pieces;
         $ledger->voucher_id = $request->voucher_id;
         $ledger->description = 'Return';
         $ledger->left     = $stock->qty;

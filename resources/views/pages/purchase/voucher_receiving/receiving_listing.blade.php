@@ -54,7 +54,7 @@
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $receiving->voucher_id }}</td>
 			                <td>{{ $receiving->item_id }}</td>
-			                <td>{{ $receiving->qty }}</td>
+			                <td>{{ $receiving->qty / $receiving->item->pieces}}</td>
 			                <td>{{ $receiving->date }}</td>
 			                <td><a href="{{url('voucher/receivingstore/'.$receiving->voucher_id.'/'.$receiving->item_id.'/'.$receiving->qty.'/'.$receiving->id)}}"><i class="fa fa-plus" title="Add to Store" data-toggle="tooltip"></i></a> {{-- <a onclick="deletestore('{{$store->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                

@@ -47,9 +47,9 @@
 			                <td><?php echo e(++$count); ?></td>
 			                <td><?php echo e($item->voucher_id); ?></td>
 			                <td><?php echo e($item->item_id); ?></td>
-			                <td><?php echo e($item->purchase); ?></td>
+			                <td><?php echo e(($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces); ?></td>
 			                <td><?php echo e($item->store); ?></td>
-			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($item->voucher_id); ?>','<?php echo e($item->item_id); ?>','<?php echo e($item->purchase); ?>','<?php echo e(Request::segment(6)); ?>','<?php echo e($item->store); ?>')"></i></td>
+			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($item->voucher_id); ?>','<?php echo e($item->item_id); ?>','<?php echo e(($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces); ?>','<?php echo e(Request::segment(6)); ?>','<?php echo e($item->store); ?>')"></i></td>
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 			        </tbody>

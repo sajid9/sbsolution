@@ -136,7 +136,7 @@
               <td><?php echo e($item->item->item_name); ?></td>
               <td><?php echo e($item->item->purchase_price); ?></td>
               <td><?php echo e($item->item->sale_price); ?></td>
-              <td><?php echo e($item->qty); ?></td>
+              <td><?php echo e($item->qty / $item->item->pieces); ?></td>
               <td><a href="<?php echo e(url('voucher/receivinglisting/'.$item->voucher_id.'/'.$item->item_id)); ?>"><i class="glyphicon glyphicon-plus cursor" data-toggle="tooltip" title="voucher receive"></i></a></td>
             </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -167,7 +167,7 @@
               <td><?php echo e($item->item->item_name); ?></td>
               <td><?php echo e($item->item->purchase_price); ?></td>
               <td><?php echo e($item->item->sale_price); ?></td>
-              <td><?php echo e($item->qty); ?></td>
+              <td><?php echo e($item->qty / $item->item->pieces); ?></td>
               <td><a target="_blank" href="<?php echo e(url('invoice/purchasereturn/'.$voucherId)); ?>"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <i class="glyphicon glyphicon-trash cursor" onclick='removeReturnItem("<?php echo e($item->id); ?>","<?php echo e($voucherId); ?>","<?php echo e($item->item->id); ?>","<?php echo e($item->qty); ?>")'></i></td>
             </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

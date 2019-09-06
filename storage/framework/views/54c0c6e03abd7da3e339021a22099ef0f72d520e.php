@@ -48,6 +48,7 @@
 		        Item Ledger
 		    </div>
 		    <div class="panel-body">
+		    	<h2 align="right">TOTAL: <?php echo e((isset($total_item->total))? $total_item->total :''); ?></h2>
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>

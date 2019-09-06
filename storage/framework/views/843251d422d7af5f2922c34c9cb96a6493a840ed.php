@@ -72,6 +72,9 @@
                                 <a href="<?php echo e(url('ledger/itemledger')); ?>">Item Ledger</a>
                             </li>
                             <li>
+                                <a target="_blank" href="<?php echo e(url('ledger/stockreport')); ?>">Stock Report</a>
+                            </li>
+                            <li>
                                 <a href="<?php echo e(url('store/storelisting')); ?>">Stores</a>
                             </li>
                             <li>

@@ -47,7 +47,7 @@
 			                <td><?php echo e(++$count); ?></td>
 			                <td><?php echo e($receiving->voucher_id); ?></td>
 			                <td><?php echo e($receiving->item_id); ?></td>
-			                <td><?php echo e($receiving->qty); ?></td>
+			                <td><?php echo e($receiving->qty / $receiving->item->pieces); ?></td>
 			                <td><?php echo e($receiving->date); ?></td>
 			                <td><a href="<?php echo e(url('voucher/receivingstore/'.$receiving->voucher_id.'/'.$receiving->item_id.'/'.$receiving->qty.'/'.$receiving->id)); ?>"><i class="fa fa-plus" title="Add to Store" data-toggle="tooltip"></i></a> </td>
 			                

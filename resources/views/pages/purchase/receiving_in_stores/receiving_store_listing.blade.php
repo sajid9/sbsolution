@@ -54,9 +54,9 @@
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $item->voucher_id }}</td>
 			                <td>{{ $item->item_id }}</td>
-			                <td>{{ $item->purchase }}</td>
+			                <td>{{ ($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces}}</td>
 			                <td>{{ $item->store }}</td>
-			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$item->voucher_id}}','{{$item->item_id}}','{{$item->purchase}}','{{Request::segment(6)}}','{{ $item->store }}')"></i></td>
+			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$item->voucher_id}}','{{$item->item_id}}','{{ ($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces}}','{{Request::segment(6)}}','{{ $item->store }}')"></i></td>
 			            </tr>
 			            @endforeach
 			        </tbody>
