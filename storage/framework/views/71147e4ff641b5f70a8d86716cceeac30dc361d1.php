@@ -19,8 +19,8 @@
 			<th>Barcode</th>
 			<th>Name</th>
 			<th>Store</th>
-			<th>Quantity</th>
-			<th>Total Quantity</th>
+			<th>Boxes</th>
+			<th>Total Meter</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -31,9 +31,9 @@
 				<td><?php echo e($item->barcode); ?></td>
 				<td><?php echo e($item->item_name); ?></td>
 				<td><?php echo e($item->name); ?></td>
-				<td><?php echo e($item->qty); ?></td>
+				<td><?php echo e($item->qty / $item->pieces); ?></td>
 				<?php if($item->item_id != $last_item): ?>
-				<td rowspan="<?php echo e($count); ?>" style="vertical-align : middle;text-align:center;"><strong><?php echo e($item->total->total_item); ?></strong></td>
+				<td rowspan="<?php echo e($count); ?>" style="vertical-align : middle;text-align:center;"><strong><?php echo e(($item->total->total_item / $item->pieces) * $item->meter); ?></strong></td>
 				<?php endif; ?>
 			</tr>
 			<?php $last_item = $item->item_id; ?>

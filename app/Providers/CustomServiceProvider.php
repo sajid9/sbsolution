@@ -13,7 +13,7 @@ class CustomServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(CustomHelper::class,function($app){
+        $this->app->bind('CH',function($app){
             return new CustomHelper();
         });
     }

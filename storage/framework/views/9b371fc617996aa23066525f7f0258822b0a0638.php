@@ -33,7 +33,7 @@
   <strong>Success!</strong> Receipt Add Successfully
 </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
       <fieldset>
         <legend>Receipt:</legend>
           
@@ -85,11 +85,11 @@
         </form>
       </fieldset>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-7">
       <fieldset>
         <legend>Add Item:</legend>
         <div class="row">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               <input type="hidden" name="item_id" id="itemId">
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
@@ -100,37 +100,47 @@
               <small id="barcode_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
-              <label for="quantity"> Quantity<span class="text-danger">*</span></label>
-              <input type="number" disabled name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
-              <small id="quantity_msg" class="form-text text-muted text-danger"></small>
+              <label for="discount">Discount / meter </label>
+              <input type="text" disabled name="discount" value="<?php echo e(old('discount')); ?>" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
+              <small id="discount_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('discount')); ?></small>
+            </div>
+            <div class="form-group">
+              <label for="total_discount">Total Discount</label>
+              <input type="text" disabled name="total_discount" value="<?php echo e(old('total_discount')); ?>" class="form-control" id="total_discount" aria-describedby="total_discount_msg" placeholder="total discount">
+              <small id="total_discount_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('total_discount')); ?></small>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               <label for="sale_price">Sale Price <span class="text-danger">*</span></label>
               <input type="text" disabled readonly="readonly" name="sale_price" value="<?php echo e(old('sale_price')); ?>" class="form-control" id="sale_price" aria-describedby="saleprice" placeholder="sale price">
               <small id="saleprice" class="form-text text-muted text-danger"><?php echo e($errors->first('sale_price')); ?></small>
             </div>
             <div class="form-group">
-              <label for="discount">Discount %</label>
-              <input type="text" disabled name="discount" value="<?php echo e(old('discount')); ?>" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
-              <small id="discount_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('discount')); ?></small>
+              <label for="discounted_meter">Discounted/ meter<span class="text-danger">*</span></label>
+              <input type="text" disabled name="discounted_meter" value="<?php echo e(old('discounted_meter')); ?>" class="form-control" id="discounted_meter" aria-describedby="dis_meter" placeholder="discounted price">
+              <small id="dis_meter" class="form-text text-muted text-danger"><?php echo e($errors->first('discounted_meter')); ?></small>
             </div>
-          </div>
-          <div class="col-md-6">
             <div class="form-group">
               <label for="discounted_price">Discounted Price<span class="text-danger">*</span></label>
               <input type="text" disabled name="discounted_price" value="<?php echo e(old('discounted_price')); ?>" class="form-control" id="discounted_price" aria-describedby="dis_price" placeholder="discounted price">
               <small id="dis_price" class="form-text text-muted text-danger"><?php echo e($errors->first('discounted_price')); ?></small>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
-              <label for="total_price">Total Price %</label>
+              <label for="quantity"> Quantity <span class="text-danger">*</span></label>
+              <input type="number" disabled name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
+              <small id="quantity_msg" class="form-text text-muted text-danger"></small>
+            </div>
+            
+            <div class="form-group">
+              <label for="total_price">Total Price </label>
               <input type="text" disabled name="total_price" value="<?php echo e(old('total_price')); ?>" class="form-control" id="total_price" aria-describedby="total_price_msg" placeholder="total price">
               <small id="total_price_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('total_price')); ?></small>
             </div>
           </div>
+          
           <div id="tile_container"></div>
         </div>
         <div class="row">
@@ -366,6 +376,7 @@
       data.sale_price       = $('#sale_price').val();
       data.discounted_price = $('#discounted_price').val();
       data.total_price      = $('#total_price').val();
+      data.pieces           = $('#pieces').val();
       data.type             = "sale";
       data._token           = "<?php echo e(csrf_token()); ?>";
       if ($('#check').parent().hasClass('off'))
@@ -486,18 +497,23 @@
         alert('please first fill the sale price and quantity field');
         $(this).val('');
       }else{
-        var price = salePrice * qty;
-        var percent = $(this).val() / 100;
-        var disPrice = percent * price;
-        $('#discounted_price').val(disPrice);
-        var totalPrice = price - disPrice;
+        var discount  = parseInt($(this).val());
+        var meterBox  = $('#meter').val();
+        var piecesBox = $('#pieces').val();
+        var onePiece  = meterBox / piecesBox;
+        var totalMeter = onePiece * qty;
+        var discountedPrice = parseInt(totalMeter * discount);
+        var totalPrice = parseInt(totalMeter * salePrice);
+        var givendiscount = parseInt(salePrice - discount);
+        var totalDiscount = parseInt(totalPrice - discountedPrice);
+        $('#discounted_meter').val(givendiscount);
+        $('#total_discount').val(totalDiscount);
+        $('#discounted_price').val(discountedPrice);
         $('#total_price').val(totalPrice);
       }
     });
     $('#quantity').on('blur',function(){
-      var SalePieces     = $(this).val();
-
-
+      var SalePieces= $(this).val();
       var meterBox  = $('#meter').val();
       var piecesBox = $('#pieces').val();
       var onePiece  = meterBox / piecesBox;

@@ -55,7 +55,6 @@
 		        Item Ledger
 		    </div>
 		    <div class="panel-body">
-		    	<h2 align="right">TOTAL: {{(isset($total_item->total))? $total_item->total :''}}</h2>
 			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
@@ -67,11 +66,10 @@
 			                <th>Item Name</th>
 			                <th>Group</th>
 			                <th>Store</th>
-			                <th>In Qty</th>
-			                <th>Out Qty</th>
-			                <th>Balance Qty</th>
-			                <th>boxes</th>
-			                <th>pieces</th>
+			                <th>In Boxes</th>
+			                <th>Out Boxes</th>
+			                <th>Total Boxes</th>
+			                <th>Extra Pieces</th>
 			                <th>Total Meters</th>
 			            </tr>
 			        </thead>
@@ -87,9 +85,8 @@
 			        		<td>{{(isset($ledger->items)) ? $ledger->items->item_name : ""}}</td>
 			        		<td>{{(isset($ledger->items->groups)) ? $ledger->items->groups->name : ""}}</td>
 			        		<td>{{(isset($ledger->stores)) ? $ledger->stores->name : ""}}</td>
-			        		<td>{{$ledger->purchase}}</td>
-			        		<td>{{$ledger->sale}}</td>
-			        		<td>{{$ledger->left}}</td>
+			        		<td>{{$ledger->purchase / $ledger->items->pieces}}</td>
+			        		<td>{{$ledger->sale / $ledger->items->pieces}}</td>
 			        		<td>{{($ledger->items->type == 'tile')? intval($ledger->left / $ledger->items->pieces) :''}}</td>
 			        		<td>
 			        			<?php 

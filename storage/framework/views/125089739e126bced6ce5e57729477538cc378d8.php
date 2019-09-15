@@ -1,0 +1,164 @@
+<?php $__env->startSection('title', 'Receipt Delivery'); ?>
+<?php $__env->startSection('pagetitle', 'Receipt Delivery'); ?>
+
+
+<?php $__env->startSection('header'); ?>
+	##parent-placeholder-594fd1615a341c77829e83ed988f137e1ba96231##
+	<!-- Social Buttons CSS -->
+	<link href="<?php echo e(asset('css/bootstrap-social.css')); ?>" rel="stylesheet">
+<?php $__env->stopSection(); ?>
+
+
+<?php $__env->startSection('content'); ?>
+<div class="row" style="padding-bottom: 10px">
+	<div class="col-md-12">
+		<a href="<?php echo e(url('sale/deliverylisting/'.Request::segment(3).'/'.Request::segment(4))); ?>" class="btn btn-default">Back</a>
+		<a href="<?php echo e(url('sale/adddeliverystoreform/'.Request::segment(3).'/'.Request::segment(4).'/'.Request::segment(5).'/'.Request::segment(6))); ?>" class="btn btn-social btn-bitbucket pull-right">
+		    <i class="fa fa-plus"></i> Add delivery to Stores
+		</a>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-12">
+				
+		<?php echo $__env->make('includes.alerts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+		
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+		        Delivered Store Listing
+		    </div>
+		    <div class="panel-body">
+			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+			        <thead>
+			            <tr>
+			                <th>Sr #</th>
+			                <th>Receipt</th>
+			                <th>Item</th>
+			                <th>Quantity</th>
+			                <th>Store</th>
+			                <th>Action</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			        	<?php $count = 0; ?>
+			        	<?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+			            <tr class="odd gradeX">
+			                <td><?php echo e(++$count); ?></td>
+			                <td><?php echo e($item->receipt_id); ?></td>
+			                <td><?php echo e($item->item_id); ?></td>
+			                <td><?php echo e(($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) / $item->item->pieces : $item->sale / $item->item->pieces); ?></td>
+			                <td><?php echo e($item->store); ?></td>
+			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($item->receipt_id); ?>','<?php echo e($item->item_id); ?>','<?php echo e(($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) : $item->sale); ?>','<?php echo e(Request::segment(6)); ?>','<?php echo e($item->store); ?>')"></i></td>
+			            </tr>
+			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+			        </tbody>
+			    </table>
+		</div>
+	</div>
+	</div>
+</div>
+<div class="modal fade" id="returnItem" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Items</h4>
+        </div>
+        <div class="modal-body">
+          <form id="return_form">
+            <?php echo csrf_field(); ?>
+            <input type="hidden" name="receipt_id" id="voucher_id">
+            <input type="hidden" name="item_id" id="item_id">
+            <input type="hidden" name="delivery_id" id="receiving_id">
+            <input type="hidden" name="store" id="store">
+            <div class="form-group">
+              <label for="t_qty">Total Quantity</label>
+              <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
+            </div>
+            <div class="form-group">
+              <label for="qty">Quantity</label>
+              <input type="number" name="quantity" class="form-control" id="qty" placeholder="Enter the quantity to return">
+              <small id="qty_msg" class="form-text text-muted text-danger"></small>
+            </div>
+            <button type="submit" id="qty_sub" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+<?php $__env->stopSection(); ?>
+
+
+
+<?php $__env->startSection('footer'); ?>
+	##parent-placeholder-d7eb6b340a11a367a1bec55e4a421d949214759f##
+	<!-- DataTables JavaScript -->
+	<script src="<?php echo e(asset('js/dataTables/jquery.dataTables.min.js')); ?>"></script>
+	<script src="<?php echo e(asset('js/dataTables/dataTables.bootstrap.min.js')); ?>"></script>
+	<script>
+
+	    $(document).ready(function() {
+	        $('#dataTables-example').DataTable({
+	                responsive: true
+	        });
+	        $('[data-toggle="tooltip"]').tooltip();
+	        $('#qty').on('keyup',function(){
+	          var total_qty = parseInt($('#t_qty').val());
+	          var qty = parseInt($('#qty').val());
+	          if(qty > total_qty){
+	            $('#qty_msg').text('Quantity should be less then total quantity');
+	            $('#qty_sub').prop('disabled',true);
+	          }else{
+	            $('#qty_msg').text('');
+	            $('#qty_sub').prop('disabled',false);
+	          }
+	        })
+	    });
+	    function returnItem(voucherId,itemId,qty,receivingId,store){
+    	  $('#returnItem').modal('show');
+    	  $('#t_qty').val(qty);
+    	  $('#voucher_id').val(voucherId);
+    	  $('#item_id').val(itemId);
+    	  $('#receiving_id').val(receivingId);
+    	  $('#store').val(store);
+    	}
+    	$('#return_form').on('submit',function(e){
+    	  e.preventDefault();
+    	  var data = $(this).serialize();
+    	  $.ajax({
+    	    url:"<?php echo e(url('sale/returnitem')); ?>",
+    	    type:"post",
+    	    dataType:"json",
+    	    data:data,
+    	    success:function(res){
+    	      if(res.message == 'successfully'){
+    	        $('#return_form')[0].reset();
+    	        $('#returnItem').modal('hide');
+    	        $.toast({
+	                        heading: 'SUCCESS',
+	                        text: 'Item Returned Successfully',
+	                        icon: 'success',
+	                        position: 'top-right', 
+	                        loader: true,        // Change it to false to disable loader
+	                        loaderBg: '#9EC600'  // To change the background
+	                    })
+    	      }
+    	    }
+    	  });
+    	})
+	    function deletestore(id){
+	    	if(window.confirm('do you really wanna delete this record?')){
+	    		var url = '<?php echo e(url('group/deletegroup')); ?>';
+	    		window.location.href = url+'/'+id;
+	    	}
+	    }
+	</script>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

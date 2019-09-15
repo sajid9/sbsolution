@@ -21,9 +21,10 @@ class Voucherreceiving extends Controller
     	$receivings = voucher_receiving::with('item')->where('voucher_id',$voucher)->where('item_id',$item)->get();
     	return view('pages.purchase.voucher_receiving.receiving_listing',compact('receivings'));
     }
-    public function add_receiving_form()
+    public function add_receiving_form($voucherId,$itemId)
     {
-    	return view('pages.purchase.voucher_receiving.add_receiving_form');
+        $item = voucher_detail::with('item')->where('voucher_id',$voucherId)->where('item_id',$itemId)->first();
+    	return view('pages.purchase.voucher_receiving.add_receiving_form',compact('item'));
     }
     public function add_receiving(Request $request)
     {
@@ -47,10 +48,11 @@ class Voucherreceiving extends Controller
         
     	return view('pages.purchase.receiving_in_stores.receiving_store_listing',compact('items'));
     }
-    public function add_receiving_store_form($value='')
+    public function add_receiving_store_form($voucherId,$itemId,$qty,$receivingId)
     {
     	$stores = stores::all();
-    	return view('pages.purchase.receiving_in_stores.add_receiving_store_form',compact('stores'));
+        $item = items::find($itemId);
+    	return view('pages.purchase.receiving_in_stores.add_receiving_store_form',compact('stores','item'));
     }
     public function add_receiving_store(Request $request)
     {

@@ -19,8 +19,8 @@
 			<th>Barcode</th>
 			<th>Name</th>
 			<th>Store</th>
-			<th>Quantity</th>
-			<th>Total Quantity</th>
+			<th>Boxes</th>
+			<th>Total Meter</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -31,9 +31,9 @@
 				<td>{{$item->barcode}}</td>
 				<td>{{$item->item_name}}</td>
 				<td>{{$item->name}}</td>
-				<td>{{$item->qty}}</td>
+				<td>{{$item->qty / $item->pieces}}</td>
 				@if($item->item_id != $last_item)
-				<td rowspan="{{$count}}" style="vertical-align : middle;text-align:center;"><strong>{{$item->total->total_item}}</strong></td>
+				<td rowspan="{{$count}}" style="vertical-align : middle;text-align:center;"><strong>{{($item->total->total_item / $item->pieces) * $item->meter}}</strong></td>
 				@endif
 			</tr>
 			<?php $last_item = $item->item_id; ?>

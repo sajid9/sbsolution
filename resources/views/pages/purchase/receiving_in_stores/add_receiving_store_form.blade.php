@@ -20,10 +20,12 @@
 	@csrf
   <div class="form-group">
     <label for="total_qty">Total Quantity <span class="text-danger">*</span></label>
-    <input type="text" readonly="" name="total_qty" value="{{Request::segment(5)}}" class="form-control" id="total_qty" aria-describedby="total_qty_msg">
+    <input type="text" readonly="" value="{{Request::segment(5) / $item->pieces}}" class="form-control" id="total_qty" aria-describedby="total_qty_msg">
     <small id="total_qty_msg" class="form-text text-muted text-danger">{{$errors->first('total_qty')}}</small>
   </div>
   <div class="form-group">
+
+    <input type="hidden" name="total_qty" value="{{Request::segment(5)}}">
     <input type="hidden" name="receiving_id" value="{{Request::segment(6)}}">
     <input type="hidden" name="voucher" value="{{Request::segment(3)}}">
     <input type="hidden" name="item" value="{{Request::segment(4)}}">
@@ -46,10 +48,26 @@
     <input type="date" name="date" value="{{old('date')}}" class="form-control" id="date" aria-describedby="date_msg" placeholder="Receiving Date">
     <small id="date_msg" class="form-text text-muted text-danger">{{$errors->first('date')}}</small>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('voucher/receivingstore/'.Request::segment(3).'/'.Request::segment(4).'/'.Request::segment(5))}}" class="btn btn-default">Back</a>
+  <button type="submit" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('voucher/receivingstore/'.Request::segment(3).'/'.Request::segment(4).'/'.Request::segment(5)).'/'.Request::segment(6)}}" class="btn btn-default">Back</a>
 </form>
 {{-- form end --}}
 
 </div>
 </div>
+@endsection
+@section('footer')
+@parent
+<script> 
+$('#qty').on('blur',function(){
+  var boxes      = parseInt($(this).val());
+  var totalBoxes = parseInt($('#total_qty').val());
+  if(boxes > totalBoxes){
+    $('#submit').attr('disabled',true);
+    alert('Number of boxes should be less then total boxes');
+  }else{
+    $('#submit').attr('disabled',false);
+  }
+})
+
+</script>
 @endsection

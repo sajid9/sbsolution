@@ -144,7 +144,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{$item->qty}}</td>
-              <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$receiptId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->sale_price}}','{{$item->discount}}','{{$item->total_price}}')"></i><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$receiptId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
+              <td>{{-- <i class="glyphicon glyphicon-share" onclick="returnItem('{{$receiptId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->sale_price}}','{{$item->discount}}','{{$item->total_price}}')"></i> --}}<a href="{{url('sale/deliverylisting/'.$item->receipt_id.'/'.$item->item_id)}}"><i class="glyphicon glyphicon-plus cursor" data-toggle="tooltip" title="item delivered"></i></a><i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$receiptId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach
          </tbody>

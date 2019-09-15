@@ -20,23 +20,18 @@ class Ledger_item extends Controller
     	return json_encode($items);
     }
     public function search_itemledger(Request $request){
-    	$total = item_ledger::select(DB::raw('SUM(purchase) - SUM(sale) as total'));
         $search = item_ledger::with('items.groups');
     	if($request->item){
-    		$total->where('item_id',$request->item);
             $search->where('item_id',$request->item);
     	}
         if($request->store){
-            $total->where('store',$request->store);
             $search->where('store',$request->store);
         }
     	if($request->from && $request->to){
-    		$total->whereBetween('created_at',[$request->from,$request->to]);
             $search->whereBetween('created_at',[$request->from,$request->to]);
     	}
-    	$total_item = $total->first();
         $ledgers = $search->get();
         $stores = stores::all();
-    	return view('pages.itemledger.item_ledger',compact('ledgers',"stores",'total_item'));
+    	return view('pages.itemledger.item_ledger',compact('ledgers',"stores"));
     }
 }

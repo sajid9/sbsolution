@@ -125,7 +125,7 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Quantity</th>
+              <th>Boxes</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -156,7 +156,7 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Quantity</th>
+              <th>Boxes</th>
               <th>Action</th>
             </tr>
           </thead>

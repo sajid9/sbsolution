@@ -13,10 +13,12 @@
 	<?php echo csrf_field(); ?>
   <div class="form-group">
     <label for="total_qty">Total Quantity <span class="text-danger">*</span></label>
-    <input type="text" readonly="" name="total_qty" value="<?php echo e(Request::segment(5)); ?>" class="form-control" id="total_qty" aria-describedby="total_qty_msg">
+    <input type="text" readonly="" value="<?php echo e(Request::segment(5) / $item->pieces); ?>" class="form-control" id="total_qty" aria-describedby="total_qty_msg">
     <small id="total_qty_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('total_qty')); ?></small>
   </div>
   <div class="form-group">
+
+    <input type="hidden" name="total_qty" value="<?php echo e(Request::segment(5)); ?>">
     <input type="hidden" name="receiving_id" value="<?php echo e(Request::segment(6)); ?>">
     <input type="hidden" name="voucher" value="<?php echo e(Request::segment(3)); ?>">
     <input type="hidden" name="item" value="<?php echo e(Request::segment(4)); ?>">
@@ -39,12 +41,28 @@
     <input type="date" name="date" value="<?php echo e(old('date')); ?>" class="form-control" id="date" aria-describedby="date_msg" placeholder="Receiving Date">
     <small id="date_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('date')); ?></small>
   </div>
-  <button type="submit" class="btn btn-primary">Submit</button> <a href="<?php echo e(url('voucher/receivingstore/'.Request::segment(3).'/'.Request::segment(4).'/'.Request::segment(5))); ?>" class="btn btn-default">Back</a>
+  <button type="submit" id="submit" class="btn btn-primary">Submit</button> <a href="<?php echo e(url('voucher/receivingstore/'.Request::segment(3).'/'.Request::segment(4).'/'.Request::segment(5)).'/'.Request::segment(6)); ?>" class="btn btn-default">Back</a>
 </form>
 
 
 </div>
 </div>
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('footer'); ?>
+##parent-placeholder-d7eb6b340a11a367a1bec55e4a421d949214759f##
+<script> 
+$('#qty').on('blur',function(){
+  var boxes      = parseInt($(this).val());
+  var totalBoxes = parseInt($('#total_qty').val());
+  if(boxes > totalBoxes){
+    $('#submit').attr('disabled',true);
+    alert('Number of boxes should be less then total boxes');
+  }else{
+    $('#submit').attr('disabled',false);
+  }
+})
+
+</script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

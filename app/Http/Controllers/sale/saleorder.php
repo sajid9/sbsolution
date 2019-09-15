@@ -55,20 +55,7 @@ class saleorder extends Controller
             $item->qty = $request->quantity;
             $item->type = $request->type;
             $item->save();
-            if ($request->check !== 'quotation') {
-                $stock = stock::where('item_id',$request->itemId)->decrement('qty',$request->quantity);
-                $stock = stock::where('item_id',$request->itemId)->first();
-                $ledger = new item_ledger;
-                $ledger->item_id = $request->itemId;
-                $ledger->sale = $request->quantity;
-                $ledger->receipt_id = $request->receipt_id;
-                $ledger->description = 'Sale';
-                $ledger->left     = $stock->qty;
-                $ledger->save();
-            }
         }
-    	
-    	
         
     	$items = receipt_detail::with('item')->where('receipt_id',$request->receipt_id)->where('type','sale')->get();
     	return json_encode($items);
@@ -79,7 +66,7 @@ class saleorder extends Controller
     *
     */
     public function savereceipt(Request $request){
-    	$total = DB::table('receipt_detail')->select(DB::raw('SUM(total_price) as totalPrice'))->where('receipt_detail.receipt_id',$request->receipt_id)->where('type','=','sale')->first();
+    	$total = DB::table('receipt_detail')->select(DB::raw('SUM(discount) as totalPrice'))->where('receipt_detail.receipt_id',$request->receipt_id)->where('type','=','sale')->first();
     	$receipt = DB::table('receipt')->where('id',$request->receipt_id)->update(['total_amount'=>$total->totalPrice]);
         if($request->check !== 'quotation'){
             $receipt = new receipt_ledger;

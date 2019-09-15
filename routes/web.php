@@ -217,6 +217,18 @@ Route::prefix('sale')->middleware(['auth'])->group(function(){
     Route::post('updatereceipt','sale\saleorder@updatereceipt');
     Route::post('searchbarcode','sale\saleorder@searchbarcode');
     Route::post('selectcustomer','sale\saleorder@selectcustomer');
+
+    Route::get('deliverylisting/{receipt}/{item}','sale\receiptdelivery@delivery_listing');
+    Route::get('add_delivery_form/{receipt}/{item}','sale\receiptdelivery@add_delivery_form');
+    
+    Route::post('adddevlivery','sale\receiptdelivery@add_delivery');
+    
+    Route::get('storelisting/{receipt}/{item}/{qty}/{delivery_id}','sale\receiptdelivery@store_listing');
+    Route::get('adddeliverystoreform/{receipt}/{item}/{qty}/{delivery_id}','sale\receiptdelivery@add_delivery_store_form');
+    Route::post('adddeliverystore','sale\receiptdelivery@add_delivery_store');
+    
+    Route::post('returnitem','sale\receiptdelivery@return_item');
+    
 });
 /*
 *

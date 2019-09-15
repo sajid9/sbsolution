@@ -26,12 +26,12 @@ class opening_controller extends Controller
         $request->validate([
             'store' =>'required'
         ]);
-        $check = item_ledger::where('item_id',$request->item_id)->where('store',$request->store)->get();
+        $check = item_ledger::where('item_id',$request->item_id)->where('store',$request->store)->where('description','Opening')->get();
         if(sizeof($check) > 0){
             return redirect()->to('opening/addItem')->with('error','opening already exsist');
         }
-    	if(stock::where('item_id',$request->item_id)->first()){
-            $stock = stock::where('item_id',$request->item_id)->increment('qty',$request->quantity);
+    	if(stock::where('item_id',$request->item_id)->where('store',$request->store)->first()){
+            $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->increment('qty',$request->quantity);
         }else{
             $stock = new stock;
             $stock->item_id = $request->item_id;
@@ -39,7 +39,7 @@ class opening_controller extends Controller
             $stock->store = $request->store;
             $stock->save();
         }
-        $stock = stock::where('item_id',$request->item_id)->first();
+        $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->first();
         $ledger = new item_ledger;
         $ledger->item_id = $request->item_id;
         $ledger->purchase = $request->quantity;
