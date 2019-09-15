@@ -15,6 +15,10 @@ class CreateVoucherRecevingTable extends Migration
     {
         Schema::create('voucher_receving', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('voucher_id');
+            $table->integer('item_id');
+            $table->integer('qty');
+            $table->integer('date');
             $table->timestamps();
         });
     }

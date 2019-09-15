@@ -16,6 +16,7 @@ class CreateVoucherDetailTable extends Migration
         Schema::create('voucher_detail', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('voucher_id');
+            $table->integer('store_id')->nullable();
             $table->integer('item_id');
             $table->float('qty');
             $table->integer('purchase_price');

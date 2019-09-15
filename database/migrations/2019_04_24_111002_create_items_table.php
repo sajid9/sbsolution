@@ -25,8 +25,12 @@ class CreateItemsTable extends Migration
             $table->string('size')->nullable();
             $table->string('quality')->nullable();
             $table->float('meter')->nullable();
+            $table->integer('low_stock')->nullable();
+            $table->string('tile_type')->nullable();
             $table->enum('type',['tile','item'])->default('item');
             $table->integer('store_id')->nullable();
+            $table->integer('group_id')->nullable();
+            $table->integer('unit_id')->nullable();
             $table->integer('company_id')->nullable();
             $table->integer('category_id')->nullable();
             $table->integer('class_id')->nullable();

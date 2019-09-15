@@ -1,5 +1,5 @@
 <?php
-use App\company_setting;
+/*use App\company_setting;*/
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,7 +11,7 @@ use App\company_setting;
 |
 */
 
-View::share('company', company_setting::first());
+/*View::share('company', company_setting::first());*/
 /*
 *
 *Company Routes
