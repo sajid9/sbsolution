@@ -126,6 +126,8 @@ class receiptdelivery extends Controller
         $voucher->return_amount +=  $item->purchase_price * (($item->meter / $item->pieces) * $request->quantity);
         $voucher->save();
 
+
+
         $vouch = receipt::find($request->receipt_id);
         $sup_bal = DB::table('receipt_ledger')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('receipt_id',$request->receipt_id)->first();
         $voucher_history = new receipt_ledger;
