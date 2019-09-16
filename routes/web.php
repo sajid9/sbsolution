@@ -228,6 +228,7 @@ Route::prefix('sale')->middleware(['auth'])->group(function(){
     Route::post('adddeliverystore','sale\receiptdelivery@add_delivery_store');
     
     Route::post('returnitem','sale\receiptdelivery@return_item');
+    Route::post('getreturned','sale\receiptdelivery@get_returned_total');
     
 });
 /*

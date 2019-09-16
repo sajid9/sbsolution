@@ -29,7 +29,37 @@
 	<div class="col-md-12">
 		{{-- alets messages --}}		
 		@include('includes.alerts')
-
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+		        Delivered Item Detail
+		    </div>
+		    <div class="panel-body">
+			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+			        <thead>
+			            <tr>
+			                <th>Sr #</th>
+			                <th>Receipt</th>
+			                <th>Item</th>
+			                <th>Pieces</th>
+			                <th>Boxes</th>
+			                <th>Pieces</th>
+			                <th>Meter</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			        	<?php $obj = CH::convert_box($delivered_item->qty,$delivered_item->pieces,$delivered_item->meter)?>
+			            <tr class="odd gradeX">
+			                <td>1</td>
+			                <td>{{ $delivered_item->receipt_no }}</td>
+			                <td>{{ $delivered_item->item_name }}</td>
+			                <td>{{ $delivered_item->qty}}</td>
+			                <td>{{ $obj['boxes'] }}</td>
+			                <td>{{ $obj['pieces'] }}</td>
+			                <td>{{ $obj['meter'] }}</td>
+			            </tr>
+			        </tbody>
+			    </table>
+		</div>
 		{{-- panel start --}}
 		<div class="panel panel-default">
 		    <div class="panel-heading">
@@ -42,21 +72,31 @@
 			                <th>Sr #</th>
 			                <th>Receipt</th>
 			                <th>Item</th>
-			                <th>Quantity</th>
 			                <th>Store</th>
+			                <th>Pieces</th>
+			                <th>Boxes</th>
+			                <th>Pieces</th>
+			                <th>Meter</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
 			        <tbody>
+			        	
 			        	<?php $count = 0; ?>
 			        	@foreach($items as $item)
+			        	<?php
+			        	$qty = ($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) : $item->sale ; 
+			        	$obj = CH::convert_box($qty,$delivered_item->pieces,$delivered_item->meter)?>
 			            <tr class="odd gradeX">
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $item->receipt_id }}</td>
 			                <td>{{ $item->item_id }}</td>
-			                <td>{{ ($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) / $item->item->pieces : $item->sale / $item->item->pieces}}</td>
 			                <td>{{ $item->store }}</td>
-			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$item->receipt_id}}','{{$item->item_id}}','{{ ($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) : $item->sale }}','{{Request::segment(6)}}','{{ $item->store }}')"></i></td>
+			                <td>{{ $qty }}</td>
+			                <td>{{ $obj['boxes'] }}</td>
+			                <td>{{ $obj['pieces'] }}</td>
+			                <td>{{ $obj['meter'] }}</td>
+			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$item->id}}','{{$item->receipt_id}}','{{$item->item_id}}','{{ ($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) : $item->sale }}','{{Request::segment(6)}}','{{ $item->store }}')"></i></td>
 			            </tr>
 			            @endforeach
 			        </tbody>
@@ -77,13 +117,18 @@
         <div class="modal-body">
           <form id="return_form">
             @csrf
+            <input type="hidden" name="parent_id" id="parent_id">
             <input type="hidden" name="receipt_id" id="voucher_id">
             <input type="hidden" name="item_id" id="item_id">
             <input type="hidden" name="delivery_id" id="receiving_id">
             <input type="hidden" name="store" id="store">
             <div class="form-group">
-              <label for="t_qty">Total Quantity</label>
+              <label for="t_qty">Total Pieces</label>
               <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
+            </div>
+            <div class="form-group">
+              <label for="return_pieces">Returned Pieces</label>
+              <input type="number" disabled="disabled" value="" class="form-control" id="return_pieces">
             </div>
             <div class="form-group">
               <label for="qty">Quantity</label>
@@ -113,9 +158,10 @@
 	                responsive: true
 	        });
 	        $('[data-toggle="tooltip"]').tooltip();
+
 	        $('#qty').on('keyup',function(){
 	          var total_qty = parseInt($('#t_qty').val());
-	          var qty = parseInt($('#qty').val());
+	          var qty = parseInt($('#qty').val()) + parseInt($('#return_pieces').val());
 	          if(qty > total_qty){
 	            $('#qty_msg').text('Quantity should be less then total quantity');
 	            $('#qty_sub').prop('disabled',true);
@@ -125,13 +171,23 @@
 	          }
 	        })
 	    });
-	    function returnItem(voucherId,itemId,qty,receivingId,store){
+	    function returnItem(parentId,voucherId,itemId,qty,receivingId,store){
     	  $('#returnItem').modal('show');
     	  $('#t_qty').val(qty);
     	  $('#voucher_id').val(voucherId);
     	  $('#item_id').val(itemId);
     	  $('#receiving_id').val(receivingId);
     	  $('#store').val(store);
+    	  $('#parent_id').val(parentId);
+    	  $.ajax({
+    	  	url:"{{url('sale/getreturned')}}",
+    	  	type:"post",
+    	  	dataType:"json",
+    	  	data:{_token:"{{csrf_token()}}",receipt:voucherId,item:itemId,delivery_id:receivingId,parentId:parentId},
+    	  	success:function(res){
+    	  		$('#return_pieces').val(res.total);
+    	  	}
+    	  });
     	}
     	$('#return_form').on('submit',function(e){
     	  e.preventDefault();

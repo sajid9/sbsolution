@@ -15,6 +15,8 @@ class CreateSizesTable extends Migration
     {
         Schema::create('sizes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('size');
+            $table->enum('is_active', ['yes', 'no'])->default('no');
             $table->timestamps();
         });
     }

@@ -18,18 +18,32 @@
 {{-- form start  --}}
 <form method="post" action="{{url('sale/adddeliverystore')}}">
 	@csrf
+  <?php $obj = CH::convert_box(Request::segment(5),$item->pieces,$item->meter);?>
   <div class="form-group">
-    <label for="total_qty">Total Quantity <span class="text-danger">*</span></label>
+    <label for="total_qty">Total Pieces <span class="text-danger">*</span></label>
     <input type="text" readonly="" value="{{Request::segment(5)}}" class="form-control" id="total_qty" aria-describedby="total_qty_msg">
     <small id="total_qty_msg" class="form-text text-muted text-danger">{{$errors->first('total_qty')}}</small>
   </div>
+  <div class="row">
+  <div class="form-group col-md-6">
+    <label for="total_boxes">Boxes <span class="text-danger">*</span></label>
+    <input type="text" readonly="" value="{{$obj['boxes']}}" class="form-control" id="total_boxes">
+  </div>
+  <div class="form-group col-md-6" >
+    <label for="total_boxes">Pieces <span class="text-danger">*</span></label>
+    <input type="text" readonly="" value="{{$obj['pieces']}}" class="form-control" id="total_boxes">
+  </div>
+  </div>
   <div class="form-group">
-
+    <label>Delivered Pieces <span class="text-danger">*</span></label>
+    <input type="text" readonly="" value="{{$check->total}}" class="form-control" id="delivered_pieces">
+  </div>
+  <div class="form-group">
     <input type="hidden" name="total_qty" value="{{Request::segment(5)}}">
     <input type="hidden" name="delivery_id" value="{{Request::segment(6)}}">
     <input type="hidden" name="receipt" value="{{Request::segment(3)}}">
     <input type="hidden" name="item" value="{{Request::segment(4)}}">
-    <label for="qty">Quantity <span class="text-danger">*</span></label>
+    <label for="qty">Delivery Pieces <span class="text-danger">*</span></label>
     <input type="text" name="quantity" value="{{old('quantity')}}" class="form-control" id="qty" aria-describedby="qty_msg" placeholder="Receiving Quantity">
     <small id="qty_msg" class="form-text text-muted text-danger">{{$errors->first('quantity')}}</small>
   </div>
@@ -59,11 +73,11 @@
 @parent
 <script> 
 $('#qty').on('blur',function(){
-  var boxes      = parseInt($(this).val());
+  var boxes      = parseInt($(this).val()) + parseInt($('#delivered_pieces').val());
   var totalBoxes = parseInt($('#total_qty').val());
   if(boxes > totalBoxes){
     $('#submit').attr('disabled',true);
-    alert('Number of boxes should be less then total boxes');
+    alert('Number of delivering pieces should be less then total pieces total Pieces are '+totalBoxes+' and your are delivering '+boxes);
   }else{
     $('#submit').attr('disabled',false);
   }

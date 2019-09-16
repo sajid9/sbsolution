@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVoucherRecevingTable extends Migration
+class CreateVoucherReceivingTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateVoucherRecevingTable extends Migration
      */
     public function up()
     {
-        Schema::create('voucher_receving', function (Blueprint $table) {
+        Schema::create('voucher_receiving', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('voucher_id');
             $table->integer('item_id');
             $table->integer('qty');
-            $table->integer('date');
+            $table->date('date');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateVoucherRecevingTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('voucher_receving');
+        Schema::dropIfExists('voucher_receiving');
     }
 }

@@ -18,7 +18,7 @@ class CreateReceiptDeliveryTable extends Migration
             $table->integer('receipt_id');
             $table->integer('item_id');
             $table->integer('qty');
-            $table->integer('date');
+            $table->date('date');
             $table->timestamps();
         });
     }

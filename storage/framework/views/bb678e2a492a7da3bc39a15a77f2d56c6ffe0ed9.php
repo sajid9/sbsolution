@@ -11,18 +11,32 @@
 
 <form method="post" action="<?php echo e(url('sale/adddeliverystore')); ?>">
 	<?php echo csrf_field(); ?>
+  <?php $obj = CH::convert_box(Request::segment(5),$item->pieces,$item->meter);?>
   <div class="form-group">
-    <label for="total_qty">Total Quantity <span class="text-danger">*</span></label>
+    <label for="total_qty">Total Pieces <span class="text-danger">*</span></label>
     <input type="text" readonly="" value="<?php echo e(Request::segment(5)); ?>" class="form-control" id="total_qty" aria-describedby="total_qty_msg">
     <small id="total_qty_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('total_qty')); ?></small>
   </div>
+  <div class="row">
+  <div class="form-group col-md-6">
+    <label for="total_boxes">Boxes <span class="text-danger">*</span></label>
+    <input type="text" readonly="" value="<?php echo e($obj['boxes']); ?>" class="form-control" id="total_boxes">
+  </div>
+  <div class="form-group col-md-6" >
+    <label for="total_boxes">Pieces <span class="text-danger">*</span></label>
+    <input type="text" readonly="" value="<?php echo e($obj['pieces']); ?>" class="form-control" id="total_boxes">
+  </div>
+  </div>
   <div class="form-group">
-
+    <label>Delivered Pieces <span class="text-danger">*</span></label>
+    <input type="text" readonly="" value="<?php echo e($check->total); ?>" class="form-control" id="delivered_pieces">
+  </div>
+  <div class="form-group">
     <input type="hidden" name="total_qty" value="<?php echo e(Request::segment(5)); ?>">
     <input type="hidden" name="delivery_id" value="<?php echo e(Request::segment(6)); ?>">
     <input type="hidden" name="receipt" value="<?php echo e(Request::segment(3)); ?>">
     <input type="hidden" name="item" value="<?php echo e(Request::segment(4)); ?>">
-    <label for="qty">Quantity <span class="text-danger">*</span></label>
+    <label for="qty">Delivery Pieces <span class="text-danger">*</span></label>
     <input type="text" name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="qty" aria-describedby="qty_msg" placeholder="Receiving Quantity">
     <small id="qty_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quantity')); ?></small>
   </div>
@@ -52,11 +66,11 @@
 ##parent-placeholder-d7eb6b340a11a367a1bec55e4a421d949214759f##
 <script> 
 $('#qty').on('blur',function(){
-  var boxes      = parseInt($(this).val());
+  var boxes      = parseInt($(this).val()) + parseInt($('#delivered_pieces').val());
   var totalBoxes = parseInt($('#total_qty').val());
   if(boxes > totalBoxes){
     $('#submit').attr('disabled',true);
-    alert('Number of boxes should be less then total boxes');
+    alert('Number of delivering pieces should be less then total pieces total Pieces are '+totalBoxes+' and your are delivering '+boxes);
   }else{
     $('#submit').attr('disabled',false);
   }

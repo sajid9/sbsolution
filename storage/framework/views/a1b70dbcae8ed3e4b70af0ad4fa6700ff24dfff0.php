@@ -26,10 +26,45 @@
 		
 		<div class="panel panel-default">
 		    <div class="panel-heading">
+		        Item Detail
+		    </div>
+		    <div class="panel-body">
+		    	<table class="table table-striped table-bordered table-hover" >
+			        <thead>
+			            <tr>
+			                <th>Sr #</th>
+			                <th>Receipt</th>
+			                <th>Item</th>
+			                <th>Quantity</th>
+			                <th>Boxes</th>
+			                <th>Pieces</th>
+			                <th>Meter</th>
+			                <th>Date</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr class="odd gradeX">
+			            	<?php $obj = CH::convert_box($item_p->qty,$item_p->pieces,$item_p->meter)?>
+			                <td>1</td>
+			                <td><?php echo e($item_p->receipt_no); ?></td>
+			                <td><?php echo e($item_p->item_name); ?></td>
+			                <td><?php echo e($item_p->qty); ?></td>
+			                <td><?php echo e($obj['boxes']); ?></td>
+			                <td><?php echo e($obj['pieces']); ?></td>
+			                <td><?php echo e($obj['meter']); ?></td>
+			                <td><?php echo e($item_p->created_at); ?></td>
+			            </tr>
+			            
+			        </tbody>
+			    </table>
+		</div>
+	</div>
+	<div class="panel panel-default">
+		    <div class="panel-heading">
 		        Delivered Listing
 		    </div>
 		    <div class="panel-body">
-			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+		    	<table class="table table-striped table-bordered table-hover" id="dataTables-example">
 			        <thead>
 			            <tr>
 			                <th>Sr #</th>
@@ -62,7 +97,7 @@
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 			        </tbody>
 			    </table>
-		</div>
+		    </div>
 	</div>
 	</div>
 </div>
