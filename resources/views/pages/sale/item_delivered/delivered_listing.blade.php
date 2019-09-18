@@ -91,8 +91,8 @@
 				            <tr class="odd gradeX">
 				            	<?php $obj = CH::convert_box($item->qty,$item->item->pieces,$item->item->meter)?>
 				                <td>{{ ++$count }}</td>
-				                <td>{{ $item->receipt_id }}</td>
-				                <td>{{ $item->item_id }}</td>
+				                <td>{{ $item->receipt->receipt_no }}</td>
+				                <td>{{ $item->item->item_name }}</td>
 				                <td>{{ $item->qty}}</td>
 				                <td>{{ $obj['boxes'] }}</td>
 				                <td>{{ $obj['pieces'] }}</td>

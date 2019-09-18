@@ -100,7 +100,6 @@ class Item extends Controller
     *
     */
     public function edititem($id){
-       $stores     = stores::where('is_active','yes')->get();
        $groups     = groups::where('is_active','yes')->get();
        $units      = units::where('is_active','yes')->get();
        $sizes      = sizes::where('is_active','yes')->get();
@@ -109,7 +108,7 @@ class Item extends Controller
        $categories = categories::all();
        $classes    = classes::where('parent_id',0)->get();
        $sub_classes = classes::where('id',$item->sub_class_id)->get();
-       return view('pages.items.edit_item_form',compact('item','companies','categories','classes','sub_classes','stores','groups','sizes','units'));
+       return view('pages.items.edit_item_form',compact('item','companies','categories','classes','sub_classes','groups','sizes','units'));
     }
 
      /*
@@ -133,15 +132,20 @@ class Item extends Controller
             $item->store_id       = $request->store;
             $item->group_id       = $request->group;
             $item->unit_id        = $request->unit;
-            if($request->type == 'tile'){
-                $item->color  = $request->color_name;
-                $item->pieces = $request->piece_in_box;
-                $item->size = $request->size;
-                $item->quality = $request->quality;
-                $item->type   = 'tile';
+            if($request->has('type')){
+                $item->color      = $request->color_name;
+                $item->pieces     = $request->piece_in_box;
+                $item->size       = $request->size;
+                $item->quality    = $request->quality;
+                $item->meter      = $request->meter_per_box;
+                $item->low_stock  = $request->low_stock * $request->piece_in_box;
+                $item->tile_type  = $request->tile_type;
+                $item->type       = 'tile';
             }else{
                 $item->type = 'item';
+                $item->low_stock  = $request->low_stock;
             }
+
             if($request->has('is_active')){
                 $item->is_active    = $request->is_active;
             }else{

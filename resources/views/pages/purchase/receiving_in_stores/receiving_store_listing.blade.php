@@ -29,7 +29,37 @@
 	<div class="col-md-12">
 		{{-- alets messages --}}		
 		@include('includes.alerts')
-
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+		        Delivered Item Detail
+		    </div>
+		    <div class="panel-body">
+			    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+			        <thead>
+			            <tr>
+			                <th>Sr #</th>
+			                <th>voucher</th>
+			                <th>Item</th>
+			                <th>Pieces</th>
+			                <th>Boxes</th>
+			                <th>Pieces</th>
+			                <th>Meter</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			        	<?php $obj = CH::convert_box($received_item->qty,$received_item->pieces,$received_item->meter)?>
+			            <tr class="odd gradeX">
+			                <td>1</td>
+			                <td>{{ $received_item->voucher_no }}</td>
+			                <td>{{ $received_item->item_name }}</td>
+			                <td>{{ $received_item->qty}}</td>
+			                <td>{{ $obj['boxes'] }}</td>
+			                <td>{{ $obj['pieces'] }}</td>
+			                <td>{{ $obj['meter'] }}</td>
+			            </tr>
+			        </tbody>
+			    </table>
+		</div>
 		{{-- panel start --}}
 		<div class="panel panel-default">
 		    <div class="panel-heading">
@@ -52,11 +82,11 @@
 			        	@foreach($items as $item)
 			            <tr class="odd gradeX">
 			                <td>{{ ++$count }}</td>
-			                <td>{{ $item->voucher_id }}</td>
-			                <td>{{ $item->item_id }}</td>
+			                <td>{{ $item->voucher->voucher_no }}</td>
+			                <td>{{ $item->item->item_name }}</td>
 			                <td>{{ ($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces}}</td>
-			                <td>{{ $item->store }}</td>
-			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$item->voucher_id}}','{{$item->item_id}}','{{ ($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces}}','{{Request::segment(6)}}','{{ $item->store }}')"></i></td>
+			                <td>{{ $item->storeobj->name }}</td>
+			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$item->id}}','{{$item->voucher_id}}','{{$item->item_id}}','{{ ($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces}}','{{Request::segment(6)}}','{{ $item->store }}')"></i></td>
 			            </tr>
 			            @endforeach
 			        </tbody>
@@ -77,6 +107,7 @@
         <div class="modal-body">
           <form id="return_form">
             @csrf
+            <input type="hidden" name="parent_id" id="parent_id">
             <input type="hidden" name="voucher_id" id="voucher_id">
             <input type="hidden" name="item_id" id="item_id">
             <input type="hidden" name="receiving_id" id="receiving_id">
@@ -84,6 +115,10 @@
             <div class="form-group">
               <label for="t_qty">Total Quantity</label>
               <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
+            </div>
+            <div class="form-group">
+              <label for="return_pieces">Returned Pieces</label>
+              <input type="number" disabled="disabled" value="" class="form-control" id="return_pieces">
             </div>
             <div class="form-group">
               <label for="qty">Quantity</label>
@@ -115,7 +150,7 @@
 	        $('[data-toggle="tooltip"]').tooltip();
 	        $('#qty').on('keyup',function(){
 	          var total_qty = parseInt($('#t_qty').val());
-	          var qty = parseInt($('#qty').val());
+	          var qty = parseInt($('#qty').val()) + parseInt($('#return_pieces').val());
 	          if(qty > total_qty){
 	            $('#qty_msg').text('Quantity should be less then total quantity');
 	            $('#qty_sub').prop('disabled',true);
@@ -125,13 +160,24 @@
 	          }
 	        })
 	    });
-	    function returnItem(voucherId,itemId,qty,receivingId,store){
+	    function returnItem(parentId,voucherId,itemId,qty,receivingId,store){
     	  $('#returnItem').modal('show');
     	  $('#t_qty').val(qty);
     	  $('#voucher_id').val(voucherId);
     	  $('#item_id').val(itemId);
     	  $('#receiving_id').val(receivingId);
     	  $('#store').val(store);
+    	  $('#parent_id').val(parentId);
+    	  $.ajax({
+    	  	url:"{{url('voucher/getreturned')}}",
+    	  	type:"post",
+    	  	dataType:"json",
+    	  	data:{_token:"{{csrf_token()}}",voucher:voucherId,item:itemId,receiving_id:receivingId,parentId:parentId},
+    	  	success:function(res){
+    	  		var pieces = parseInt("{{$received_item->pieces}}");
+    	  		$('#return_pieces').val(res.total / pieces);
+    	  	}
+    	  });
     	}
     	$('#return_form').on('submit',function(e){
     	  e.preventDefault();

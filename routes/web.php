@@ -155,6 +155,7 @@ Route::prefix('voucher')->middleware(['auth'])->group(function () {
     Route::get('addreceivingstoreform/{voucher}/{item}/{qty}/{receiving_id}','Purchase\Voucherreceiving@add_receiving_store_form');
     Route::post('addreceivingstore','Purchase\Voucherreceiving@add_receiving_store');
     Route::post('returnitem','Purchase\Voucherreceiving@return_item');
+    Route::post('getreturned','Purchase\Voucherreceiving@get_returned_total');
 });
 
 /*

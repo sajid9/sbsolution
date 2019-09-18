@@ -18,6 +18,7 @@ class CreateAccountsTable extends Migration
             $table->string('account_title');
             $table->date('date');
             $table->integer('balance');
+            $table->integer('left_bal')->nullable();
             $table->string('branch_name')->nullable();
             $table->string('branch_code')->nullable();
             $table->bigInteger('account_number')->nullable();

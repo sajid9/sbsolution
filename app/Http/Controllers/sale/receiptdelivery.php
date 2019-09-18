@@ -20,8 +20,7 @@ class receiptdelivery extends Controller
     public function delivery_listing($receipt,$item)
     {
         $item_p = DB::table('receipt_detail')->leftJoin('receipt','receipt.id','=','receipt_detail.receipt_id')->leftJoin('items','items.id','=','receipt_detail.item_id')->where('receipt_detail.receipt_id',$receipt)->where('receipt_detail.item_id',$item)->where('receipt_detail.type','=','sale')->first();
-        /*dd($item_p);*/
-    	$delivered_items = receipt_delivery::with('item')->where('receipt_id',$receipt)->where('item_id',$item)->get();
+    	$delivered_items = receipt_delivery::with('item','receipt')->where('receipt_id',$receipt)->where('item_id',$item)->get();
     	return view('pages.sale.item_delivered.delivered_listing',compact('delivered_items','item_p'));
     }
 
@@ -61,6 +60,8 @@ class receiptdelivery extends Controller
         foreach($items as $item){
             $item->return_item = DB::table('item_ledger')->select(DB::raw('SUM(sale) as returnitem'))->where('item_id',$item->item_id)->where('receipt_id',$item->receipt_id)->where('voucher_delivery_id',$delivery_id)->where('store',$item->store)->where('description','Return')->first();
             $item->item = DB::table('items')->where('id',$item->item_id)->first();
+            $item->storeobj = DB::table('stores')->where('id',$item->store)->first();
+            $item->receipt = DB::table('receipt')->where('id',$item->receipt_id)->first();
         }
         
         return view('pages.sale.item_delivered_store.delivered_store_listing',compact('items','delivered_item'));
@@ -107,7 +108,7 @@ class receiptdelivery extends Controller
         $ledger->item_id = $request->item_id;
         $ledger->purchase = $request->quantity;
         $ledger->receipt_id = $request->receipt_id;
-        $ledger->description = 'Return';
+        $ledger->description = 'Sale Return';
         $ledger->left     = $stock->qty;
         $ledger->store     = $request->store;
         $ledger->voucher_delivery_id = $request->delivery_id;
@@ -125,8 +126,6 @@ class receiptdelivery extends Controller
         $voucher = receipt::find($request->receipt_id);
         $voucher->return_amount +=  $item->purchase_price * (($item->meter / $item->pieces) * $request->quantity);
         $voucher->save();
-
-
 
         $vouch = receipt::find($request->receipt_id);
         $sup_bal = DB::table('receipt_ledger')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('receipt_id',$request->receipt_id)->first();

@@ -29,7 +29,41 @@
 	<div class="col-md-12">
 		{{-- alets messages --}}		
 		@include('includes.alerts')
-
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+		        Item Detail
+		    </div>
+		    <div class="panel-body">
+		    	<table class="table table-striped table-bordered table-hover" >
+			        <thead>
+			            <tr>
+			                <th>Sr #</th>
+			                <th>Voucher</th>
+			                <th>Item</th>
+			                <th>Quantity</th>
+			                <th>Boxes</th>
+			                <th>Pieces</th>
+			                <th>Meter</th>
+			                <th>Date</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr class="odd gradeX">
+			            	<?php $obj = CH::convert_box($item_s->qty,$item_s->pieces,$item_s->meter)?>
+			                <td>1</td>
+			                <td>{{ $item_s->voucher_no }}</td>
+			                <td>{{ $item_s->item_name }}</td>
+			                <td>{{ $item_s->qty}}</td>
+			                <td>{{ $obj['boxes'] }}</td>
+			                <td>{{ $obj['pieces'] }}</td>
+			                <td>{{ $obj['meter'] }}</td>
+			                <td>{{ $item_s->created_at }}</td>
+			            </tr>
+			            
+			        </tbody>
+			    </table>
+			</div>
+		</div>
 		{{-- panel start --}}
 		<div class="panel panel-default">
 		    <div class="panel-heading">
@@ -52,8 +86,8 @@
 			        	@foreach($receivings as $receiving)
 			            <tr class="odd gradeX">
 			                <td>{{ ++$count }}</td>
-			                <td>{{ $receiving->voucher_id }}</td>
-			                <td>{{ $receiving->item_id }}</td>
+			                <td>{{ $receiving->voucher->voucher_no }}</td>
+			                <td>{{ $receiving->item->item_name }}</td>
 			                <td>{{ $receiving->qty / $receiving->item->pieces}}</td>
 			                <td>{{ $receiving->date }}</td>
 			                <td><a href="{{url('voucher/receivingstore/'.$receiving->voucher_id.'/'.$receiving->item_id.'/'.$receiving->qty.'/'.$receiving->id)}}"><i class="fa fa-plus" title="Add to Store" data-toggle="tooltip"></i></a> {{-- <a onclick="deletestore('{{$store->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>

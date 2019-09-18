@@ -386,6 +386,9 @@
               $('#quantity').val('');
               $('#purchase_price').val('');
               $('#sale_price').val('');
+              $('#meter').val('');
+              $('#pieces').val('');
+              $('#totalMeter').val('');
               $('#submit').prop('disabled',false);
             }
           }

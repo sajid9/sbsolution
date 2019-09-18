@@ -11,4 +11,8 @@ class receipt_delivery extends Model
     {
     	return $this->hasOne('App\items','id','item_id');
     }
+    public function receipt()
+    {
+    	return $this->hasOne('App\receipt','id','receipt_id');
+    }
 }

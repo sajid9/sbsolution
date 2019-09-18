@@ -181,9 +181,7 @@
                             <li>
                                 <a href="{{url('payment/paymentlisting')}}">Payments</a>
                             </li>
-                            <li>
-                                <a href="{{url('payment/paymentlisting')}}">Payment Ledger</a>
-                            </li>
+                            
                         </ul>
                     </li>
                     {{-- Account info --}}

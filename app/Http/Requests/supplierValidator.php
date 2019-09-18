@@ -25,7 +25,6 @@ class supplierValidator extends FormRequest
     {
         return [
             'supplier_name' => 'required',
-            'phone'         => 'required',
             'mobile'        => 'required'
         ];
     }

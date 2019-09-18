@@ -22,7 +22,41 @@
 	<div class="col-md-12">
 				
 		<?php echo $__env->make('includes.alerts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-
+		<div class="panel panel-default">
+		    <div class="panel-heading">
+		        Item Detail
+		    </div>
+		    <div class="panel-body">
+		    	<table class="table table-striped table-bordered table-hover" >
+			        <thead>
+			            <tr>
+			                <th>Sr #</th>
+			                <th>Voucher</th>
+			                <th>Item</th>
+			                <th>Quantity</th>
+			                <th>Boxes</th>
+			                <th>Pieces</th>
+			                <th>Meter</th>
+			                <th>Date</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr class="odd gradeX">
+			            	<?php $obj = CH::convert_box($item_s->qty,$item_s->pieces,$item_s->meter)?>
+			                <td>1</td>
+			                <td><?php echo e($item_s->voucher_no); ?></td>
+			                <td><?php echo e($item_s->item_name); ?></td>
+			                <td><?php echo e($item_s->qty); ?></td>
+			                <td><?php echo e($obj['boxes']); ?></td>
+			                <td><?php echo e($obj['pieces']); ?></td>
+			                <td><?php echo e($obj['meter']); ?></td>
+			                <td><?php echo e($item_s->created_at); ?></td>
+			            </tr>
+			            
+			        </tbody>
+			    </table>
+			</div>
+		</div>
 		
 		<div class="panel panel-default">
 		    <div class="panel-heading">
@@ -45,8 +79,8 @@
 			        	<?php $__currentLoopData = $receivings; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $receiving): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 			            <tr class="odd gradeX">
 			                <td><?php echo e(++$count); ?></td>
-			                <td><?php echo e($receiving->voucher_id); ?></td>
-			                <td><?php echo e($receiving->item_id); ?></td>
+			                <td><?php echo e($receiving->voucher->voucher_no); ?></td>
+			                <td><?php echo e($receiving->item->item_name); ?></td>
 			                <td><?php echo e($receiving->qty / $receiving->item->pieces); ?></td>
 			                <td><?php echo e($receiving->date); ?></td>
 			                <td><a href="<?php echo e(url('voucher/receivingstore/'.$receiving->voucher_id.'/'.$receiving->item_id.'/'.$receiving->qty.'/'.$receiving->id)); ?>"><i class="fa fa-plus" title="Add to Store" data-toggle="tooltip"></i></a> </td>

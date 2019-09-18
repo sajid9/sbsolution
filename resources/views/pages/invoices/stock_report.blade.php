@@ -20,18 +20,23 @@
 			<th>Name</th>
 			<th>Store</th>
 			<th>Boxes</th>
+			<th>Pieces</th>
+			<th>Meter</th>
 			<th>Total Meter</th>
 		</tr>
 	</thead>
 	<tbody>
 		<?php $count = 0; $last_item = 0;?>
 		@foreach($items as $item)
+			<?php $obj = CH::convert_box($item->qty,$item->pieces,$item->meter);?>
 			<tr> 
 				<td>{{++$count}}</td>
 				<td>{{$item->barcode}}</td>
 				<td>{{$item->item_name}}</td>
 				<td>{{$item->name}}</td>
-				<td>{{$item->qty / $item->pieces}}</td>
+				<td>{{$obj['boxes']}}</td>
+				<td>{{$obj['pieces']}}</td>
+				<td>{{$obj['meter']}}</td>
 				@if($item->item_id != $last_item)
 				<td rowspan="{{$count}}" style="vertical-align : middle;text-align:center;"><strong>{{($item->total->total_item / $item->pieces) * $item->meter}}</strong></td>
 				@endif

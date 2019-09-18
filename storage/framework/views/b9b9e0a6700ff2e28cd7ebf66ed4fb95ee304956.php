@@ -12,8 +12,12 @@
 <form method="post" action="<?php echo e(url('voucher/addreceiving')); ?>">
 	<?php echo csrf_field(); ?>
   <div class="form-group">
-    <label for="total_boxes">Total Boxes <span class="text-danger">*</span></label>
+    <label for="total_boxes">Total Boxes </label>
     <input type="text" readonly="" value="<?php echo e((isset($item->item)) ? $item->qty / $item->item->pieces : $item->qty); ?>" class="form-control" id="total_boxes">
+  </div>
+  <div class="form-group">
+    <label for="received_boxes">Received Boxes </label>
+    <input type="text" readonly="" value="<?php echo e(($check->total == null) ? 0 : $check->total / $item->item->pieces); ?>" class="form-control" id="received_boxes">
   </div>
   <div class="form-group">
     <input type="hidden" name="voucher" value="<?php echo e(Request::segment(3)); ?>">
@@ -38,9 +42,10 @@
 ##parent-placeholder-d7eb6b340a11a367a1bec55e4a421d949214759f##
 <script> 
 $('#receivingQty').on('blur',function(){
-  var boxes      = parseInt($(this).val());
+  var boxes      = parseInt($(this).val()) + parseInt($('#received_boxes').val());
   var totalBoxes = parseInt($('#total_boxes').val());
   if(boxes > totalBoxes){
+    $(this).val('');
     $('#submit').attr('disabled',true);
     alert('Number of boxes should be less then total boxes');
   }else{

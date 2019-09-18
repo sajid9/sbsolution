@@ -82,9 +82,9 @@
 			        	$obj = CH::convert_box($qty,$delivered_item->pieces,$delivered_item->meter)?>
 			            <tr class="odd gradeX">
 			                <td><?php echo e(++$count); ?></td>
-			                <td><?php echo e($item->receipt_id); ?></td>
-			                <td><?php echo e($item->item_id); ?></td>
-			                <td><?php echo e($item->store); ?></td>
+			                <td><?php echo e($item->receipt->receipt_no); ?></td>
+			                <td><?php echo e($item->item->item_name); ?></td>
+			                <td><?php echo e($item->storeobj->name); ?></td>
 			                <td><?php echo e($qty); ?></td>
 			                <td><?php echo e($obj['boxes']); ?></td>
 			                <td><?php echo e($obj['pieces']); ?></td>

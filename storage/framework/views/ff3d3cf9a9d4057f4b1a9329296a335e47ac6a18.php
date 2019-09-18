@@ -15,32 +15,16 @@
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="itemname">Item Name <span class="text-danger">*</span></label>
-        <input type="text" name="item_name" value="<?php echo e(old('item_name',$item->item_name)); ?>" class="form-control" id="itemname" aria-describedby="itemname" placeholder="item Name">
-        <small id="itemname" class="form-text text-muted text-danger"><?php echo e($errors->first('item_name')); ?></small>
-      </div>
-      <div class="form-group">
         <label for="barcode">Barcode <span class="text-danger">*</span></label>
         <input type="text" name="barcode" value="<?php echo e(old('barcode',$item->barcode)); ?>" class="form-control" id="barcode" placeholder="Short Code" aria-describedby="barcode">
         <small id="barcode" class="form-text text-muted text-danger"><?php echo e($errors->first('barcode')); ?></small>
       </div>
-      <?php if($item->type == 'tile'): ?>
       <div class="form-group">
-          <input type="hidden" name="type" value="tile">
-          <label for="color">Color <span class="text-danger">*</span></label>
-          <input type="text" name="color_name" value="<?php echo e($item->color); ?>" class="form-control" id="color" aria-describedby="color" placeholder="Color">
-          <small id="color" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
-        </div>
-        <div class="form-group">
-          <label for="quality">quality <span class="text-danger">*</span></label>
-          <select name="quality" class="form-control" id="quality" aria-describedby="quality_msg">
-            <option>Select Qualitiy</option>
-            <option <?php echo e(($item->quality == 'Ceramic') ? 'selected':''); ?>>Ceramic</option>
-            <option <?php echo e(($item->quality == 'TB') ? 'selected':''); ?>>TB</option>
-            <option <?php echo e(($item->quality == 'Tiles') ? 'selected':''); ?>>Tiles</option>
-          </select>
-          <small id="quality_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quality')); ?></small>
-        </div>
+        <label for="itemname">Item Name <span class="text-danger">*</span></label>
+        <input type="text" name="item_name" value="<?php echo e(old('item_name',$item->item_name)); ?>" class="form-control" id="itemname" aria-describedby="itemname" placeholder="item Name">
+        <small id="itemname" class="form-text text-muted text-danger"><?php echo e($errors->first('item_name')); ?></small>
+      </div>
+      <?php if($item->type == 'tile'): ?>
         <div class="form-group">
           <label for="size">Size <span class="text-danger">*</span></label>
           <select  name="size" class="form-control" id="size" aria-describedby="size_msg" >
@@ -64,6 +48,33 @@
 
       <?php endif; ?>
       <div class="form-group">
+        <label for="low_stock">Low Stock</label>
+        <input type="number" name="low_stock" value="<?php echo e(old('low_stock',$item->low_stock / $item->pieces)); ?>" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
+        <small id="low_stock_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('low_stock')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="unit">Measuring Unit </label>
+        <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
+          <option value="">Select Unit</option>
+          <?php $__currentLoopData = $units; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $unit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+            <option value="<?php echo e($unit->id); ?>" <?php echo e(($item->unit_id == $unit->id) ? 'selected' : ''); ?>><?php echo e($unit->unit); ?></option>
+          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+        </select>
+        <small id="unit_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('unit')); ?></small>
+      </div>
+      <div class="form-group">
+        <input type="hidden" name="type" value="tile">
+        <label for="color">Color </label>
+        <input type="text" name="color_name" value="<?php echo e($item->color); ?>" class="form-control" id="color" aria-describedby="color" placeholder="Color">
+        <small id="color" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="discription">Description</label>
+        <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description"><?php echo e(old('description',$item->description)); ?></textarea>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
         <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
         <input type="number" name="purchase_price" value="<?php echo e(old('purchase_price',$item->purchase_price)); ?>" class="form-control" id="purchase_price" placeholder="Short Code" aria-describedby="purchase_price">
         <small id="purchase_price" class="form-text text-muted text-danger"><?php echo e($errors->first('purchase_price')); ?></small>
@@ -74,12 +85,6 @@
         <small id="sale_price" class="form-text text-muted text-danger"><?php echo e($errors->first('sale_price')); ?></small>
       </div>
       <div class="form-group">
-        <label for="discription">Description</label>
-        <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description"><?php echo e(old('description',$item->description)); ?></textarea>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group">
         <label for="group">group </label>
         <select name="group" class="form-control" id="group" aria-describedby="group_msg">
           <option value="">Select group</option>
@@ -89,26 +94,7 @@
         </select>
         <small id="group_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('group')); ?></small>
       </div>
-      <div class="form-group">
-        <label for="unit">Unit </label>
-        <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
-          <option value="">Select Unit</option>
-          <?php $__currentLoopData = $units; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $unit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($unit->id); ?>" <?php echo e(($item->unit_id == $unit->id) ? 'selected' : ''); ?>><?php echo e($unit->unit); ?></option>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-        <small id="unit_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('unit')); ?></small>
-      </div>
-      <div class="form-group">
-        <label for="store">Store </label>
-        <select name="store" class="form-control" id="store" aria-describedby="store">
-          <option value="">Select store</option>
-          <?php $__currentLoopData = $stores; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $store): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-            <option value="<?php echo e($store->id); ?>" <?php echo e(($item->store_id == $store->id) ? 'selected' : ''); ?>><?php echo e($store->name); ?></option>
-          <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-        </select>
-        <small id="store" class="form-text text-muted text-danger"><?php echo e($errors->first('store')); ?></small>
-      </div>
+      
       <div class="form-group">
         <label for="company">Company </label>
         <select name="company" class="form-control" id="company" aria-describedby="company">
@@ -148,6 +134,16 @@
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
         </select>
         <small id="sub_class" class="form-text text-muted text-danger"><?php echo e($errors->first('sub_class')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="tile_type">Tile Type</label>
+        <select name="tile_type" class="form-control" id="tile_type" aria-describedby="tile_type">
+          <option value="">Select Tile Type</option>
+          <option <?php echo e(($item->tile_type == 'Floor') ? 'selected' : ''); ?>>Floor</option>
+          <option <?php echo e(($item->tile_type == 'Wall') ? 'selected' : ''); ?>>Wall</option>
+          <option <?php echo e(($item->tile_type == 'Kitchen') ? 'selected' : ''); ?>>Kitchen</option>
+        </select>
+        <small id="tile_type" class="form-text text-muted text-danger"><?php echo e($errors->first('tile_type')); ?></small>
       </div>
     </div>
   </div>

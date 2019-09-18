@@ -22,32 +22,16 @@
   <div class="row">
     <div class="col-md-6">
       <div class="form-group">
-        <label for="itemname">Item Name <span class="text-danger">*</span></label>
-        <input type="text" name="item_name" value="{{old('item_name',$item->item_name)}}" class="form-control" id="itemname" aria-describedby="itemname" placeholder="item Name">
-        <small id="itemname" class="form-text text-muted text-danger">{{$errors->first('item_name')}}</small>
-      </div>
-      <div class="form-group">
         <label for="barcode">Barcode <span class="text-danger">*</span></label>
         <input type="text" name="barcode" value="{{old('barcode',$item->barcode)}}" class="form-control" id="barcode" placeholder="Short Code" aria-describedby="barcode">
         <small id="barcode" class="form-text text-muted text-danger">{{$errors->first('barcode')}}</small>
       </div>
-      @if($item->type == 'tile')
       <div class="form-group">
-          <input type="hidden" name="type" value="tile">
-          <label for="color">Color <span class="text-danger">*</span></label>
-          <input type="text" name="color_name" value="{{$item->color}}" class="form-control" id="color" aria-describedby="color" placeholder="Color">
-          <small id="color" class="form-text text-muted text-danger">{{$errors->first('color_name')}}</small>
-        </div>
-        <div class="form-group">
-          <label for="quality">quality <span class="text-danger">*</span></label>
-          <select name="quality" class="form-control" id="quality" aria-describedby="quality_msg">
-            <option>Select Qualitiy</option>
-            <option {{($item->quality == 'Ceramic') ? 'selected':''}}>Ceramic</option>
-            <option {{($item->quality == 'TB') ? 'selected':''}}>TB</option>
-            <option {{($item->quality == 'Tiles') ? 'selected':''}}>Tiles</option>
-          </select>
-          <small id="quality_msg" class="form-text text-muted text-danger">{{$errors->first('quality')}}</small>
-        </div>
+        <label for="itemname">Item Name <span class="text-danger">*</span></label>
+        <input type="text" name="item_name" value="{{old('item_name',$item->item_name)}}" class="form-control" id="itemname" aria-describedby="itemname" placeholder="item Name">
+        <small id="itemname" class="form-text text-muted text-danger">{{$errors->first('item_name')}}</small>
+      </div>
+      @if($item->type == 'tile')
         <div class="form-group">
           <label for="size">Size <span class="text-danger">*</span></label>
           <select  name="size" class="form-control" id="size" aria-describedby="size_msg" >
@@ -71,6 +55,33 @@
 
       @endif
       <div class="form-group">
+        <label for="low_stock">Low Stock</label>
+        <input type="number" name="low_stock" value="{{old('low_stock',$item->low_stock / $item->pieces)}}" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
+        <small id="low_stock_msg" class="form-text text-muted text-danger">{{$errors->first('low_stock')}}</small>
+      </div>
+      <div class="form-group">
+        <label for="unit">Measuring Unit </label>
+        <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
+          <option value="">Select Unit</option>
+          @foreach($units as $unit)
+            <option value="{{$unit->id}}" {{($item->unit_id == $unit->id) ? 'selected' : ''}}>{{ $unit->unit}}</option>
+          @endforeach
+        </select>
+        <small id="unit_msg" class="form-text text-muted text-danger">{{$errors->first('unit')}}</small>
+      </div>
+      <div class="form-group">
+        <input type="hidden" name="type" value="tile">
+        <label for="color">Color </label>
+        <input type="text" name="color_name" value="{{$item->color}}" class="form-control" id="color" aria-describedby="color" placeholder="Color">
+        <small id="color" class="form-text text-muted text-danger">{{$errors->first('color_name')}}</small>
+      </div>
+      <div class="form-group">
+        <label for="discription">Description</label>
+        <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description">{{old('description',$item->description)}}</textarea>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
         <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
         <input type="number" name="purchase_price" value="{{old('purchase_price',$item->purchase_price)}}" class="form-control" id="purchase_price" placeholder="Short Code" aria-describedby="purchase_price">
         <small id="purchase_price" class="form-text text-muted text-danger">{{$errors->first('purchase_price')}}</small>
@@ -81,12 +92,6 @@
         <small id="sale_price" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
       </div>
       <div class="form-group">
-        <label for="discription">Description</label>
-        <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description">{{old('description',$item->description)}}</textarea>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="form-group">
         <label for="group">group </label>
         <select name="group" class="form-control" id="group" aria-describedby="group_msg">
           <option value="">Select group</option>
@@ -96,26 +101,7 @@
         </select>
         <small id="group_msg" class="form-text text-muted text-danger">{{$errors->first('group')}}</small>
       </div>
-      <div class="form-group">
-        <label for="unit">Unit </label>
-        <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
-          <option value="">Select Unit</option>
-          @foreach($units as $unit)
-            <option value="{{$unit->id}}" {{($item->unit_id == $unit->id) ? 'selected' : ''}}>{{ $unit->unit}}</option>
-          @endforeach
-        </select>
-        <small id="unit_msg" class="form-text text-muted text-danger">{{$errors->first('unit')}}</small>
-      </div>
-      <div class="form-group">
-        <label for="store">Store </label>
-        <select name="store" class="form-control" id="store" aria-describedby="store">
-          <option value="">Select store</option>
-          @foreach($stores as $store)
-            <option value="{{$store->id}}" {{($item->store_id == $store->id) ? 'selected' : ''}}>{{ $store->name}}</option>
-          @endforeach
-        </select>
-        <small id="store" class="form-text text-muted text-danger">{{$errors->first('store')}}</small>
-      </div>
+      
       <div class="form-group">
         <label for="company">Company </label>
         <select name="company" class="form-control" id="company" aria-describedby="company">
@@ -155,6 +141,16 @@
           @endforeach
         </select>
         <small id="sub_class" class="form-text text-muted text-danger">{{$errors->first('sub_class')}}</small>
+      </div>
+      <div class="form-group">
+        <label for="tile_type">Tile Type</label>
+        <select name="tile_type" class="form-control" id="tile_type" aria-describedby="tile_type">
+          <option value="">Select Tile Type</option>
+          <option {{($item->tile_type == 'Floor') ? 'selected' : ''}}>Floor</option>
+          <option {{($item->tile_type == 'Wall') ? 'selected' : ''}}>Wall</option>
+          <option {{($item->tile_type == 'Kitchen') ? 'selected' : ''}}>Kitchen</option>
+        </select>
+        <small id="tile_type" class="form-text text-muted text-danger">{{$errors->first('tile_type')}}</small>
       </div>
     </div>
   </div>

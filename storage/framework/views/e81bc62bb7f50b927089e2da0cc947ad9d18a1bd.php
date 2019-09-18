@@ -50,6 +50,10 @@
     <small id="supplier_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('supplier')); ?></small>
   </div>
   <div class="form-group">
+    <label for="bal_amount">Balance Amount of Voucher</label>
+    <input type="number" disabled="disabled" name="bal_amount" value="" class="form-control" id="bal_amount">
+  </div>
+  <div class="form-group">
     <label for="account">Account <span class="text-danger">*</span></label>
     <select name="account" required="required" class="form-control" id="account" aria-describedby="account_msg">
       <option value=""> Select Account</option>
@@ -63,10 +67,7 @@
     <label for="bal_amount_account">Balance Amount of Account</label>
     <input type="number" disabled="disabled" name="bal_amount_account" value="" class="form-control" id="bal_amount_account">
   </div>
-  <div class="form-group">
-    <label for="bal_amount">Balance Amount of Voucher</label>
-    <input type="number" disabled="disabled" name="bal_amount" value="" class="form-control" id="bal_amount">
-  </div>
+  
   <div class="form-group">
     <label for="amount">Amount <span class="text-danger">*</span></label>
     <input type="number" required="required" name="amount" value="<?php echo e(old('amount')); ?>" class="form-control" id="amount" aria-describedby="amount" placeholder="enter the amount">
@@ -154,16 +155,7 @@
     </select>
     <small id="receipt_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('receipt')); ?></small>
   </div>
-  <div class="form-group">
-    <label for="account">Account <span class="text-danger">*</span></label>
-    <select name="account" required="required" class="form-control" id="account" aria-describedby="account_msg">
-      <option value=""> Select Account</option>
-       <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-      <option value="<?php echo e($account->id); ?>"><?php echo e($account->account_title); ?></option>
-      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-    </select>
-    <small id="account_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('account')); ?></small>
-  </div>
+  
   <div class="form-group">
     <label for="customer">customer</label>
     <input type="hidden" name="customer" value="" id="customer_id">
@@ -175,10 +167,21 @@
     <input type="number" disabled="disabled" name="bal_amount" value="" class="form-control" id="bal_amount">
   </div>
   <div class="form-group">
+    <label for="account">Account <span class="text-danger">*</span></label>
+    <select name="account" required="required" class="form-control" id="account" aria-describedby="account_msg">
+      <option value=""> Select Account</option>
+       <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      <option value="<?php echo e($account->id); ?>"><?php echo e($account->account_title); ?></option>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+    <small id="account_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('account')); ?></small>
+  </div>
+  <div class="form-group">
     <label for="amount">Amount <span class="text-danger">*</span></label>
     <input type="number" required="required" name="amount" value="<?php echo e(old('amount')); ?>" class="form-control" id="amount_receipt" aria-describedby="amount" placeholder="enter the amount">
     <small id="amount" class="form-text text-muted text-danger"><?php echo e($errors->first('amount')); ?></small>
   </div>
+  
   <div class="form-group">
     <label for="fn_year">Fianancial Year</label>
     <select name="fn_year" class="form-control" id="fn_year" aria-describedby="fn_year">
