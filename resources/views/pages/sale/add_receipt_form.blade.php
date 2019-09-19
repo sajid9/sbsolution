@@ -108,12 +108,12 @@
             </div>
             <div class="form-group">
               <label for="quantity"> Quantity <span class="text-danger">*</span></label>
-              <input type="number" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
+              <input type="number" disabled="" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="discount">Discount / meter </label>
-              <input type="text" name="discount" value="{{old('discount')}}" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
+              <input type="text" disabled="" name="discount" value="{{old('discount')}}" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
               <small id="discount_msg" class="form-text text-muted text-danger">{{$errors->first('discount')}}</small>
             </div>
           </div>
@@ -502,10 +502,10 @@
         $(this).val('');
       }else{
         var discount  = parseInt($(this).val());
-        var meterBox  = parseInt($('#meter').text());
+        var meterBox  = parseFloat($('#meter').text());
         var piecesBox = parseInt($('#pieces').text());
         var onePiece  = meterBox / piecesBox;
-        var totalMeter = onePiece * qty;
+        var totalMeter = (onePiece * qty).toFixed(2);
         var discountedPrice = parseInt(totalMeter * discount);
         var totalPrice = parseInt(totalMeter * salePrice);
         var givendiscount = parseInt(salePrice - discount);
@@ -520,14 +520,11 @@
     $('#quantity').on('blur',function(){
       var SalePieces = $(this).val();
       var SalePrice  = parseInt($('#sale_price').text());
-      console.log(SalePieces);
-      console.log(SalePrice);
-      var meterBox   = parseInt($('#meter').text());
+      var meterBox   = parseFloat($('#meter').text());
       var piecesBox  = parseInt($('#pieces').text());
       var onePiece   = meterBox / piecesBox;
-      var meter      = onePiece * SalePieces;
+      var meter      = parseFloat(onePiece * SalePieces).toFixed(2);
       var totalPrice = meter * SalePrice;
-      console.log(totalPrice);
       /*calculate the boxes and pieces from meter*/
       var boxes     = parseInt(SalePieces / piecesBox);
       var num       = piecesBox * boxes;

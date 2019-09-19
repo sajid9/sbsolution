@@ -150,6 +150,7 @@ class PurchaseOrder extends Controller
     *
     */
     public function removeitem(Request $request){
+        
     	$delete = voucher_detail::where('id',$request->id)->delete();
     	stock::where('item_id',$request->itemId)->decrement('qty',$request->qty);
     	$items = voucher_detail::with('item')->where('voucher_id',$request->voucherId)->where('type','purchase')->get();

@@ -178,6 +178,9 @@
     	  	dataType:"json",
     	  	data:{_token:"<?php echo e(csrf_token()); ?>",receipt:voucherId,item:itemId,delivery_id:receivingId,parentId:parentId},
     	  	success:function(res){
+    	  		if(res.total == null){
+    	  			res.total = 0;
+    	  		}
     	  		$('#return_pieces').val(res.total);
     	  	}
     	  });

@@ -340,7 +340,7 @@ $(document).on('change','#voucherId',function(){
     success:function(res){
       $('#supplier').val(res.supplier.supplier_name);
       $('#supplier_id').val(res.supplier.id);
-      var bal_amount = res.voucher.total_amount - res.voucher.paid_amount + res.voucher.return_amount;
+      var bal_amount = res.voucher.total_amount - (res.voucher.paid_amount + res.voucher.return_amount);
       $('#bal_amount').val(bal_amount);
     }
   })

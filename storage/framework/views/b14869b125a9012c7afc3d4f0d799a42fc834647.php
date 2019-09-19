@@ -125,7 +125,8 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Quantity / Meter</th>
+              <th>Boxes</th>
+              <th>Meter</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -370,7 +371,11 @@
                 template += "<td>"+res[i].item.item_name+"</td>";
                 template += "<td>"+res[i].item.purchase_price+"</td>";
                 template += "<td>"+res[i].item.sale_price+"</td>";
-                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data.voucherId+","+res[i].item.id+","+data.quantity+")'></i></td></tr>";
+                convertBoxPiece(res[i].qty,res[i].item.pieces,res[i].item.meter,function(box,pieces,meter){
+                  template += "<td>"+box+"</td>";
+                  template += "<td>"+meter+"</td>";
+                });
+                template +="<td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+res[i].id+","+data.voucherId+","+res[i].item.id+","+data.quantity+")'></i></td></tr>";
               }
               $.toast({
                   heading: 'SUCCESS',
@@ -431,13 +436,14 @@
         }
       });
     })
-    function itemRemove(voucherId,itemId,qty){
+    function itemRemove(id,voucherId,itemId,qty){
       $.ajax({
         url: "<?php echo e(url('voucher/removeitem')); ?>",
         type:"post",
         datatype:"json",
-        data:{voucherId:voucherId,itemId:itemId,qty:qty,_token:"<?php echo e(csrf_token()); ?>"},
+        data:{id:id,voucherId:voucherId,itemId:itemId,qty:qty,_token:"<?php echo e(csrf_token()); ?>"},
         success:function(res){
+          
           $.toast({
                   heading: 'INFORMATION',
                   text: 'Item Deleted Successfully',
@@ -454,7 +460,12 @@
               template += "<td>"+data[i].item.item_name+"</td>";
               template += "<td>"+data[i].item.purchase_price+"</td>";
               template += "<td>"+data[i].item.sale_price+"</td>";
-              template += "<td>"+data[i].qty+"</td><td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].voucher_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
+              template += "<td>"+data[i].qty+"</td>";
+              convertBoxPiece(data[i].qty,data[i].item.pieces,data[i].item.meter,function(box,pieces,meter){
+                  template += "<td>"+box+"</td>";
+                  template += "<td>"+meter+"</td>";
+                });
+              template += "<td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+data[i].id+","+data[i].voucher_id+","+data[i].item_id+","+data[i].qty+")'></i></td></tr>";
             }
             $('#items_append').html(template);
           }else{

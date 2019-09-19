@@ -24,6 +24,11 @@
     <small id="customername" class="form-text text-muted text-danger">{{$errors->first('customer_name')}}</small>
   </div>
   <div class="form-group">
+    <label for="mobile">Mobile <span class="text-danger">*</span></label>
+    <input type="text" name="mobile" value="{{old('mobile')}}" class="form-control" id="mobile" placeholder="Enter customer mobile" aria-describedby="mobile">
+    <small id="mobile" class="form-text text-muted text-danger">{{$errors->first('mobile')}}</small>
+  </div>
+  <div class="form-group">
     <label for="occupation">Occupation</label>
     <input type="occupation" name="occupation" value="{{old('occupation')}}" class="form-control" id="occupation" placeholder="Enter occupation" aria-describedby="occupation">
   </div>
@@ -40,11 +45,7 @@
     <input type="text" name="phone" value="{{old('phone')}}" class="form-control" id="phone" placeholder="Enter customer phone" aria-describedby="phone">
     
   </div>
-  <div class="form-group">
-    <label for="mobile">Mobile <span class="text-danger">*</span></label>
-    <input type="text" name="mobile" value="{{old('mobile')}}" class="form-control" id="mobile" placeholder="Enter customer mobile" aria-describedby="mobile">
-    <small id="mobile" class="form-text text-muted text-danger">{{$errors->first('mobile')}}</small>
-  </div>
+  
   <div class="form-group">
     <label for="cnic">Cnic</label>
     <input type="text" name="cnic" value="{{old('cnic')}}" class="form-control" id="cnic" placeholder="Enter customer cnic" aria-describedby="cnic">

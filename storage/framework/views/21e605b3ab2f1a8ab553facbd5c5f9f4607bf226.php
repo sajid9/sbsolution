@@ -168,6 +168,7 @@
     	  	data:{_token:"<?php echo e(csrf_token()); ?>",voucher:voucherId,item:itemId,receiving_id:receivingId,parentId:parentId},
     	  	success:function(res){
     	  		var pieces = parseInt("<?php echo e($received_item->pieces); ?>");
+    	  		console.log(res.total / pieces);
     	  		$('#return_pieces').val(res.total / pieces);
     	  	}
     	  });

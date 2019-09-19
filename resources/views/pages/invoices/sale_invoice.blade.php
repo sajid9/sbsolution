@@ -15,11 +15,11 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 col-xs-3">
-			<h6>{{$company->name}}</h6>
-			<h6>{{$company->address}}</h6>
-			<h6>{{$company->phone}}</h6>
-			<h6>{{$company->email}}</h6>
-			<h6>{{$company->website}}</h6>
+			<h6>{{(isset($company->name)) ? $company->name : ''}}</h6>
+			<h6>{{(isset($company->address)) ? $company->address : ''}}</h6>
+			<h6>{{(isset($company->phone)) ? $company->phone : ''}}</h6>
+			<h6>{{(isset($company->email)) ? $company->email : ''}}</h6>
+			<h6>{{(isset($company->website)) ? $company->website : ''}}</h6>
 		</div>
 		<div class="col-md-3 col-xs-3 col-md-offset-6 col-xs-offset-6">
 			<div style="background-color: #efefef;text-align: center;">Date</div>
@@ -99,23 +99,26 @@
 				<th>Sr#</th>
 				<th>Name</th>
 				<th>Qty</th>
-				<th>Price</th>
-				<th>Total</th>
-				<th>Discount</th>
+				<th>Sale Price / Meter</th>
+				<th>Discount Price / Meter</th>
+				<th>Total Price</th>
+				<th>Total Discount</th>
 				<th>Amount</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php $count = 0;?>
 			@foreach($items as $item)
+			 <?php $obj = CH::convert_box($item->qty,$item->pieces,$item->meter);?>
 				<tr>
 					<td>{{++$count}}</td>
 					<td>{{$item->item_name}}</td>
-					<td>{{$item->qty}}</td>
+					<td>{{$obj['meter']}}</td>
 					<td>{{$item->sale_price}}</td>
-					<td>{{$item->sale_price * $item->qty}}</td>
-					<td>{{$item->discount}}</td>
+					<td>{{intval($item->discount / $obj['meter'])}}</td>
 					<td>{{$item->total_price}}</td>
+					<td>{{$item->total_price - $item->discount}}</td>
+					<td>{{$item->discount}}</td>
 				</tr>
 			@endforeach
 		</tbody>
@@ -149,8 +152,8 @@
 		<div class="row">
 			<div class="col-md-12" style="text-align: center;">
 				For question concerning this invoice please contact 
-				<div>Phone: {{$company->phone}}</div>
-				<div>Email: {{$company->email}}</div>
+				<div>Phone: {{(isset($company->phone)) ? $company->phone : ""}}</div>
+				<div>Email: {{(isset($company->email)) ? $company->email : ""}}</div>
 			</div>
 		</div>
 	</div>

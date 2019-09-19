@@ -26,9 +26,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php $count = 0; $last_item = 0;?>
+		<?php $count = 0;$counter = 0; $last_item = 0;?>
 		@foreach($items as $item)
-			<?php $obj = CH::convert_box($item->qty,$item->pieces,$item->meter);?>
+			<?php 
+				++$counter;
+				$obj = CH::convert_box($item->qty,$item->pieces,$item->meter);
+			?>
 			<tr> 
 				<td>{{++$count}}</td>
 				<td>{{$item->barcode}}</td>
@@ -38,9 +41,10 @@
 				<td>{{$obj['pieces']}}</td>
 				<td>{{$obj['meter']}}</td>
 				@if($item->item_id != $last_item)
-				<td rowspan="{{$count}}" style="vertical-align : middle;text-align:center;"><strong>{{($item->total->total_item / $item->pieces) * $item->meter}}</strong></td>
+				<td rowspan="{{$counter}}" style="vertical-align : middle;text-align:center;"><strong>{{($item->total->total_item / $item->pieces) * $item->meter}}</strong></td>
 				@endif
 			</tr>
+			<?php $counter = 0?>
 			<?php $last_item = $item->item_id; ?>
 		@endforeach
 	</tbody>

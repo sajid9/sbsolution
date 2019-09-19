@@ -24,6 +24,11 @@
     <small id="suppliername" class="form-text text-muted text-danger">{{$errors->first('supplier_name')}}</small>
   </div>
   <div class="form-group">
+    <label for="mobile">Mobile <span class="text-danger">*</span></label>
+    <input type="text" name="mobile" value="{{old('mobile')}}" class="form-control" id="mobile" placeholder="Enter your mobile" aria-describedby="mobile">
+    <small id="suppliername" class="form-text text-muted text-danger">{{$errors->first('mobile')}}</small>
+  </div>
+  <div class="form-group">
     <label for="email">Email</label>
     <input type="email" name="email" value="{{old('email')}}" class="form-control" id="email" placeholder="Enter your email" aria-describedby="email">
   </div>
@@ -31,11 +36,6 @@
     <label for="phone">Phone</label>
     <input type="text" name="phone" value="{{old('phone')}}" class="form-control" id="phone" placeholder="Enter your phone" aria-describedby="phone">
     <small id="suppliername" class="form-text text-muted text-danger">{{$errors->first('phone')}}</small>
-  </div>
-  <div class="form-group">
-    <label for="mobile">Mobile <span class="text-danger">*</span></label>
-    <input type="text" name="mobile" value="{{old('mobile')}}" class="form-control" id="mobile" placeholder="Enter your mobile" aria-describedby="mobile">
-    <small id="suppliername" class="form-text text-muted text-danger">{{$errors->first('mobile')}}</small>
   </div>
   <div class="form-group">
     <label for="cnic">Cnic</label>

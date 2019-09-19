@@ -15,11 +15,11 @@
 	</div>
 	<div class="row">
 		<div class="col-md-3 col-xs-3">
-			<h6><?php echo e($company->name); ?></h6>
-			<h6><?php echo e($company->address); ?></h6>
-			<h6><?php echo e($company->phone); ?></h6>
-			<h6><?php echo e($company->email); ?></h6>
-			<h6><?php echo e($company->website); ?></h6>
+			<h6><?php echo e((isset($company->name)) ? $company->name : ''); ?></h6>
+			<h6><?php echo e((isset($company->address)) ? $company->address : ''); ?></h6>
+			<h6><?php echo e((isset($company->phone)) ? $company->phone : ''); ?></h6>
+			<h6><?php echo e((isset($company->email)) ? $company->email : ''); ?></h6>
+			<h6><?php echo e((isset($company->website)) ? $company->website : ''); ?></h6>
 		</div>
 		<div class="col-md-3 col-xs-3 col-md-offset-6 col-xs-offset-6">
 			<div style="background-color: #efefef;text-align: center;">Date</div>
@@ -52,23 +52,26 @@
 				<th>Sr#</th>
 				<th>Name</th>
 				<th>Qty</th>
-				<th>Price</th>
-				<th>Total</th>
-				<th>Discount</th>
+				<th>Sale Price / Meter</th>
+				<th>Discount Price / Meter</th>
+				<th>Total Price</th>
+				<th>Total Discount</th>
 				<th>Amount</th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php $count = 0;?>
 			<?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+			 <?php $obj = CH::convert_box($item->qty,$item->pieces,$item->meter);?>
 				<tr>
 					<td><?php echo e(++$count); ?></td>
 					<td><?php echo e($item->item_name); ?></td>
-					<td><?php echo e($item->qty); ?></td>
+					<td><?php echo e($obj['meter']); ?></td>
 					<td><?php echo e($item->sale_price); ?></td>
-					<td><?php echo e($item->sale_price * $item->qty); ?></td>
-					<td><?php echo e($item->discount); ?></td>
+					<td><?php echo e(intval($item->discount / $obj['meter'])); ?></td>
 					<td><?php echo e($item->total_price); ?></td>
+					<td><?php echo e($item->total_price - $item->discount); ?></td>
+					<td><?php echo e($item->discount); ?></td>
 				</tr>
 			<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 		</tbody>
@@ -102,8 +105,8 @@
 		<div class="row">
 			<div class="col-md-12" style="text-align: center;">
 				For question concerning this invoice please contact 
-				<div>Phone: <?php echo e($company->phone); ?></div>
-				<div>Email: <?php echo e($company->email); ?></div>
+				<div>Phone: <?php echo e((isset($company->phone)) ? $company->phone : ""); ?></div>
+				<div>Email: <?php echo e((isset($company->email)) ? $company->email : ""); ?></div>
 			</div>
 		</div>
 	</div>

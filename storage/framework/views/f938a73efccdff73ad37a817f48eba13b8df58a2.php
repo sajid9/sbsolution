@@ -15,20 +15,20 @@
   
   <div class="row">
     <div class="form-group col-md-4">
-    <label for="total_boxes">Total Pieces <span class="text-danger">*</span></label>
+    <label for="total_boxes">Total Pieces </label>
     <input type="text" readonly="" value="<?php echo e($item->qty); ?>" class="form-control" id="total_boxes">
   </div>
   <div class="form-group col-md-4">
-    <label for="total_boxes">Boxes <span class="text-danger">*</span></label>
+    <label for="total_boxes">Boxes </label>
     <input type="text" readonly="" value="<?php echo e($obj['boxes']); ?>" class="form-control" id="total_boxes">
   </div>
   <div class="form-group col-md-4">
-    <label for="total_boxes">Pieces <span class="text-danger">*</span></label>
+    <label for="total_boxes">Pieces </label>
     <input type="text" readonly="" value="<?php echo e($obj['pieces']); ?>" class="form-control" id="total_boxes">
   </div>
   </div>
   <div class="form-group">
-    <label>Delivered Pieces <span class="text-danger">*</span></label>
+    <label>Delivered Pieces </label>
     <input type="text" readonly="" value="<?php echo e(($check->total == null)? 0 : $check->total); ?>" class="form-control" id="delivered_pieces">
   </div>
   

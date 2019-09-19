@@ -26,9 +26,12 @@
 		</tr>
 	</thead>
 	<tbody>
-		<?php $count = 0; $last_item = 0;?>
+		<?php $count = 0;$counter = 0; $last_item = 0;?>
 		<?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-			<?php $obj = CH::convert_box($item->qty,$item->pieces,$item->meter);?>
+			<?php 
+				++$counter;
+				$obj = CH::convert_box($item->qty,$item->pieces,$item->meter);
+			?>
 			<tr> 
 				<td><?php echo e(++$count); ?></td>
 				<td><?php echo e($item->barcode); ?></td>
@@ -38,9 +41,10 @@
 				<td><?php echo e($obj['pieces']); ?></td>
 				<td><?php echo e($obj['meter']); ?></td>
 				<?php if($item->item_id != $last_item): ?>
-				<td rowspan="<?php echo e($count); ?>" style="vertical-align : middle;text-align:center;"><strong><?php echo e(($item->total->total_item / $item->pieces) * $item->meter); ?></strong></td>
+				<td rowspan="<?php echo e($counter); ?>" style="vertical-align : middle;text-align:center;"><strong><?php echo e(($item->total->total_item / $item->pieces) * $item->meter); ?></strong></td>
 				<?php endif; ?>
 			</tr>
+			<?php $counter = 0?>
 			<?php $last_item = $item->item_id; ?>
 		<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 	</tbody>
