@@ -131,7 +131,10 @@
                                 <a href="{{url('ledger/voucherhistory')}}" target="_blank">Voucher ledger</a>
                             </li>
                             <li>
-                                <a href="{{url('ledger/supplierhistory')}}" target="_blank">Supplier ledger</a>
+                                <a target="_blank" href="{{url('invoice/amountpayable')}}">Voucher Payable</a>
+                            </li>
+                            <li>
+                                <a href="{{url('voucher/directin')}}">Direct In</a>
                             </li>
                             <li>
                                 <a href="{{url('supplier/supplierlisting')}}"> Add Suppliers</a>
@@ -140,7 +143,7 @@
                                 <a href="{{url('opening/supplier')}}">Opening Supplier</a>
                             </li>
                             <li>
-                                <a target="_blank" href="{{url('invoice/amountpayable')}}">Voucher Payable</a>
+                                <a href="{{url('ledger/supplierhistory')}}" target="_blank">Supplier ledger</a>
                             </li>
                             <li>
                                 <a href="{{url('invoice/supplierpayable')}}">Supplier Payable</a>
@@ -152,13 +155,16 @@
                         <a href="#"><i class="fa fa-clipboard fa-fw"></i> Sale Info<span class="fa arrow"></span></a>
                         <ul class="nav nav-second-level">
                             <li>
-                                <a href="{{url('sale/saleorder')}}">Sale Order</a>
-                            </li>
-                            <li>
-                                <a href="{{url('ledger/customerledger')}}" target="_blank">Customer ledger</a>
+                                <a href="{{url('sale/saleorder')}}">Add Receipt</a>
                             </li>
                             <li>
                                 <a href="{{url('ledger/receiptledger')}}" target="_blank">Receipt ledger</a>
+                            </li>
+                            <li>
+                                <a href="{{url('invoice/amountreceivable')}}" target="_blank">Receipt Receivable</a>
+                            </li>
+                            <li>
+                                <a href="{{url('sale/directout')}}">Direct Out</a>
                             </li>
                             <li>
                                 <a href="{{url('customer/customerlisting')}}">Add Customers</a>
@@ -167,7 +173,7 @@
                                 <a href="{{url('opening/customer')}}">opening Customer</a>
                             </li>
                             <li>
-                                <a href="{{url('invoice/amountreceivable')}}" target="_blank">Receipt Receivable</a>
+                                <a href="{{url('ledger/customerledger')}}" target="_blank">Customer ledger</a>
                             </li>
                             <li>
                                 <a href="{{url('invoice/customerreceivable')}}">Customer Receivable</a>
@@ -191,6 +197,10 @@
                             <li>
                                 <a href="{{url('opening/accountlisting')}}">Accounts</a>
                             </li>
+                            <li>
+                                <a href="{{url('opening/cashdeposit')}}">Cash Deposit/Withdraw</a>
+                            </li>
+                            
                             <li>
                                 <a href="{{url('ledger/accountledgerform')}}">Accounts Ledger</a>
                             </li>

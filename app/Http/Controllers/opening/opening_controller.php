@@ -14,6 +14,7 @@ use App\supplier_history;
 use App\customer_ledger;
 use App\accounts;
 use App\stores;
+use App\payments;
 use DB;
 class opening_controller extends Controller
 {	
@@ -119,5 +120,40 @@ class opening_controller extends Controller
     public function account_listing(){
         $accounts = accounts::all();
         return view('pages.opening.opening_account_listing',compact('accounts'));
+    }
+    public function cash_deposit()
+    {
+        $accounts = accounts::all();
+        return view('pages.opening.cash_deposit_form',compact('accounts'));
+    }
+    public function save_deposit(Request $request)
+    {
+        $request->validate([
+            'account'=>'required',
+            'amount'=>'required',
+            'date'=>'required',
+            'remarks'=>'required',
+            'type'=>'required',
+        ]);
+        $account = accounts::find($request->account);
+        if($request->type == 'deposit'){
+            $account->left_bal += $request->amount;
+        }else{
+            $account->left_bal -= $request->amount;
+        }
+        $account->save();
+        $payment = new payments;
+        $payment->account_id = $request->account;
+        if($request->type == 'deposit'){
+            $payment->credit = $request->amount;
+            $payment->type   = 'deposit';
+        }else{
+            $payment->debit = $request->amount;
+            $payment->type   = 'withdraw';
+        }
+        
+        $payment->remarks = $request->remarks;
+        $payment->save();
+        return redirect()->back()->with('message','Cash Deposit Successfully');
     }
 }

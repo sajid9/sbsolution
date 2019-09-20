@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\receipt;
 use App\items;
+use App\stores;
 use App\customers;
 use App\receipt_detail;
 use App\stock;
@@ -209,4 +210,35 @@ class saleorder extends Controller
         $customer = customers::find($receipt->customer_id);
         return json_encode(['customer' => $customer,'receipt'=> $receipt]);
     }
+    public function direct_out()
+    {
+        $items  = items::all();
+        $stores = stores::all(); 
+        return view('pages.sale.direct_out',compact('items','stores'));
+    }
+    public function save_item(Request $request){
+        $request->validate([
+            'store' =>'required'
+        ]);
+        
+        if(stock::where('item_id',$request->item_id)->where('store',$request->store)->first()){
+            $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->decrement('qty',$request->quantity);
+        }else{
+            $stock = new stock;
+            $stock->item_id = $request->item_id;
+            $stock->qty = $request->quantity;
+            $stock->store = $request->store;
+            $stock->save();
+        }
+        $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->first();
+        $ledger = new item_ledger;
+        $ledger->item_id = $request->item_id;
+        $ledger->sale = $request->quantity;
+        $ledger->description = 'Direct Out';
+        $ledger->left     = $stock->qty;
+        $ledger->store    = $request->store;
+        $ledger->save();
+        return redirect()->to('sale/directout')->with('message','Item Added Successfully');
+    }
+
 }

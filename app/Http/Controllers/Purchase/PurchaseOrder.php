@@ -238,5 +238,35 @@ class PurchaseOrder extends Controller
         $supplier = suppliers::find($voucher->supplier_id);
         return json_encode(['supplier' => $supplier,'voucher'=> $voucher]);
     }
+    public function direct_in()
+    {
+        $items  = items::all();
+        $stores = stores::all(); 
+        return view('pages.purchase.direct_in',compact('items','stores'));
+    }
+    public function save_item(Request $request){
+        $request->validate([
+            'store' =>'required'
+        ]);
+        
+        if(stock::where('item_id',$request->item_id)->where('store',$request->store)->first()){
+            $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->increment('qty',$request->quantity);
+        }else{
+            $stock = new stock;
+            $stock->item_id = $request->item_id;
+            $stock->qty = $request->quantity;
+            $stock->store = $request->store;
+            $stock->save();
+        }
+        $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->first();
+        $ledger = new item_ledger;
+        $ledger->item_id = $request->item_id;
+        $ledger->purchase = $request->quantity;
+        $ledger->description = 'Direct In';
+        $ledger->left     = $stock->qty;
+        $ledger->store    = $request->store;
+        $ledger->save();
+        return redirect()->to('voucher/directin')->with('message','Item Added Successfully');
+    }
 
 }

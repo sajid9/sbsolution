@@ -156,6 +156,9 @@ Route::prefix('voucher')->middleware(['auth'])->group(function () {
     Route::post('addreceivingstore','Purchase\Voucherreceiving@add_receiving_store');
     Route::post('returnitem','Purchase\Voucherreceiving@return_item');
     Route::post('getreturned','Purchase\Voucherreceiving@get_returned_total');
+    Route::get('directin','Purchase\PurchaseOrder@direct_in');
+    Route::post('saveitem','Purchase\PurchaseOrder@save_item');
+
 });
 
 /*
@@ -230,6 +233,8 @@ Route::prefix('sale')->middleware(['auth'])->group(function(){
     
     Route::post('returnitem','sale\receiptdelivery@return_item');
     Route::post('getreturned','sale\receiptdelivery@get_returned_total');
+    Route::get('directout','sale\saleorder@direct_out');
+    Route::post('saveitem','sale\saleorder@save_item');
     
 });
 /*
@@ -247,6 +252,10 @@ Route::prefix('opening')->middleware(['auth'])->group(function(){
     Route::get('accounts','opening\opening_controller@opening_account');
     Route::post('saveaccount','opening\opening_controller@save_account');
     Route::get('accountlisting','opening\opening_controller@account_listing');
+    Route::get('cashdeposit','opening\opening_controller@cash_deposit');
+    Route::post('savedeposit','opening\opening_controller@save_deposit');
+    Route::get('cashwithdraw','opening\opening_controller@cash_withdraw');
+    Route::post('savewithdraw','opening\opening_controller@save_withdraw');
 });
 /*
 *
