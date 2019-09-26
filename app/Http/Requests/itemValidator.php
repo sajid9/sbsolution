@@ -24,15 +24,14 @@ class itemValidator extends FormRequest
     public function rules()
     {
         return [
-            'item_name' => 'required',
-            'barcode' => 'required|unique:items,barcode',
+            'item_name'      => 'required',
+            'barcode'        => 'required|unique:items,barcode',
             'purchase_price' => 'required',
-            'sale_price' => 'required',
-            'sale_price' => 'required',
-            'group' => 'required',
-            'piece_in_box' => 'required',
-            'meter_per_box' => 'required',
-            'size' => 'required',
+            'sale_price'     => 'required',
+            'group'          => 'required',
+            'piece_in_box'   => 'required',
+            'meter_per_box'  => 'required',
+            'size'           => 'required',
         ];
     }
 }

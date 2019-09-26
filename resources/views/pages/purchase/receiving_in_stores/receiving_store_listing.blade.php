@@ -41,21 +41,29 @@
 			                <th>voucher</th>
 			                <th>Item</th>
 			                <th>Pieces</th>
+			                @if($received_item->type == 'tile')
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                @endif
 			            </tr>
 			        </thead>
 			        <tbody>
-			        	<?php $obj = CH::convert_box($received_item->qty,$received_item->pieces,$received_item->meter)?>
+			        	<?php 
+				        	if($received_item->type == 'tile'){
+				        		$obj = CH::convert_box($received_item->qty,$received_item->pieces,$received_item->meter);
+				        	}
+			        	?>
 			            <tr class="odd gradeX">
 			                <td>1</td>
 			                <td>{{ $received_item->voucher_no }}</td>
 			                <td>{{ $received_item->item_name }}</td>
 			                <td>{{ $received_item->qty}}</td>
+			                @if($received_item->type == 'tile')
 			                <td>{{ $obj['boxes'] }}</td>
 			                <td>{{ $obj['pieces'] }}</td>
 			                <td>{{ $obj['meter'] }}</td>
+			                @endif
 			            </tr>
 			        </tbody>
 			    </table>
@@ -84,9 +92,17 @@
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $item->voucher->voucher_no }}</td>
 			                <td>{{ $item->item->item_name }}</td>
+			                @if($item->item->type == 'tile')
 			                <td>{{ ($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces}}</td>
+			                @else
+			                <td>{{ ($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) : $item->purchase }}</td>
+			                @endif
 			                <td>{{ $item->storeobj->name }}</td>
+			                @if($item->item->type == 'tile')
 			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$item->id}}','{{$item->voucher_id}}','{{$item->item_id}}','{{ ($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces}}','{{Request::segment(6)}}','{{ $item->store }}')"></i></td>
+			                @else
+			                 <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$item->id}}','{{$item->voucher_id}}','{{$item->item_id}}','{{ ($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) : $item->purchase}}','{{Request::segment(6)}}','{{ $item->store }}')"></i></td>
+			                @endif
 			            </tr>
 			            @endforeach
 			        </tbody>
@@ -174,9 +190,20 @@
     	  	dataType:"json",
     	  	data:{_token:"{{csrf_token()}}",voucher:voucherId,item:itemId,receiving_id:receivingId,parentId:parentId},
     	  	success:function(res){
+    	  		var check = parseInt("{{$received_item->type}}");
     	  		var pieces = parseInt("{{$received_item->pieces}}");
-    	  		console.log(res.total / pieces);
-    	  		$('#return_pieces').val(res.total / pieces);
+    	  		if(check == 'tile' && res.total != null){
+    	  			var returnitem = res.total / pieces;
+     	  		}else{
+     	  			var returnitem = 0;
+     	  		}
+     	  		if(check == 'item' && res.total != null){
+    	  			var returnitem = res.total;
+     	  		}else{
+     	  			var returnitem = 0;
+     	  		}
+    	  		
+    	  		$('#return_pieces').val(returnitem);
     	  	}
     	  });
     	}

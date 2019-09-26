@@ -34,21 +34,29 @@
 			                <th>voucher</th>
 			                <th>Item</th>
 			                <th>Pieces</th>
+			                <?php if($received_item->type == 'tile'): ?>
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                <?php endif; ?>
 			            </tr>
 			        </thead>
 			        <tbody>
-			        	<?php $obj = CH::convert_box($received_item->qty,$received_item->pieces,$received_item->meter)?>
+			        	<?php 
+				        	if($received_item->type == 'tile'){
+				        		$obj = CH::convert_box($received_item->qty,$received_item->pieces,$received_item->meter);
+				        	}
+			        	?>
 			            <tr class="odd gradeX">
 			                <td>1</td>
 			                <td><?php echo e($received_item->voucher_no); ?></td>
 			                <td><?php echo e($received_item->item_name); ?></td>
 			                <td><?php echo e($received_item->qty); ?></td>
+			                <?php if($received_item->type == 'tile'): ?>
 			                <td><?php echo e($obj['boxes']); ?></td>
 			                <td><?php echo e($obj['pieces']); ?></td>
 			                <td><?php echo e($obj['meter']); ?></td>
+			                <?php endif; ?>
 			            </tr>
 			        </tbody>
 			    </table>
@@ -77,9 +85,17 @@
 			                <td><?php echo e(++$count); ?></td>
 			                <td><?php echo e($item->voucher->voucher_no); ?></td>
 			                <td><?php echo e($item->item->item_name); ?></td>
+			                <?php if($item->item->type == 'tile'): ?>
 			                <td><?php echo e(($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces); ?></td>
+			                <?php else: ?>
+			                <td><?php echo e(($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) : $item->purchase); ?></td>
+			                <?php endif; ?>
 			                <td><?php echo e($item->storeobj->name); ?></td>
+			                <?php if($item->item->type == 'tile'): ?>
 			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($item->id); ?>','<?php echo e($item->voucher_id); ?>','<?php echo e($item->item_id); ?>','<?php echo e(($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) / $item->item->pieces : $item->purchase / $item->item->pieces); ?>','<?php echo e(Request::segment(6)); ?>','<?php echo e($item->store); ?>')"></i></td>
+			                <?php else: ?>
+			                 <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($item->id); ?>','<?php echo e($item->voucher_id); ?>','<?php echo e($item->item_id); ?>','<?php echo e(($item->return_item->returnitem != null) ? ($item->purchase - $item->return_item->returnitem) : $item->purchase); ?>','<?php echo e(Request::segment(6)); ?>','<?php echo e($item->store); ?>')"></i></td>
+			                <?php endif; ?>
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 			        </tbody>
@@ -167,9 +183,20 @@
     	  	dataType:"json",
     	  	data:{_token:"<?php echo e(csrf_token()); ?>",voucher:voucherId,item:itemId,receiving_id:receivingId,parentId:parentId},
     	  	success:function(res){
+    	  		var check = parseInt("<?php echo e($received_item->type); ?>");
     	  		var pieces = parseInt("<?php echo e($received_item->pieces); ?>");
-    	  		console.log(res.total / pieces);
-    	  		$('#return_pieces').val(res.total / pieces);
+    	  		if(check == 'tile' && res.total != null){
+    	  			var returnitem = res.total / pieces;
+     	  		}else{
+     	  			var returnitem = 0;
+     	  		}
+     	  		if(check == 'item' && res.total != null){
+    	  			var returnitem = res.total;
+     	  		}else{
+     	  			var returnitem = 0;
+     	  		}
+    	  		
+    	  		$('#return_pieces').val(returnitem);
     	  	}
     	  });
     	}

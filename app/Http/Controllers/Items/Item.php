@@ -49,10 +49,27 @@ class Item extends Controller
     *Add Item To DataBase
     * 
     */
-    public function additem(itemValidator $request){
+    public function additem(Request $request){
     	try{
-
-			$request->validated();
+            if($request->has('type')){
+			 $request->validate([
+                'item_name'      => 'required',
+                'barcode'        => 'required|unique:items,barcode',
+                'purchase_price' => 'required',
+                'sale_price'     => 'required',
+                'group'          => 'required',
+                'piece_in_box'   => 'required',
+                'meter_per_box'  => 'required',
+                'size'           => 'required',
+            ]);
+            }else{
+                $request->validate([
+                    'item_name'      => 'required',
+                    'barcode'        => 'required|unique:items,barcode',
+                    'purchase_price' => 'required',
+                    'sale_price'     => 'required',
+                ]);
+            }
 
 			$item = new items;
 		    $item->item_name      = $request->item_name;

@@ -20,11 +20,11 @@
 	@csrf
   <div class="form-group">
     <label for="total_boxes">Total Boxes </label>
-    <input type="text" readonly="" value="{{(isset($item->item)) ? $item->qty / $item->item->pieces : $item->qty}}" class="form-control" id="total_boxes">
+    <input type="text" readonly="" value="{{(isset($item->item) && $item->item->type == 'tile') ? $item->qty / $item->item->pieces : $item->qty}}" class="form-control" id="total_boxes">
   </div>
   <div class="form-group">
     <label for="received_boxes">Received Boxes </label>
-    <input type="text" readonly="" value="{{ ($check->total == null) ? 0 : $check->total / $item->item->pieces}}" class="form-control" id="received_boxes">
+    <input type="text" readonly="" value="{{($item->item->type == 'tile')? $check->total / $item->item->pieces : $check->total}}" class="form-control" id="received_boxes">
   </div>
   <div class="form-group">
     <input type="hidden" name="voucher" value="{{Request::segment(3)}}">

@@ -111,24 +111,35 @@ class PurchaseOrder extends Controller
     *
     */
     public function savevoucher(Request $request){
-    	$total = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('SUM(items.purchase_price * ((voucher_detail.qty / items.pieces) * items.meter)) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('voucher_detail.type','=','purchase')->first();
-    	DB::table('voucher')->where('id',$request->voucherId)->update(['total_amount'=>$total->totalPrice]);
+        $total = 0;
+        $checkitem = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->where('voucher_detail.voucher_id',$request->voucherId)->where('voucher_detail.type','=','purchase')->get();
+        foreach ($checkitem as $item) {
+            if($item->type == 'tile'){
+                $totalprice = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('items.purchase_price * ((voucher_detail.qty / items.pieces) * items.meter) as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('voucher_detail.type','=','purchase')->where('voucher_detail.item_id','=',$item->item_id)->first();
+                $total += $totalprice->totalPrice;
+            }else{
+                $totalprice = DB::table('voucher_detail')->leftJoin('items','voucher_detail.item_id','=','items.id')->select(DB::raw('items.purchase_price * voucher_detail.qty as totalPrice'))->where('voucher_detail.voucher_id',$request->voucherId)->where('voucher_detail.type','=','purchase')->where('voucher_detail.item_id','=',$item->item_id)->first();
+                $total += $totalprice->totalPrice;
+            }
+        }
+    	
+    	DB::table('voucher')->where('id',$request->voucherId)->update(['total_amount'=>$total]);
         $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucherId)->first();
         $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
 
         $supplier = new supplier_ledger;
         $supplier->voucher_id = $request->voucherId;
         $supplier->supplier_id = $sup->supplier_id;
-        $supplier->credit = $total->totalPrice;
-        $supplier->balance = $total->totalPrice;
+        $supplier->credit = $total;
+        $supplier->balance = $total;
         $supplier->type = "P";
         $supplier->save();
         
         $supplier_history = new supplier_history;
         $supplier_history->supplier_id = $sup->supplier_id;
         $supplier_history->voucher_id = $request->voucherId;
-        $supplier_history->credit = $total->totalPrice;
-        $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total->totalPrice:$total->totalPrice;
+        $supplier_history->credit = $total;
+        $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance + $total:$total;
         $supplier_history->type = "P";
         $supplier_history->save();
     	return json_encode($total);

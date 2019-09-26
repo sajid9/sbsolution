@@ -34,22 +34,31 @@
 			                <th>Voucher</th>
 			                <th>Item</th>
 			                <th>Quantity</th>
+			                <?php if($item_s->type == 'tile'): ?>
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                <?php endif; ?>
 			                <th>Date</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			            <tr class="odd gradeX">
-			            	<?php $obj = CH::convert_box($item_s->qty,$item_s->pieces,$item_s->meter)?>
+
+			            	<?php 
+			            	if($item_s->type == 'tile'){
+			            		$obj = CH::convert_box($item_s->qty,$item_s->pieces,$item_s->meter);
+			            	}?>
+			            	
 			                <td>1</td>
 			                <td><?php echo e($item_s->voucher_no); ?></td>
 			                <td><?php echo e($item_s->item_name); ?></td>
 			                <td><?php echo e($item_s->qty); ?></td>
+			                <?php if($item_s->type == 'tile'): ?>
 			                <td><?php echo e($obj['boxes']); ?></td>
 			                <td><?php echo e($obj['pieces']); ?></td>
 			                <td><?php echo e($obj['meter']); ?></td>
+			                <?php endif; ?>
 			                <td><?php echo e($item_s->created_at); ?></td>
 			            </tr>
 			            
@@ -81,7 +90,7 @@
 			                <td><?php echo e(++$count); ?></td>
 			                <td><?php echo e($receiving->voucher->voucher_no); ?></td>
 			                <td><?php echo e($receiving->item->item_name); ?></td>
-			                <td><?php echo e($receiving->qty / $receiving->item->pieces); ?></td>
+			                <td><?php echo e(($receiving->item->type == 'tile')? $receiving->qty / $receiving->item->pieces : $receiving->qty); ?></td>
 			                <td><?php echo e($receiving->date); ?></td>
 			                <td><a href="<?php echo e(url('voucher/receivingstore/'.$receiving->voucher_id.'/'.$receiving->item_id.'/'.$receiving->qty.'/'.$receiving->id)); ?>"><i class="fa fa-plus" title="Add to Store" data-toggle="tooltip"></i></a> </td>
 			                

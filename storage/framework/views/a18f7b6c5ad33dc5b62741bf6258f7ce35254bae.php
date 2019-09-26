@@ -1,4 +1,4 @@
-<?php $__env->startSection('title', 'Dashboard'); ?>
+<?php $__env->startSection('title', 'Category'); ?>
 <?php $__env->startSection('pagetitle', 'Category'); ?>
 
 

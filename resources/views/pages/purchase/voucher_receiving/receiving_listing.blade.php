@@ -41,22 +41,31 @@
 			                <th>Voucher</th>
 			                <th>Item</th>
 			                <th>Quantity</th>
+			                @if($item_s->type == 'tile')
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                @endif
 			                <th>Date</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			            <tr class="odd gradeX">
-			            	<?php $obj = CH::convert_box($item_s->qty,$item_s->pieces,$item_s->meter)?>
+
+			            	<?php 
+			            	if($item_s->type == 'tile'){
+			            		$obj = CH::convert_box($item_s->qty,$item_s->pieces,$item_s->meter);
+			            	}?>
+			            	
 			                <td>1</td>
 			                <td>{{ $item_s->voucher_no }}</td>
 			                <td>{{ $item_s->item_name }}</td>
 			                <td>{{ $item_s->qty}}</td>
+			                @if($item_s->type == 'tile')
 			                <td>{{ $obj['boxes'] }}</td>
 			                <td>{{ $obj['pieces'] }}</td>
 			                <td>{{ $obj['meter'] }}</td>
+			                @endif
 			                <td>{{ $item_s->created_at }}</td>
 			            </tr>
 			            
@@ -88,7 +97,7 @@
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $receiving->voucher->voucher_no }}</td>
 			                <td>{{ $receiving->item->item_name }}</td>
-			                <td>{{ $receiving->qty / $receiving->item->pieces}}</td>
+			                <td>{{ ($receiving->item->type == 'tile')? $receiving->qty / $receiving->item->pieces : $receiving->qty}}</td>
 			                <td>{{ $receiving->date }}</td>
 			                <td><a href="{{url('voucher/receivingstore/'.$receiving->voucher_id.'/'.$receiving->item_id.'/'.$receiving->qty.'/'.$receiving->id)}}"><i class="fa fa-plus" title="Add to Store" data-toggle="tooltip"></i></a> {{-- <a onclick="deletestore('{{$store->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                

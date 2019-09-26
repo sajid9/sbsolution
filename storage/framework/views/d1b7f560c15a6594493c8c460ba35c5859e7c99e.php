@@ -13,12 +13,12 @@
 	<?php echo csrf_field(); ?>
   <div class="form-group">
     <label for="total_qty">Total Quantity </label>
-    <input type="text" readonly="" value="<?php echo e(Request::segment(5) / $item->pieces); ?>" class="form-control" id="total_qty" aria-describedby="total_qty_msg">
+    <input type="text" readonly="" value="<?php echo e(($item->type == 'tile') ? Request::segment(5) / $item->pieces : Request::segment(5)); ?>" class="form-control" id="total_qty" aria-describedby="total_qty_msg">
     <small id="total_qty_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('total_qty')); ?></small>
   </div>
   <div class="form-group">
     <label for="received_qty">Received Quantity </label>
-    <input type="text" readonly="" value="<?php echo e($check->total / $item->pieces); ?>" class="form-control" id="received_qty" aria-describedby="received_qty_msg">
+    <input type="text" readonly="" value="<?php echo e(($item->type == 'tile') ? $check->total / $item->pieces : $check->total); ?>" class="form-control" id="received_qty" aria-describedby="received_qty_msg">
     <small id="received_qty_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('received_qty')); ?></small>
   </div>
   <div class="form-group">

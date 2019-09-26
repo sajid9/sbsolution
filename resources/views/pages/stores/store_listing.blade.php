@@ -5,7 +5,7 @@
 @extends('includes.sidebar')
 
 {{-- page titles --}}
-@section('title', 'Dashboard')
+@section('title', 'Stores')
 @section('pagetitle', 'Stores')
 
 {{-- add css which use only for this page --}}

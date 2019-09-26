@@ -126,9 +126,11 @@
         <label for="tile_type">Tile Type</label>
         <select name="tile_type" class="form-control" id="tile_type" aria-describedby="tile_type">
           <option value="">Select Tile Type</option>
-          <option>Floor</option>
-          <option>Wall</option>
+          <option>BathRooms</option>
+          <option>Living Rooms</option>
           <option>Kitchen</option>
+          <option>Bed Rooms</option>
+          <option>OutDoor</option>
         </select>
         <small id="tile_type" class="form-text text-muted text-danger">{{$errors->first('tile_type')}}</small>
       </div>
