@@ -70,6 +70,7 @@
 			        	<?php $count = 0; ?>
 			        	<?php $__currentLoopData = $ledgers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $ledger): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 			        	<tr>
+
 			        		<td><?php echo e(++$count); ?></td>
 			        		<td><?php echo e(date_format(date_create($ledger->created_at),"d M Y H:i:s")); ?></td>
 			        		<td><?php echo e((isset($ledger->voucher))?$ledger->voucher->voucher_no:''); ?></td>
@@ -78,9 +79,9 @@
 			        		<td><?php echo e((isset($ledger->items)) ? $ledger->items->item_name : ""); ?></td>
 			        		<td><?php echo e((isset($ledger->items->groups)) ? $ledger->items->groups->name : ""); ?></td>
 			        		<td><?php echo e((isset($ledger->stores)) ? $ledger->stores->name : ""); ?></td>
-			        		<td><?php echo e($ledger->purchase / $ledger->items->pieces); ?></td>
-			        		<td><?php echo e($ledger->sale / $ledger->items->pieces); ?></td>
-			        		<td><?php echo e(($ledger->items->type == 'tile')? intval($ledger->left / $ledger->items->pieces) :''); ?></td>
+			        		<td><?php echo e(($ledger->items->type == 'tile') ? $ledger->purchase / $ledger->items->pieces : $ledger->purchase); ?></td>
+			        		<td><?php echo e(($ledger->items->type == 'tile') ? $ledger->sale / $ledger->items->pieces : $ledger->sale); ?></td>
+			        		<td><?php echo e(($ledger->items->type == 'tile')? intval($ledger->left / $ledger->items->pieces) :$ledger->left); ?></td>
 			        		<td>
 			        			<?php 
 			        			if($ledger->items->type == 'tile'){

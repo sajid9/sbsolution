@@ -36,22 +36,29 @@
 			                <th>Receipt</th>
 			                <th>Item</th>
 			                <th>Quantity</th>
+			                <?php if($item_p->type == 'tile'): ?>
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                <?php endif; ?>
 			                <th>Date</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			            <tr class="odd gradeX">
-			            	<?php $obj = CH::convert_box($item_p->qty,$item_p->pieces,$item_p->meter)?>
+			            	<?php 
+			            	if($item_p->type == 'tile'){
+			            		$obj = CH::convert_box($item_p->qty,$item_p->pieces,$item_p->meter);
+			            	}?>
 			                <td>1</td>
 			                <td><?php echo e($item_p->receipt_no); ?></td>
 			                <td><?php echo e($item_p->item_name); ?></td>
 			                <td><?php echo e($item_p->qty); ?></td>
+			                <?php if($item_p->type == 'tile'): ?>
 			                <td><?php echo e($obj['boxes']); ?></td>
 			                <td><?php echo e($obj['pieces']); ?></td>
 			                <td><?php echo e($obj['meter']); ?></td>
+			                <?php endif; ?>
 			                <td><?php echo e($item_p->created_at); ?></td>
 			            </tr>
 			            
@@ -71,9 +78,11 @@
 			                <th>Receipt</th>
 			                <th>Item</th>
 			                <th>Pieces</th>
+			                <?php if($item_p->type == 'tile'): ?>
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                <?php endif; ?>
 			                <th>Date</th>
 			                <th>Action</th>
 			            </tr>
@@ -82,14 +91,19 @@
 			        	<?php $count = 0; ?>
 			        	<?php $__currentLoopData = $delivered_items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 				            <tr class="odd gradeX">
-				            	<?php $obj = CH::convert_box($item->qty,$item->item->pieces,$item->item->meter)?>
+				            	<?php 
+				            	if($item_p->type == 'tile'){
+				            		$obj = CH::convert_box($item->qty,$item->item->pieces,$item->item->meter);
+				            	}?>
 				                <td><?php echo e(++$count); ?></td>
 				                <td><?php echo e($item->receipt->receipt_no); ?></td>
 				                <td><?php echo e($item->item->item_name); ?></td>
 				                <td><?php echo e($item->qty); ?></td>
+				                <?php if($item_p->type == 'tile'): ?>
 				                <td><?php echo e($obj['boxes']); ?></td>
 				                <td><?php echo e($obj['pieces']); ?></td>
 				                <td><?php echo e($obj['meter']); ?></td>
+				                <?php endif; ?>
 				                <td><?php echo e($item->date); ?></td>
 				                <td><a href="<?php echo e(url('sale/storelisting/'.$item->receipt_id.'/'.$item->item_id.'/'.$item->qty.'/'.$item->id)); ?>"><i class="fa fa-plus" title="Add to Store" data-toggle="tooltip"></i></a> </td>
 				                

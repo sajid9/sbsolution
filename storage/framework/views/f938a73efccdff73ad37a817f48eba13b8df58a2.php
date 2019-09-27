@@ -11,13 +11,14 @@
 
 <form method="post" action="<?php echo e(url('sale/adddevlivery')); ?>">
 	<?php echo csrf_field(); ?>
-  <?php $obj = CH::convert_box($item->qty,$item->item->pieces,$item->item->meter);?>
+  <?php if($item->type == 'tile'){ $obj = CH::convert_box($item->qty,$item->item->pieces,$item->item->meter);}?>
   
   <div class="row">
-    <div class="form-group col-md-4">
+    <div class="form-group <?php echo e(($item->type == 'tile')? 'col-md-4' : 'col-md-12'); ?>">
     <label for="total_boxes">Total Pieces </label>
     <input type="text" readonly="" value="<?php echo e($item->qty); ?>" class="form-control" id="total_boxes">
   </div>
+  <?php if($item->type == 'tile'): ?>
   <div class="form-group col-md-4">
     <label for="total_boxes">Boxes </label>
     <input type="text" readonly="" value="<?php echo e($obj['boxes']); ?>" class="form-control" id="total_boxes">
@@ -26,6 +27,7 @@
     <label for="total_boxes">Pieces </label>
     <input type="text" readonly="" value="<?php echo e($obj['pieces']); ?>" class="form-control" id="total_boxes">
   </div>
+  <?php endif; ?>
   </div>
   <div class="form-group">
     <label>Delivered Pieces </label>
@@ -33,13 +35,14 @@
   </div>
   
   <div class="row">
-    <div class="form-group col-md-4">
+    <div class="form-group <?php echo e(($item->type == 'tile')? 'col-md-4' : 'col-md-12'); ?>">
     <input type="hidden" name="receipt" value="<?php echo e(Request::segment(3)); ?>">
     <input type="hidden" name="item" value="<?php echo e(Request::segment(4)); ?>">
     <label for="receivingQty">Delivering Pieces <span class="text-danger">*</span></label>
     <input type="text" autofocus="" tabindex="1" name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="receivingQty" aria-describedby="receivingQty_msg" placeholder="Delivered Pieces">
     <small id="receivingQty_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quantity')); ?></small>
   </div>
+  <?php if($item->type == 'tile'): ?>
   <div class="form-group col-md-4">
     <label for="total_boxes">Boxes <span class="text-danger">*</span></label>
     <input type="text" readonly="" class="form-control" id="delivered_boxes">
@@ -48,6 +51,7 @@
     <label for="total_boxes">Pieces <span class="text-danger">*</span></label>
     <input type="text" readonly=""  class="form-control" id="delivering_pieces">
   </div>
+  <?php endif; ?>
   </div>
   <div class="form-group">
     <label for="date">Delivered Date <span class="text-danger">*</span></label>

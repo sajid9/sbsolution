@@ -109,13 +109,16 @@
 		<tbody>
 			<?php $count = 0;?>
 			@foreach($items as $item)
-			 <?php $obj = CH::convert_box($item->qty,$item->pieces,$item->meter);?>
+			 <?php 
+			 	if($item->type == 'tile'){
+			 		$obj = CH::convert_box($item->qty,$item->pieces,$item->meter);
+			 	}?>
 				<tr>
 					<td>{{++$count}}</td>
 					<td>{{$item->item_name}}</td>
-					<td>{{$obj['meter']}}</td>
+					<td>{{($item->type == 'tile') ? $obj['meter'] : $item->qty}}</td>
 					<td>{{$item->sale_price}}</td>
-					<td>{{intval($item->discount / $obj['meter'])}}</td>
+					<td>{{($item->type == 'tile') ? intval($item->discount / $obj['meter']) : $item->discount / $item->qty}}</td>
 					<td>{{$item->total_price}}</td>
 					<td>{{$item->total_price - $item->discount}}</td>
 					<td>{{$item->discount}}</td>

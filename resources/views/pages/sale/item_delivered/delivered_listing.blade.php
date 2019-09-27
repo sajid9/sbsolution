@@ -43,22 +43,29 @@
 			                <th>Receipt</th>
 			                <th>Item</th>
 			                <th>Quantity</th>
+			                @if($item_p->type == 'tile')
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                @endif
 			                <th>Date</th>
 			            </tr>
 			        </thead>
 			        <tbody>
 			            <tr class="odd gradeX">
-			            	<?php $obj = CH::convert_box($item_p->qty,$item_p->pieces,$item_p->meter)?>
+			            	<?php 
+			            	if($item_p->type == 'tile'){
+			            		$obj = CH::convert_box($item_p->qty,$item_p->pieces,$item_p->meter);
+			            	}?>
 			                <td>1</td>
 			                <td>{{ $item_p->receipt_no }}</td>
 			                <td>{{ $item_p->item_name }}</td>
 			                <td>{{ $item_p->qty}}</td>
+			                @if($item_p->type == 'tile')
 			                <td>{{ $obj['boxes'] }}</td>
 			                <td>{{ $obj['pieces'] }}</td>
 			                <td>{{ $obj['meter'] }}</td>
+			                @endif
 			                <td>{{ $item_p->created_at }}</td>
 			            </tr>
 			            
@@ -78,9 +85,11 @@
 			                <th>Receipt</th>
 			                <th>Item</th>
 			                <th>Pieces</th>
+			                @if($item_p->type == 'tile')
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                @endif
 			                <th>Date</th>
 			                <th>Action</th>
 			            </tr>
@@ -89,14 +98,19 @@
 			        	<?php $count = 0; ?>
 			        	@foreach($delivered_items as $item)
 				            <tr class="odd gradeX">
-				            	<?php $obj = CH::convert_box($item->qty,$item->item->pieces,$item->item->meter)?>
+				            	<?php 
+				            	if($item_p->type == 'tile'){
+				            		$obj = CH::convert_box($item->qty,$item->item->pieces,$item->item->meter);
+				            	}?>
 				                <td>{{ ++$count }}</td>
 				                <td>{{ $item->receipt->receipt_no }}</td>
 				                <td>{{ $item->item->item_name }}</td>
 				                <td>{{ $item->qty}}</td>
+				                @if($item_p->type == 'tile')
 				                <td>{{ $obj['boxes'] }}</td>
 				                <td>{{ $obj['pieces'] }}</td>
 				                <td>{{ $obj['meter'] }}</td>
+				                @endif
 				                <td>{{ $item->date }}</td>
 				                <td><a href="{{url('sale/storelisting/'.$item->receipt_id.'/'.$item->item_id.'/'.$item->qty.'/'.$item->id)}}"><i class="fa fa-plus" title="Add to Store" data-toggle="tooltip"></i></a> {{-- <a onclick="deletestore('{{$store->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 				                

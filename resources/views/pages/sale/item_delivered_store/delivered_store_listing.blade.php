@@ -41,21 +41,27 @@
 			                <th>Receipt</th>
 			                <th>Item</th>
 			                <th>Pieces</th>
+			                @if($delivered_item->type == 'tile')
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                @endif
 			            </tr>
 			        </thead>
 			        <tbody>
-			        	<?php $obj = CH::convert_box($delivered_item->qty,$delivered_item->pieces,$delivered_item->meter)?>
+			        	<?php if($delivered_item->type == 'tile'){
+			        		$obj = CH::convert_box($delivered_item->qty,$delivered_item->pieces,$delivered_item->meter);
+			        	}?>
 			            <tr class="odd gradeX">
 			                <td>1</td>
 			                <td>{{ $delivered_item->receipt_no }}</td>
 			                <td>{{ $delivered_item->item_name }}</td>
 			                <td>{{ $delivered_item->qty}}</td>
+			                @if($delivered_item->type == 'tile')
 			                <td>{{ $obj['boxes'] }}</td>
 			                <td>{{ $obj['pieces'] }}</td>
 			                <td>{{ $obj['meter'] }}</td>
+			                @endif
 			            </tr>
 			        </tbody>
 			    </table>
@@ -74,9 +80,11 @@
 			                <th>Item</th>
 			                <th>Store</th>
 			                <th>Pieces</th>
+			                @if($delivered_item->type == 'tile')
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                @endif
 			                <th>Action</th>
 			            </tr>
 			        </thead>
@@ -86,16 +94,20 @@
 			        	@foreach($items as $item)
 			        	<?php
 			        	$qty = ($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) : $item->sale ; 
-			        	$obj = CH::convert_box($qty,$delivered_item->pieces,$delivered_item->meter)?>
+			        	if($delivered_item->type == 'tile'){
+			        		$obj = CH::convert_box($qty,$delivered_item->pieces,$delivered_item->meter);
+			        	}?>
 			            <tr class="odd gradeX">
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $item->receipt->receipt_no }}</td>
 			                <td>{{ $item->item->item_name }}</td>
 			                <td>{{ $item->storeobj->name }}</td>
 			                <td>{{ $qty }}</td>
+			                @if($delivered_item->type == 'tile')
 			                <td>{{ $obj['boxes'] }}</td>
 			                <td>{{ $obj['pieces'] }}</td>
 			                <td>{{ $obj['meter'] }}</td>
+			                @endif
 			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('{{$item->id}}','{{$item->receipt_id}}','{{$item->item_id}}','{{ ($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) : $item->sale }}','{{Request::segment(6)}}','{{ $item->store }}')"></i></td>
 			            </tr>
 			            @endforeach

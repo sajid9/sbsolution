@@ -62,13 +62,16 @@
 		<tbody>
 			<?php $count = 0;?>
 			<?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-			 <?php $obj = CH::convert_box($item->qty,$item->pieces,$item->meter);?>
+			 <?php 
+			 	if($item->type == 'tile'){
+			 		$obj = CH::convert_box($item->qty,$item->pieces,$item->meter);
+			 	}?>
 				<tr>
 					<td><?php echo e(++$count); ?></td>
 					<td><?php echo e($item->item_name); ?></td>
-					<td><?php echo e($obj['meter']); ?></td>
+					<td><?php echo e(($item->type == 'tile') ? $obj['meter'] : $item->qty); ?></td>
 					<td><?php echo e($item->sale_price); ?></td>
-					<td><?php echo e(intval($item->discount / $obj['meter'])); ?></td>
+					<td><?php echo e(($item->type == 'tile') ? intval($item->discount / $obj['meter']) : $item->discount / $item->qty); ?></td>
 					<td><?php echo e($item->total_price); ?></td>
 					<td><?php echo e($item->total_price - $item->discount); ?></td>
 					<td><?php echo e($item->discount); ?></td>

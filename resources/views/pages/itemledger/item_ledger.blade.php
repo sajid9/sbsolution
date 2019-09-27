@@ -77,6 +77,7 @@
 			        	<?php $count = 0; ?>
 			        	@foreach($ledgers as $ledger)
 			        	<tr>
+
 			        		<td>{{ ++$count }}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
 			        		<td>{{(isset($ledger->voucher))?$ledger->voucher->voucher_no:''}}</td>
@@ -85,9 +86,9 @@
 			        		<td>{{(isset($ledger->items)) ? $ledger->items->item_name : ""}}</td>
 			        		<td>{{(isset($ledger->items->groups)) ? $ledger->items->groups->name : ""}}</td>
 			        		<td>{{(isset($ledger->stores)) ? $ledger->stores->name : ""}}</td>
-			        		<td>{{$ledger->purchase / $ledger->items->pieces}}</td>
-			        		<td>{{$ledger->sale / $ledger->items->pieces}}</td>
-			        		<td>{{($ledger->items->type == 'tile')? intval($ledger->left / $ledger->items->pieces) :''}}</td>
+			        		<td>{{($ledger->items->type == 'tile') ? $ledger->purchase / $ledger->items->pieces : $ledger->purchase}}</td>
+			        		<td>{{($ledger->items->type == 'tile') ? $ledger->sale / $ledger->items->pieces : $ledger->sale}}</td>
+			        		<td>{{($ledger->items->type == 'tile')? intval($ledger->left / $ledger->items->pieces) :$ledger->left}}</td>
 			        		<td>
 			        			<?php 
 			        			if($ledger->items->type == 'tile'){

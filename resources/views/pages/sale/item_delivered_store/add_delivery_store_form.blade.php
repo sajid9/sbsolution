@@ -18,14 +18,17 @@
 {{-- form start  --}}
 <form method="post" action="{{url('sale/adddeliverystore')}}">
 	@csrf
-  <?php $obj = CH::convert_box(Request::segment(5),$item->pieces,$item->meter);?>
+  <?php if($item->type == 'tile'){
+    $obj = CH::convert_box(Request::segment(5),$item->pieces,$item->meter);
+  }?>
   
   <div class="row">
-  <div class="form-group col-md-4">
+  <div class="form-group {{($item->type == 'tile')? 'col-md-4' : 'col-md-12'}}">
     <label for="total_qty">Total Pieces </label>
     <input type="text" readonly="" value="{{Request::segment(5)}}" class="form-control" id="total_qty" aria-describedby="total_qty_msg">
     <small id="total_qty_msg" class="form-text text-muted text-danger">{{$errors->first('total_qty')}}</small>
   </div>
+  @if($item->type == 'tile')
   <div class="form-group col-md-4">
     <label for="total_boxes">Boxes </label>
     <input type="text" readonly="" value="{{$obj['boxes']}}" class="form-control" id="total_boxes">
@@ -34,13 +37,14 @@
     <label for="total_boxes">Pieces </label>
     <input type="text" readonly="" value="{{$obj['pieces']}}" class="form-control" id="total_boxes">
   </div>
+  @endif
   </div>
   <div class="form-group">
     <label>Delivered Pieces </label>
     <input type="text" readonly="" value="{{($check->total == null)? 0 : $check->total}}" class="form-control" id="delivered_pieces">
   </div>
   <div class="row">
-    <div class="form-group col-md-4">
+    <div class="form-group {{($item->type == 'tile')? 'col-md-4' : 'col-md-12'}}">
     <input type="hidden" name="total_qty" value="{{Request::segment(5)}}">
     <input type="hidden" name="delivery_id" value="{{Request::segment(6)}}">
     <input type="hidden" name="receipt" value="{{Request::segment(3)}}">
@@ -49,6 +53,7 @@
     <input type="text" autofocus="" tabindex="1" name="quantity" value="{{old('quantity')}}" class="form-control" id="qty" aria-describedby="qty_msg" placeholder="Receiving Quantity">
     <small id="qty_msg" class="form-text text-muted text-danger">{{$errors->first('quantity')}}</small>
   </div>
+  @if($item->type == 'tile')
   <div class="form-group col-md-4">
     <label for="total_boxes">Boxes </label>
     <input type="text" readonly="" class="form-control" id="delivered_boxes">
@@ -57,6 +62,7 @@
     <label for="total_boxes">Pieces </label>
     <input type="text" readonly=""  class="form-control" id="delivering_pieces">
   </div>
+  @endif
   </div>
   <div class="row">
     <div class="form-group col-md-6">

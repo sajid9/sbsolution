@@ -130,7 +130,7 @@ class Voucherreceiving extends Controller
 
         $vouch = voucher::find($request->voucher_id);
         $sup_bal = DB::table('supplier_ledger')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('voucher_id',$request->voucher_id)->first();
-        $supplier_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('voucher_id',$request->voucher_id)->where('supplier_id',$vouch->supplier_id)->first();
+        $supplier_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$vouch->supplier_id)->first();
         
         $voucher_history = new supplier_ledger;
         $voucher_history->voucher_id = $request->voucher_id;

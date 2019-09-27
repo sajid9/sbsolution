@@ -86,6 +86,7 @@ class receiptdelivery extends Controller
                 $stock = stock::where('item_id',$request->item)->where('store',$request->store)->decrement('qty',$request->quantity);
             }
             $stock = stock::where('item_id',$request->item)->where('store',$request->store)->first();
+            
             $ledger = new item_ledger;
             $ledger->item_id = $request->item;
             $ledger->sale = $request->quantity;
@@ -124,15 +125,22 @@ class receiptdelivery extends Controller
         $voucher_detail->save();
         /*get item detail from receipt_detail table to check whats the discount given on per meter*/
         $item_detail = receipt_detail::where('receipt_id',$request->receipt_id)->where('item_id',$request->item_id)->where('type','sale')->first();
-        /*get total meter of soled item*/
-        $obj = CH::convert_box($item_detail->qty,$item->pieces,$item->meter);
-        /*get total meter of return item*/
-        $obj2 = CH::convert_box($request->quantity,$item->pieces,$item->meter);
-        /*check whats the discount price of per meter*/
-        $discount = $item_detail->discount / $obj['meter'];
+        if($item->type == 'tile'){
+            /*get total meter of soled item*/
+            $obj = CH::convert_box($item_detail->qty,$item->pieces,$item->meter);
+            /*get total meter of return item*/
+            $obj2 = CH::convert_box($request->quantity,$item->pieces,$item->meter);
+            /*check whats the discount price of per meter*/
+            $discountPrice = $item_detail->discount / $obj['meter'];
+            $returnAmount = $discountPrice * $obj2['meter'];
+        }else{
+            $discountPrice = $item_detail->discount / $item_detail->qty;
+            $returnAmount = $discountPrice * $request->quantity;
+        }
+        
         /*updating the return amount of the receipt*/
         $voucher = receipt::find($request->receipt_id);
-        $voucher->return_amount +=  $discount * $obj2['meter'];
+        $voucher->return_amount +=  $returnAmount;
         $voucher->save();
 
         $vouch = receipt::find($request->receipt_id);
@@ -140,15 +148,15 @@ class receiptdelivery extends Controller
         $sup_balance = DB::table('customer_ledger')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('customer_id',$vouch->customer_id)->first();
         $voucher_history = new receipt_ledger;
         $voucher_history->receipt_id = $request->receipt_id;
-        $voucher_history->credit = $discount * $obj2['meter'];
-        $voucher_history->balance = $sup_bal->balance - ($discount * $obj2['meter']);
+        $voucher_history->credit = $returnAmount;
+        $voucher_history->balance = $sup_bal->balance - $returnAmount;
         $voucher_history->type = "SR";
         $voucher_history->save();
         
         $voucher_history = new customer_ledger;
         $voucher_history->customer_id = $vouch->customer_id;
-        $voucher_history->credit = $discount * $obj2['meter'];
-        $voucher_history->balance =$sup_bal->balance - ($discount * $obj2['meter']);
+        $voucher_history->credit = $returnAmount;
+        $voucher_history->balance =$sup_balance->balance - $returnAmount;
         $voucher_history->type = "SR";
         $voucher_history->save();
         return json_encode(['message'=>'successfully']);

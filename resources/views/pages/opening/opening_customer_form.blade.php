@@ -44,8 +44,8 @@
         <label for="type">Type<span class="text-danger">*</span></label>
         <select name="type" class="form-control" id="type" aria-describedby="type_msg">
           <option value="">Select Type</option>
-          <option value="debit">Debit</option>
-          <option value="credit">Credit</option>
+          <option value="debit">To be received from customer</option>
+          <option value="credit">To be Paid to customer</option>
         </select>
         <small id="type_msg" class="form-text text-muted text-danger"></small>
       </div>

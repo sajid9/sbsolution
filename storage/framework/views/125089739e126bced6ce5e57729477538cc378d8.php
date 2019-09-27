@@ -34,21 +34,27 @@
 			                <th>Receipt</th>
 			                <th>Item</th>
 			                <th>Pieces</th>
+			                <?php if($delivered_item->type == 'tile'): ?>
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                <?php endif; ?>
 			            </tr>
 			        </thead>
 			        <tbody>
-			        	<?php $obj = CH::convert_box($delivered_item->qty,$delivered_item->pieces,$delivered_item->meter)?>
+			        	<?php if($delivered_item->type == 'tile'){
+			        		$obj = CH::convert_box($delivered_item->qty,$delivered_item->pieces,$delivered_item->meter);
+			        	}?>
 			            <tr class="odd gradeX">
 			                <td>1</td>
 			                <td><?php echo e($delivered_item->receipt_no); ?></td>
 			                <td><?php echo e($delivered_item->item_name); ?></td>
 			                <td><?php echo e($delivered_item->qty); ?></td>
+			                <?php if($delivered_item->type == 'tile'): ?>
 			                <td><?php echo e($obj['boxes']); ?></td>
 			                <td><?php echo e($obj['pieces']); ?></td>
 			                <td><?php echo e($obj['meter']); ?></td>
+			                <?php endif; ?>
 			            </tr>
 			        </tbody>
 			    </table>
@@ -67,9 +73,11 @@
 			                <th>Item</th>
 			                <th>Store</th>
 			                <th>Pieces</th>
+			                <?php if($delivered_item->type == 'tile'): ?>
 			                <th>Boxes</th>
 			                <th>Pieces</th>
 			                <th>Meter</th>
+			                <?php endif; ?>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
@@ -79,16 +87,20 @@
 			        	<?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 			        	<?php
 			        	$qty = ($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) : $item->sale ; 
-			        	$obj = CH::convert_box($qty,$delivered_item->pieces,$delivered_item->meter)?>
+			        	if($delivered_item->type == 'tile'){
+			        		$obj = CH::convert_box($qty,$delivered_item->pieces,$delivered_item->meter);
+			        	}?>
 			            <tr class="odd gradeX">
 			                <td><?php echo e(++$count); ?></td>
 			                <td><?php echo e($item->receipt->receipt_no); ?></td>
 			                <td><?php echo e($item->item->item_name); ?></td>
 			                <td><?php echo e($item->storeobj->name); ?></td>
 			                <td><?php echo e($qty); ?></td>
+			                <?php if($delivered_item->type == 'tile'): ?>
 			                <td><?php echo e($obj['boxes']); ?></td>
 			                <td><?php echo e($obj['pieces']); ?></td>
 			                <td><?php echo e($obj['meter']); ?></td>
+			                <?php endif; ?>
 			                <td><i class="glyphicon glyphicon-share" onclick="returnItem('<?php echo e($item->id); ?>','<?php echo e($item->receipt_id); ?>','<?php echo e($item->item_id); ?>','<?php echo e(($item->return_item->returnitem != null) ? ($item->sale - $item->return_item->returnitem) : $item->sale); ?>','<?php echo e(Request::segment(6)); ?>','<?php echo e($item->store); ?>')"></i></td>
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

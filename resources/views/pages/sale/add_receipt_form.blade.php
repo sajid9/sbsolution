@@ -98,22 +98,23 @@
         <div class="row">
           <div class="col-md-4">
             <div class="form-group">
+              <input type="hidden" name="type" id="typ">
               <input type="hidden" name="item_id" id="itemId">
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
-                <input type="text" disabled name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
+                <input type="text"  name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
                 <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
               </div>
               <small id="barcode_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="quantity"> Quantity <span class="text-danger">*</span></label>
-              <input type="number" disabled="" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
+              <input type="number"  name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="discount">Discount / meter </label>
-              <input type="text" disabled="" name="discount" value="{{old('discount')}}" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
+              <input type="text"  name="discount" value="{{old('discount')}}" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
               <small id="discount_msg" class="form-text text-muted text-danger">{{$errors->first('discount')}}</small>
             </div>
           </div>
@@ -228,23 +229,6 @@
   </div>
 </div>
 </div>
-<template id="tile_template">
-  <div class="col-md-6">
-    <input type="hidden" name="type" id="typ">
-    <div class="form-group">
-      <label for="meter">Meter Per Box</label>
-      <input type="text" disabled name="meter" value="{{old('meter')}}" class="form-control" id="meter" aria-describedby="meter_msg" placeholder="total price">
-      <small id="meter_msg" class="form-text text-muted text-danger">{{$errors->first('meter')}}</small>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="form-group">
-      <label for="pieces">Pieces Per Box</label>
-      <input type="text" disabled name="pieces" value="{{old('pieces')}}" class="form-control" id="pieces" aria-describedby="pieces_msg" placeholder="total price">
-      <small id="pieces_msg" class="form-text text-muted text-danger">{{$errors->first('pieces')}}</small>
-    </div>
-  </div>
-</template>
 
 @endsection
 @section('footer')
@@ -355,14 +339,13 @@
               $('#itemId').val(res.id);
               $('#addItem').prop('disabled',false);
               $('#barcode_msg').text('');
+              $('#typ').val(res.type);
               if(res.type == 'tile'){
-                var temp = $('#tile_template').html();
-                $('#tile_container').html(temp);
                 $('#meter').text(res.meter);
                 $('#pieces').text(res.pieces);
-                $('#typ').val(res.type);
               }else{
-                $('#tile_container').html('');
+                $('#meter').text('');
+                $('#pieces').text('');
               }
             }else{
               $('#sale_price').val('');
@@ -502,15 +485,24 @@
         $(this).val('');
       }else{
         var discount  = parseInt($(this).val());
-        var meterBox  = parseFloat($('#meter').text());
-        var piecesBox = parseInt($('#pieces').text());
-        var onePiece  = meterBox / piecesBox;
-        var totalMeter = (onePiece * qty).toFixed(2);
-        var discountedPrice = parseInt(totalMeter * discount);
-        var totalPrice = parseInt(totalMeter * salePrice);
-        var givendiscount = parseInt(salePrice - discount);
-        var totalDiscount = parseInt(totalPrice - discountedPrice);
-        var dispercentage = parseInt(givendiscount * 100 / salePrice);
+        if($('#typ').val() == 'tile'){
+          var meterBox  = parseFloat($('#meter').text());
+          var piecesBox = parseInt($('#pieces').text());
+          var onePiece  = meterBox / piecesBox;
+          var totalMeter = (onePiece * qty).toFixed(2);
+          var discountedPrice = parseInt(totalMeter * discount);
+          var totalPrice = parseInt(totalMeter * salePrice);
+          var givendiscount = parseInt(salePrice - discount);
+          var totalDiscount = parseInt(totalPrice - discountedPrice);
+          var dispercentage = parseInt(givendiscount * 100 / salePrice);
+        }else{
+          var totalPrice = qty * salePrice;
+          var discountedPrice = qty * discount;
+          var givendiscount = parseInt(salePrice - discount); 
+          var totalDiscount = parseInt(totalPrice - discountedPrice);
+          var dispercentage = parseInt(givendiscount * 100 / salePrice);
+        }
+        
         $('#discounted_meter').text(dispercentage);
         $('#total_discount').text(totalDiscount);
         $('#discounted_price').text(discountedPrice);
@@ -520,18 +512,25 @@
     $('#quantity').on('blur',function(){
       var SalePieces = $(this).val();
       var SalePrice  = parseInt($('#sale_price').text());
-      var meterBox   = parseFloat($('#meter').text());
-      var piecesBox  = parseInt($('#pieces').text());
-      var onePiece   = meterBox / piecesBox;
-      var meter      = parseFloat(onePiece * SalePieces).toFixed(2);
-      var totalPrice = meter * SalePrice;
-      /*calculate the boxes and pieces from meter*/
-      var boxes     = parseInt(SalePieces / piecesBox);
-      var num       = piecesBox * boxes;
-      var pieces    = SalePieces - num;
-      $('#total_price').text(totalPrice);
-      $('#discounted_price').text(totalPrice);
-      $('#box').html('<h2>Total Meter '+meter+' Boxes '+boxes+' and '+pieces+' Pieces </h2>');
+      if($('#typ').val() == 'tile'){
+        var meterBox   = parseFloat($('#meter').text());
+        var piecesBox  = parseInt($('#pieces').text());
+        var onePiece   = meterBox / piecesBox;
+        var meter      = parseFloat(onePiece * SalePieces).toFixed(2);
+        var totalPrice = meter * SalePrice;
+        /*calculate the boxes and pieces from meter*/
+        var boxes     = parseInt(SalePieces / piecesBox);
+        var num       = piecesBox * boxes;
+        var pieces    = SalePieces - num;
+        $('#total_price').text(totalPrice);
+        $('#discounted_price').text(totalPrice);
+        $('#box').html('<h2>Total Meter '+meter+' Boxes '+boxes+' and '+pieces+' Pieces </h2>');
+      }else{
+        var totalPrice = SalePrice * SalePieces;
+        $('#total_price').text(totalPrice);
+        $('#discounted_price').text(totalPrice);
+      }
+      
     })
   </script>
 @endsection

@@ -30,18 +30,26 @@
 		<?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 			<?php 
 				++$counter;
-				$obj = CH::convert_box($item->qty,$item->pieces,$item->meter);
+				if($item->type == 'tile'){
+					$obj = CH::convert_box($item->qty,$item->pieces,$item->meter);
+				}
 			?>
 			<tr> 
 				<td><?php echo e(++$count); ?></td>
 				<td><?php echo e($item->barcode); ?></td>
 				<td><?php echo e($item->item_name); ?></td>
 				<td><?php echo e($item->name); ?></td>
+				<?php if($item->type == 'tile'): ?>
 				<td><?php echo e($obj['boxes']); ?></td>
 				<td><?php echo e($obj['pieces']); ?></td>
 				<td><?php echo e($obj['meter']); ?></td>
+				<?php else: ?>
+				<td><?php echo e($item->qty); ?></td>
+				<td></td>
+				<td></td>
+				<?php endif; ?>
 				<?php if($item->item_id != $last_item): ?>
-				<td rowspan="<?php echo e($counter); ?>" style="vertical-align : middle;text-align:center;"><strong><?php echo e(($item->total->total_item / $item->pieces) * $item->meter); ?></strong></td>
+				<td rowspan="<?php echo e($counter); ?>" style="vertical-align : middle;text-align:center;"><strong><?php echo e(($item->type == 'tile') ? ($item->total->total_item / $item->pieces) * $item->meter : $item->total->total_item); ?></strong></td>
 				<?php endif; ?>
 			</tr>
 			<?php $counter = 0?>
