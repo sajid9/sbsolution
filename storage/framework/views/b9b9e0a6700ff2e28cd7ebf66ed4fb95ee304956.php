@@ -24,7 +24,7 @@
     <input type="hidden" name="voucher" value="<?php echo e(Request::segment(3)); ?>">
     <input type="hidden" name="item" value="<?php echo e(Request::segment(4)); ?>">
     <label for="receivingQty">Receiving Quantity <span class="text-danger">*</span></label>
-    <input type="text"autofocus name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="receivingQty" aria-describedby="receivingQty_msg" placeholder="Receiving Quantity">
+    <input type="text" autofocus name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="receivingQty" aria-describedby="receivingQty_msg" placeholder="Receiving Quantity">
     <small id="receivingQty_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quantity')); ?></small>
   </div>
   <div class="form-group col-md-3">

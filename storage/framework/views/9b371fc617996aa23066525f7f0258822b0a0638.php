@@ -95,23 +95,24 @@
               <input type="hidden" name="item_id" id="itemId">
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
-                <input type="text"  name="barcode" value="<?php echo e(old('barcode')); ?>" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
+                <input type="text" disabled="" name="barcode" value="<?php echo e(old('barcode')); ?>" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
                 <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
               </div>
               <small id="barcode_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="quantity"> Quantity <span class="text-danger">*</span></label>
-              <input type="number"  name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
+              <input type="number" disabled="" name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
               <label for="discount">Discount / meter </label>
-              <input type="text"  name="discount" value="<?php echo e(old('discount')); ?>" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
+              <input type="text" disabled="" name="discount" value="<?php echo e(old('discount')); ?>" class="form-control" id="discount" aria-describedby="discount_msg" placeholder="Discount">
               <small id="discount_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('discount')); ?></small>
             </div>
           </div>
           <div class="col-md-8">
+            <div><img data-toggle="modal" data-target="#calculator" style="width: 22px; margin-bottom: 5px" src="<?php echo e(asset('images/Icon-calulator.png')); ?>" alt=""> <strong>Calculator</strong></div>
             <table class="table" style="font-size: 12px">
               <tr>
               <td>Pieces Box:</td>
@@ -212,6 +213,96 @@
               <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </tbody>
           </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="calculator" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Items</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Floor</a></li>
+            <li><a data-toggle="tab" href="#menu1">Wall</a></li>
+          </ul>
+
+          <div class="tab-content" style="padding-top: 20px">
+            <div id="home" class="tab-pane fade in active">
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label for="length">Length<span class="text-danger">*</span></label>
+                  <input type="text" name="length" value="<?php echo e(old('length')); ?>" class="form-control" id="length" aria-describedby="length_msg" placeholder="Enter Length">
+                  <small id="length_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="width">Width<span class="text-danger">*</span></label>
+                  <input type="text" name="width" value="<?php echo e(old('width')); ?>" class="form-control" id="width" aria-describedby="width_msg" placeholder="Enter Width">
+                  <small id="width_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="tile">Tile<span class="text-danger">*</span></label>
+                  <select name="tile" class="form-control" id="tile" aria-describedby="tile_msg">
+                    <option value=""> Select Tile</option>
+                    <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <?php if($item->type == 'tile'): ?>
+                    <option value="<?php echo e($item->id); ?>"><?php echo e($item->item_name); ?></option>
+                    <?php endif; ?>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                  </select>
+                  <small id="tile_msg" class="form-text text-muted text-danger"></small>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <button class="btn btn-primary pull-right" id="cal">Calculate</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Calculations</h4>
+                  <hr>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-3">
+                  <label for="area_ft">Total Area ft<sup>2</sup></label>
+                  <input type="text" readonly="" name="area_ft" value="<?php echo e(old('area_ft')); ?>" class="form-control" id="area_ft" aria-describedby="area_ft_msg">
+                  <small id="area_ft_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="area_mt">Total Area m<sup>2</sup></label>
+                  <input type="text" readonly="" name="area_mt" value="<?php echo e(old('area_mt')); ?>" class="form-control" id="area_mt" aria-describedby="area_mt_msg">
+                  <small id="area_mt_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="boxes">No Boxes</label>
+                  <input type="text" readonly="" name="boxes" value="<?php echo e(old('boxes')); ?>" class="form-control" id="cal_boxes" aria-describedby="boxes_msg" >
+                  <small id="boxes_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="pieces">No pieces</label>
+                  <input type="text" readonly="" name="pieces" value="<?php echo e(old('pieces')); ?>" class="form-control" id="cal_pieces" aria-describedby="pieces_msg" >
+                  <small id="pieces_msg" class="form-text text-muted text-danger"></small>
+                </div>
+              </div>
+            </div>
+            <div id="menu1" class="tab-pane fade">
+              <h3>Menu 1</h3>
+              <p>Some content in menu 1.</p>
+            </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -524,6 +615,38 @@
         $('#discounted_price').text(totalPrice);
       }
       
+    })
+    /* calculator script*/
+    $('#cal').on('click',function(){
+      var length = $('#length').val();
+      var width  = $('#width').val();
+      var tile   = $('#tile').val();
+      if (length == '' || width == '' || tile == '') {
+        alert('please fill the length,width and tile field');
+      }else{
+        var totalFoot = length * width;
+        var totalMeter = parseFloat(totalFoot / 10.764).toFixed(4);
+        $.ajax({
+          url:"<?php echo e(url('item/getspecificitem')); ?>",
+          type:"post",
+          dataType:"json",
+          data:{_token:"<?php echo e(csrf_token()); ?>",id:tile},
+          success:function(res){
+            var meterPerPiece = res.meter / res.pieces;
+            var totalpieces = parseInt(totalMeter / meterPerPiece);
+            var boxes = parseInt(totalpieces / res.pieces);
+            var boxpieces = boxes * res.pieces;
+            var pieces = totalpieces - boxpieces;
+            
+            $("#area_ft").val(totalFoot);
+            $("#area_mt").val(totalMeter);
+            $("#cal_boxes").val(boxes);
+            $("#cal_pieces").val(pieces);
+            $("#barcode").val(res.barcode);
+            $("#quantity").val(totalpieces);
+          }
+        });
+      }
     })
   </script>
 <?php $__env->stopSection(); ?>

@@ -70,7 +70,6 @@ class Item extends Controller
                     'sale_price'     => 'required',
                 ]);
             }
-
 			$item = new items;
 		    $item->item_name      = $request->item_name;
 		    $item->barcode        = $request->barcode;
@@ -190,5 +189,12 @@ class Item extends Controller
         }catch(\Exception $e){
             return $e->getMessage();
         }
+    }
+
+    /* get Specific item */
+    public function get_specific_item(Request $request)
+    {
+        $item = items::find($request->id);
+        return json_encode($item);
     }
 }

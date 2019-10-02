@@ -4,6 +4,7 @@ namespace App\helpers;
 use App\supplier_ledger;
 use App\supplier_history;
 use App\customer_ledger;
+use App\receipt_ledger;
 use DB;
 class CustomHelper{
 

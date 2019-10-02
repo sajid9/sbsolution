@@ -127,6 +127,7 @@ Route::prefix('item')->middleware(['auth'])->group(function () {
     Route::get('edititem/{id}','Items\Item@edititem');
     Route::post('updateitem','Items\Item@updateitem');
     Route::get('deleteitem/{id}','Items\Item@deleteitem');
+    Route::post('getspecificitem','Items\Item@get_specific_item');
 
 });
 
