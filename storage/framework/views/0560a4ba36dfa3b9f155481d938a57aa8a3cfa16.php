@@ -15,7 +15,7 @@
                         <i class="fa fa-money fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo e($payable[0]->total); ?></div>
+                        <div class="huge"><?php echo e($payable->balance); ?></div>
                         <div>Amount Payable</div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                         <i class="fa fa-money fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo e($receivable[0]->total); ?></div>
+                        <div class="huge"><?php echo e($receivable->balance); ?></div>
                         <div>Amount Receivable!</div>
                     </div>
                 </div>

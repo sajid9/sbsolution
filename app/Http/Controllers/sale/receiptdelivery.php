@@ -102,7 +102,7 @@ class receiptdelivery extends Controller
 
     public function return_item(Request $request){
         $item = items::find($request->item_id);
-        $receiving = DB::table('receipt_delivery')->where('id',$request->delivery_id)->decrement('qty',$request->quantity);
+        /*$receiving = DB::table('receipt_delivery')->where('id',$request->delivery_id)->decrement('qty',$request->quantity);*/
         DB::table('stock')->where('item_id',$request->item_id)->where('store',$request->store)->increment('qty',$request->quantity); 
         $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->first();
         $ledger = new item_ledger;

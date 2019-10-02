@@ -125,7 +125,9 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
+              <th>Quantity</th>
               <th>Boxes</th>
+              <th>Pieces</th>
               <th>Meter</th>
               <th>Action</th>
             </tr>
@@ -371,8 +373,10 @@
                 template += "<td>"+res[i].item.item_name+"</td>";
                 template += "<td>"+res[i].item.purchase_price+"</td>";
                 template += "<td>"+res[i].item.sale_price+"</td>";
+                template += "<td>"+res[i].qty+"</td>";
                 convertBoxPiece(res[i].qty,res[i].item.pieces,res[i].item.meter,function(box,pieces,meter){
                   template += "<td>"+box+"</td>";
+                  template += "<td>"+pieces+"</td>";
                   template += "<td>"+meter+"</td>";
                 });
                 template +="<td><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+res[i].id+","+data.voucherId+","+res[i].item.id+","+data.quantity+")'></i></td></tr>";
@@ -425,7 +429,7 @@
             $('#vendorvoucher').val('');
             $('#barcode').val('');
             $('#quantity').val('');
-            $('#items_append').html('<tr class="odd"><td valign="top" colspan="6" class="dataTables_empty">No data available in table</td></tr>');
+            $('#items_append').html('<tr class="odd"><td valign="top" colspan="9" class="dataTables_empty">No data available in table</td></tr>');
           }
           $('#purchase_price').prop('disabled',true);
           $('#sale_price').prop('disabled',true);

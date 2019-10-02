@@ -198,9 +198,7 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
-                        <a href="<?php echo e(url('country/countrylisting')); ?>"><i class="fa fa-flag fa-fw"></i> Countries</a>
-                    </li>
+                    
                 </ul>
 
             </div>

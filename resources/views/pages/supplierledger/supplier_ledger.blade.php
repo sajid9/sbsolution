@@ -65,7 +65,7 @@
 			        	<tr>
 			        		<td>{{++$count}}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
-			        		<td>{{$ledger->voucher_id}}</td>
+			        		<td>{{(isset($ledger->voucher))? $ledger->voucher->voucher_no : ""}}</td>
 			        		<td>{{(isset($ledger->supplier))? $ledger->supplier->supplier_name : ''}}</td>
 			        		<td>{{$ledger->type}}</td>
 			        		<td>{{$ledger->debit}}</td>

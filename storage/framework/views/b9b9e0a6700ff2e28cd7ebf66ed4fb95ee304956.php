@@ -11,26 +11,29 @@
 
 <form method="post" action="<?php echo e(url('voucher/addreceiving')); ?>">
 	<?php echo csrf_field(); ?>
-  <div class="form-group">
-    <label for="total_boxes">Total Boxes </label>
+  <div class="row">
+    <div class="form-group col-md-3">
+    <label for="total_boxes">Total Quantity </label>
     <input type="text" readonly="" value="<?php echo e((isset($item->item) && $item->item->type == 'tile') ? $item->qty / $item->item->pieces : $item->qty); ?>" class="form-control" id="total_boxes">
   </div>
-  <div class="form-group">
-    <label for="received_boxes">Received Boxes </label>
+  <div class="form-group col-md-3">
+    <label for="received_boxes">Received Quantity </label>
     <input type="text" readonly="" value="<?php echo e(($item->item->type == 'tile')? $check->total / $item->item->pieces : $check->total); ?>" class="form-control" id="received_boxes">
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-3">
     <input type="hidden" name="voucher" value="<?php echo e(Request::segment(3)); ?>">
     <input type="hidden" name="item" value="<?php echo e(Request::segment(4)); ?>">
     <label for="receivingQty">Receiving Quantity <span class="text-danger">*</span></label>
-    <input type="text" name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="receivingQty" aria-describedby="receivingQty_msg" placeholder="Receiving Quantity">
+    <input type="text"autofocus name="quantity" value="<?php echo e(old('quantity')); ?>" class="form-control" id="receivingQty" aria-describedby="receivingQty_msg" placeholder="Receiving Quantity">
     <small id="receivingQty_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('quantity')); ?></small>
   </div>
-  <div class="form-group">
+  <div class="form-group col-md-3">
     <label for="date">Receiving Date <span class="text-danger">*</span></label>
     <input type="date" name="date" value="<?php echo e(old('date')); ?>" class="form-control" id="date" aria-describedby="date_msg" placeholder="Receiving Date">
     <small id="date_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('date')); ?></small>
   </div>
+  </div>
+  
   <button type="submit" id="submit" class="btn btn-primary">Submit</button> <a href="<?php echo e(url('voucher/receivinglisting/'.Request::segment(3).'/'.Request::segment(4))); ?>" class="btn btn-default">Back</a>
 </form>
 

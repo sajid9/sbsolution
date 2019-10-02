@@ -19,6 +19,7 @@
       <option value="PO">Voucher (PO)</option>
       <option value="EX">Expenditure (EXP)</option>
       <option value="DPTS">Direct payment to supplier</option>
+      <option value="DPFC">Direct payment from customer</option>
     </select>
     <small id="paytype_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('paytype')); ?></small>
   </div>
@@ -143,6 +144,56 @@
   </div>
 </template>
 
+<template id="dpfc_con">
+  <div class="form-group">
+    <label for="customer">customer <span class="text-danger">*</span></label>
+    <select  class="form-control" required="required" name="customer" id="customer">
+      <option value="">Select customer</option>
+      <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      <option value="<?php echo e($customer->id); ?>"><?php echo e($customer->customer_name); ?></option>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+    <small id="customer_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('customer')); ?></small>
+  </div>
+  <div class="form-group">
+    <label for="account">Account <span class="text-danger">*</span></label>
+    <select name="account" required="required" class="form-control" id="account" aria-describedby="account_msg">
+      <option value=""> Select Account</option>
+      <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      <option value="<?php echo e($account->id); ?>"><?php echo e($account->account_title); ?></option>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+    <small id="account_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('account')); ?></small>
+  </div>
+  <div class="form-group">
+    <label>Account Balance</label>
+    <input type="number" readonly="" class="form-control" id="bal_amount_account">
+  </div>
+  <div class="form-group">
+    <label for="amount">Amount <span class="text-danger">*</span></label>
+    <input type="number" required="required" name="amount" value="<?php echo e(old('amount')); ?>" class="form-control" id="amount" aria-describedby="amount" placeholder="enter the amount">
+    <small id="amount" class="form-text text-muted text-danger"><?php echo e($errors->first('amount')); ?></small>
+  </div>
+  <div class="form-group">
+    <label for="type">Type <span class="text-danger">*</span></label>
+    <select name="type" required="required" class="form-control" id="type" aria-describedby="type">
+      <option value=""> Select type</option>
+      <option value="from">Payment from Customer</option>
+      <option value="to">Payment to Customer</option>
+    </select>
+    <small id="type" class="form-text text-muted text-danger"><?php echo e($errors->first('type')); ?></small>
+  </div>
+  <div class="form-group">
+    <label for="fn_year">Fianancial Year</label>
+    <select name="fn_year" class="form-control" id="fn_year" aria-describedby="fn_year">
+      <option value=""> Select Fianancial Year</option>
+      <?php $__currentLoopData = $years; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $year): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+      <option><?php echo e($year->year); ?></option>
+      <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+    </select>
+    <small id="fn_year" class="form-text text-muted text-danger"><?php echo e($errors->first('fn_year')); ?></small>
+  </div>
+</template>
 
 <template id="receipt_con">
   <div class="form-group">
@@ -306,6 +357,9 @@ $('#paytype').on('change',function(){
   }else if(type == 'EX'){
     var temp = $('#exp_con').html();
     $('#append_con').html(temp);
+  }else if(type == 'DPFC'){
+    var temp = $('#dpfc_con').html();
+    $('#append_con').html(temp);
   }else{
     var temp = $('#dpts_con').html();
     $('#append_con').html(temp);
@@ -348,7 +402,7 @@ $(document).on('change','#receipt',function(){
     success:function(res){
       $('#customer').val(res.customer.customer_name);
       $('#customer_id').val(res.customer.id);
-      var bal_amount = res.receipt.total_amount - res.receipt.paid_amount + res.receipt.return_amount;
+      var bal_amount = res.receipt.total_amount - (res.receipt.paid_amount + res.receipt.return_amount);
       $('#bal_amount').val(bal_amount);
     }
   })

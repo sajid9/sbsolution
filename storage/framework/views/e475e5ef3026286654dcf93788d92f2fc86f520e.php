@@ -17,7 +17,7 @@
     </label>
   </div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <div class="form-group">
         <label for="barcode">Barcode <span class="text-danger">*</span></label>
         <input type="text" name="barcode" value="<?php echo e(old('barcode')); ?>" class="form-control" id="barcode" placeholder="Short Code" aria-describedby="barcode">
@@ -36,6 +36,9 @@
         <input type="number" name="low_stock" value="<?php echo e(old('low_stock')); ?>" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
         <small id="low_stock_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('low_stock')); ?></small>
       </div>
+      
+    </div>
+    <div class="col-md-4">
       <div class="form-group">
         <label for="unit"> Measuring Unit</label>
         <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
@@ -46,17 +49,6 @@
         </select>
         <small id="unit_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('unit')); ?></small>
       </div>
-      <div class="form-group">
-        <label for="color">Color</label>
-        <input type="text" name="color_name" value="<?php echo e(old('color_name')); ?>" class="form-control" id="color" aria-describedby="color" placeholder="Color">
-        <small id="color" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
-      </div>
-      <div class="form-group">
-        <label for="discription">Description</label>
-        <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description"><?php echo e(old('description')); ?></textarea>
-      </div>
-    </div>
-    <div class="col-md-6">
       <div class="form-group">
         <label for="purchase_price">Purchase Price <span class="text-danger">*</span></label>
         <input type="number" name="purchase_price" value="<?php echo e(old('purchase_price')); ?>" class="form-control" id="purchase_price" placeholder="Purchase Price" aria-describedby="purchase_price">
@@ -77,6 +69,18 @@
         </select>
         <small id="group_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('group')); ?></small>
       </div>
+      <div class="form-group">
+        <label for="color">Color</label>
+        <input type="text" name="color_name" value="<?php echo e(old('color_name')); ?>" class="form-control" id="color" aria-describedby="color" placeholder="Color">
+        <small id="color" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="discription">Description</label>
+        <textarea class="form-control" name="description" id="description" rows="3" aria-describedby="description"><?php echo e(old('description')); ?></textarea>
+      </div>
+    </div>
+    <div class="col-md-4">
+      
       
       <div class="form-group">
         <label for="company">Company </label>

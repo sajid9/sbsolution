@@ -42,6 +42,7 @@
 			                <th>Account Title</th>
 			                <th>Date</th>
 			                <th>Balance</th>
+			                <th>Net Balance</th>
 			                <th>Branch Name</th>
 			                <th>Branch Code</th>
 			                <th>Account Number</th>
@@ -55,6 +56,7 @@
 			                <td>{{ $account->account_title }}</td>
 			                <td>{{ $account->date }}</td>
 			                <td>{{ $account->balance }}</td>
+			                <td>{{ $account->left_bal }}</td>
 			                <td>{{ $account->account_name }}</td>
 			                <td>{{ $account->branch_code }}</td>
 			                <td>{{ $account->account_number }}</td>

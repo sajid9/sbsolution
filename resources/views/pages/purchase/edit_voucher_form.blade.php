@@ -132,7 +132,8 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Boxes</th>
+              <th>Quantity</th>
+              <th>Type</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -144,6 +145,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{($item->item->type == 'tile') ? $item->qty / $item->item->pieces : $item->qty}}</td>
+              <td>{{($item->item) ? $item->item->type : ""}}</td>
               <td>{{-- <i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->purchase_price}}')"></i> --}}<a href="{{url('voucher/receivinglisting/'.$item->voucher_id.'/'.$item->item_id)}}"><i class="glyphicon glyphicon-plus cursor" data-toggle="tooltip" title="voucher receive"></i></a>{{-- <i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i> --}}</td>
             </tr>
           @endforeach
@@ -163,7 +165,8 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Boxes</th>
+              <th>Quantity</th>
+              <th>Type</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -175,6 +178,7 @@
               <td>{{$item->item->purchase_price}}</td>
               <td>{{$item->item->sale_price}}</td>
               <td>{{($item->item->type == 'tile')? $item->qty / $item->item->pieces:$item->qty}}</td>
+              <td>{{($item->item)? $item->item->type : ""}}</td>
               <td><a target="_blank" href="{{url('invoice/purchasereturn/'.$voucherId)}}"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <i class="glyphicon glyphicon-trash cursor" onclick='removeReturnItem("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i></td>
             </tr>
           @endforeach

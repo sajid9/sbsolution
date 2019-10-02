@@ -58,7 +58,7 @@
 			        	<tr>
 			        		<td><?php echo e(++$count); ?></td>
 			        		<td><?php echo e(date_format(date_create($ledger->created_at),"d M Y H:i:s")); ?></td>
-			        		<td><?php echo e($ledger->voucher_id); ?></td>
+			        		<td><?php echo e((isset($ledger->voucher))? $ledger->voucher->voucher_no : ""); ?></td>
 			        		<td><?php echo e((isset($ledger->supplier))? $ledger->supplier->supplier_name : ''); ?></td>
 			        		<td><?php echo e($ledger->type); ?></td>
 			        		<td><?php echo e($ledger->debit); ?></td>

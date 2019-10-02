@@ -35,6 +35,7 @@
 			                <th>Account Title</th>
 			                <th>Date</th>
 			                <th>Balance</th>
+			                <th>Net Balance</th>
 			                <th>Branch Name</th>
 			                <th>Branch Code</th>
 			                <th>Account Number</th>
@@ -48,6 +49,7 @@
 			                <td><?php echo e($account->account_title); ?></td>
 			                <td><?php echo e($account->date); ?></td>
 			                <td><?php echo e($account->balance); ?></td>
+			                <td><?php echo e($account->left_bal); ?></td>
 			                <td><?php echo e($account->account_name); ?></td>
 			                <td><?php echo e($account->branch_code); ?></td>
 			                <td><?php echo e($account->account_number); ?></td>

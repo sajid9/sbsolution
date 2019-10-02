@@ -14,7 +14,7 @@ use DB;
 class Ledger_supplier extends Controller
 {
     public function supplier_ledgers(){
-    	$ledgers =supplier_ledger::with('supplier')->get();
+    	$ledgers =supplier_ledger::with('supplier','voucher')->get();
     	return view('pages.supplierledger.supplier_ledger',compact('ledgers'));
     }
 

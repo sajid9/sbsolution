@@ -161,7 +161,7 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Quantity / Meter</th>
+              <th>Quantity</th>
               <th>Action</th>
             </tr>
           </thead>

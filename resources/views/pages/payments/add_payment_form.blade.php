@@ -26,6 +26,7 @@
       <option value="PO">Voucher (PO)</option>
       <option value="EX">Expenditure (EXP)</option>
       <option value="DPTS">Direct payment to supplier</option>
+      <option value="DPFC">Direct payment from customer</option>
     </select>
     <small id="paytype_msg" class="form-text text-muted text-danger">{{$errors->first('paytype')}}</small>
   </div>
@@ -149,7 +150,57 @@
     <small id="fn_year" class="form-text text-muted text-danger">{{$errors->first('fn_year')}}</small>
   </div>
 </template>
-
+{{-- direct payment from supplier template --}}
+<template id="dpfc_con">
+  <div class="form-group">
+    <label for="customer">customer <span class="text-danger">*</span></label>
+    <select  class="form-control" required="required" name="customer" id="customer">
+      <option value="">Select customer</option>
+      @foreach($customers as $customer)
+      <option value="{{$customer->id}}">{{$customer->customer_name}}</option>
+      @endforeach
+    </select>
+    <small id="customer_msg" class="form-text text-muted text-danger">{{$errors->first('customer')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="account">Account <span class="text-danger">*</span></label>
+    <select name="account" required="required" class="form-control" id="account" aria-describedby="account_msg">
+      <option value=""> Select Account</option>
+      @foreach($accounts as $account)
+      <option value="{{$account->id}}">{{$account->account_title}}</option>
+      @endforeach
+    </select>
+    <small id="account_msg" class="form-text text-muted text-danger">{{$errors->first('account')}}</small>
+  </div>
+  <div class="form-group">
+    <label>Account Balance</label>
+    <input type="number" readonly="" class="form-control" id="bal_amount_account">
+  </div>
+  <div class="form-group">
+    <label for="amount">Amount <span class="text-danger">*</span></label>
+    <input type="number" required="required" name="amount" value="{{old('amount')}}" class="form-control" id="amount" aria-describedby="amount" placeholder="enter the amount">
+    <small id="amount" class="form-text text-muted text-danger">{{$errors->first('amount')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="type">Type <span class="text-danger">*</span></label>
+    <select name="type" required="required" class="form-control" id="type" aria-describedby="type">
+      <option value=""> Select type</option>
+      <option value="from">Payment from Customer</option>
+      <option value="to">Payment to Customer</option>
+    </select>
+    <small id="type" class="form-text text-muted text-danger">{{$errors->first('type')}}</small>
+  </div>
+  <div class="form-group">
+    <label for="fn_year">Fianancial Year</label>
+    <select name="fn_year" class="form-control" id="fn_year" aria-describedby="fn_year">
+      <option value=""> Select Fianancial Year</option>
+      @foreach($years as $year)
+      <option>{{$year->year}}</option>
+      @endforeach
+    </select>
+    <small id="fn_year" class="form-text text-muted text-danger">{{$errors->first('fn_year')}}</small>
+  </div>
+</template>
 {{-- receipt template --}}
 <template id="receipt_con">
   <div class="form-group">
@@ -313,6 +364,9 @@ $('#paytype').on('change',function(){
   }else if(type == 'EX'){
     var temp = $('#exp_con').html();
     $('#append_con').html(temp);
+  }else if(type == 'DPFC'){
+    var temp = $('#dpfc_con').html();
+    $('#append_con').html(temp);
   }else{
     var temp = $('#dpts_con').html();
     $('#append_con').html(temp);
@@ -355,7 +409,7 @@ $(document).on('change','#receipt',function(){
     success:function(res){
       $('#customer').val(res.customer.customer_name);
       $('#customer_id').val(res.customer.id);
-      var bal_amount = res.receipt.total_amount - res.receipt.paid_amount + res.receipt.return_amount;
+      var bal_amount = res.receipt.total_amount - (res.receipt.paid_amount + res.receipt.return_amount);
       $('#bal_amount').val(bal_amount);
     }
   })

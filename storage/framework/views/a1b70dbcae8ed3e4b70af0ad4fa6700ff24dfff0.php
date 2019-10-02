@@ -77,7 +77,7 @@
 			                <th>Sr #</th>
 			                <th>Receipt</th>
 			                <th>Item</th>
-			                <th>Pieces</th>
+			                <th>Quantity</th>
 			                <?php if($item_p->type == 'tile'): ?>
 			                <th>Boxes</th>
 			                <th>Pieces</th>

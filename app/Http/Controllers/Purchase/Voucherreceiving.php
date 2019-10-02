@@ -102,7 +102,7 @@ class Voucherreceiving extends Controller
         $item = items::find($request->item_id);
         $quantity = ($item->type == 'tile')? $request->quantity * $item->pieces: $request->quantity ;
         $price = ($item->type == 'tile')? $item->purchase_price * ($request->quantity * $item->meter): $item->purchase_price * $request->quantity ;
-        $receiving = DB::table('voucher_receiving')->where('id',$request->receiving_id)->decrement('qty',$quantity);
+        /*$receiving = DB::table('voucher_receiving')->where('id',$request->receiving_id)->decrement('qty',$quantity);*/
         DB::table('stock')->where('item_id',$request->item_id)->where('store',$request->store)->decrement('qty',$quantity); 
         $stock = stock::where('item_id',$request->item_id)->where('store',$request->store)->first();
         $ledger = new item_ledger;

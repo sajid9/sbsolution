@@ -61,6 +61,10 @@ class payment extends Controller
             $payment->supplier_id = $request->supplier; 
             $payment->type = ($request->type == 'to') ? 'P' : 'PR';   
         }
+        if($request->paytype === "DPFC"){
+            $payment->customer_id = $request->customer; 
+            $payment->type = ($request->type == 'to') ? 'SR' : 'S';   
+        }
         if($request->paytype === "SO"){
             $payment->receipt_id = $request->receipt;
             $payment->customer_id = $request->customer;
@@ -75,7 +79,7 @@ class payment extends Controller
             DB::table('accounts')->where('id',$request->account)->increment('left_bal',$request->amount);
         }
         if($request->paytype === "EX"){
-            $payment->credit   = $request->amount;
+            $payment->debit   = $request->amount;
             $payment->month_id = $request->month;
             $payment->exp_desc = $request->description;
             $payment->exp_desc = $request->description;
@@ -87,137 +91,22 @@ class payment extends Controller
             $payment->employee_id = $request->employee;
         }
         $payment->financial_year = $request->fn_year;
-        
+         /*direct payment From Customer*/
+        if($request->receipt == null && $request->customer != null){
+           CH::direct_payment_customer($request->customer,$request->amount,$request->type);
+        }
         /*direct payment to supplier*/
         if($request->voucher == null && $request->supplier != null){
-            /*check if the opening amount of supplier is paid or not if not paid then make an entry in supplier history if paid then make an entry in voucher history name supplier_ledger*/
-            $check = DB::table('supplier_history')->select('*',DB::raw("(SELECT SUM(debit) as total FROM supplier_history WHERE supplier_id = ".$request->supplier." AND voucher_id IS NULL AND type = 'Payment') as total"))->where('supplier_id',$request->supplier)->where('voucher_id',NULL)->where('type','OP')->first();
-            if($check->credit > $check->total){
-                $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$request->supplier)->first();
-                $leftamount = $check->credit - $check->total;
-                if($leftamount > $request->amount){
-                    $supplier_history = new supplier_history;
-                    $supplier_history->supplier_id = $request->supplier;
-                    $supplier_history->debit = $request->amount;
-                    $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
-                    $supplier_history->type = "Payment";
-                    $supplier_history->save();
-                }else{
-                    $left = $request->amount - $leftamount;
-                    $supplier_history = new supplier_history;
-                    $supplier_history->supplier_id = $request->supplier;
-                    $supplier_history->debit = $leftamount;
-                    $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $leftamount:$leftamount;
-                    $supplier_history->type = "Payment";
-                    $supplier_history->save();
-                    /*left amount paid to voucher*/
-                    $voucher = DB::table('voucher')->select('*',DB::raw("total_amount - (return_amount + paid_amount) AS balance"))->HAVING('balance','!=',0)->first();
-                    $payment->voucher_id = $voucher->id;
-                     DB::table('voucher')->where('id',$voucher->id)->increment('paid_amount',$left);
-                     $sup = DB::table('voucher')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$voucher->id)->first();
-                     $supplier = new supplier_ledger;
-                     $supplier->voucher_id = $voucher->id;
-                     $supplier->supplier_id = $request->supplier;
-                     $supplier->debit = $left;
-                     $supplier->balance = $sup->balance;
-                     $supplier->type = "Payment";
-                     $supplier->save();
-                     $sup = DB::table('voucher')->select('supplier_id')->where('id',$voucher->id)->first();
-                     $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
-                     $supplier_history = new supplier_history;
-                     $supplier_history->supplier_id = $sup->supplier_id;
-                     $supplier_history->voucher_id = $voucher->id;
-                     $supplier_history->debit = $left;
-                     $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $left:$left;
-                     $supplier_history->type = "Payment";
-                     $supplier_history->save();
-                     $cash_bal = DB::table('cash')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->first();
-                     $cash = new cash;
-                     $cash->credit = $left;
-                     $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $left:$left;
-                     $cash->event = "P";
-                     $cash->save();
-                }
-                
-            }else{
-               $voucher = DB::table('voucher')->select('*',DB::raw("total_amount - (return_amount + paid_amount) AS balance"))->HAVING('balance','!=',0)->first();
-               $payment->voucher_id = $voucher->id;
-                DB::table('voucher')->where('id',$voucher->id)->increment('paid_amount',$request->amount);
-                $sup = DB::table('voucher')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$voucher->id)->first();
-                $supplier = new supplier_ledger;
-                $supplier->voucher_id = $voucher->id;
-                $supplier->supplier_id = $request->supplier;
-                $supplier->debit = $request->amount;
-                $supplier->balance = $sup->balance;
-                $supplier->type = "Payment";
-                $supplier->save();
-                $sup = DB::table('voucher')->select('supplier_id')->where('id',$voucher->id)->first();
-                $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
-                $supplier_history = new supplier_history;
-                $supplier_history->supplier_id = $sup->supplier_id;
-                $supplier_history->voucher_id = $voucher->id;
-                $supplier_history->debit = $request->amount;
-                $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
-                $supplier_history->type = "Payment";
-                $supplier_history->save();
-                $cash_bal = DB::table('cash')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->first();
-                $cash = new cash;
-                $cash->credit = $request->amount;
-                $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $request->amount:$request->amount;
-                $cash->event = "P";
-                $cash->save();
+            $check_id = CH::direct_payment_supplier($request->supplier,$request->amount);
+            if($check_id != 0){
+                $payment->voucher_id = $check_id;
             }
-            
         }
         $payment->save();
         if($request->voucher != null){
-            DB::table('voucher')->where('id',$request->voucher)->increment('paid_amount',$request->amount);
-            $sup = DB::table('voucher')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->voucher)->first();
-            $supplier = new supplier_ledger;
-            $supplier->voucher_id = $request->voucher;
-            $supplier->supplier_id = $request->supplier;
-            $supplier->debit = $request->amount;
-            $supplier->balance = $sup->balance;
-            $supplier->type = "Payment";
-            $supplier->save();
-            $sup = DB::table('voucher')->select('supplier_id')->where('id',$request->voucher)->first();
-            $sup_bal = DB::table('supplier_history')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->where('supplier_id',$sup->supplier_id)->first();
-            $supplier_history = new supplier_history;
-            $supplier_history->supplier_id = $sup->supplier_id;
-            $supplier_history->voucher_id = $request->voucher;
-            $supplier_history->debit = $request->amount;
-            $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
-            $supplier_history->type = "Payment";
-            $supplier_history->save();
-            $cash_bal = DB::table('cash')->select(DB::raw('SUM(credit) - SUM(debit) as balance'))->first();
-            $cash = new cash;
-            $cash->credit = $request->amount;
-            $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $request->amount:$request->amount;
-            $cash->event = "P";
-            $cash->save();
+            CH::payment_to_voucher($request->voucher,$request->supplier,$request->amount);
         }else if($request->receipt != null){
-             DB::table('receipt')->where('id',$request->receipt)->increment('paid_amount',$request->amount);
-            $sup = DB::table('receipt')->select(DB::raw('total_amount - return_amount - paid_amount as balance'))->where('id',$request->receipt)->first();
-            $supplier = new receipt_ledger;
-            $supplier->receipt_id = $request->receipt;
-            $supplier->credit = $request->amount;
-            $supplier->balance = $sup->balance;
-            $supplier->type = "Payment";
-            $supplier->save();
-            $sup = DB::table('receipt')->select('customer_id')->where('id',$request->receipt)->first();
-            $sup_bal = DB::table('customer_ledger')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->where('customer_id',$sup->customer_id)->first();
-            $supplier_history = new customer_ledger;
-            $supplier_history->customer_id = $sup->customer_id;
-            $supplier_history->credit = $request->amount;
-            $supplier_history->balance = ($sup_bal->balance != null)? $sup_bal->balance - $request->amount:$request->amount;
-            $supplier_history->type = "Payment";
-            $supplier_history->save();
-            $cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
-            $cash = new cash;
-            $cash->debit = $request->amount;
-            $cash->balance = ($cash_bal->balance != null)? $cash_bal->balance - $request->amount:$request->amount;
-            $cash->event = "S";
-            $cash->save();
+            CH::payment_to_receipt($request->receipt,$request->amount);
         }
     	return redirect()->to('payment/paymentlisting')->with('message','payment done successfully');
     }

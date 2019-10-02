@@ -220,9 +220,9 @@
                             </li>
                         </ul>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{url('country/countrylisting')}}"><i class="fa fa-flag fa-fw"></i> Countries</a>
-                    </li>
+                    </li> --}}
                 </ul>
 
             </div>

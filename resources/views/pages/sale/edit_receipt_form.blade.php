@@ -420,7 +420,8 @@
                 template += "<td>"+res[i].item.item_name+"</td>";
                 template += "<td>"+res[i].item.purchase_price+"</td>";
                 template += "<td>"+res[i].item.sale_price+"</td>";
-                template += "<td>"+res[i].qty+"</td><td><i class='glyphicon glyphicon-share' onclick='returnItem("+res[i].receipt_id+","+res[i].item.id+","+res[i].qty+")'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+res[i].id+","+res[i].receipt_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
+                template += "<td>"+res[i].qty+"</td>";
+                template += "<td><i class='glyphicon glyphicon-share' onclick='returnItem("+res[i].receipt_id+","+res[i].item.id+","+res[i].qty+")'></i><i class='glyphicon glyphicon-trash cursor' onclick='itemRemove("+res[i].id+","+res[i].receipt_id+","+res[i].item.id+","+res[i].qty+")'></i></td></tr>";
               }
 
               $('#items_append').html(template);

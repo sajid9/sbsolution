@@ -24,8 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $payable = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0');
-        $receivable = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');
+        /*$payable = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0');*/
+        $payable = DB::table('supplier_history')->orderBy('id','desc')->first();
+        /*$receivable = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');*/
+        $receivable = DB::table('customer_ledger')->orderBy('id','desc')->first();
         $totalpurchase = DB::table('voucher')->select(DB::raw('SUM(total_amount) as total'))->first();
         $totalsale = DB::table('receipt')->select(DB::raw('SUM(total_amount) as total'))->first();
         $company = company_setting::first();

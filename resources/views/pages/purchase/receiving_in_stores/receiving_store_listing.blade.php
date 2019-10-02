@@ -40,7 +40,7 @@
 			                <th>Sr #</th>
 			                <th>voucher</th>
 			                <th>Item</th>
-			                <th>Pieces</th>
+			                <th>Quantity</th>
 			                @if($received_item->type == 'tile')
 			                <th>Boxes</th>
 			                <th>Pieces</th>
@@ -133,7 +133,7 @@
               <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
             </div>
             <div class="form-group">
-              <label for="return_pieces">Returned Pieces</label>
+              <label for="return_pieces">Returned Quantity</label>
               <input type="number" disabled="disabled" value="" class="form-control" id="return_pieces">
             </div>
             <div class="form-group">
@@ -165,6 +165,7 @@
 	        });
 	        $('[data-toggle="tooltip"]').tooltip();
 	        $('#qty').on('keyup',function(){
+
 	          var total_qty = parseInt($('#t_qty').val());
 	          var qty = parseInt($('#qty').val()) + parseInt($('#return_pieces').val());
 	          if(qty > total_qty){
@@ -210,6 +211,11 @@
     	$('#return_form').on('submit',function(e){
     	  e.preventDefault();
     	  var data = $(this).serialize();
+    	  var qty = $('#qty').val();
+    	  if(qty == '' || qty == 0){
+    	  	alert('please fill the quantity field also quantity can not be zero');
+    	  	return 0;
+    	  }
     	  $.ajax({
     	    url:"{{url('voucher/returnitem')}}",
     	    type:"post",

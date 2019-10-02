@@ -125,7 +125,8 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Boxes</th>
+              <th>Quantity</th>
+              <th>Type</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -137,6 +138,7 @@
               <td><?php echo e($item->item->purchase_price); ?></td>
               <td><?php echo e($item->item->sale_price); ?></td>
               <td><?php echo e(($item->item->type == 'tile') ? $item->qty / $item->item->pieces : $item->qty); ?></td>
+              <td><?php echo e(($item->item) ? $item->item->type : ""); ?></td>
               <td><a href="<?php echo e(url('voucher/receivinglisting/'.$item->voucher_id.'/'.$item->item_id)); ?>"><i class="glyphicon glyphicon-plus cursor" data-toggle="tooltip" title="voucher receive"></i></a></td>
             </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -156,7 +158,8 @@
               <th>Item Name</th>
               <th>Purchase Price</th>
               <th>Sale Price</th>
-              <th>Boxes</th>
+              <th>Quantity</th>
+              <th>Type</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -168,6 +171,7 @@
               <td><?php echo e($item->item->purchase_price); ?></td>
               <td><?php echo e($item->item->sale_price); ?></td>
               <td><?php echo e(($item->item->type == 'tile')? $item->qty / $item->item->pieces:$item->qty); ?></td>
+              <td><?php echo e(($item->item)? $item->item->type : ""); ?></td>
               <td><a target="_blank" href="<?php echo e(url('invoice/purchasereturn/'.$voucherId)); ?>"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <i class="glyphicon glyphicon-trash cursor" onclick='removeReturnItem("<?php echo e($item->id); ?>","<?php echo e($voucherId); ?>","<?php echo e($item->item->id); ?>","<?php echo e($item->qty); ?>")'></i></td>
             </tr>
           <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

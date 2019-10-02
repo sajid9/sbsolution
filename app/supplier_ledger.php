@@ -11,4 +11,8 @@ class supplier_ledger extends Model
     public function supplier(){
     	return $this->hasOne('App\suppliers','id','supplier_id');
     }
+
+    public function voucher(){
+    	return $this->hasOne('App\voucher','id','voucher_id');
+    }
 }

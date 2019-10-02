@@ -22,7 +22,7 @@
                         <i class="fa fa-money fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">{{$payable[0]->total}}</div>
+                        <div class="huge">{{$payable->balance}}</div>
                         <div>Amount Payable</div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                         <i class="fa fa-money fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">{{$receivable[0]->total}}</div>
+                        <div class="huge">{{$receivable->balance}}</div>
                         <div>Amount Receivable!</div>
                     </div>
                 </div>

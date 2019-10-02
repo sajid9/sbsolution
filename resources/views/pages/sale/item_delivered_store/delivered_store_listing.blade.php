@@ -40,7 +40,7 @@
 			                <th>Sr #</th>
 			                <th>Receipt</th>
 			                <th>Item</th>
-			                <th>Pieces</th>
+			                <th>Quantity</th>
 			                @if($delivered_item->type == 'tile')
 			                <th>Boxes</th>
 			                <th>Pieces</th>
@@ -79,7 +79,7 @@
 			                <th>Receipt</th>
 			                <th>Item</th>
 			                <th>Store</th>
-			                <th>Pieces</th>
+			                <th>Quantity</th>
 			                @if($delivered_item->type == 'tile')
 			                <th>Boxes</th>
 			                <th>Pieces</th>
@@ -135,11 +135,11 @@
             <input type="hidden" name="delivery_id" id="receiving_id">
             <input type="hidden" name="store" id="store">
             <div class="form-group">
-              <label for="t_qty">Total Pieces</label>
+              <label for="t_qty">Total Quantity</label>
               <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
             </div>
             <div class="form-group">
-              <label for="return_pieces">Returned Pieces</label>
+              <label for="return_pieces">Returned Quantity</label>
               <input type="number" disabled="disabled" value="" class="form-control" id="return_pieces">
             </div>
             <div class="form-group">
@@ -207,6 +207,11 @@
     	$('#return_form').on('submit',function(e){
     	  e.preventDefault();
     	  var data = $(this).serialize();
+    	  var qty = $('#qty').val();
+    	  if(qty == '' || qty == 0){
+    	  	alert('please fill the quantity field also quantity can not be zero');
+    	  	return 0;
+    	  }
     	  $.ajax({
     	    url:"{{url('sale/returnitem')}}",
     	    type:"post",
