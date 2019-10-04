@@ -299,12 +299,132 @@
               </div>
             </div>
             <div id="menu1" class="tab-pane fade">
-              <h3>Menu 1</h3>
-              <p>Some content in menu 1.</p>
+              <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#dark">Dark</a></li>
+                <li><a data-toggle="tab" href="#light">Light</a></li>
+                <li><a data-toggle="tab" href="#motif">Motif</a></li>
+              </ul>
+              <div class="tab-content" style="padding-top: 20px">
+                <div id="dark" class="tab-pane fade in active">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Walls</th>
+                        <th>Height</th>
+                        <th>Width</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Wall 1</th>
+                        <td><input type="number" id="d_w1_height" name=""></td>
+                        <td><input type="number" id="d_w1_width" name=""></td>
+                        <td id="d_w1_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 2</th>
+                        <td><input type="number" id="d_w2_height" name=""></td>
+                        <td><input type="number" id="d_w2_width" name=""></td>
+                        <td id="d_w2_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 3</th>
+                        <td><input type="number" id="d_w3_height" name=""></td>
+                        <td><input type="number" id="d_w3_width" name=""></td>
+                        <td id="d_w3_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 4</th>
+                        <td><input type="number" id="d_w4_height" name=""></td>
+                        <td><input type="number" id="d_w4_width" name=""></td>
+                        <td id="d_w4_total"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div id="light" class="tab-pane fade in">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Walls</th>
+                        <th>Height</th>
+                        <th>Width</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Wall 1</th>
+                        <td><input type="number" id="l_w1_height" name=""></td>
+                        <td><input type="number" id="l_w1_width" name=""></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 2</th>
+                        <td><input type="number" id="l_w1_height" name=""></td>
+                        <td><input type="number" id="l_w1_width" name=""></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 3</th>
+                        <td><input type="number" id="l_w1_height" name=""></td>
+                        <td><input type="number" id="l_w1_width" name=""></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 4</th>
+                        <td><input type="number" id="l_w1_height" name=""></td>
+                        <td><input type="number" id="l_w1_width" name=""></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div id="motif" class="tab-pane fade in">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Walls</th>
+                        <th>Height</th>
+                        <th>Width</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Wall 1</th>
+                        <td><input type="number" name=""></td>
+                        <td><input type="number" name=""></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 2</th>
+                        <td><input type="number" name=""></td>
+                        <td><input type="number" name=""></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 3</th>
+                        <td><input type="number" name=""></td>
+                        <td><input type="number" name=""></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 4</th>
+                        <td><input type="number" name=""></td>
+                        <td><input type="number" name=""></td>
+                        <td></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         <div class="modal-footer">
+          <span>Dark Total = <span id="dark_total"></span>, Light Total = <span id="light_total"></span></span>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -637,7 +757,6 @@
             var boxes = parseInt(totalpieces / res.pieces);
             var boxpieces = boxes * res.pieces;
             var pieces = totalpieces - boxpieces;
-            
             $("#area_ft").val(totalFoot);
             $("#area_mt").val(totalMeter);
             $("#cal_boxes").val(boxes);
@@ -648,6 +767,92 @@
         });
       }
     })
+    /*advance calculator script*/
+    /*Dark tile Wall One Calculation*/
+    $("#d_w1_width").on('blur',function(){
+      var height = $("#d_w1_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#d_w1_total").text(totalmeter);
+    })
+
+    /*Dark tile Wall Two Calculation*/
+    $("#d_w2_width").on('blur',function(){
+      var height = $("#d_w2_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#d_w2_total").text(totalmeter);
+    })
+    /*Dark tile Wall Three Calculation*/
+    $("#d_w3_width").on('blur',function(){
+      var height = $("#d_w3_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#d_w3_total").text(totalmeter);
+    })
+    /*Dark tile Wall Four Calculation*/
+    $("#d_w4_width").on('blur',function(){
+      var height = $("#d_w4_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#d_w4_total").text(totalmeter);
+      /*calculate total of dark*/
+      var w1_meter = parseFloat($('#d_w1_total').text());
+      var w2_meter = parseFloat($('#d_w2_total').text());
+      var w3_meter = parseFloat($('#d_w3_total').text());
+      var w4_meter = parseFloat($('#d_w4_total').text());
+      var d_total  = parseFloat(w1_meter + w2_meter + w3_meter + w4_meter).toFixed(3);
+      $('#dark_total').text(d_total);
+    })
+    /*end dark tile calculation script*/
+
+    /*Light tile Wall One Calculation*/
+    $("#l_w1_width").on('blur',function(){
+      var height = $("#l_w1_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#l_w1_total").text(totalmeter);
+    })
+
+    /*Light tile Wall Two Calculation*/
+    $("#l_w2_width").on('blur',function(){
+      var height = $("#l_w2_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#l_w2_total").text(totalmeter);
+    })
+    /*Light tile Wall Three Calculation*/
+    $("#l_w3_width").on('blur',function(){
+      var height = $("#l_w3_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#l_w3_total").text(totalmeter);
+    })
+    /*Light tile Wall Four Calculation*/
+    $("#l_w4_width").on('blur',function(){
+      var height = $("#l_w4_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#l_w4_total").text(totalmeter);
+      /*calculate total of dark*/
+      var w1_meter = parseFloat($('#l_w1_total').text());
+      var w2_meter = parseFloat($('#l_w2_total').text());
+      var w3_meter = parseFloat($('#l_w3_total').text());
+      var w4_meter = parseFloat($('#l_w4_total').text());
+      var d_total  = parseFloat(w1_meter + w2_meter + w3_meter + w4_meter).toFixed(3);
+      $('#dark_total').text(d_total);
+    })
+
+
+
   </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

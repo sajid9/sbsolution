@@ -15,7 +15,7 @@
                         <i class="fa fa-money fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo e($payable->balance); ?></div>
+                        <div class="huge"><?php echo e(($payable != null) ? $payable->balance : 0); ?></div>
                         <div>Amount Payable</div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                         <i class="fa fa-money fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo e($receivable->balance); ?></div>
+                        <div class="huge"><?php echo e(($receivable != null) ?$receivable->balance : 0); ?></div>
                         <div>Amount Receivable!</div>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
                         <i class="fa fa-shopping-cart fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo e($totalpurchase->total); ?></div>
+                        <div class="huge"><?php echo e(($totalpurchase != null) ?$totalpurchase->total : 0); ?></div>
                         <div>Total Purchase</div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                         <i class="fa fa-support fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge"><?php echo e($totalsale->total); ?></div>
+                        <div class="huge"><?php echo e(($totalsale != null) ?$totalsale->total: 0); ?></div>
                         <div>Total Sale</div>
                     </div>
                 </div>

@@ -56,7 +56,7 @@
       @endif
       <div class="form-group">
         <label for="low_stock">Low Stock</label>
-        <input type="number" name="low_stock" value="{{old('low_stock',$item->low_stock / $item->pieces)}}" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
+        <input type="number" name="low_stock" value="{{$item->low_stock}}" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
         <small id="low_stock_msg" class="form-text text-muted text-danger">{{$errors->first('low_stock')}}</small>
       </div>
       <div class="form-group">

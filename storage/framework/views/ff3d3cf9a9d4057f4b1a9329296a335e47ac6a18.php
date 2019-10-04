@@ -49,7 +49,7 @@
       <?php endif; ?>
       <div class="form-group">
         <label for="low_stock">Low Stock</label>
-        <input type="number" name="low_stock" value="<?php echo e(old('low_stock',$item->low_stock / $item->pieces)); ?>" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
+        <input type="number" name="low_stock" value="<?php echo e($item->low_stock); ?>" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
         <small id="low_stock_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('low_stock')); ?></small>
       </div>
       <div class="form-group">
