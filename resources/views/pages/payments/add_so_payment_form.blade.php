@@ -48,6 +48,17 @@
     <small id="account_msg" class="form-text text-muted text-danger">{{$errors->first('account')}}</small>
   </div>
   <div class="form-group">
+    <label for="pay_type">Payment Through</label>
+    <select name="pay_type" class="form-control" id="pay_type" aria-describedby="pay_type_msg">
+      <option value=""> Select Payment Type</option>
+      <option>cash</option>
+      <option>debit card</option>
+      <option>check</option>
+      <option>other</option>
+    </select>
+    <small id="pay_type_msg" class="form-text text-muted text-danger">{{$errors->first('pay_type')}}</small>
+  </div>
+  <div class="form-group">
     <label for="fn_year">Fianancial Year</label>
     <select name="fn_year" class="form-control" id="fn_year" aria-describedby="fn_year">
       <option value=""> Select Fianancial Year</option>
