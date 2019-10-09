@@ -62,7 +62,7 @@
           <div class="col-md-6">
            <div class="form-group">
               <label for="receipt_date">Receipt Date <span class="text-danger">*</span></label>
-              <input type="date" name="receipt_date" value="{{old('receipt_date')}}" class="form-control" id="receipt_date" placeholder="Short Code" aria-describedby="receipt_date">
+              <input type="date" name="receipt_date" value ="{{date('Y-m-d')}}" class="form-control" id="receipt_date" placeholder="Short Code" aria-describedby="receipt_date">
               <small id="receiptdate" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
@@ -312,6 +312,18 @@
                 <li><a data-toggle="tab" href="#motif">Motif</a></li>
               </ul>
               <div class="tab-content" style="padding-top: 20px">
+                <div class="form-group">
+                  <label for="tile">Tile<span class="text-danger">*</span></label>
+                  <select name="tile" class="form-control" id="tile_advance" aria-describedby="tile_msg">
+                    <option value=""> Select Tile</option>
+                    @foreach($items as $item)
+                    @if($item->type == 'tile')
+                    <option value="{{$item->id}}">{{$item->item_name}}</option>
+                    @endif
+                    @endforeach
+                  </select>
+                  <small id="tile_msg" class="form-text text-muted text-danger"></small>
+                </div>
                 <div id="dark" class="tab-pane fade in active">
                   <table class="table">
                     <thead>
@@ -365,25 +377,25 @@
                         <th>Wall 1</th>
                         <td><input type="number" id="l_w1_height" name=""></td>
                         <td><input type="number" id="l_w1_width" name=""></td>
-                        <td></td>
+                        <td id="l_w1_total"></td>
                       </tr>
                       <tr>
                         <th>Wall 2</th>
-                        <td><input type="number" id="l_w1_height" name=""></td>
-                        <td><input type="number" id="l_w1_width" name=""></td>
-                        <td></td>
+                        <td><input type="number" id="l_w2_height" name=""></td>
+                        <td><input type="number" id="l_w2_width" name=""></td>
+                        <td id="l_w2_total"></td>
                       </tr>
                       <tr>
                         <th>Wall 3</th>
-                        <td><input type="number" id="l_w1_height" name=""></td>
-                        <td><input type="number" id="l_w1_width" name=""></td>
-                        <td></td>
+                        <td><input type="number" id="l_w3_height" name=""></td>
+                        <td><input type="number" id="l_w3_width" name=""></td>
+                        <td id="l_w3_total"></td>
                       </tr>
                       <tr>
                         <th>Wall 4</th>
-                        <td><input type="number" id="l_w1_height" name=""></td>
-                        <td><input type="number" id="l_w1_width" name=""></td>
-                        <td></td>
+                        <td><input type="number" id="l_w4_height" name=""></td>
+                        <td><input type="number" id="l_w4_width" name=""></td>
+                        <td id="l_w4_total"></td>
                       </tr>
                     </tbody>
                   </table>
@@ -401,27 +413,27 @@
                     <tbody>
                       <tr>
                         <th>Wall 1</th>
-                        <td><input type="number" name=""></td>
-                        <td><input type="number" name=""></td>
-                        <td></td>
+                        <td><input type="number" id="m_w1_height" name=""></td>
+                        <td><input type="number" id="m_w1_width" name=""></td>
+                        <td id="m_w1_total"></td>
                       </tr>
                       <tr>
                         <th>Wall 2</th>
-                        <td><input type="number" name=""></td>
-                        <td><input type="number" name=""></td>
-                        <td></td>
+                        <td><input type="number" id="m_w2_height" name=""></td>
+                        <td><input type="number" id="m_w2_width" name=""></td>
+                        <td id="m_w2_total"></td>
                       </tr>
                       <tr>
                         <th>Wall 3</th>
-                        <td><input type="number" name=""></td>
-                        <td><input type="number" name=""></td>
-                        <td></td>
+                        <td><input type="number" id="m_w3_height" name=""></td>
+                        <td><input type="number" id="m_w3_width" name=""></td>
+                        <td id="m_w3_total"></td>
                       </tr>
                       <tr>
                         <th>Wall 4</th>
-                        <td><input type="number" name=""></td>
-                        <td><input type="number" name=""></td>
-                        <td></td>
+                        <td><input type="number" id="m_w4_height" name=""></td>
+                        <td><input type="number" id="m_w4_width" name=""></td>
+                        <td id="m_w4_total"></td>
                       </tr>
                     </tbody>
                   </table>
@@ -431,7 +443,7 @@
           </div>
         </div>
         <div class="modal-footer">
-          <span>Dark Total = <span id="dark_total"></span>, Light Total = <span id="light_total"></span></span>
+          <span>Dark = <span id="dark_total"></span>, Light = <span id="light_total"></span></span>, Motif = <span id="motif_total"></span></span>
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -813,6 +825,21 @@
       var w3_meter = parseFloat($('#d_w3_total').text());
       var w4_meter = parseFloat($('#d_w4_total').text());
       var d_total  = parseFloat(w1_meter + w2_meter + w3_meter + w4_meter).toFixed(3);
+      var tile = $('#tile_advance').val();
+      $.ajax({
+          url:"{{url('item/getspecificitem')}}",
+          type:"post",
+          dataType:"json",
+          data:{_token:"{{csrf_token()}}",id:tile},
+          success:function(res){
+            var meterPerPiece = res.meter / res.pieces;
+            var totalpieces = parseInt(d_total / meterPerPiece);
+            var boxes = parseInt(totalpieces / res.pieces);
+            var boxpieces = boxes * res.pieces;
+            var pieces = totalpieces - boxpieces;
+            $('#dark_total').text('boxes '+boxes+' pieces '+pieces+' Meter '+d_total);
+          }
+        });
       $('#dark_total').text(d_total);
     })
     /*end dark tile calculation script*/
@@ -849,15 +876,85 @@
       var totalfoot = height * width;
       var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
       $("#l_w4_total").text(totalmeter);
-      /*calculate total of dark*/
+      /*calculate total of light*/
       var w1_meter = parseFloat($('#l_w1_total').text());
       var w2_meter = parseFloat($('#l_w2_total').text());
       var w3_meter = parseFloat($('#l_w3_total').text());
       var w4_meter = parseFloat($('#l_w4_total').text());
-      var d_total  = parseFloat(w1_meter + w2_meter + w3_meter + w4_meter).toFixed(3);
-      $('#dark_total').text(d_total);
+      var l_total  = parseFloat(w1_meter + w2_meter + w3_meter + w4_meter).toFixed(3);
+      var tile = $('#tile_advance').val();
+      $.ajax({
+          url:"{{url('item/getspecificitem')}}",
+          type:"post",
+          dataType:"json",
+          data:{_token:"{{csrf_token()}}",id:tile},
+          success:function(res){
+            var meterPerPiece = res.meter / res.pieces;
+            var totalpieces = parseInt(l_total / meterPerPiece);
+            var boxes = parseInt(totalpieces / res.pieces);
+            var boxpieces = boxes * res.pieces;
+            var pieces = totalpieces - boxpieces;
+            $('#light_total').text('boxes '+boxes+' pieces '+pieces+' Meter '+l_total);
+          }
+        });
+    })
+    /*end light tile calculation script*/
+
+    /*motif tile Wall One Calculation*/
+    $("#m_w1_width").on('blur',function(){
+      var height = $("#m_w1_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#m_w1_total").text(totalmeter);
     })
 
+    /*motif tile Wall Two Calculation*/
+    $("#m_w2_width").on('blur',function(){
+      var height = $("#m_w2_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#m_w2_total").text(totalmeter);
+    })
+    /*motif tile Wall Three Calculation*/
+    $("#m_w3_width").on('blur',function(){
+      var height = $("#m_w3_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#m_w3_total").text(totalmeter);
+    })
+    /*motif tile Wall Four Calculation*/
+    $("#m_w4_width").on('blur',function(){
+      var height = $("#m_w4_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#m_w4_total").text(totalmeter);
+      /*calculate total of motif*/
+      var w1_meter = parseFloat($('#m_w1_total').text());
+      var w2_meter = parseFloat($('#m_w2_total').text());
+      var w3_meter = parseFloat($('#m_w3_total').text());
+      var w4_meter = parseFloat($('#m_w4_total').text());
+      var m_total  = parseFloat(w1_meter + w2_meter + w3_meter + w4_meter).toFixed(3);
+      var tile = $('#tile_advance').val();
+      $.ajax({
+          url:"{{url('item/getspecificitem')}}",
+          type:"post",
+          dataType:"json",
+          data:{_token:"{{csrf_token()}}",id:tile},
+          success:function(res){
+            var meterPerPiece = res.meter / res.pieces;
+            var totalpieces = parseInt(m_total / meterPerPiece);
+            var boxes = parseInt(totalpieces / res.pieces);
+            var boxpieces = boxes * res.pieces;
+            var pieces = totalpieces - boxpieces;
+            $('#motif_total').text('boxes '+boxes+' pieces '+pieces+' Meter '+m_total);
+          }
+        });
+      
+    })
 
 
   </script>
