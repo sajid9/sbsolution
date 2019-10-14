@@ -14,5 +14,6 @@
 <!-- Custom Theme JavaScript -->
 <script src="{{ asset('js/startmin.js')}}"></script>
 <script src="{{ asset('js/select2.min.js')}}"></script>
+
 <script src="{{ asset('js/bootstrap-toggle.min.js')}}"></script>
 @endsection

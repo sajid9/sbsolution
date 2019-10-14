@@ -10,7 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+ Route::get('CsvFile','CsvFile@index');
+ Route::get('exportCsv','CsvFile@exportCsv');
+ Route::post('importCsv','CsvFile@importCsv');
 /*View::share('company', company_setting::first());*/
 /*
 *
@@ -97,6 +99,7 @@ Route::prefix('customer')->middleware(['auth'])->group(function () {
     Route::get('editcustomer/{id}','Customers\Customer@editcustomer');
     Route::post('updatecustomer','Customers\Customer@updatecustomer');
     Route::get('deletecustomer/{id}','Customers\Customer@deletecustomer');
+    Route::post('addcustomerreceipt','Customers\Customer@addcustomerreceipt');
 
 });
 
@@ -128,6 +131,7 @@ Route::prefix('item')->middleware(['auth'])->group(function () {
     Route::post('updateitem','Items\Item@updateitem');
     Route::get('deleteitem/{id}','Items\Item@deleteitem');
     Route::post('getspecificitem','Items\Item@get_specific_item');
+    Route::get('tiletemplate','Items\Item@tile_template');
 
 });
 

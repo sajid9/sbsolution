@@ -10,11 +10,37 @@
 
 
 <?php $__env->startSection('content'); ?>
-<div class="row" style="padding-bottom: 10px">
+<div class="row">
 	<div class="col-md-12">
-		<a href="<?php echo e(url('item/additemform')); ?>" class="btn btn-social btn-bitbucket pull-right">
-		    <i class="fa fa-plus"></i> Add Item
-		</a>
+		<div class="row">
+			<div class="col-md-6">
+				<form id="fileUploadForm" method="POST" action="<?php echo e(url('importCsv')); ?>" enctype="multipart/form-data">
+					<?php echo csrf_field(); ?>
+				    <fieldset>
+				        <div class="form-horizontal">
+				            <div class="form-group">
+				                <div class="row">
+				                <label class="control-label col-md-3 text-right" for="filename"><span>Import Items</span></label>
+				                <div class="col-md-9">
+				                    <div class="input-group">
+				                        <input type="file" id="uploadedFile" name="file" class="form-control form-control-sm" accept=".csv">
+				                        <div class="input-group-btn">
+				                            <input type="submit" value="Import" class="rounded-0 btn btn-primary">
+				                        </div>
+				                    </div>
+				                </div>
+				                </div>
+				            </div>                        
+				        </div>
+				    </fieldset>    
+				</form>
+			</div>
+			<div class="col-md-2 col-md-offset-4">
+				<a href="<?php echo e(url('item/additemform')); ?>" class="btn btn-social btn-bitbucket pull-right">
+				    <i class="fa fa-plus"></i> Add Item
+				</a>
+			</div>
+		</div>
 	</div>
 </div>
 <div class="row">

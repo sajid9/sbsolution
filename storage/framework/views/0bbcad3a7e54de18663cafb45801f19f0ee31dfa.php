@@ -14,5 +14,6 @@
 <!-- Custom Theme JavaScript -->
 <script src="<?php echo e(asset('js/startmin.js')); ?>"></script>
 <script src="<?php echo e(asset('js/select2.min.js')); ?>"></script>
+
 <script src="<?php echo e(asset('js/bootstrap-toggle.min.js')); ?>"></script>
 <?php $__env->stopSection(); ?>

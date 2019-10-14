@@ -38,6 +38,8 @@
 			                <th>Customer</th>
 			                <th>Receipt</th>
 			                <th>Type</th>
+			                <th>Payment Through</th>
+			                <th>Payment Desc</th>
 			                <th>Debit</th>
 			                <th>Credit</th>
 			                <th>Date</th>
@@ -54,6 +56,8 @@
 			                <td><?php echo e(($payment->customer != null) ? $payment->customer->customer_name : "null"); ?></td>
 			                <td><?php echo e(($payment->receipt != null) ? $payment->receipt->receipt_no : "null"); ?></td>
 			                <td><?php echo e($payment->type); ?></td>
+			                <td><?php echo e($payment->payment_through); ?></td>
+			                <td><?php echo e($payment->payment_desc); ?></td>
 			                <td><?php echo e($payment->debit); ?></td>
 			                <td><?php echo e($payment->credit); ?></td>
 			                <td><?php echo e(date_format($payment->created_at,'d M Y')); ?></td>

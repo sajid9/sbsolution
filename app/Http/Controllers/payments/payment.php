@@ -134,6 +134,8 @@ class payment extends Controller
         $payment->receipt_id = $request->receipt;
         $payment->customer_id = $request->customer;
         $payment->type = ($request->type == 'to') ? 'SR' : 'S';    
+        $payment->payment_through = $request->pay_type;    
+        $payment->payment_desc = $request->type_desc;    
         $payment->credit = $request->amount;
         $payment->financial_year = $request->fn_year;
         $payment->save();

@@ -18,35 +18,41 @@
 {{-- form start  --}}
 <form method="post" action="{{url('payment/addpaymentsale')}}">
 	@csrf
+  <div class="row">
+    <div class="form-group col-md-4">
+      <label for="receipt_no">Receipt No</label>
+      <input type="text" value="{{$receipt->receipt_no}}" readOnly class="form-control" id="receipt_no">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="receipt_no">Customer</label>
+      <input type="hidden" name="customer" value="{{$customer->id}}">
+      <input type="text" value="{{$customer->customer_name}}" readOnly class="form-control" id="receipt_no">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="receipt_no">Total Amount</label>
+      <input type="number" value="{{$total}}" readOnly class="form-control" id="total_amount">
+    </div>
+  </div>
+  <div class="row">
+    <div class="form-group col-md-6">
+      <label for="amount">Amount <span class="text-danger">*</span></label>
+      <input type="number" name="amount" value="{{old('amount')}}" class="form-control" id="amount" aria-describedby="amount_msg" placeholder="enter the amount">
+      <small id="amount_msg" class="form-text text-muted text-danger">{{$errors->first('amount')}}</small>
+    </div>
+    <div class="form-group col-md-6">
+      <label for="account">Account</label>
+      <select name="account" class="form-control" id="account" aria-describedby="account_msg">
+        <option value=""> Select Account</option>
+         @foreach($accounts as $account)
+        <option value="{{$account->id}}">{{$account->account_title}}</option>
+        @endforeach
+      </select>
+      <small id="account_msg" class="form-text text-muted text-danger">{{$errors->first('account')}}</small>
+    </div>
+  </div>
   <input type="hidden" name="receipt" value="{{$receipt->id}}">
-  <div class="form-group">
-    <label for="receipt_no">Receipt No</label>
-    <input type="text" value="{{$receipt->receipt_no}}" readOnly class="form-control" id="receipt_no">
-  </div>
-  <div class="form-group">
-    <label for="receipt_no">Customer</label>
-    <input type="hidden" name="customer" value="{{$customer->id}}">
-    <input type="text" value="{{$customer->customer_name}}" readOnly class="form-control" id="receipt_no">
-  </div>
-  <div class="form-group">
-    <label for="receipt_no">Total Amount</label>
-    <input type="number" value="{{$total}}" readOnly class="form-control" id="total_amount">
-  </div>
-  <div class="form-group">
-    <label for="amount">Amount <span class="text-danger">*</span></label>
-    <input type="number" name="amount" value="{{old('amount')}}" class="form-control" id="amount" aria-describedby="amount_msg" placeholder="enter the amount">
-    <small id="amount_msg" class="form-text text-muted text-danger">{{$errors->first('amount')}}</small>
-  </div>
-  <div class="form-group">
-    <label for="account">Account</label>
-    <select name="account" class="form-control" id="account" aria-describedby="account_msg">
-      <option value=""> Select Account</option>
-       @foreach($accounts as $account)
-      <option value="{{$account->id}}">{{$account->account_title}}</option>
-      @endforeach
-    </select>
-    <small id="account_msg" class="form-text text-muted text-danger">{{$errors->first('account')}}</small>
-  </div>
+  
+  
   <div class="form-group">
     <label for="pay_type">Payment Through</label>
     <select name="pay_type" class="form-control" id="pay_type" aria-describedby="pay_type_msg">
@@ -58,6 +64,7 @@
     </select>
     <small id="pay_type_msg" class="form-text text-muted text-danger">{{$errors->first('pay_type')}}</small>
   </div>
+  <div id="type-desc"></div>
   <div class="form-group">
     <label for="fn_year">Fianancial Year</label>
     <select name="fn_year" class="form-control" id="fn_year" aria-describedby="fn_year">
@@ -74,7 +81,13 @@
 
 </div>
 </div>
-
+<template id="type-desc-temp">
+  <div class="form-group">
+    <label for="type_desc">Description<span class="text-danger">*</span></label>
+    <textarea name="type_desc" class="form-control" id="type_desc" aria-describedby="type_desc_msg"></textarea>
+    <small id="type_desc_msg" class="form-text text-muted text-danger">{{$errors->first('type_desc')}}</small>
+  </div>
+</template>
 @endsection
 @section('footer')
 @parent
@@ -88,6 +101,13 @@
       $(this).val('');
     }
   })
-
+  $('#pay_type').on('change',function(){
+    if($(this).val() == 'other'){
+      var temp = $('#type-desc-temp').html();
+      $('#type-desc').html(temp);
+    }else{
+      $('#type-desc').html('');
+    }
+  })
 </script>
 @endsection

@@ -59,6 +59,33 @@ class Customer extends Controller
     	}
     }
 
+    public function addcustomerreceipt(customerValidator $request){
+        
+        try{
+            $request->validated();
+
+            $customer = new customers;
+
+            $customer->customer_name = $request->customer_name;
+            $customer->email         = $request->email;
+            $customer->phone         = $request->phone;
+            $customer->mobile        = $request->mobile;
+            $customer->cnic          = $request->cnic;
+            $customer->website       = $request->website;
+            $customer->address       = $request->address;
+            $customer->occupation    = $request->occupation;
+            $customer->gst           = $request->gst;
+            $customer->ntn           = $request->ntn;
+
+            $customer->standing_instruction  = $request->standing_instruction;
+            $customer->save();
+
+            return redirect()->to('sale/addreceiptform')->with('message','Customer added successfully.');
+        }catch(\Exception $e){
+            return $e->getMessage();
+        }
+    }
+
     /*
     *
     *Edit Customer Form 

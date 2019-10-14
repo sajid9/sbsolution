@@ -50,64 +50,71 @@ class Item extends Controller
     * 
     */
     public function additem(Request $request){
-    	try{
-            if($request->has('type')){
-			 $request->validate([
+        if($request->type == 'tile'){
+		 $request->validate([
+            'item_name'      => 'required',
+            'barcode'        => 'required|unique:items,barcode',
+            'purchase_price' => 'required',
+            'sale_price'     => 'required',
+            'group'          => 'required',
+            'piece_in_box'   => 'required',
+            'meter_per_box'  => 'required',
+            'size'           => 'required',
+        ]);
+        }else if($request->type == 'item'){
+            $request->validate([
                 'item_name'      => 'required',
                 'barcode'        => 'required|unique:items,barcode',
                 'purchase_price' => 'required',
                 'sale_price'     => 'required',
-                'group'          => 'required',
-                'piece_in_box'   => 'required',
-                'meter_per_box'  => 'required',
-                'size'           => 'required',
             ]);
-            }else{
-                $request->validate([
-                    'item_name'      => 'required',
-                    'barcode'        => 'required|unique:items,barcode',
-                    'purchase_price' => 'required',
-                    'sale_price'     => 'required',
-                ]);
-            }
-			$item = new items;
-		    $item->item_name      = $request->item_name;
-		    $item->barcode        = $request->barcode;
-		    $item->purchase_price = $request->purchase_price;
-		    $item->sale_price     = $request->sale_price;
-		    $item->company_id     = $request->company;
-		    $item->category_id    = $request->category;
-		    $item->class_id       = $request->class;
-		    $item->sub_class_id   = $request->sub_class;
-		    $item->item_desc      = $request->description;
-            $item->store_id       = $request->store;
-            $item->group_id       = $request->group;
-            $item->unit_id        = $request->unit;
-            if($request->has('type')){
-                $item->color      = $request->color_name;
-                $item->pieces     = $request->piece_in_box;
-                $item->size       = $request->size;
-                $item->quality    = $request->quality;
-                $item->meter      = $request->meter_per_box;
-                $item->low_stock  = $request->low_stock * $request->piece_in_box;
-                $item->tile_type  = $request->tile_type;
-                $item->type       = 'tile';
-            }else{
-                $item->type = 'item';
-                $item->low_stock  = $request->low_stock;
-            }
+        }else{
+            $request->validate([
+                'item_name'      => 'required',
+                'barcode'        => 'required|unique:items,barcode',
+                'sale_price'     => 'required',
+                'duration'     => 'required',
+            ]);
+        }
+		$item = new items;
+	    $item->item_name      = $request->item_name;
+	    $item->barcode        = $request->barcode;
+	    $item->purchase_price = $request->purchase_price;
+	    $item->sale_price     = $request->sale_price;
+	    $item->company_id     = $request->company;
+	    $item->category_id    = $request->category;
+	    $item->class_id       = $request->class;
+	    $item->sub_class_id   = $request->sub_class;
+	    $item->item_desc      = $request->description;
+        $item->store_id       = $request->store;
+        $item->group_id       = $request->group;
+        $item->unit_id        = $request->unit;
+        if($request->type == 'tile'){
+            $item->color      = $request->color_name;
+            $item->pieces     = $request->piece_in_box;
+            $item->size       = $request->size;
+            $item->quality    = $request->quality;
+            $item->meter      = $request->meter_per_box;
+            $item->low_stock  = $request->low_stock * $request->piece_in_box;
+            $item->tile_type  = $request->tile_type;
+            $item->type       = 'tile';
+        }else if($request->type == 'item'){
+            $item->type = 'item';
+            $item->low_stock  = $request->low_stock;
+        }else{
+            $item->duration = $request->duration;
+            $item->type = 'service';
+        }
 
-		    if($request->has('is_active')){
-		    	$item->is_active    = $request->is_active;
-		    }else{
-		    	$item->is_active    = 'no';
-		    }
-		    $item->save();
-            
-		    return redirect()->to('item/itemlisting')->with('message','Item added successfully.');
-    	}catch(\Exception $e){
-    		return $e->getMessage();
-    	}
+	    if($request->has('is_active')){
+	    	$item->is_active    = $request->is_active;
+	    }else{
+	    	$item->is_active    = 'no';
+	    }
+	    $item->save();
+        
+	    return redirect()->to('item/itemlisting')->with('message','Item added successfully.');
+    	
     }
 
     /*
@@ -148,7 +155,7 @@ class Item extends Controller
             $item->store_id       = $request->store;
             $item->group_id       = $request->group;
             $item->unit_id        = $request->unit;
-            if($request->has('type')){
+            if($request->type == 'tile'){
                 $item->color      = $request->color_name;
                 $item->pieces     = $request->piece_in_box;
                 $item->size       = $request->size;
@@ -157,9 +164,13 @@ class Item extends Controller
                 $item->low_stock  = $request->low_stock * $request->piece_in_box;
                 $item->tile_type  = $request->tile_type;
                 $item->type       = 'tile';
-            }else{
+            }else if($request->type == 'item'){
+                $item->color      = $request->color_name;
                 $item->type = 'item';
                 $item->low_stock  = $request->low_stock;
+            }else{
+                $item->type = 'service';
+                $item->duration  = $request->duration;
             }
 
             if($request->has('is_active')){

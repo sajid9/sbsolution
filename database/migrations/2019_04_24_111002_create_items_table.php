@@ -20,6 +20,7 @@ class CreateItemsTable extends Migration
             $table->string('barcode',100);
             $table->integer('purchase_price');
             $table->integer('sale_price');
+            $table->string('duration')->nullable();
             $table->string('color')->nullable();
             $table->integer('pieces')->nullable();
             $table->string('size')->nullable();
@@ -27,7 +28,7 @@ class CreateItemsTable extends Migration
             $table->float('meter')->nullable();
             $table->integer('low_stock')->nullable();
             $table->string('tile_type')->nullable();
-            $table->enum('type',['tile','item'])->default('item');
+            $table->enum('type',['tile','item','service'])->default('item');
             $table->integer('store_id')->nullable();
             $table->integer('group_id')->nullable();
             $table->integer('unit_id')->nullable();

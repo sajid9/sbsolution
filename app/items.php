@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class items extends Model
 {
+    protected $fillable = array("item_name","item_desc","barcode","purchase_price", "sale_price","duration","color","pieces","size","quality","meter","low_stock",
+            "tile_type","type","store_id","group_id","unit_id","company_id","category_id","class_id","sub_class_id","country_id","is_active");
     public function companies()
     {
         return $this->hasOne('App\companies', 'id', 'company_id');

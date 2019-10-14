@@ -21,6 +21,7 @@
 </style>
 <?php $__env->stopSection(); ?>
 <?php $__env->startSection('content'); ?>
+<?php echo $__env->make('includes.alerts', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <div class="panel panel-default">
 <div class="panel-heading">
     Add New Receipt
@@ -60,12 +61,17 @@
             </div>
             <div class="form-group">
               <label for="customer">Customer </label>
+              <div class="input-group">
               <select name="customer" class="form-control" id="customer" aria-describedby="customer">
                 <option value="">Select Customer</option>
                 <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($customer->id); ?>"> <?php echo e($customer->customer_name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </select>
+              <span class="input-group-addon">
+                <span title="Add Customer" data-toggle="tooltip"><i data-toggle="modal" data-target="#createCustomer" class="glyphicon glyphicon-list"></i></span>
+              </span>
+              </div>
               <small id="customer_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>
@@ -96,7 +102,9 @@
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
                 <input type="text" disabled="" name="barcode" value="<?php echo e(old('barcode')); ?>" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
-                <span class="input-group-addon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
+                <span class="input-group-addon">
+                  <span title="Load Item" data-toggle="tooltip"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
+                </span>
               </div>
               <small id="barcode_msg" class="form-text text-muted text-danger"></small>
             </div>
@@ -221,7 +229,83 @@
       
     </div>
   </div>
-
+  
+  <div class="modal fade" id="createCustomer" role="dialog">
+    <div class="modal-full">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Items</h4>
+        </div>
+        <div class="modal-body">
+          <form method="post" action="<?php echo e(url('customer/addcustomerreceipt')); ?>">
+            <?php echo csrf_field(); ?>
+            <div class="row">
+              <div class="form-group col-md-4">
+                <label for="customername">Customer Name <span class="text-danger">*</span></label>
+                <input type="text" autofocus="" name="customer_name" value="<?php echo e(old('customer_name')); ?>" class="form-control" id="customername" aria-describedby="customername" placeholder="Customer name">
+                <small id="customername" class="form-text text-muted text-danger"><?php echo e($errors->first('customer_name')); ?></small>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="mobile">Mobile <span class="text-danger">*</span></label>
+                <input type="text" name="mobile" value="<?php echo e(old('mobile')); ?>" class="form-control" id="mobile" placeholder="Enter customer mobile" aria-describedby="mobile">
+                <small id="mobile" class="form-text text-muted text-danger"><?php echo e($errors->first('mobile')); ?></small>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="occupation">Occupation</label>
+                <input type="occupation" name="occupation" value="<?php echo e(old('occupation')); ?>" class="form-control" id="occupation" placeholder="Enter occupation" aria-describedby="occupation">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+              <label for="standing_instruction">Standing Insruction</label>
+              <input type="standing_instruction" name="standing_instruction" value="<?php echo e(old('standing_instruction')); ?>" class="form-control" id="standing_instruction" placeholder="Enter standing instruction" aria-describedby="standing_instruction">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="email">Email</label>
+              <input type="email" name="email" value="<?php echo e(old('email')); ?>" class="form-control" id="email" placeholder="Enter customer email" aria-describedby="email">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="phone">Phone</label>
+              <input type="text" name="phone" value="<?php echo e(old('phone')); ?>" class="form-control" id="phone" placeholder="Enter customer phone" aria-describedby="phone">
+            </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+              <label for="cnic">Cnic</label>
+              <input type="text" name="cnic" value="<?php echo e(old('cnic')); ?>" class="form-control" id="cnic" placeholder="Enter customer cnic" aria-describedby="cnic">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="website">Website</label>
+              <input type="url" name="website" value="<?php echo e(old('website')); ?>" class="form-control" id="website" placeholder="Enter customer website" aria-describedby="website">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="gst">GST</label>
+              <input type="gst" name="gst" value="<?php echo e(old('gst')); ?>" class="form-control" id="gst" placeholder="Enter GST" aria-describedby="gst">
+            </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-4">
+              <label for="ntn">NTN</label>
+              <input type="ntn" name="ntn" value="<?php echo e(old('ntn')); ?>" class="form-control" id="ntn" placeholder="Enter NTN" aria-describedby="ntn">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="address">Address</label>
+              <textarea class="form-control" name="address" id="address" rows="3" aria-describedby="address"><?php echo e(old('address')); ?></textarea>
+            </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button> <a href="<?php echo e(url('customer/customerlisting')); ?>" class="btn btn-default">Back</a>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
   <!-- Modal -->
   <div class="modal fade" id="calculator" role="dialog">
     <div class="modal-dialog">

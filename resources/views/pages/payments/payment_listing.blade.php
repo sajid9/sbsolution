@@ -45,6 +45,8 @@
 			                <th>Customer</th>
 			                <th>Receipt</th>
 			                <th>Type</th>
+			                <th>Payment Through</th>
+			                <th>Payment Desc</th>
 			                <th>Debit</th>
 			                <th>Credit</th>
 			                <th>Date</th>
@@ -61,6 +63,8 @@
 			                <td>{{ ($payment->customer != null) ? $payment->customer->customer_name : "null"}}</td>
 			                <td>{{ ($payment->receipt != null) ? $payment->receipt->receipt_no : "null" }}</td>
 			                <td>{{ $payment->type }}</td>
+			                <td>{{ $payment->payment_through }}</td>
+			                <td>{{ $payment->payment_desc }}</td>
 			                <td>{{ $payment->debit }}</td>
 			                <td>{{ $payment->credit }}</td>
 			                <td>{{ date_format($payment->created_at,'d M Y') }}</td>

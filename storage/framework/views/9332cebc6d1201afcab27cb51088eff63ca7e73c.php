@@ -6,6 +6,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <!-- Bootstrap Core CSS -->
+
 <link href="<?php echo e(asset('css/bootstrap.min.css')); ?>" rel="stylesheet">
 <link href="<?php echo e(asset('css/custom_style.css')); ?>" rel="stylesheet">
 
