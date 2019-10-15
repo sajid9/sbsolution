@@ -373,12 +373,18 @@ Route::prefix('user')->middleware(['auth'])->group(function(){
 */
 Route::prefix('user_mangement')->middleware(['auth'])->group(function(){
     Route::get('/', 'User_mangement\dashboardController@index')->name('user_mangement_homepanel');
-     // Route::get('/roles', 'User_mangement\CraeteuserController@fetchroles')->name('insert_user');
+
+    
+     
      Route::post('/role', 'User_mangement\RoleController@insert')->name('insert_user_role');
      Route::get('role/delete/{id}', 'User_mangement\RoleController@destroy')->name('delete_role');
-     Route::get('role/edit/{id}', 'User_mangement\RoleController@edit')->name('edit_role');
+     Route::post('role/edit/{id}', 'User_mangement\RoleController@update')->name('edit_role');
+
+
      Route::post('/', 'User_mangement\CreateuserController@insert')->name('insert_user');
      Route::post('addauthority', 'User_mangement\CreateuserController@add_authority');
+      Route::get('user/delete/{id}', 'User_mangement\CreateuserController@destroy')->name('delete_user');
+       Route::post('user/edit/{id}', 'User_mangement\CreateuserController@update')->name('edit_user');
 });
  
 
