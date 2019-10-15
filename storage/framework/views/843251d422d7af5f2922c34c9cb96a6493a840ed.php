@@ -198,7 +198,11 @@
                             </li>
                         </ul>
                     </li>
-                    
+                   
+ 
+                      <li>
+                        <a href="<?php echo e(route('user_mangement_homepanel')); ?>"><i class="fa fa-users fa-fw"></i> User & Role Mangement </a>
+                    </li>
                 </ul>
 
             </div>

@@ -11,12 +11,11 @@ class dashboardController extends Controller
     
 
 
-   public function index(){
-   $allroles=Role::all();
+public function index(){
+    $allroles=Role::all();
     $allusers=User::with('Role')->get();
-
- return view('pages.user_mangement.dashboard',compact('allroles','allusers')); 
- }
+	return view('pages.user_mangement.dashboard',compact('allroles','allusers')); 
+}
     
  
 }
