@@ -15,12 +15,25 @@ public function insert(Request $request){
             'role_name' => 'required',
             'status'    => 'required'
         ]);
-$role= new Role(['role'=>$request->role_name,'status'=>'1']);
+$role= new Role(['role'=>$request->role_name,'status'=>$request->status]);
 $role->save();
 
- return redirect()->back()->with('message','New Role Added Successfully');
+ return redirect()->to('user_mangement#role')->with('message','New Role Added Successfully');
 
 }
+
+
+public function update(Request $request , $id){
+
+
+        $role=Role::find($id);
+        $role->role=$request->role_name;
+        $role->status=$request->status;
+        $role->save();
+         return redirect()->to('user_mangement#role')->with('message',$role->role.' Role Updated Successfully');
+
+}
+
 
  public function destroy($id)
     {
@@ -28,7 +41,7 @@ $role->save();
     	$role=Role::find($id);
     Role::destroy($id);
   
-    return redirect()->back()->with('message',$role->role.'Role Deleted Successfully');
+    return redirect()->to('user_mangement#role')->with('message',$role->role.'Role Deleted Successfully');
     }
 
 }
