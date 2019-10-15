@@ -366,6 +366,21 @@ Route::prefix('user')->middleware(['auth'])->group(function(){
     Route::post('updatepassword','User\User@update_password');
 });
 
+/*
+*
+*user and role mange mangement
+*
+*/
+Route::prefix('user_mangement')->middleware(['auth'])->group(function(){
+    Route::get('/', 'User_mangement\dashboardController@index')->name('user_mangement_homepanel');
+     // Route::get('/roles', 'User_mangement\CraeteuserController@fetchroles')->name('insert_user');
+     Route::post('/role', 'User_mangement\RoleController@insert')->name('insert_user_role');
+     Route::get('role/delete/{id}', 'User_mangement\RoleController@destroy')->name('delete_role');
+     Route::get('role/edit/{id}', 'User_mangement\RoleController@edit')->name('edit_role');
+     Route::post('/', 'User_mangement\CreateuserController@insert')->name('insert_user');
+});
+ 
+
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
