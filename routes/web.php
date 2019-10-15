@@ -372,7 +372,3 @@ Route::get('/', 'HomeController@index')->name('home');
 
 
 Route::get('/changePassword','HomeController@showChangePasswordForm');
-
-
-
-
