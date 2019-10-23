@@ -11,38 +11,45 @@
 
 <form method="post" action="<?php echo e(url('supplier/addsupplier')); ?>">
 	<?php echo csrf_field(); ?>
-  <div class="form-group">
-    <label for="suppliername">Supplier Name <span class="text-danger">*</span></label>
-    <input type="text" name="supplier_name" value="<?php echo e(old('supplier_name')); ?>" class="form-control" id="suppliername" aria-describedby="suppliername" placeholder="Supplier Name">
-    <small id="suppliername" class="form-text text-muted text-danger"><?php echo e($errors->first('supplier_name')); ?></small>
+  <div class="row">
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="suppliername">Supplier Name <span class="text-danger">*</span></label>
+        <input type="text" name="supplier_name" value="<?php echo e(old('supplier_name')); ?>" class="form-control" id="suppliername" aria-describedby="suppliername" placeholder="Supplier Name">
+        <small id="suppliername" class="form-text text-muted text-danger"><?php echo e($errors->first('supplier_name')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="mobile">Mobile <span class="text-danger">*</span></label>
+        <input type="text" name="mobile" value="<?php echo e(old('mobile')); ?>" class="form-control" id="mobile" placeholder="Enter your mobile" aria-describedby="mobile">
+        <small id="suppliername" class="form-text text-muted text-danger"><?php echo e($errors->first('mobile')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" name="email" value="<?php echo e(old('email')); ?>" class="form-control" id="email" placeholder="Enter your email" aria-describedby="email">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="phone">Phone</label>
+        <input type="text" name="phone" value="<?php echo e(old('phone')); ?>" class="form-control" id="phone" placeholder="Enter your phone" aria-describedby="phone">
+        <small id="suppliername" class="form-text text-muted text-danger"><?php echo e($errors->first('phone')); ?></small>
+      </div>
+      <div class="form-group">
+        <label for="cnic">Cnic</label>
+        <input type="text" name="cnic" value="<?php echo e(old('cnic')); ?>" class="form-control" id="cnic" placeholder="Enter your cnic" aria-describedby="cnic">
+      </div>
+      <div class="form-group">
+        <label for="website">Website</label>
+        <input type="url" name="website" value="<?php echo e(old('website')); ?>" class="form-control" id="website" placeholder="Enter your website" aria-describedby="website">
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <label for="address">Address</label>
+        <textarea class="form-control" name="address" id="address" rows="3" aria-describedby="address"><?php echo e(old('address')); ?></textarea>
+      </div>
+    </div>
   </div>
-  <div class="form-group">
-    <label for="mobile">Mobile <span class="text-danger">*</span></label>
-    <input type="text" name="mobile" value="<?php echo e(old('mobile')); ?>" class="form-control" id="mobile" placeholder="Enter your mobile" aria-describedby="mobile">
-    <small id="suppliername" class="form-text text-muted text-danger"><?php echo e($errors->first('mobile')); ?></small>
-  </div>
-  <div class="form-group">
-    <label for="email">Email</label>
-    <input type="email" name="email" value="<?php echo e(old('email')); ?>" class="form-control" id="email" placeholder="Enter your email" aria-describedby="email">
-  </div>
-  <div class="form-group">
-    <label for="phone">Phone</label>
-    <input type="text" name="phone" value="<?php echo e(old('phone')); ?>" class="form-control" id="phone" placeholder="Enter your phone" aria-describedby="phone">
-    <small id="suppliername" class="form-text text-muted text-danger"><?php echo e($errors->first('phone')); ?></small>
-  </div>
-  <div class="form-group">
-    <label for="cnic">Cnic</label>
-    <input type="text" name="cnic" value="<?php echo e(old('cnic')); ?>" class="form-control" id="cnic" placeholder="Enter your cnic" aria-describedby="cnic">
-  </div>
-  <div class="form-group">
-    <label for="website">Website</label>
-    <input type="url" name="website" value="<?php echo e(old('website')); ?>" class="form-control" id="website" placeholder="Enter your website" aria-describedby="website">
-  </div>
-  <div class="form-group">
-    <label for="address">Address</label>
-    <textarea class="form-control" name="address" id="address" rows="3" aria-describedby="address"><?php echo e(old('address')); ?></textarea>
-  </div>
-  
   <button type="submit" class="btn btn-primary">Submit</button> <a href="<?php echo e(url('supplier/supplierlisting')); ?>" class="btn btn-default">Back</a>
 </form>
 

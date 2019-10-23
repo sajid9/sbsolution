@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,14 +13,14 @@
 		<div class="col-md-10 col-xs-10" style="text-align: right;"><h1>SALES INVOICE</h1></div>
 	</div>
 	<div class="row">
-		<div class="col-md-3 col-xs-3">
+		<div class="col-md-3 col-sm-3 col-xs-3">
 			<h6>{{(isset($company->name)) ? $company->name : ''}}</h6>
 			<h6>{{(isset($company->address)) ? $company->address : ''}}</h6>
 			<h6>{{(isset($company->phone)) ? $company->phone : ''}}</h6>
 			<h6>{{(isset($company->email)) ? $company->email : ''}}</h6>
 			<h6>{{(isset($company->website)) ? $company->website : ''}}</h6>
 		</div>
-		<div class="col-md-3 col-xs-3 col-md-offset-6 col-xs-offset-6">
+		<div class="col-md-3 col-sm-3 col-xs-3 col-md-offset-6 col-sm-offset-6 col-xs-offset-6" >
 			<div style="background-color: #efefef;text-align: center;">Date</div>
 			<div style="text-align: center;">{{date_format($date,'d M Y')}}</div>
 			<div style="background-color: #efefef;text-align: center;">Receipt No</div>
@@ -43,55 +42,6 @@
 		</div>
 	</div>
 </div>
-
-{{-- <h1 style="text-align: center;">SB Software Solution</h1>
-<h3 style="text-align: center;">Shop# 1-2 Swan Heights Plaza Sowan Garden Islamabad</h3>
-<h1 style="text-align: center;">Invoice</h1>
-<div style="padding:10px;">
-<div class="row">
-	<div class="col-xs-6">
-		<div class="row">
-			<div class="col-xs-6 col-md-3">
-				<strong>Customer Name:</strong>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				{{(isset($data->customer_name)) ? $data->customer_name :$data->supplier_name }}
-			</div>
-		</div>
-	</div>
-	<div class="col-xs-6">
-		<div class="row">
-			<div class="col-xs-6 col-md-3">
-				<strong>Date:</strong>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				{{(isset($data->receipt_date)) ? $data->receipt_date : $data->voucher_date }}
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-6">
-		<div class="row">
-			<div class="col-xs-6 col-md-3">
-				<strong>Address:</strong>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				{{$data->address}}
-			</div>
-		</div>
-	</div>
-	<div class="col-xs-6">
-		<div class="row">
-			<div class="col-xs-6 col-md-3">
-				<strong>Invoice #:</strong>
-			</div>
-			<div class="col-xs-6 col-md-3">
-				{{(isset($data->receipt_no)) ? $data->receipt_no : $data->voucher_no}}
-			</div>
-		</div>
-	</div>
-</div> --}}
 <div class="container">
 	<table class="table table-striped">
 		<thead>
@@ -163,9 +113,6 @@
 	
 	
 </div>
-
-
-
 <!-- jQuery -->
 <script src="{{ asset('js/jquery.min.js')}}"></script>
 

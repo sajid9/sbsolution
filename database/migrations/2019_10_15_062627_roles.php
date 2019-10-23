@@ -16,6 +16,7 @@ class Roles extends Migration
         Schema::create('roles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('role');
+            $table->integer('user_id')->default(0);
             $table->boolean('status')->default(0);
             $table->timestamps();
         });

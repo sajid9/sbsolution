@@ -5,11 +5,13 @@ namespace App\Http\Controllers\groups;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\groups;
+use CH;
 class group extends Controller
 {
     public function group_listing()
     {
-    	$groups = groups::all();
+        $id = CH::getId();
+    	$groups = groups::where('user_id',$id)->get();
     	return view('pages.groups.group_listing',compact('groups'));
     }
     public function add_group_form()
@@ -20,6 +22,7 @@ class group extends Controller
     {
     	$group = new groups;
     	$group->name = $request->group_name;
+        $group->user_id = CH::getId();
     	if($request->has('is_active')){
 		    $group->is_active    = $request->is_active;
 		}else{

@@ -5,11 +5,13 @@ namespace App\Http\Controllers\measuring;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\units;
+use CH;
 class unit extends Controller
 {
     public function unit_listing()
     {
-    	$units = units::all();
+        $id = CH::getId();
+    	$units = units::where('user_id',$id)->get();
     	return view('pages.measuring.unit_listing',compact('units'));
     }
     public function add_unit_form()
@@ -20,6 +22,7 @@ class unit extends Controller
     {
     	$unit = new units;
     	$unit->unit = $request->unit;
+        $unit->user_id = CH::getId();
     	if($request->has('is_active')){
 		    $unit->is_active    = $request->is_active;
 		}else{

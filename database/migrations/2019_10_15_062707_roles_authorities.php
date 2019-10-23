@@ -16,7 +16,8 @@ class RolesAuthorities extends Migration
         Schema::create('rolesauthorities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('role_id');
-            $table->boolean('authority')->default(0);
+            $table->string('authority',1000);
+            $table->string('selected_ids',1000);
             $table->timestamps();
         });
     

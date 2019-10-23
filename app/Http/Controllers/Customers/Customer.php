@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\customers;
 use App\Http\Requests\customerValidator;
+use CH;
 class Customer extends Controller
 {
     /*
@@ -14,7 +15,8 @@ class Customer extends Controller
     *
     */
     public function customer_listing(){
-        $customers = customers::all();
+        $id = CH::getId();
+        $customers = customers::where('user_id',$id)->get();
     	return view('pages.customers.customer_listing',compact('customers'));
     }
 
@@ -49,6 +51,7 @@ class Customer extends Controller
 		    $customer->occupation    = $request->occupation;
 		    $customer->gst           = $request->gst;
 		    $customer->ntn           = $request->ntn;
+            $customer->user_id       = CH::getId();
 
 		    $customer->standing_instruction  = $request->standing_instruction;
 		    $customer->save();
@@ -76,6 +79,7 @@ class Customer extends Controller
             $customer->occupation    = $request->occupation;
             $customer->gst           = $request->gst;
             $customer->ntn           = $request->ntn;
+            $customer->user_id       = CH::getId();
 
             $customer->standing_instruction  = $request->standing_instruction;
             $customer->save();

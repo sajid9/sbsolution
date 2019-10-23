@@ -8,15 +8,21 @@ use App\item_ledger;
 use App\items;
 use App\stores;
 use DB;
+use CH;
 class Ledger_item extends Controller
 {
     public function item_ledgers(){
-    	$ledgers =item_ledger::with('items.groups','stores','voucher')->get();
-        $stores  = stores::all();
+        $id = CH::getId();
+    	$ledgers =item_ledger::with('items.groups','stores','voucher')->whereHas('items',function($q) use ($id){
+            $q->where('user_id',$id);
+        })->get();
+        
+        $stores  = stores::where('user_id',$id)->get();
     	return view('pages.itemledger.item_ledger',compact('ledgers','stores'));
     }
     public function search_item(Request $request){
-    	$items = items::select('id','barcode as text')->where('barcode','like','%'.$request->term.'%')->get();
+        $id = CH::getId();
+    	$items = items::select('id','barcode as text')->where('barcode','like','%'.$request->term.'%')->where('user_id',$id)->get();
     	return json_encode($items);
     }
     public function search_itemledger(Request $request){

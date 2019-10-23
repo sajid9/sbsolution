@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\companyValidator;
 use App\companies;
 use App\helpers\CustomHelper;
+use CH;
 class Company extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
@@ -19,7 +20,8 @@ class Company extends BaseController
     *
     */
     public function company_listing(){
-        $companies = companies::all();
+        $id = CH::getId();
+        $companies = companies::where('user_id',$id)->get();
     	return view('pages.companies.company_listing',compact('companies'));
     }
     /*
@@ -46,6 +48,7 @@ class Company extends BaseController
 		    $company->company_name = $request->company_name;
 		    $company->discount     = $request->discount;
 		    $company->description  = $request->description;
+            $company->user_id      = CH::getId();
 		    if($request->has('is_active')){
 		    	$company->is_active    = $request->is_active;
 		    }else{

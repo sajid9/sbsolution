@@ -1,0 +1,1 @@
+<h1>hello <?php echo e($data['name']); ?></h1><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/email/confirm_password_template.blade.php ENDPATH**/ ?>

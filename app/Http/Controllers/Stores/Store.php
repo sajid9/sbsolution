@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Stores;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\stores;
+use CH;
 class Store extends Controller
 {
+    
     public function store_listing(){
-    	$stores = stores::all();
+        $id = CH::getId();
+    	$stores = stores::where('user_id',$id)->get();
     	return view('pages.stores.store_listing',compact('stores'));
     }
     public function add_store_form(){
@@ -22,6 +25,7 @@ class Store extends Controller
     	$store = new stores;
     	$store->name = $request->store_name;
     	$store->address = $request->address;
+        $store->user_id = CH::getId();
     	if($request->has('is_active')){
 		    $store->is_active    = $request->is_active;
 		}else{

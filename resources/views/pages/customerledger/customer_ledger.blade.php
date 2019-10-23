@@ -64,7 +64,7 @@
 			        	<tr>
 			        		<td>{{++$count}}</td>
 			        		<td>{{date_format(date_create($ledger->created_at),"d M Y H:i:s")}}</td>
-			        		<td>{{$ledger->customer_id}}</td>
+			        		<td>{{$ledger->customer->customer_name}}</td>
 			        		<td>{{$ledger->type}}</td>
 			        		<td>{{$ledger->debit}}</td>
 			        		<td>{{$ledger->credit}}</td>

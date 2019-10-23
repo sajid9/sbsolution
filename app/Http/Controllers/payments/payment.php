@@ -23,19 +23,21 @@ use CH;
 class payment extends Controller
 {
     public function paymentlisting(){
-    	$payments = payments::with('voucher','receipt','account','customer','supplier')->get();
+        $id = CH::getId();
+    	$payments = payments::with('voucher','receipt','account','customer','supplier')->where('user_id',$id)->get();
     	return view('pages.payments.payment_listing',compact('payments'));
     }
 
     public function addpaymentform(){
-    	$vouchers  = voucher::all();
-        $receipts  = receipt::all();
-        $accounts  = accounts::all();
-        $customers = customers::all();
-        $suppliers = suppliers::all();
-        $years     = financial_year::all();
-        $heads     = head::all();
-        $months    = month::all();
+        $id = CH::getId();
+    	$vouchers  = voucher::where('user_id',$id)->get();
+        $receipts  = receipt::where('user_id',$id)->get();
+        $accounts  = accounts::where('user_id',$id)->get();
+        $customers = customers::where('user_id',$id)->get();
+        $suppliers = suppliers::where('user_id',$id)->get();
+        $years     = financial_year::where('user_id',$id)->get();
+        $heads     = head::where('user_id',$id)->get();
+        $months    = month::where('user_id',$id)->get();
     	return view('pages.payments.add_payment_form',compact('vouchers','receipts','accounts','customers','suppliers','years','heads','months'));
     }
     public function addsopayment(Request $request){
@@ -102,6 +104,7 @@ class payment extends Controller
                 $payment->voucher_id = $check_id;
             }
         }
+        $payment->user_id = CH::getId();
         $payment->save();
         if($request->voucher != null){
             CH::payment_to_voucher($request->voucher,$request->supplier,$request->amount);
@@ -149,7 +152,8 @@ class payment extends Controller
     }
 
     public function financialyear(){
-        $years = financial_year::all();
+        $id = CH::getId();
+        $years = financial_year::where('user_id',$id)->get();
         return view('pages.payments.financial_year_listing',compact('years'));
     }
     public function addfinancialyear(){
@@ -159,6 +163,7 @@ class payment extends Controller
         $request->validate(['fn_year' => 'required|unique:financial_year,year']);
         $year = new financial_year;
         $year->year = $request->fn_year;
+        $year->user_id = CH::getId();
         $year->save();
         return redirect()->to('payment/financialyear')->with('message','Record Added Successfully');
     }

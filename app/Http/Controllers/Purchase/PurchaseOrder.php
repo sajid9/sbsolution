@@ -15,7 +15,7 @@ use App\supplier_history;
 use App\cash;
 use App\stores;
 use DB;
-
+use CH;
 class PurchaseOrder extends Controller
 {
    /*
@@ -24,7 +24,8 @@ class PurchaseOrder extends Controller
     *
     */
     public function voucher_listing(){
-        $vouchers = voucher::all();
+        $id = CH::getId();
+        $vouchers = voucher::where('user_id',$id)->get();
     	return view('pages.purchase.voucher_listing',compact('vouchers'));
     }
 
@@ -34,8 +35,9 @@ class PurchaseOrder extends Controller
     *
     */
     public function add_voucher_form(){
-    	$suppliers = suppliers::all();
-    	$items     = items::all();
+        $id = CH::getId();
+    	$suppliers = suppliers::where('user_id',$id)->get();
+    	$items     = items::where('user_id',$id)->get();
     	return view('pages.purchase.add_voucher_form',compact('suppliers','items'));
     }
 
@@ -49,6 +51,7 @@ class PurchaseOrder extends Controller
     	$voucher->voucher_no = $request->vendor_voucher;
     	$voucher->supplier_id = $request->supplier;
     	$voucher->voucher_date = $request->voucher_date;
+        $voucher->user_id = CH::getId();
     	$voucher->save();
     	return json_encode($voucher);
     }
@@ -251,8 +254,9 @@ class PurchaseOrder extends Controller
     }
     public function direct_in()
     {
-        $items  = items::all();
-        $stores = stores::all(); 
+        $id = CH::getId();
+        $items  = items::where('user_id',$id)->get();
+        $stores = stores::where('user_id',$id)->get(); 
         return view('pages.purchase.direct_in',compact('items','stores'));
     }
     public function save_item(Request $request){

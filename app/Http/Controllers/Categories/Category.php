@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\categoryValidator;
 use App\categories;
+use CH;
 class Category extends Controller
 {
 	/*
@@ -13,8 +14,10 @@ class Category extends Controller
 	* Category Listing Page 
 	*
 	*/
-    public function category_listing(){
-	    $categories = categories::all();
+    public function category_listing()
+    {
+        $id = CH::getId();
+	    $categories = categories::where('user_id',$id)->get();
 		return view('pages.categories.category_listing',compact('categories'));
     }
 
@@ -43,6 +46,7 @@ class Category extends Controller
 		    $category->category_name = $request->category_name;
 		    $category->discount     = $request->discount;
 		    $category->description  = $request->description;
+            $category->user_id  = CH::getId();
 		    if($request->has('is_active')){
 		    	$category->is_active    = $request->is_active;
 		    }else{

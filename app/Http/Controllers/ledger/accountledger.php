@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\accounts;
 use App\payments;
 use DB;
+use CH;
 class accountledger extends Controller
 {
     public function accountledgerform()
     {
-    	$accounts = accounts::all();
+        $id = CH::getId();
+    	$accounts = accounts::where('user_id',$id)->get();
     	return view('pages.accountledger.account_ledger_form',compact('accounts'));
     }
     public function accountledger(Request $request)
@@ -23,7 +25,8 @@ class accountledger extends Controller
     }
     public function stockreport($value='')
     {
-        $items = DB::table('stock')->leftJoin('items','items.id','=','stock.item_id')->leftJoin('stores','stores.id','=','stock.store')->get();
+        $id = CH::getId();
+        $items = DB::table('stock')->leftJoin('items','items.id','=','stock.item_id')->leftJoin('stores','stores.id','=','stock.store')->where('items.user_id',$id)->get();
         foreach($items as $item){
             $item->total = DB::table('stock')->select(DB::raw('SUM(qty) as total_item'))->where('item_id',$item->item_id)->first();
         }

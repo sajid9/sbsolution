@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+ Route::get('sendemail','CsvFile@sendMail');
  Route::get('CsvFile','CsvFile@index');
  Route::get('exportCsv','CsvFile@exportCsv');
  Route::post('importCsv','CsvFile@importCsv');
@@ -123,7 +124,7 @@ Route::prefix('country')->middleware(['auth'])->group(function () {
 *Items Routes
 *
 */
-Route::prefix('item')->middleware(['auth'])->group(function () {
+Route::prefix('item')->middleware(['auth','Item'])->group(function () {
     Route::get('itemlisting','Items\Item@item_listing');
     Route::get('additemform','Items\Item@add_item_form');
     Route::post('additem','Items\Item@additem');
@@ -191,7 +192,7 @@ Route::prefix('payment')->middleware(['auth'])->group(function(){
 *
 */
 Route::prefix('ledger')->middleware(['auth'])->group(function(){
-    Route::get('itemledger','ledger\Ledger_item@item_ledgers');
+    Route::get('itemledger','ledger\Ledger_item@item_ledgers')->middleware('ItemLedger');
     Route::get('getitems','ledger\Ledger_item@search_item');
     Route::post('searchitem','ledger\Ledger_item@search_itemledger');
     Route::get('voucherhistory','ledger\Ledger_supplier@supplier_ledgers');
@@ -283,7 +284,7 @@ Route::prefix('invoice')->middleware(['auth'])->group(function(){
 *store
 *
 */
-Route::prefix('store')->middleware(['auth'])->group(function(){
+Route::prefix('store')->middleware(['auth','Roles'])->group(function(){
     Route::get('storelisting','stores\store@store_listing');
     Route::get('addstoreform','stores\store@add_store_form');
     Route::get('editstore/{id}','stores\store@edit_store');
@@ -291,12 +292,13 @@ Route::prefix('store')->middleware(['auth'])->group(function(){
     Route::post('addstore','stores\store@add_store');
     Route::post('updatestore','stores\store@update_store');
 });
+
 /*
 *
 *group
 *
 */
-Route::prefix('group')->middleware(['auth'])->group(function(){
+Route::prefix('group')->middleware(['auth','Group'])->group(function(){
     Route::get('grouplisting','groups\group@group_listing');
     Route::get('addgroupform','groups\group@add_group_form');
     Route::post('addgroup','groups\group@add_group');
@@ -373,24 +375,21 @@ Route::prefix('user')->middleware(['auth'])->group(function(){
 */
 Route::prefix('user_mangement')->middleware(['auth'])->group(function(){
     Route::get('/', 'User_mangement\dashboardController@index')->name('user_mangement_homepanel');
-
-    
-     
-     Route::post('/role', 'User_mangement\RoleController@insert')->name('insert_user_role');
-     Route::get('role/delete/{id}', 'User_mangement\RoleController@destroy')->name('delete_role');
-     Route::post('role/edit/{id}', 'User_mangement\RoleController@update')->name('edit_role');
-
-
-     Route::post('/', 'User_mangement\CreateuserController@insert')->name('insert_user');
-     Route::post('addauthority', 'User_mangement\CreateuserController@add_authority');
-      Route::get('user/delete/{id}', 'User_mangement\CreateuserController@destroy')->name('delete_user');
-       Route::post('user/edit/{id}', 'User_mangement\CreateuserController@update')->name('edit_user');
+    Route::post('/role', 'User_mangement\RoleController@insert')->name('insert_user_role');
+    Route::get('role/delete/{id}', 'User_mangement\RoleController@destroy')->name('delete_role');
+    Route::post('role/edit/{id}', 'User_mangement\RoleController@update')->name('edit_role');
+    Route::post('/', 'User_mangement\CreateuserController@insert')->name('insert_user');
+    Route::post('addauthority', 'User_mangement\CreateuserController@add_authority');
+    Route::get('user/delete/{id}', 'User_mangement\CreateuserController@destroy')->name('delete_user');
+    Route::post('user/edit/{id}', 'User_mangement\CreateuserController@update')->name('edit_user');
+    Route::post('checkrole', 'User_mangement\CreateuserController@check_role')->name('checkrole');
+    Route::get('getauthority', 'User_mangement\dashboardController@get_authority');
 });
  
 
-Auth::routes();
+Auth::routes(['verify' => true]);
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->middleware('verified')->name('home');
 
 
 Route::get('/changePassword','HomeController@showChangePasswordForm');

@@ -16,6 +16,7 @@ class CreateFinancialYearTable extends Migration
         Schema::create('financial_year', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('year');
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

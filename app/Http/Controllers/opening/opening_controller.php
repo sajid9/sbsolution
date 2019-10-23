@@ -16,11 +16,13 @@ use App\accounts;
 use App\stores;
 use App\payments;
 use DB;
+use CH;
 class opening_controller extends Controller
 {	
     public function addItem(){
-    	$items  = items::all();
-        $stores = stores::all(); 
+        $id = CH::getId();
+    	$items  = items::where('user_id',$id)->get();
+        $stores = stores::where('user_id',$id)->get(); 
     	return view('pages.opening.opening_item_form',compact('items','stores'));
     }
     public function save_item(Request $request){
@@ -51,7 +53,8 @@ class opening_controller extends Controller
     	return redirect()->to('opening/addItem')->with('message','Opening Added Successfully');
     }
     public function supplier(){
-    	$suppliers = suppliers::all();
+        $id = CH::getId();
+    	$suppliers = suppliers::where('user_id',$id)->get();
     	return view('pages.opening.opening_supplier_form',compact('suppliers'));
     }
     public function save_supplier(Request $request){
@@ -77,7 +80,8 @@ class opening_controller extends Controller
     	
     }
     public function customer(){
-    	$customers = customers::all();
+        $id = CH::getId();
+    	$customers = customers::where('user_id',$id)->get();
     	return view('pages.opening.opening_customer_form',compact('customers'));
     }
     public function save_customer(Request $request){
@@ -113,17 +117,20 @@ class opening_controller extends Controller
         $account->branch_name = $request->branchname;
         $account->branch_code = $request->branchcode;
         $account->account_number = $request->accountno;
+        $account->user_id = CH::getId();
         $account->save();
 
         return redirect()->back()->with('message','Record added successfully');
     }
     public function account_listing(){
-        $accounts = accounts::all();
+        $id = CH::getId();
+        $accounts = accounts::where('user_id',$id)->get();
         return view('pages.opening.opening_account_listing',compact('accounts'));
     }
     public function cash_deposit()
     {
-        $accounts = accounts::all();
+        $id = CH::getId();
+        $accounts = accounts::where('user_id',$id)->get();
         return view('pages.opening.cash_deposit_form',compact('accounts'));
     }
     public function save_deposit(Request $request)
@@ -144,6 +151,7 @@ class opening_controller extends Controller
         $account->save();
         $payment = new payments;
         $payment->account_id = $request->account;
+        $payment->user_id = CH::getId();
         if($request->type == 'deposit'){
             $payment->credit = $request->amount;
             $payment->type   = 'deposit';

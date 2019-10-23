@@ -15,7 +15,8 @@ public function insert(Request $request){
             'role_name' => 'required',
             'status'    => 'required'
         ]);
-$role= new Role(['role'=>$request->role_name,'status'=>$request->status]);
+$user_id = \Auth::user()->id;
+$role= new Role(['role'=>$request->role_name,'status'=>$request->status,"user_id"=> $user_id]);
 $role->save();
 
  return redirect()->to('user_mangement#role')->with('message','New Role Added Successfully');

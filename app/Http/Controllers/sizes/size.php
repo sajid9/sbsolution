@@ -5,11 +5,13 @@ namespace App\Http\Controllers\sizes;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\sizes;
+use CH;
 class size extends Controller
 {
     public function size_listing()
     {
-    	$sizes = sizes::all();
+        $id = CH::getId();
+    	$sizes = sizes::where('user_id',$id)->get();
     	return view('pages.sizes.size_listing',compact('sizes'));
     }
     public function add_size_form()
@@ -21,6 +23,7 @@ class size extends Controller
     {
     	$size = new sizes;
     	$size->size = $request->size;
+        $size->user_id = CH::getId();
     	if($request->has('is_active')){
 		    $size->is_active    = $request->is_active;
 		}else{

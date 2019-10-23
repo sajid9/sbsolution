@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\head;
 use App\subhead;
 use App\month;
+use CH;
 class expenditure extends Controller
 {
     public function headlisting()
     {
-    	$heads = head::all();
+        $id = CH::getId();
+    	$heads = head::where('user_id',$id)->get();
     	return view('pages.head.head_listing',compact('heads'));
     }
     public function addhead()
@@ -23,6 +25,7 @@ class expenditure extends Controller
     	$request->validate(['head_name'=>'required']);
     	$head = new head;
     	$head->name = $request->head_name;
+        $head->user_id = CH::getId();
     	if($request->has('is_active')){
     		$head->is_active    = $request->is_active;
     	}else{
@@ -92,7 +95,8 @@ class expenditure extends Controller
     }
     public function monthlisting()
     {
-    	$months = month::all();
+        $id = CH::getId();
+    	$months = month::where('user_id',$id)->get();
     	return view('pages.month.month_listing',compact('months'));
     }
     public function addmonthform()
@@ -104,6 +108,7 @@ class expenditure extends Controller
     	$request->validate(['month_name'=>'required']);
     	$month = new month;
     	$month->name = $request->month_name;
+        $month->user_id = CH::getId();
     	if($request->has('is_active')){
     		$month->is_active    = $request->is_active;
     	}else{

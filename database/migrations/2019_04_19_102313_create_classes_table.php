@@ -19,6 +19,7 @@ class CreateClassesTable extends Migration
             $table->integer('discount')->nullable();
             $table->integer('parent_id')->default(0);
             $table->string('description', 500)->nullable();
+            $table->integer('user_id')->default(0);
             $table->enum('is_active', ['yes', 'no']);
             $table->timestamps();
         });

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,14 +13,14 @@
 		<div class="col-md-10 col-xs-10" style="text-align: right;"><h1>SALES INVOICE</h1></div>
 	</div>
 	<div class="row">
-		<div class="col-md-3 col-xs-3">
+		<div class="col-md-3 col-sm-3 col-xs-3">
 			<h6><?php echo e((isset($company->name)) ? $company->name : ''); ?></h6>
 			<h6><?php echo e((isset($company->address)) ? $company->address : ''); ?></h6>
 			<h6><?php echo e((isset($company->phone)) ? $company->phone : ''); ?></h6>
 			<h6><?php echo e((isset($company->email)) ? $company->email : ''); ?></h6>
 			<h6><?php echo e((isset($company->website)) ? $company->website : ''); ?></h6>
 		</div>
-		<div class="col-md-3 col-xs-3 col-md-offset-6 col-xs-offset-6">
+		<div class="col-md-3 col-sm-3 col-xs-3 col-md-offset-6 col-sm-offset-6 col-xs-offset-6" >
 			<div style="background-color: #efefef;text-align: center;">Date</div>
 			<div style="text-align: center;"><?php echo e(date_format($date,'d M Y')); ?></div>
 			<div style="background-color: #efefef;text-align: center;">Receipt No</div>
@@ -43,8 +42,6 @@
 		</div>
 	</div>
 </div>
-
-
 <div class="container">
 	<table class="table table-striped">
 		<thead>
@@ -116,9 +113,6 @@
 	
 	
 </div>
-
-
-
 <!-- jQuery -->
 <script src="<?php echo e(asset('js/jquery.min.js')); ?>"></script>
 

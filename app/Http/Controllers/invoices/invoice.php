@@ -8,12 +8,16 @@ use DB;
 use App\suppliers;
 use App\customers;
 use App\company_setting;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendMail;
+use CH;
 class invoice extends Controller
 {
     public function saleinvoice($id){
     	$data = DB::table('receipt')->leftJoin('customers','receipt.customer_id','=','customers.id')->where('receipt.id',$id)->first();
     	$items = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->where('receipt_detail.type','sale')->where('receipt_detail.receipt_id',$id)->get();
       $company = company_setting::first();
+      Mail::to('softsb7@gmail.com')->send(new SendMail($data,$items,$company));
     	return view('pages.invoices.sale_invoice',compact('data','items','company'));
     }
     
@@ -31,23 +35,27 @@ class invoice extends Controller
     	return view('pages.invoices.purchase_return_invoice',compact('data','items','company'));
     }
     public function amountpayable(){
-       $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0');
-       $data = DB::select('SELECT * FROM voucher Left Join suppliers ON voucher.supplier_id = suppliers.id  WHERE total_amount - (paid_amount + return_amount) > 0');
+       $id = CH::getId(); 
+       $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM voucher WHERE total_amount - (paid_amount + return_amount) > 0 AND user_id ='.$id);
+       $data = DB::select('SELECT * FROM voucher Left Join suppliers ON voucher.supplier_id = suppliers.id  WHERE total_amount - (paid_amount + return_amount) > 0 AND voucher.user_id ='.$id);
        return view('pages.invoices.amount_payable_invoice',compact('total','data'));
     }
     public function amountreceivable(){
-       $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0');
-       $data = DB::select('SELECT * FROM receipt Left Join customers ON receipt.customer_id = customers.id WHERE total_amount - (paid_amount + return_amount) > 0');
+      $id = CH::getId();
+       $total = DB::select('SELECT SUM(total_amount - (paid_amount + return_amount)) as total FROM receipt WHERE total_amount - (paid_amount + return_amount) > 0 AND user_id ='.$id);
+       $data = DB::select('SELECT * FROM receipt Left Join customers ON receipt.customer_id = customers.id WHERE total_amount - (paid_amount + return_amount) > 0 AND receipt.user_id ='.$id);
        return view('pages.invoices.amount_receivable_invoice',compact('total','data'));
     }
     public function supplierpayable()
     {
-      $suppliers = suppliers::all();
+      $id = CH::getId();
+      $suppliers = suppliers::where('user_id',$id)->get();
       return view('pages.invoices.supplier_payable_form',compact('suppliers'));
     }
     public function customerreceivable()
     {
-      $customers = customers::all();
+      $id = CH::getId();
+      $customers = customers::where('user_id',$id)->get();
       return view('pages.invoices.customer_receivable_form',compact('customers'));
     }
     public function supplierpayableinvoice(Request $request)

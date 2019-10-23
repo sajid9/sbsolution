@@ -37,6 +37,7 @@ class CreateItemsTable extends Migration
             $table->integer('class_id')->nullable();
             $table->integer('sub_class_id')->nullable();
             $table->integer('country_id')->nullable();
+            $table->integer('user_id')->default(0);
             $table->enum('is_active', ['yes', 'no'])->default('no');
             $table->timestamps();
         });

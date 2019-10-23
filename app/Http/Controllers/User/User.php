@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\company_setting;
 use Illuminate\Support\Facades\Storage;
+use CH;
 class User extends Controller
 {
     public function company_setting()
@@ -28,6 +29,7 @@ class User extends Controller
     		$setting->mobile = $request->company_mobile;
     		$setting->website = $request->company_website;
             $setting->address = $request->company_address;
+            $setting->user_id = CH::getId();
     		$setting->save();
     		return redirect()->to('user/companysetting')->with('message','Record added Successfully');
     	}else{

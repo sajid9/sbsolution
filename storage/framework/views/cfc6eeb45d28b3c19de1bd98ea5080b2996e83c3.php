@@ -57,7 +57,7 @@
 			        	<tr>
 			        		<td><?php echo e(++$count); ?></td>
 			        		<td><?php echo e(date_format(date_create($ledger->created_at),"d M Y H:i:s")); ?></td>
-			        		<td><?php echo e($ledger->customer_id); ?></td>
+			        		<td><?php echo e($ledger->customer->customer_name); ?></td>
 			        		<td><?php echo e($ledger->type); ?></td>
 			        		<td><?php echo e($ledger->debit); ?></td>
 			        		<td><?php echo e($ledger->credit); ?></td>

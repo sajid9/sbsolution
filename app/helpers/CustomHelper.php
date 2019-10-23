@@ -5,6 +5,8 @@ use App\supplier_ledger;
 use App\supplier_history;
 use App\customer_ledger;
 use App\receipt_ledger;
+use App\rolesauthority;
+use App\User;
 use DB;
 class CustomHelper{
 
@@ -120,6 +122,100 @@ public function payment_to_receipt($receipt_id,$amount)
 	$supplier_history->type = "Payment";
 	$supplier_history->save();
 	$cash_bal = DB::table('cash')->select(DB::raw('SUM(debit) - SUM(credit) as balance'))->first();
+}
+public function getauthorities()
+{
+	$user = User::find(\Auth::user()->id);
+	$authority =rolesauthority::where('role_id',$user->role_id)->first();
+	if($authority != null){
+		$authority->authority = unserialize($authority->authority);
+		$authority->selected_ids = unserialize($authority->selected_ids);
+	}
+	return $authority;
+}
+public function getVendorAuthorities($value='')
+{
+		if(\Auth::user()->type != 'superadmin'){
+			$role_id = \Auth::user()->role_id;
+		    $roles = rolesauthority::where('role_id',$role_id)->first();
+		    $roles->authority = unserialize($roles->authority);
+		}
+	    $data = array();
+	    /* arrays of all menu's in future these menu's will come from database*/
+	    $iteminfo = array("Add Item","Opening item","Item Ledger","Stock Report","Stores","Groups","Measuring Unit","Sizes","Companies","Categories","Classes");
+	    $voucherInfo = array("Voucher","Voucher Ledger","Voucher Payable","Direct In","Add Suppliers","Opening Suppliers","Supplier Ledger","Supplier Payable");
+	    $saleInfo = array("Add Receipt","Receipt Ledger","Receipt Receivable","Direct Out","Add Customers","Opening Customers","Customer Ledger","Customer Receivable");
+	    $paymentInfo = array("Payments");
+	    $accountInfo = array("Accounts","Cash Deposit","Accounts Ledger","Financial Year");
+	    $expenditure = array("Heads","Months");
+	    $usermanagement = array("User management");
+	    /*check id user is superadmin then all menus show*/
+	    if(\Auth::user()->type == 'superadmin'){
+	    	/*js tree json parent*/
+	    	$data[0]["text"] = "Item Info";
+	    	/*js tree json child*/
+	    	$data[0]["children"] = $iteminfo;
+	    	$data[1]["text"] = "Voucher Info";
+	    	$data[1]["children"] = $voucherInfo;
+	    	$data[2]["text"] = "Sale Info";
+	    	$data[2]["children"] = $saleInfo;
+	    	$data[3]["text"] = "Payment Info";
+	    	$data[3]["children"] = $paymentInfo;
+	    	$data[4]["text"] = "Account Info";
+	    	$data[4]["children"] = $accountInfo;
+	    	$data[5]["text"] = "Expenditure";
+	    	$data[5]["children"] = $expenditure;
+	    	$data[6]["text"] = "User management";
+	    }else{
+	    	/*define all parent menu also define its childs empty array*/
+	    	$data[0]["text"] = "Item Info";
+	    	$data[0]["children"] = [];
+	    	$data[1]["text"] = "Voucher Info";
+	    	$data[1]["children"] = [];
+	    	$data[2]["text"] = "Sale Info";
+	    	$data[2]["children"] = [];
+	    	$data[3]["text"] = "Payment Info";
+	    	$data[3]["children"] = [];
+	    	$data[4]["text"] = "Account Info";
+	    	$data[4]["children"] = [];
+	    	$data[5]["text"] = "Expenditure";
+	    	$data[5]["children"] = [];
+	    	$data[6]["text"] = "";
+	    }
+	    if(\Auth::user()->type != 'superadmin'){
+	    	/*all authority coming from database*/
+	    	foreach ($roles->authority as $key => $role) {
+	    		/*check that role is realted to which menu and push it in its parent*/
+	    	    if(in_array($role, $iteminfo)){
+	    	        array_push($data[0]["children"],["text"=>$role]);
+	    	    }
+	    	    if(in_array($role, $voucherInfo)){
+	    	        array_push($data[1]["children"],["text"=>$role]);
+	    	    }
+	    	    if(in_array($role, $saleInfo)){
+	    	        array_push($data[2]["children"],["text"=>$role]);
+	    	    }
+	    	    if(in_array($role, $paymentInfo)){
+	    	        array_push($data[3]["children"],["text"=>$role]);
+	    	    }
+	    	    if(in_array($role, $accountInfo)){
+	    	       array_push($data[4]["children"],["text"=>$role]);
+	    	    }
+	    	    if(in_array($role, $expenditure)){
+	    	       array_push($data[5]["children"],["text"=>$role]);
+	    	    }
+	    	    if(in_array($role, $usermanagement)){
+	    	       $data[6]["text"] = "User management";
+	    	    }
+	    	}
+	    }
+	    /*data variable is the js tree json*/
+	    return $data;
+}
+public function getId($value='')
+{
+	$id = (\Auth::user()->type == 'superadmin' || \Auth::user()->type == 'vendor') ? \Auth::user()->id : \Auth::user()->parent_id;
+	return $id;
 }
 }
 ?>

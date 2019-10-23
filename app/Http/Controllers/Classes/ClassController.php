@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\classValidator;
 use App\classes;
+use CH;
 class ClassController extends Controller
 {
 	/*
@@ -13,8 +14,10 @@ class ClassController extends Controller
 	* Classes Listing Page 
 	*
 	*/
-    public function class_listing(){
-	    $classes = classes::where('parent_id',0)->get();
+    public function class_listing()
+    {
+        $id = CH::getId();
+	    $classes = classes::where('parent_id',0)->where('user_id',$id)->get();
 		return view('pages.classes.class_listing',compact('classes'));
     }
 
@@ -44,6 +47,7 @@ class ClassController extends Controller
 		    $class->discount     = $request->discount;
 		    $class->description  = $request->description;
 		    $class->parent_id  	 = 0;
+            $class->user_id      = CH::getId();
 		    if($request->has('is_active')){
 		    	$class->is_active    = $request->is_active;
 		    }else{

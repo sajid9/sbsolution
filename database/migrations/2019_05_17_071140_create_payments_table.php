@@ -33,6 +33,7 @@ class CreatePaymentsTable extends Migration
             $table->integer('exp_type_id')->nullable();
             $table->integer('month_id')->nullable();
             $table->integer('employee_id')->nullable();
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 <form style="padding-top:20px" method="post" action="<?php echo e(url('user_mangement/addauthority')); ?>">
 	<div class="form-group">
 	  <?php echo csrf_field(); ?>
+	  <input type="hidden" name="parent_id" id="auth_id">
 	  <label for="role-auth">Select Role <span class="text-danger">*</span></label>
 	  <select name="role" class="form-control" id="role-auth" aria-describedby="role_msg">
 	  	<option value="">Select role</option>

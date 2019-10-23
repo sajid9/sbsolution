@@ -41,7 +41,7 @@
         <small id="amount_msg" class="form-text text-muted text-danger">{{$errors->first('amount')}}</small>
       </div>
       <div class="form-group col-md-4">
-        <label for="type">Account<span class="text-danger">*</span></label>
+        <label for="type">Type<span class="text-danger">*</span></label>
         <select tabindex="1"  name="type" class="form-control" id="type" aria-describedby="type_msg">
           <option value="">Select type</option>
           <option value="withdraw">Cash Withdraw</option>

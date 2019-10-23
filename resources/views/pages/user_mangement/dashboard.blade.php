@@ -55,56 +55,11 @@
   {{-- js tree code start  --}}
     $('#html').jstree({
       'core' : {
-        'data' : [
-          { "text" : "Items Info", "children" : [
-              { "text" : "Add Item" },
-              { "text" : "Opening item" },
-              { "text" : "Item Ledger" },
-              { "text" : "Stock Report" },
-              { "text" : "Stores" },
-              { "text" : "Groups" },
-              { "text" : "Measuring Unit" },
-              { "text" : "Sizes" },
-              { "text" : "Companies" },
-              { "text" : "Categories" },
-              { "text" : "Classes" },
-          ]},
-          { "text" : "Voucher Info", "children" : [
-              { "text" : "Voucher" },
-              { "text" : "Voucher Ledger" },
-              { "text" : "Voucher Payable" },
-              { "text" : "Direct In" },
-              { "text" : "Add Suppliers" },
-              { "text" : "Opening Suppliers" },
-              { "text" : "Supplier Ledger" },
-              { "text" : "Supplier Payable" },
-          ]},
-          { "text" : "Sale Info", "children" : [
-              { "text" : "Add Receipt" },
-              { "text" : "Receipt Ledger" },
-              { "text" : "Receipt Receivable" },
-              { "text" : "Direct Out" },
-              { "text" : "Add Customers" },
-              { "text" : "Opening Customers" },
-              { "text" : "Customer Ledger" },
-              { "text" : "Customer Receivable" },
-          ]},
-          { "text" : "Payment Info", "children" : [
-              { "text" : "Payments" },
-          ]},
-          { "text" : "Account Info", "children" : [
-              { "text" : "Accounts" },
-              { "text" : "Cash Deposit" },
-              { "text" : "Accounts Ledger" },
-              { "text" : "Financial Year" },
-          ]},
-          { "text" : "Expenditure", "children" : [
-              { "text" : "Heads" },
-              { "text" : "Months" },
-          ]},
-          {"text":"User management"}
-        ]
-      },
+        'data' : {
+                "url" : "{{url('user_mangement/getauthority')}}",
+                "dataType" : "json" // needed only if you do not supply JSON headers
+              }
+            },
       "types" : {
           "default" : {
             "icon" : "glyphicon glyphicon-user"
@@ -116,34 +71,50 @@
         
       'plugins':["checkbox","types"]
     });
-    /*on change get js tree value*/
-    $('#html').on("changed.jstree", function (e, data) {
-          var selectedData = [];
-          var selectedIndexes;
-           selectedIndexes = $("#html").jstree("get_selected", true);
-           jQuery.each(selectedIndexes, function (index, value) {
-                   selectedData.push(selectedIndexes[index].id);
-           });
-           console.log(selectedData);
+    /*check if role exsist load it in tree*/
+    $('#role-auth').on('change',function(){
+      var role = $(this).val();
+      $.ajax({
+        url:"{{route('checkrole')}}",
+        type:"post",
+        dataType:"json",
+        data:{role:role,_token:"{{csrf_token()}}"},
+        success:function(res){
+          if(res.length > 0){
+            $('#auth_id').val(res[0].id);
+            $('#html').jstree(true).uncheck_all();
+            $('#html').jstree(true).close_all();
+            $('#html').jstree('select_node', res[0].selected_ids);
+          }else{
+            $('#auth_id').val('');
+            $('#html').jstree(true).uncheck_all();
+            $('#html').jstree(true).close_all();
+          }
+        }
       });
+    })
+    /*add authority to the database get from the js tree*/
     $('#addauthority').on('click',function(){
       var role = $('#role-auth').val();
+      var parent_id = $('#auth_id').val();
       var selectedData = [];
+      var selectedID = [];
       var selectedIndexes;
         selectedIndexes = $("#html").jstree("get_selected", true);
         jQuery.each(selectedIndexes, function (index, value) {
           selectedData.push(selectedIndexes[index].text);
+          selectedID.push(selectedIndexes[index].id);
         });
       $.ajax({
         url:"{{ url('user_mangement/addauthority') }}",
         type:"post",
         dataType:"json",
-        data:{role:role,roles:selectedData,_token:"{{csrf_token()}}"},
+        data:{parent_id:parent_id,role:role,roles:selectedData,id:selectedID,_token:"{{csrf_token()}}"},
         success:function(res){
-          if(res.message == 'datasave'){
+          if(res.message){
             $.toast({
               heading: 'SUCCESS',
-              text: 'Authority Successfull',
+              text: res.message,
               icon: 'success',
               position: 'top-right', 
               loader: true,        // Change it to false to loader

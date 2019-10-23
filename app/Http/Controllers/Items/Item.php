@@ -16,6 +16,7 @@ use App\groups;
 use App\sizes;
 use App\units;
 use App\Http\Requests\itemValidator;
+use CH;
 class Item extends Controller
 {
     /*
@@ -24,7 +25,8 @@ class Item extends Controller
     *
     */
     public function item_listing(){
-        $items = items::with('companies','categories','countries','classes')->get();
+        $id = CH::getId();
+        $items = items::with('companies','categories','countries','classes')->where('user_id',$id)->get();
     	return view('pages.items.item_listing',compact('items'));
     }
 
@@ -89,6 +91,7 @@ class Item extends Controller
         $item->store_id       = $request->store;
         $item->group_id       = $request->group;
         $item->unit_id        = $request->unit;
+        $item->user_id        = CH::getId();
         if($request->type == 'tile'){
             $item->color      = $request->color_name;
             $item->pieces     = $request->piece_in_box;

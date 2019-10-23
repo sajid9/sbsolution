@@ -22,6 +22,7 @@ class CreateCompanySettingTable extends Migration
             $table->string('mobile')->nullable();
             $table->string('website')->nullable();
             $table->string('address')->nullable();
+            $table->integer('user_id');
             $table->timestamps();
         });
     }

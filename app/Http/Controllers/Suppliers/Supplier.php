@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\supplierValidator;
 use App\suppliers;
+use CH;
 class Supplier extends Controller
 {
     /*
@@ -14,7 +15,8 @@ class Supplier extends Controller
     *
     */
     public function supplier_listing(){
-        $suppliers = suppliers::all();
+        $id = CH::getId();
+        $suppliers = suppliers::where('user_id',$id)->get();
     	return view('pages.suppliers.supplier_listing',compact('suppliers'));
     }
 
@@ -46,6 +48,7 @@ class Supplier extends Controller
 		    $supplier->cnic          = $request->cnic;
 		    $supplier->website       = $request->website;
 		    $supplier->address       = $request->address;
+            $supplier->user_id       = CH::getId();
 		    $supplier->save();
 
 		    return redirect()->to('supplier/supplierlisting')->with('message','Supplier added successfully.');

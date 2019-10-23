@@ -18,6 +18,7 @@ class CreateCompaniesTable extends Migration
             $table->string('company_name', 100);
             $table->integer('discount')->nullable();
             $table->string('description', 500)->nullable();
+            $table->integer('user_id');
             $table->enum('is_active', ['yes', 'no'])->default('no');
             $table->timestamps();
         });

@@ -21,6 +21,7 @@ class CreateVoucherTable extends Migration
             $table->integer('return_amount')->default(0);
             $table->integer('paid_amount')->default(0);
             $table->integer('balance_amount')->default(0);
+            $table->integer('user_id')->default(0);
             $table->date('voucher_date');
             $table->timestamps();
         });

@@ -59,9 +59,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="<?php echo e(route('logout')); ?>"
-                                       onclick="event.preventDefault();
-                                                     document.getElementById('logout-form').submit();">
+                                    <a class="dropdown-item" href="<?php echo e(route('logout')); ?>">
                                         <?php echo e(__('Logout')); ?>
 
                                     </a>
@@ -83,3 +81,4 @@
     </div>
 </body>
 </html>
+<?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/layouts/app.blade.php ENDPATH**/ ?>

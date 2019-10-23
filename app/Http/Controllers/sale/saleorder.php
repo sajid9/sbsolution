@@ -15,22 +15,26 @@ use App\customer_ledger;
 use App\receipt_ledger;
 use App\cash;
 use DB;
+use CH;
 class saleorder extends Controller
 {
     public function salelisting(){
-    	$receipts = receipt::all();
+        $id = CH::getId();
+    	$receipts = receipt::where('user_id',$id)->get();
     	return view('pages.sale.sale_listing',compact('receipts'));
     }
     public function receiptform(){
-    	$customers = customers::all();
-    	$items     = items::all();
+        $id = CH::getId();
+    	$customers = customers::where('user_id',$id)->get();
+    	$items     = items::where('user_id',$id)->get();
     	return view('pages.sale.add_receipt_form',compact('items','customers'));
     }
     public function addreceipt(Request $request){
     	$receipt = new receipt;
-    	$receipt->receipt_no = $request->receipt_number;
-    	$receipt->customer_id = $request->customer;
+    	$receipt->receipt_no   = $request->receipt_number;
+    	$receipt->customer_id  = $request->customer;
     	$receipt->receipt_date = $request->receipt_date;
+        $receipt->user_id      = CH::getId();
         if($request->has('type')){
             $receipt->type    = $request->type;
         }else{
@@ -212,8 +216,9 @@ class saleorder extends Controller
     }
     public function direct_out()
     {
-        $items  = items::all();
-        $stores = stores::all(); 
+        $id = CH::getId();
+        $items  = items::where('user_id',$id)->get();
+        $stores = stores::where('user_id',$id)->get();; 
         return view('pages.sale.direct_out',compact('items','stores'));
     }
     public function save_item(Request $request){

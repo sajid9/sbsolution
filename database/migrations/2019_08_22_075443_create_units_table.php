@@ -16,6 +16,7 @@ class CreateUnitsTable extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('unit');
+            $table->integer('user_id');
             $table->enum('is_active',['yes','no']);
             $table->timestamps();
         });

@@ -26,6 +26,7 @@ class CreateCustomersTable extends Migration
            $table->string('rating', 100)->nullable();
            $table->string('gst', 100)->nullable();
            $table->string('ntn', 100)->nullable();
+           $table->integer('user_id')->default(0);
            $table->string('standing_instruction', 500)->nullable();
            $table->timestamps();
         });
