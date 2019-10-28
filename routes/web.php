@@ -393,3 +393,7 @@ Route::get('/', 'HomeController@index')->middleware('verified')->name('home');
 
 
 Route::get('/changePassword','HomeController@showChangePasswordForm');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
