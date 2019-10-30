@@ -24,16 +24,7 @@
       <input type="text" name="duration" value="<?php echo e(old('duration')); ?>" class="form-control" id="duration" placeholder="Sale Price" aria-describedby="duration_msg">
       <small id="duration_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('duration')); ?></small>
     </div>
-    <div class="form-group">
-      <label for="category">Category </label>
-      <select name="category" class="form-control" id="category" aria-describedby="category">
-        <option value="">Select Category</option>
-        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($category->id); ?>"><?php echo e($category->category_name); ?></option>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-      </select>
-      <small id="category" class="form-text text-muted text-danger"><?php echo e($errors->first('category')); ?></small>
-    </div>
+   
     <div class="form-group">
       <label for="class">Class </label>
       <select name="class" class="form-control" id="class" aria-describedby="class">
@@ -60,4 +51,4 @@
     </div>
   </div>
 </div>
-</template>
+</template><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/items/service_template.blade.php ENDPATH**/ ?>

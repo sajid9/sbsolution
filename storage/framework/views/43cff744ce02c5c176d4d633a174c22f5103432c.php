@@ -16,16 +16,7 @@
       <input type="text" name="color_name" value="<?php echo e(old('color_name')); ?>" class="form-control" id="color" aria-describedby="color" placeholder="Color">
       <small id="color" class="form-text text-muted text-danger"><?php echo e($errors->first('color_name')); ?></small>
     </div>
-    <div class="form-group">
-      <label for="unit"> Measuring Unit</label>
-      <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
-        <option value="">Select Unit</option>
-        <?php $__currentLoopData = $units; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $unit): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($unit->id); ?>"><?php echo e($unit->unit); ?></option>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-      </select>
-      <small id="unit_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('unit')); ?></small>
-    </div>
+    
     <div class="form-group">
       <label for="low_stock">Low Stock</label>
       <input type="number" name="low_stock" value="<?php echo e(old('low_stock')); ?>" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
@@ -44,16 +35,7 @@
       <input type="number" name="sale_price" value="<?php echo e(old('sale_price')); ?>" class="form-control" id="sale_price" placeholder="Sale Price" aria-describedby="sale_price">
       <small id="sale_price" class="form-text text-muted text-danger"><?php echo e($errors->first('sale_price')); ?></small>
     </div>
-    <div class="form-group">
-      <label for="group">group</label>
-      <select name="group" class="form-control" id="group" aria-describedby="group_msg">
-        <option value="">Select group</option>
-        <?php $__currentLoopData = $groups; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $group): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($group->id); ?>"><?php echo e($group->name); ?></option>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-      </select>
-      <small id="group_msg" class="form-text text-muted text-danger"><?php echo e($errors->first('group')); ?></small>
-    </div>
+    
     <div class="form-group">
       <label for="company">Company </label>
       <select name="company" class="form-control" id="company" aria-describedby="company">
@@ -64,17 +46,6 @@
       </select>
       <small id="company" class="form-text text-muted text-danger"><?php echo e($errors->first('company')); ?></small>
     </div>
-    <div class="form-group">
-      <label for="category">Category </label>
-      <select name="category" class="form-control" id="category" aria-describedby="category">
-        <option value="">Select Category</option>
-        <?php $__currentLoopData = $categories; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $category): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-          <option value="<?php echo e($category->id); ?>"><?php echo e($category->category_name); ?></option>
-        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-      </select>
-      <small id="category" class="form-text text-muted text-danger"><?php echo e($errors->first('category')); ?></small>
-    </div>
-    
   </div>
   <div class="col-md-4">
     
@@ -101,4 +72,4 @@
     </div>
   </div>
 </div>
-</template>
+</template><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/items/item_template.blade.php ENDPATH**/ ?>

@@ -20,9 +20,7 @@
 			<th>Name</th>
 			<th>Store</th>
 			<th>Boxes</th>
-			<th>Pieces</th>
-			<th>Meter</th>
-			<th>Total Meter</th>
+			<th>Total</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -45,8 +43,6 @@
 				<td><?php echo e($obj['meter']); ?></td>
 				<?php else: ?>
 				<td><?php echo e($item->qty); ?></td>
-				<td></td>
-				<td></td>
 				<?php endif; ?>
 				<?php if($item->item_id != $last_item): ?>
 				<td rowspan="<?php echo e($counter); ?>" style="vertical-align : middle;text-align:center;"><strong><?php echo e(($item->type == 'tile') ? ($item->total->total_item / $item->pieces) * $item->meter : $item->total->total_item); ?></strong></td>
@@ -67,4 +63,4 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="<?php echo e(asset('js/bootstrap.min.js')); ?>"></script>
 </body>
-</html>
+</html><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/invoices/stock_report.blade.php ENDPATH**/ ?>

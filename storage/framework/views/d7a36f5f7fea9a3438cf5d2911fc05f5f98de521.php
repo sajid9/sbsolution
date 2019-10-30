@@ -42,7 +42,31 @@
 							<?php endif; ?>
 						</div>
 					</div>
+					<div class="form-group row">
+						<label  class="col-md-4 col-form-label text-md-right"><?php echo e(__('Business Name')); ?></label>
 
+						<div class="col-md-6">
+							<input type="text" class="form-control" name="business" value="<?php echo e(old('business')); ?>"  required/>
+
+							<?php if($errors->has('business')): ?> 
+							<span class="invalid-feedback" role="alert">
+								<strong class="form-text text-muted text-danger"><?php echo e($errors->first('business')); ?></strong>
+							</span>
+							<?php endif; ?>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label  class="col-md-4 col-form-label text-md-right"><?php echo e(__('Phone')); ?></label>
+						<div class="col-md-6">
+							<input type="text" class="form-control" name="phone" value="<?php echo e(old('phone')); ?>"  required/>
+
+							<?php if($errors->has('phone')): ?> 
+							<span class="invalid-feedback" role="alert">
+								<strong class="form-text text-muted text-danger"><?php echo e($errors->first('phone')); ?></strong>
+							</span>
+							<?php endif; ?>
+						</div>
+					</div>
 					<div class="form-group row">
 						<label for="password" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Password')); ?></label>
 
@@ -86,7 +110,9 @@
 		<tr>
 			<th>Sr #</th>
 			<th>Name</th>
-			<th>email</th>
+			<th>Email</th>
+			<th>Business Name</th>
+			<th>Phone</th>
 			<th>Role</th>
 			<th>Action</th>
 		</tr>
@@ -97,6 +123,8 @@
 			<td><?php echo e($user->id); ?></td>
 			<td><?php echo e($user->name); ?></td>
 			<td><?php echo e($user->email); ?></td>
+			<td><?php echo e($user->business_name); ?></td>
+			<td><?php echo e($user->phone); ?></td>
 			<td><?php echo e((isset($user->Role)) ? $user->Role->role : ''); ?></td>
 			<td>
 				<a type="button" class="" data-toggle="modal" data-target="#edit<?php echo e($user->id); ?>">  <i class="fa fa-edit"></i> 
@@ -172,3 +200,4 @@
 	</tbody>
 </table>
 
+<?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/user_mangement/user_mangement_tab.blade.php ENDPATH**/ ?>

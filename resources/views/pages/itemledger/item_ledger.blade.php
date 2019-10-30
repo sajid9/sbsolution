@@ -66,11 +66,9 @@
 			                <th>Item Name</th>
 			                <th>Group</th>
 			                <th>Store</th>
-			                <th>In Boxes</th>
-			                <th>Out Boxes</th>
-			                <th>Total Boxes</th>
-			                <th>Extra Pieces</th>
-			                <th>Total Meters</th>
+			                <th>In</th>
+			                <th>Out</th>
+			                <th>Total</th>
 			            </tr>
 			        </thead>
 			        <tbody>
@@ -89,27 +87,7 @@
 			        		<td>{{($ledger->items->type == 'tile') ? $ledger->purchase / $ledger->items->pieces : $ledger->purchase}}</td>
 			        		<td>{{($ledger->items->type == 'tile') ? $ledger->sale / $ledger->items->pieces : $ledger->sale}}</td>
 			        		<td>{{($ledger->items->type == 'tile')? intval($ledger->left / $ledger->items->pieces) :$ledger->left}}</td>
-			        		<td>
-			        			<?php 
-			        			if($ledger->items->type == 'tile'){
-			        			$boxes = intval($ledger->left / $ledger->items->pieces);
-			        			$num = $boxes * $ledger->items->pieces;
-			        			$pieces = $ledger->left - $num;
-			        			echo intval($pieces);
-			        			}
-			        			?>
-			        				
-			        		</td>
-			        		<td>
-			        			<?php 
-			        			if($ledger->items->type == 'tile'){
-			        			$boxes = intval($ledger->left / $ledger->items->pieces);
-			        			$num = $boxes * $ledger->items->pieces;
-			        			$pieces = $ledger->left - $num;
-			        			echo ($boxes * $ledger->items->meter) + (($ledger->items->meter / $ledger->items->pieces) * $pieces);
-			        			}
-			        			?>
-			        		</td>
+			        		
 			        	</tr>
 			        	@endforeach
 			        </tbody>

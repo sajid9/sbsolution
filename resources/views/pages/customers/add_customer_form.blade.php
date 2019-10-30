@@ -50,28 +50,19 @@
   </div>
   <div class="row">
     <div class="form-group col-md-4">
-    <label for="cnic">Cnic</label>
-    <input type="text" name="cnic" value="{{old('cnic')}}" class="form-control" id="cnic" placeholder="Enter customer cnic" aria-describedby="cnic">
-  </div>
-  <div class="form-group col-md-4">
-    <label for="website">Website</label>
-    <input type="url" name="website" value="{{old('website')}}" class="form-control" id="website" placeholder="Enter customer website" aria-describedby="website">
-  </div>
-  <div class="form-group col-md-4">
-    <label for="gst">GST</label>
-    <input type="gst" name="gst" value="{{old('gst')}}" class="form-control" id="gst" placeholder="Enter GST" aria-describedby="gst">
-  </div>
-  </div>
-  <div class="row">
+      <label for="website">Website</label>
+      <input type="url" name="website" value="{{old('website')}}" class="form-control" id="website" placeholder="Enter customer website" aria-describedby="website">
+    </div>
     <div class="form-group col-md-4">
-    <label for="ntn">NTN</label>
-    <input type="ntn" name="ntn" value="{{old('ntn')}}" class="form-control" id="ntn" placeholder="Enter NTN" aria-describedby="ntn">
+      <label for="gst">GST</label>
+      <input type="gst" name="gst" value="{{old('gst')}}" class="form-control" id="gst" placeholder="Enter GST" aria-describedby="gst">
+    </div>
+    <div class="form-group col-md-4">
+      <label for="address">Address</label>
+      <textarea class="form-control" name="address" id="address" rows="3" aria-describedby="address">{{old('address')}}</textarea>
+    </div>
   </div>
-  <div class="form-group col-md-4">
-    <label for="address">Address</label>
-    <textarea class="form-control" name="address" id="address" rows="3" aria-describedby="address">{{old('address')}}</textarea>
-  </div>
-  </div>
+ 
   <button type="submit" class="btn btn-primary">Submit</button> <a href="{{url('customer/customerlisting')}}" class="btn btn-default">Back</a>
 </form>
 {{-- form end --}}

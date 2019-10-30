@@ -28,7 +28,6 @@ class itemValidator extends FormRequest
             'barcode'        => 'required|unique:items,barcode',
             'purchase_price' => 'required',
             'sale_price'     => 'required',
-            'group'          => 'required',
             'piece_in_box'   => 'required',
             'meter_per_box'  => 'required',
             'size'           => 'required',

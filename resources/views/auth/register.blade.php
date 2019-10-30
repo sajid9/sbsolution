@@ -38,6 +38,32 @@
                                 @endif
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="business" class="col-md-4 col-form-label text-md-right">{{ __('Business Name') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="business" type="text" class="form-control {{ $errors->has('business') ? ' is-invalid' : '' }}" name="business" value="{{ old('business') }}" required>
+
+                                @if ($errors->has('business'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('business') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="phone" type="text" class="form-control {{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" value="{{ old('phone') }}" required>
+
+                                @if ($errors->has('phone'))
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $errors->first('phone') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>

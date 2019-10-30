@@ -42,7 +42,31 @@
 							@endif
 						</div>
 					</div>
+					<div class="form-group row">
+						<label  class="col-md-4 col-form-label text-md-right">{{ __('Business Name') }}</label>
 
+						<div class="col-md-6">
+							<input type="text" class="form-control" name="business" value="{{ old('business') }}"  required/>
+
+							@if ($errors->has('business')) 
+							<span class="invalid-feedback" role="alert">
+								<strong class="form-text text-muted text-danger">{{ $errors->first('business') }}</strong>
+							</span>
+							@endif
+						</div>
+					</div>
+					<div class="form-group row">
+						<label  class="col-md-4 col-form-label text-md-right">{{ __('Phone') }}</label>
+						<div class="col-md-6">
+							<input type="text" class="form-control" name="phone" value="{{ old('phone') }}"  required/>
+
+							@if ($errors->has('phone')) 
+							<span class="invalid-feedback" role="alert">
+								<strong class="form-text text-muted text-danger">{{ $errors->first('phone') }}</strong>
+							</span>
+							@endif
+						</div>
+					</div>
 					<div class="form-group row">
 						<label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
 
@@ -86,7 +110,9 @@
 		<tr>
 			<th>Sr #</th>
 			<th>Name</th>
-			<th>email</th>
+			<th>Email</th>
+			<th>Business Name</th>
+			<th>Phone</th>
 			<th>Role</th>
 			<th>Action</th>
 		</tr>
@@ -97,6 +123,8 @@
 			<td>{{ $user->id }}</td>
 			<td>{{ $user->name }}</td>
 			<td>{{ $user->email }}</td>
+			<td>{{ $user->business_name }}</td>
+			<td>{{ $user->phone }}</td>
 			<td>{{ (isset($user->Role)) ? $user->Role->role : '' }}</td>
 			<td>
 				<a type="button" class="" data-toggle="modal" data-target="#edit{{ $user->id }}">  <i class="fa fa-edit"></i> 

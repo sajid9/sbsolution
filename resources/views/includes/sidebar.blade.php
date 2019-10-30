@@ -87,36 +87,21 @@
                                 <a href="{{url('store/storelisting')}}">Stores</a>
                             </li>
                             @endif
-                            @if(in_array('Groups',$authorities))
-                            <li>
-                                <a href="{{url('group/grouplisting')}}">Groups</a>
-                            </li>
-                            @endif
-                            @if(in_array('Measuring Unit',$authorities))
-                            <li>
-                                <a href="{{url('measuring/unitlisting')}}">Measuring Unit</a>
-                            </li>
-                            @endif
-                            @if(in_array('Sizes',$authorities))
-                            <li>
-                                <a href="{{url('size/sizelisting')}}">Sizes</a>
-                            </li>
-                            @endif
                             @if(in_array('Companies',$authorities))
                             <li>
                                 <a href="{{url('company/companylisting')}}"> Companies</a>
-                            </li>
-                            @endif
-                            @if(in_array('Categories',$authorities))
-                            <li>
-                                <a href="{{url('category/categorylisting')}}">Categories</a>
                             </li>
                             @endif
                             @if(in_array('Classes',$authorities))
                             <li>
                                 <a href="{{url('class/classlisting')}}">Classes</a>
                             </li>
-                           @endif
+                            @endif
+                            @if(in_array('Taxes',$authorities))
+                            <li>
+                                <a href="{{url('tax/taxlisting')}}">Taxes</a>
+                            </li>
+                            @endif
                         </ul>
                     </li>
                     {{-- purchase info --}}
@@ -189,6 +174,11 @@
                                 <a href="{{url('sale/directout')}}">Direct Out</a>
                             </li>
                             @endif
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Customer<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
                             @if(in_array('Add Customers',$authorities))
                             <li>
                                 <a href="{{url('customer/customerlisting')}}">Add Customers</a>

@@ -15,16 +15,7 @@
       <input type="text" name="color_name" value="{{old('color_name',$item->color)}}" class="form-control" id="color" aria-describedby="color" placeholder="Color">
       <small id="color" class="form-text text-muted text-danger">{{$errors->first('color_name')}}</small>
     </div>
-    <div class="form-group">
-      <label for="unit"> Measuring Unit</label>
-      <select name="unit" class="form-control" id="unit" aria-describedby="unit_msg">
-        <option value="">Select Unit</option>
-        @foreach($units as $unit)
-          <option value="{{$unit->id}}" {{($item->unit_id == $unit->id) ? 'selected' : ''}}>{{ $unit->unit}}</option>
-        @endforeach
-      </select>
-      <small id="unit_msg" class="form-text text-muted text-danger">{{$errors->first('unit')}}</small>
-    </div>
+    
     <div class="form-group">
       <label for="low_stock">Low Stock</label>
       <input type="number" name="low_stock" value="{{old('low_stock',$item->low_stock)}}" class="form-control" id="low_stock" aria-describedby="low_stock_msg" placeholder="Low Stock">
@@ -43,16 +34,7 @@
       <input type="number" name="sale_price" value="{{old('sale_price',$item->sale_price)}}" class="form-control" id="sale_price" placeholder="Sale Price" aria-describedby="sale_price">
       <small id="sale_price" class="form-text text-muted text-danger">{{$errors->first('sale_price')}}</small>
     </div>
-    <div class="form-group">
-      <label for="group">group</label>
-      <select name="group" class="form-control" id="group" aria-describedby="group_msg">
-        <option value="">Select group</option>
-        @foreach($groups as $group)
-          <option value="{{$group->id}}" {{($item->group_id == $group->id) ? 'selected' : ''}}>{{ $group->name}}</option>
-        @endforeach
-      </select>
-      <small id="group_msg" class="form-text text-muted text-danger">{{$errors->first('group')}}</small>
-    </div>
+    
     <div class="form-group">
       <label for="company">Company </label>
       <select name="company" class="form-control" id="company" aria-describedby="company">
@@ -64,20 +46,6 @@
       <small id="company" class="form-text text-muted text-danger">{{$errors->first('company')}}</small>
     </div>
     <div class="form-group">
-      <label for="category">Category </label>
-      <select name="category" class="form-control" id="category" aria-describedby="category">
-        <option value="">Select Category</option>
-        @foreach($categories as $category)
-          <option value="{{$category->id}}" {{($item->category_id == $category->id)? 'selected':''}}>{{ $category->category_name}}</option>
-        @endforeach
-      </select>
-      <small id="category" class="form-text text-muted text-danger">{{$errors->first('category')}}</small>
-    </div>
-    
-  </div>
-  <div class="col-md-4">
-    
-    <div class="form-group">
       <label for="class">Class </label>
       <select name="class" class="form-control" id="class" aria-describedby="class">
         <option value="">Select Class</option>
@@ -87,6 +55,8 @@
       </select>
       <small id="class" class="form-text text-muted text-danger">{{$errors->first('class')}}</small>
     </div>
+  </div>
+  <div class="col-md-4">
     <div class="form-group">
       <label for="sub_class">Sub Class </label>
       <select name="sub_class" class="form-control" id="sub_class" aria-describedby="sub_class">

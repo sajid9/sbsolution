@@ -24,16 +24,7 @@
       <input type="text" name="duration" value="{{old('duration')}}" class="form-control" id="duration" placeholder="Sale Price" aria-describedby="duration_msg">
       <small id="duration_msg" class="form-text text-muted text-danger">{{$errors->first('duration')}}</small>
     </div>
-    <div class="form-group">
-      <label for="category">Category </label>
-      <select name="category" class="form-control" id="category" aria-describedby="category">
-        <option value="">Select Category</option>
-        @foreach($categories as $category)
-          <option value="{{$category->id}}">{{ $category->category_name}}</option>
-        @endforeach
-      </select>
-      <small id="category" class="form-text text-muted text-danger">{{$errors->first('category')}}</small>
-    </div>
+   
     <div class="form-group">
       <label for="class">Class </label>
       <select name="class" class="form-control" id="class" aria-describedby="class">

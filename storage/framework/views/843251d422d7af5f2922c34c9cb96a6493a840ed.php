@@ -88,36 +88,21 @@
                                 <a href="<?php echo e(url('store/storelisting')); ?>">Stores</a>
                             </li>
                             <?php endif; ?>
-                            <?php if(in_array('Groups',$authorities)): ?>
-                            <li>
-                                <a href="<?php echo e(url('group/grouplisting')); ?>">Groups</a>
-                            </li>
-                            <?php endif; ?>
-                            <?php if(in_array('Measuring Unit',$authorities)): ?>
-                            <li>
-                                <a href="<?php echo e(url('measuring/unitlisting')); ?>">Measuring Unit</a>
-                            </li>
-                            <?php endif; ?>
-                            <?php if(in_array('Sizes',$authorities)): ?>
-                            <li>
-                                <a href="<?php echo e(url('size/sizelisting')); ?>">Sizes</a>
-                            </li>
-                            <?php endif; ?>
                             <?php if(in_array('Companies',$authorities)): ?>
                             <li>
                                 <a href="<?php echo e(url('company/companylisting')); ?>"> Companies</a>
-                            </li>
-                            <?php endif; ?>
-                            <?php if(in_array('Categories',$authorities)): ?>
-                            <li>
-                                <a href="<?php echo e(url('category/categorylisting')); ?>">Categories</a>
                             </li>
                             <?php endif; ?>
                             <?php if(in_array('Classes',$authorities)): ?>
                             <li>
                                 <a href="<?php echo e(url('class/classlisting')); ?>">Classes</a>
                             </li>
-                           <?php endif; ?>
+                            <?php endif; ?>
+                            <?php if(in_array('Taxes',$authorities)): ?>
+                            <li>
+                                <a href="<?php echo e(url('tax/taxlisting')); ?>">Taxes</a>
+                            </li>
+                            <?php endif; ?>
                         </ul>
                     </li>
                     
@@ -190,6 +175,11 @@
                                 <a href="<?php echo e(url('sale/directout')); ?>">Direct Out</a>
                             </li>
                             <?php endif; ?>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-clipboard fa-fw"></i> Customer<span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level">
                             <?php if(in_array('Add Customers',$authorities)): ?>
                             <li>
                                 <a href="<?php echo e(url('customer/customerlisting')); ?>">Add Customers</a>
@@ -275,4 +265,4 @@
             </div>
         </div>
     </nav>
-<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/includes/sidebar.blade.php ENDPATH**/ ?>

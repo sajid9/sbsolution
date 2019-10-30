@@ -51,16 +51,14 @@
     </div>
   </div>
   <input type="hidden" name="receipt" value="{{$receipt->id}}">
-  
-  
   <div class="form-group">
     <label for="pay_type">Payment Through</label>
     <select name="pay_type" class="form-control" id="pay_type" aria-describedby="pay_type_msg">
       <option value=""> Select Payment Type</option>
-      <option>cash</option>
-      <option>debit card</option>
-      <option>check</option>
-      <option>other</option>
+      <option>Cash</option>
+      <option>Debit Card</option>
+      <option>Cheque</option>
+      <option>Other</option>
     </select>
     <small id="pay_type_msg" class="form-text text-muted text-danger">{{$errors->first('pay_type')}}</small>
   </div>

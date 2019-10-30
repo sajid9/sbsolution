@@ -50,7 +50,7 @@
 			            <tr class="odd gradeX">
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $size->size }}</td>
-			                <td>{!!($size->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
+			                <td>{!!($size->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'!!}</td>
 			                <td><a href="{{url('size/editsize/'.$size->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deletestore('{{$store->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>

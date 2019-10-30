@@ -49,8 +49,7 @@
 				<th>Sr#</th>
 				<th>Name</th>
 				<th>Qty</th>
-				<th>Sale Price / Meter</th>
-				<th>Discount Price / Meter</th>
+				<th>Sale Price</th>
 				<th>Total Price</th>
 				<th>Total Discount</th>
 				<th>Amount</th>
@@ -68,7 +67,6 @@
 					<td>{{$item->item_name}}</td>
 					<td>{{($item->type == 'tile') ? $obj['meter'] : $item->qty}}</td>
 					<td>{{$item->sale_price}}</td>
-					<td>{{($item->type == 'tile') ? intval($item->discount / $obj['meter']) : $item->discount / $item->qty}}</td>
 					<td>{{$item->total_price}}</td>
 					<td>{{$item->total_price - $item->discount}}</td>
 					<td>{{$item->discount}}</td>
@@ -82,6 +80,12 @@
 		</div>
 		<div class="col-md-4 col-xs-4 ">
 		          <table class="table" style="font-size: 12px">
+		          	@foreach($taxes as $tax)
+		          	<tr>
+		              <td><strong>{{$tax->name}}:</strong></td>
+		              <td>{{ $tax->price }}</td>
+		            </tr>
+		          	@endforeach
 		            <tr>
 		              <td><strong>Total:</strong></td>
 		              <td>{{$data->total_amount}}</td>

@@ -15,7 +15,6 @@
   <div class="radio">
     <label><input class="type" type="radio" value="item" name="type" checked>Item</label>
     <label><input class="type" type="radio" value="service" name="type">Service</label>
-    <label><input class="type" type="radio" value="tile" name="type">Tile</label>
   </div>
   <hr>
   <div id="template_append">
@@ -59,8 +58,10 @@ $(document).ready(function(){
     $('#itemname').val(barcoad);
   })
   $(document).on('keyup','#sale_price',function(){
-    var price = $(this).val();
-    $('#purchase_price').val(price);
+    if($('.type:checked').val() == 'service'){
+      var price = $(this).val();
+      $('#purchase_price').val(price);
+    }
   })
 })
 
@@ -97,4 +98,4 @@ $('.type').on('click',function(){
 <?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/items/add_item_form.blade.php ENDPATH**/ ?>

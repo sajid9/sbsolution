@@ -62,7 +62,6 @@
 			                <th>Barcode</th>
 			                <th>Purchase Price</th>
 			                <th>Sale Price</th>
-			                <th>Category</th>
 			                <th>Type</th>
 			                <th>Status</th>
 			                <th>Action</th>
@@ -77,10 +76,8 @@
 			                <td><?php echo e($item->barcode); ?></td>
 			                <td><?php echo e($item->purchase_price); ?></td>
 			                <td><?php echo e($item->sale_price); ?></td>
-			                
-			                <td><?php echo e(($item->categories)?$item->categories->category_name:'NULL'); ?></td>
 			                <td><?php echo e($item->type); ?></td>
-			                <td><?php echo ($item->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'; ?></td>
+			                <td><?php echo ($item->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'; ?></td>
 			                <td><a href="<?php echo e(url('item/edititem/'.$item->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
 			                
 			            </tr>
@@ -120,4 +117,4 @@
 <?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/items/item_listing.blade.php ENDPATH**/ ?>

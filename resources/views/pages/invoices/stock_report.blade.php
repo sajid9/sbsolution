@@ -20,9 +20,7 @@
 			<th>Name</th>
 			<th>Store</th>
 			<th>Boxes</th>
-			<th>Pieces</th>
-			<th>Meter</th>
-			<th>Total Meter</th>
+			<th>Total</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -45,8 +43,6 @@
 				<td>{{$obj['meter']}}</td>
 				@else
 				<td>{{$item->qty}}</td>
-				<td></td>
-				<td></td>
 				@endif
 				@if($item->item_id != $last_item)
 				<td rowspan="{{$counter}}" style="vertical-align : middle;text-align:center;"><strong>{{($item->type == 'tile') ? ($item->total->total_item / $item->pieces) * $item->meter : $item->total->total_item}}</strong></td>

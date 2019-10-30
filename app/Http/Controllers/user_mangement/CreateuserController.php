@@ -10,13 +10,13 @@ use App\rolesauthority;
 class CreateuserController extends Controller
 {
     public function insert(Request $request){
-    	 $request->validate([
+    	$request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8',],
         ]);
          $user_id = \Auth::user()->id;
-		$user= new User(['name'=>$request->name,'email'=>$request->email,'password'=>Hash::make($request->password),'role_id'=>$request->role,"parent_id"=> $user_id]);
+		$user= new User(['name'=>$request->name,'email'=>$request->email,'password'=>Hash::make($request->password),'role_id'=>$request->role,"parent_id"=> $user_id,'business_name'=>$request->business,'phone'=>$request->phone]);
         $user->save();
 
         return redirect()->to('user_mangement#user')->with('message','New User Added Successfully');

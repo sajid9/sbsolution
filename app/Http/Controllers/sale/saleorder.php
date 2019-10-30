@@ -72,6 +72,8 @@ class saleorder extends Controller
     */
     public function savereceipt(Request $request){
     	$total = DB::table('receipt_detail')->select(DB::raw('SUM(discount) as totalPrice'))->where('receipt_detail.receipt_id',$request->receipt_id)->where('type','=','sale')->first();
+        $taxes = DB::table('tax')->select(DB::raw('SUM(price) as totaltax'))->where('user_id',CH::getId())->first();
+        $total->totalPrice += $taxes->totaltax;
     	$receipt = DB::table('receipt')->where('id',$request->receipt_id)->update(['total_amount'=>$total->totalPrice]);
         if($request->check !== 'quotation'){
             $receipt = new receipt_ledger;

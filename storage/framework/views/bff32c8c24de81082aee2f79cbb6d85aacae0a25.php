@@ -36,6 +36,32 @@
                                 <?php endif; ?>
                             </div>
                         </div>
+                        <div class="form-group row">
+                            <label for="business" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Business Name')); ?></label>
+
+                            <div class="col-md-6">
+                                <input id="business" type="text" class="form-control <?php echo e($errors->has('business') ? ' is-invalid' : ''); ?>" name="business" value="<?php echo e(old('business')); ?>" required>
+
+                                <?php if($errors->has('business')): ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($errors->first('business')); ?></strong>
+                                    </span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="phone" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Phone')); ?></label>
+
+                            <div class="col-md-6">
+                                <input id="phone" type="text" class="form-control <?php echo e($errors->has('phone') ? ' is-invalid' : ''); ?>" name="phone" value="<?php echo e(old('phone')); ?>" required>
+
+                                <?php if($errors->has('phone')): ?>
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong><?php echo e($errors->first('phone')); ?></strong>
+                                    </span>
+                                <?php endif; ?>
+                            </div>
+                        </div>
 
                         <div class="form-group row">
                             <label for="password" class="col-md-4 col-form-label text-md-right"><?php echo e(__('Password')); ?></label>
@@ -75,4 +101,4 @@
 </div>
 <?php $__env->stopSection(); ?>
 
-<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layouts.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/auth/register.blade.php ENDPATH**/ ?>

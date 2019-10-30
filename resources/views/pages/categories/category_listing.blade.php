@@ -52,7 +52,7 @@
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $category->category_name }}</td>
 			                <td>{{ $category->description }}</td>
-			                <td>{!!($category->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
+			                <td>{!!($category->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'!!}</td>
 			                <td><a href="{{url('category/editcategory/'.$category->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deleteCategory('{{$category->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>

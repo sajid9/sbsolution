@@ -49,8 +49,7 @@
 				<th>Sr#</th>
 				<th>Name</th>
 				<th>Qty</th>
-				<th>Sale Price / Meter</th>
-				<th>Discount Price / Meter</th>
+				<th>Sale Price</th>
 				<th>Total Price</th>
 				<th>Total Discount</th>
 				<th>Amount</th>
@@ -68,7 +67,6 @@
 					<td><?php echo e($item->item_name); ?></td>
 					<td><?php echo e(($item->type == 'tile') ? $obj['meter'] : $item->qty); ?></td>
 					<td><?php echo e($item->sale_price); ?></td>
-					<td><?php echo e(($item->type == 'tile') ? intval($item->discount / $obj['meter']) : $item->discount / $item->qty); ?></td>
 					<td><?php echo e($item->total_price); ?></td>
 					<td><?php echo e($item->total_price - $item->discount); ?></td>
 					<td><?php echo e($item->discount); ?></td>
@@ -82,6 +80,12 @@
 		</div>
 		<div class="col-md-4 col-xs-4 ">
 		          <table class="table" style="font-size: 12px">
+		          	<?php $__currentLoopData = $taxes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tax): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+		          	<tr>
+		              <td><strong><?php echo e($tax->name); ?>:</strong></td>
+		              <td><?php echo e($tax->price); ?></td>
+		            </tr>
+		          	<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 		            <tr>
 		              <td><strong>Total:</strong></td>
 		              <td><?php echo e($data->total_amount); ?></td>
@@ -119,4 +123,4 @@
 <!-- Bootstrap Core JavaScript -->
 <script src="<?php echo e(asset('js/bootstrap.min.js')); ?>"></script>
 </body>
-</html>
+</html><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/invoices/sale_invoice.blade.php ENDPATH**/ ?>

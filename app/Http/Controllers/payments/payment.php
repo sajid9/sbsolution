@@ -41,13 +41,14 @@ class payment extends Controller
     	return view('pages.payments.add_payment_form',compact('vouchers','receipts','accounts','customers','suppliers','years','heads','months'));
     }
     public function addsopayment(Request $request){
-       $receipt = receipt::where('id',$request->receiptId)->first();
-       $total = $request->totalAmount;
-       $customer = customers::where('id',$request->customerId)->first();
-       $accounts  = accounts::all();
-       $years     = financial_year::all();
-       $heads     = head::all();
-       $months    = month::all();
+       $id = CH::getId();
+       $receipt   = receipt::where('id',$request->receiptId)->first();
+       $total     = $request->totalAmount;
+       $customer  = customers::where('id',$request->customerId)->first();
+       $accounts  = accounts::where('user_id',$id)->get();
+       $years     = financial_year::where('user_id',$id)->get();
+       $heads     = head::where('user_id',$id)->get();
+       $months    = month::where('user_id',$id)->get();
        return view('pages.payments.add_so_payment_form',compact('receipt','customer','total','years','heads','months','accounts'));
     }
     public function addpayment(Request $request){

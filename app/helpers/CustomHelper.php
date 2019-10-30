@@ -142,9 +142,10 @@ public function getVendorAuthorities($value='')
 		}
 	    $data = array();
 	    /* arrays of all menu's in future these menu's will come from database*/
-	    $iteminfo = array("Add Item","Opening item","Item Ledger","Stock Report","Stores","Groups","Measuring Unit","Sizes","Companies","Categories","Classes");
+	    $iteminfo = array("Add Item","Opening item","Item Ledger","Stock Report","Stores","Companies","Classes","Taxes");
 	    $voucherInfo = array("Voucher","Voucher Ledger","Voucher Payable","Direct In","Add Suppliers","Opening Suppliers","Supplier Ledger","Supplier Payable");
-	    $saleInfo = array("Add Receipt","Receipt Ledger","Receipt Receivable","Direct Out","Add Customers","Opening Customers","Customer Ledger","Customer Receivable");
+	    $saleInfo = array("Add Receipt","Receipt Ledger","Receipt Receivable","Direct Out");
+	    $customer = array("Add Customers","Opening Customers","Customer Ledger","Customer Receivable");
 	    $paymentInfo = array("Payments");
 	    $accountInfo = array("Accounts","Cash Deposit","Accounts Ledger","Financial Year");
 	    $expenditure = array("Heads","Months");
@@ -159,13 +160,15 @@ public function getVendorAuthorities($value='')
 	    	$data[1]["children"] = $voucherInfo;
 	    	$data[2]["text"] = "Sale Info";
 	    	$data[2]["children"] = $saleInfo;
-	    	$data[3]["text"] = "Payment Info";
-	    	$data[3]["children"] = $paymentInfo;
-	    	$data[4]["text"] = "Account Info";
-	    	$data[4]["children"] = $accountInfo;
-	    	$data[5]["text"] = "Expenditure";
-	    	$data[5]["children"] = $expenditure;
-	    	$data[6]["text"] = "User management";
+	    	$data[3]["text"] = "Customer";
+	    	$data[3]["children"] = $customer;
+	    	$data[4]["text"] = "Payment Info";
+	    	$data[4]["children"] = $paymentInfo;
+	    	$data[5]["text"] = "Account Info";
+	    	$data[5]["children"] = $accountInfo;
+	    	$data[6]["text"] = "Expenditure";
+	    	$data[6]["children"] = $expenditure;
+	    	$data[7]["text"] = "User management";
 	    }else{
 	    	/*define all parent menu also define its childs empty array*/
 	    	$data[0]["text"] = "Item Info";
@@ -174,13 +177,15 @@ public function getVendorAuthorities($value='')
 	    	$data[1]["children"] = [];
 	    	$data[2]["text"] = "Sale Info";
 	    	$data[2]["children"] = [];
-	    	$data[3]["text"] = "Payment Info";
+	    	$data[3]["text"] = "Customer";
 	    	$data[3]["children"] = [];
-	    	$data[4]["text"] = "Account Info";
+	    	$data[4]["text"] = "Payment Info";
 	    	$data[4]["children"] = [];
-	    	$data[5]["text"] = "Expenditure";
+	    	$data[5]["text"] = "Account Info";
 	    	$data[5]["children"] = [];
-	    	$data[6]["text"] = "";
+	    	$data[6]["text"] = "Expenditure";
+	    	$data[6]["children"] = [];
+	    	$data[7]["text"] = "";
 	    }
 	    if(\Auth::user()->type != 'superadmin'){
 	    	/*all authority coming from database*/
@@ -195,17 +200,20 @@ public function getVendorAuthorities($value='')
 	    	    if(in_array($role, $saleInfo)){
 	    	        array_push($data[2]["children"],["text"=>$role]);
 	    	    }
-	    	    if(in_array($role, $paymentInfo)){
+	    	    if(in_array($role, $customer)){
 	    	        array_push($data[3]["children"],["text"=>$role]);
 	    	    }
-	    	    if(in_array($role, $accountInfo)){
-	    	       array_push($data[4]["children"],["text"=>$role]);
+	    	    if(in_array($role, $paymentInfo)){
+	    	        array_push($data[4]["children"],["text"=>$role]);
 	    	    }
-	    	    if(in_array($role, $expenditure)){
+	    	    if(in_array($role, $accountInfo)){
 	    	       array_push($data[5]["children"],["text"=>$role]);
 	    	    }
+	    	    if(in_array($role, $expenditure)){
+	    	       array_push($data[6]["children"],["text"=>$role]);
+	    	    }
 	    	    if(in_array($role, $usermanagement)){
-	    	       $data[6]["text"] = "User management";
+	    	       $data[7]["text"] = "User management";
 	    	    }
 	    	}
 	    }

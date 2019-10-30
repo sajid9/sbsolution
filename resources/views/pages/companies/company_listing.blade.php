@@ -52,7 +52,7 @@
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $company->company_name }}</td>
 			                <td>{{ $company->description }}</td>
-			                <td>{!!($company->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">unactive</span>'!!}</td>
+			                <td>{!!($company->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'!!}</td>
 			                <td><a href="{{url('company/editcompany/'.$company->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deleteCompany('{{$company->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
