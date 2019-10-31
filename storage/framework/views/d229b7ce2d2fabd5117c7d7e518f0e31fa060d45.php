@@ -6,7 +6,7 @@
    <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="" class="site_title"><i class="fa fa-paw"></i> <span>SB Security</span></a>
+              <a href="<?php echo e(url('/')); ?>" class="site_title"><i class="fa fa-paw"></i> <span>SB Security</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -14,11 +14,11 @@
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="<?php echo e(asset('images/img.jpg')); ?>" alt="..." class="img-circle profile_img">
+                <img src="<?php echo e(asset('images/user.png')); ?>" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <span>Welcome,</span>
-                <h2>John Doe</h2>
+                <h2><?php echo e(Auth::user()->name); ?></h2>
               </div>
               <div class="clearfix"></div>
             </div>

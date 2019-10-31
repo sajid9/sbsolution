@@ -142,6 +142,7 @@ class payment extends Controller
         $payment->payment_desc = $request->type_desc;    
         $payment->credit = $request->amount;
         $payment->financial_year = $request->fn_year;
+        $payment->user_id = CH::getId();
         $payment->save();
 
         $cash = new cash;

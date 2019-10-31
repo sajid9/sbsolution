@@ -53,7 +53,7 @@
 			                <td>{{ $class->class_name }}</td>
 			                <td>{{ $class->description }}</td>
 			                <td>{!!($class->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'!!}</td>
-			                <td><a href="{{url('subclass/editclass/'.$class->id)}}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a> {{-- <a onclick="deleteClass('{{$class->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="delete"></i></a> --}}</td>
+			                <td><a class="btn btn-xs btn-warning" href="{{url('subclass/editclass/'.$class->id)}}"><i class="fa fa-edit" data-toggle="tooltip" title="Edit"></i></a> {{-- <a onclick="deleteClass('{{$class->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

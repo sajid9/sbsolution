@@ -53,7 +53,7 @@
 			                <td>{{ $country->name }}</td>
 			                <td>{{ $country->short_code }}</td>
 			                <td>{!!($country->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'!!}</td>
-			                <td><a href="{{url('country/editcountry/'.$country->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deleteCountry('{{$country->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
+			                <td><a class="btn btn-xs btn-warning" href="{{url('country/editcountry/'.$country->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deleteCountry('{{$country->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
 			                
 			            </tr>
 			            @endforeach

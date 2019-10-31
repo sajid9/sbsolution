@@ -52,7 +52,7 @@
 			                <td><?php echo e($voucher->return_amount); ?></td>
 			                <td><?php echo e($voucher->paid_amount); ?></td>
 			                <td><?php echo e($voucher->total_amount - ($voucher->return_amount + $voucher->paid_amount)); ?></td>
-			                <td><a href="<?php echo e(url('voucher/editvoucher/'.$voucher->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
+			                <td><a class="btn btn-xs btn-warning" href="<?php echo e(url('voucher/editvoucher/'.$voucher->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

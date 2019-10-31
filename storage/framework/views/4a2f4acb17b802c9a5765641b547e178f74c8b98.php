@@ -65,7 +65,7 @@
 			                <td><?php echo e($payment->debit); ?></td>
 			                <td><?php echo e($payment->credit); ?></td>
 			                <td><?php echo e(date_format($payment->created_at,'d M Y')); ?></td>
-			                <td><a href="<?php echo e(url('payment/editpayment/'.$payment->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></td>
+			                <td><a class="btn btn-xs btn-warning" href="<?php echo e(url('payment/editpayment/'.$payment->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -113,7 +113,7 @@
 	    }
 	</script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.sidebar2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.footer2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.header2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/accountledger/account_ledger.blade.php ENDPATH**/ ?>

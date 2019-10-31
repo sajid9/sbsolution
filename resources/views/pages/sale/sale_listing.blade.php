@@ -59,7 +59,7 @@
 			                <td>{{ $receipt->paid_amount }}</td>
 			                <td>{{ $receipt->return_amount }}</td>
 			                <td>{{ $receipt->total_amount - ($receipt->paid_amount + $receipt->return_amount) }}</td>
-			                <td><a href="{{url('invoice/sale/'.$receipt->id)}}"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <a href="{{url('sale/editreceipt/'.$receipt->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a></td>
+			                <td><a class="btn btn-xs btn-primary" href="{{url('invoice/sale/'.$receipt->id)}}"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <a class="btn btn-xs btn-warning" href="{{url('sale/editreceipt/'.$receipt->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a></td>
 			                
 			            </tr>
 			            @endforeach

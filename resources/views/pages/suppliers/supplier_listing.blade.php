@@ -45,7 +45,6 @@
 			                <th>Email</th>
 			                <th>Address</th>
 			                <th>Website</th>
-			                <th>Cnic</th>
 			                <th>Action</th>
 			            </tr>
 			        </thead>
@@ -60,8 +59,7 @@
 			                <td>{{ $supplier->email }}</td>
 			                <td>{{ $supplier->address }}</td>
 			                <td>{{ $supplier->website }}</td>
-			                <td>{{ $supplier->cnic }}</td>
-			                <td><a href="{{url('supplier/editsupplier/'.$supplier->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deletesupplier('{{$supplier->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
+			                <td><a class="btn btn-xs btn-warning" href="{{url('supplier/editsupplier/'.$supplier->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deletesupplier('{{$supplier->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

@@ -53,7 +53,7 @@
 			                <td>{{ isset($subhead->head) ? $subhead->head->name : '' }}</td>
 			                <td>{{ $subhead->name }}</td>
 			                <td>{!!($subhead->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'!!}</td>
-			                <td><a href="{{url('expenditure/editsubhead/'.$subhead->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deleteCompany('{{$company->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
+			                <td><a class="btn btn-xs btn-warning" href="{{url('expenditure/editsubhead/'.$subhead->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deleteCompany('{{$company->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

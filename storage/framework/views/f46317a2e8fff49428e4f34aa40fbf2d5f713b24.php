@@ -52,7 +52,7 @@
 			                <td><?php echo e($receipt->paid_amount); ?></td>
 			                <td><?php echo e($receipt->return_amount); ?></td>
 			                <td><?php echo e($receipt->total_amount - ($receipt->paid_amount + $receipt->return_amount)); ?></td>
-			                <td><a href="<?php echo e(url('invoice/sale/'.$receipt->id)); ?>"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <a href="<?php echo e(url('sale/editreceipt/'.$receipt->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a></td>
+			                <td><a class="btn btn-xs btn-primary" href="<?php echo e(url('invoice/sale/'.$receipt->id)); ?>"><i class="fa fa-print" title="Print" data-toggle="tooltip"></i></a> <a class="btn btn-xs btn-warning" href="<?php echo e(url('sale/editreceipt/'.$receipt->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a></td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -82,7 +82,7 @@
 	    });
 	</script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.sidebar2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.footer2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.header2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/sale/sale_listing.blade.php ENDPATH**/ ?>

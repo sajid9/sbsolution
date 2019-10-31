@@ -18,7 +18,7 @@
 {{-- page content --}}
 @section('content')
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-12" style="margin-bottom: 10px">
 		<form class="form-inline" method="post" action="{{url('ledger/searchsupplier')}}">
 			@csrf
 		  <div class="form-group">
@@ -34,7 +34,7 @@
 		    <label for="to">To:</label>
 		    <input type="date" class="form-control" id="to" name="to">
 		  </div>
-		  <button type="submit" class="btn btn-default">Search</button>
+		  <button type="submit" class="btn btn-success">Search</button>
 		</form>
 	</div>
 </div>

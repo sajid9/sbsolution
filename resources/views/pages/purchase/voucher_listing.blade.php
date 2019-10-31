@@ -59,7 +59,7 @@
 			                <td>{{ $voucher->return_amount }}</td>
 			                <td>{{ $voucher->paid_amount }}</td>
 			                <td>{{ $voucher->total_amount - ($voucher->return_amount + $voucher->paid_amount) }}</td>
-			                <td><a href="{{url('voucher/editvoucher/'.$voucher->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deletevoucher('{{$voucher->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
+			                <td><a class="btn btn-xs btn-warning" href="{{url('voucher/editvoucher/'.$voucher->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deletevoucher('{{$voucher->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

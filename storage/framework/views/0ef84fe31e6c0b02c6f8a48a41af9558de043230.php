@@ -13,7 +13,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-5">
 				<form id="fileUploadForm" method="POST" action="<?php echo e(url('importCsv')); ?>" enctype="multipart/form-data">
 					<?php echo csrf_field(); ?>
 				    <fieldset>
@@ -35,7 +35,10 @@
 				    </fieldset>    
 				</form>
 			</div>
-			<div class="col-md-2 col-md-offset-4">
+			<div class="col-md-2">
+				<a class="btn btn-sm btn-warning" href="<?php echo e(asset('images/items_pattern.csv')); ?>">Check Pattern</a>
+			</div>
+			<div class="col-md-2 col-md-offset-3">
 				<a href="<?php echo e(url('item/additemform')); ?>" class="btn btn-social btn-bitbucket pull-right">
 				    <i class="fa fa-plus"></i> Add Item
 				</a>
@@ -78,7 +81,7 @@
 			                <td><?php echo e($item->sale_price); ?></td>
 			                <td><?php echo e($item->type); ?></td>
 			                <td><?php echo ($item->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'; ?></td>
-			                <td><a href="<?php echo e(url('item/edititem/'.$item->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
+			                <td><a class="btn btn-xs btn-warning" href="<?php echo e(url('item/edititem/'.$item->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

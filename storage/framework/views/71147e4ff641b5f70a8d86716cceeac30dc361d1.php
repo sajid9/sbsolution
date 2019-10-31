@@ -19,7 +19,7 @@
 			<th>Barcode</th>
 			<th>Name</th>
 			<th>Store</th>
-			<th>Boxes</th>
+			<th>Quantity</th>
 			<th>Total</th>
 		</tr>
 	</thead>

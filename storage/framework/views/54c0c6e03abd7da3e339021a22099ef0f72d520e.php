@@ -10,7 +10,7 @@
 
 
 <?php $__env->startSection('content'); ?>
-<div class="row">
+<div class="row" style="margin-bottom: 10px;">
 	<div class="col-md-12">
 		<form class="form-inline" method="post" action="<?php echo e(url('ledger/searchitem')); ?>">
 			<?php echo csrf_field(); ?>
@@ -36,7 +36,7 @@
 		    <label for="to">To:</label>
 		    <input type="date" class="form-control" id="to" name="to">
 		  </div>
-		  <button type="submit" class="btn btn-default">Search</button>
+		  <button type="submit" class="btn btn-success">Search</button>
 		</form>
 	</div>
 </div>

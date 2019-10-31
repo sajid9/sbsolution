@@ -46,7 +46,7 @@
 			                <td><?php echo e($company->company_name); ?></td>
 			                <td><?php echo e($company->description); ?></td>
 			                <td><?php echo ($company->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'; ?></td>
-			                <td><a href="<?php echo e(url('company/editcompany/'.$company->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
+			                <td><a class="btn btn-xs btn-warning" href="<?php echo e(url('company/editcompany/'.$company->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -81,7 +81,7 @@
 	    }
 	</script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/companies/company_listing.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('includes.sidebar2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.footer2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.header2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/companies/company_listing.blade.php ENDPATH**/ ?>

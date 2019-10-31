@@ -54,7 +54,7 @@
 			                <td><?php echo e($customer->mobile); ?></td>
 			                <td><?php echo e($customer->website); ?></td>
 			                <td><?php echo e($customer->cnic); ?></td>
-			                <td><a href="<?php echo e(url('customer/editcustomer/'.$customer->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deletecustomer('<?php echo e($customer->id); ?>')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
+			                <td><a class="btn btn-xs btn-warning" href="<?php echo e(url('customer/editcustomer/'.$customer->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a class="btn btn-xs btn-danger" onclick="deletecustomer('<?php echo e($customer->id); ?>')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
@@ -90,7 +90,7 @@
 	    }
 	</script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.sidebar2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.footer2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.header2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/customers/customer_listing.blade.php ENDPATH**/ ?>

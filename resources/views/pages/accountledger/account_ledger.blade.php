@@ -72,7 +72,7 @@
 			                <td>{{ $payment->debit }}</td>
 			                <td>{{ $payment->credit }}</td>
 			                <td>{{ date_format($payment->created_at,'d M Y') }}</td>
-			                <td><a href="{{url('payment/editpayment/'.$payment->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i>{{-- </a> <a onclick="deletepayment('{{$payment->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
+			                <td><a class="btn btn-xs btn-warning" href="{{url('payment/editpayment/'.$payment->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i>{{-- </a> <a onclick="deletepayment('{{$payment->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

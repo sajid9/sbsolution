@@ -61,7 +61,7 @@
 			                <td>{{ $customer->mobile }}</td>
 			                <td>{{ $customer->website }}</td>
 			                <td>{{ $customer->cnic }}</td>
-			                <td><a href="{{url('customer/editcustomer/'.$customer->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a onclick="deletecustomer('{{$customer->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
+			                <td><a class="btn btn-xs btn-warning" href="{{url('customer/editcustomer/'.$customer->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a class="btn btn-xs btn-danger" onclick="deletecustomer('{{$customer->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a></td>
 			                
 			            </tr>
 			            @endforeach

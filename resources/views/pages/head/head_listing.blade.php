@@ -51,7 +51,7 @@
 			                <td>{{ ++$count }}</td>
 			                <td>{{ $head->name }}</td>
 			                <td>{!!($head->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'!!}</td>
-			                <td><a href="{{url('expenditure/edithead/'.$head->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a href="{{url('expenditure/subheadlisting/'.$head->id)}}"><i class="fa fa-plus" data-toggle="tooltip" title="Add Subhead"></i></a></td>
+			                <td><a class="btn btn-xs btn-warning" href="{{url('expenditure/edithead/'.$head->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> <a class="btn btn-xs btn-success" href="{{url('expenditure/subheadlisting/'.$head->id)}}"><i class="fa fa-plus" data-toggle="tooltip" title="Add Subhead"></i></a></td>
 			                
 			            </tr>
 			            @endforeach

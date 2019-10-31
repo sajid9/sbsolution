@@ -20,7 +20,7 @@
 <div class="row">
 	<div class="col-md-12">
 		<div class="row">
-			<div class="col-md-6">
+			<div class="col-md-5">
 				<form id="fileUploadForm" method="POST" action="{{url('importCsv')}}" enctype="multipart/form-data">
 					@csrf
 				    <fieldset>
@@ -42,7 +42,10 @@
 				    </fieldset>    
 				</form>
 			</div>
-			<div class="col-md-2 col-md-offset-4">
+			<div class="col-md-2">
+				<a class="btn btn-sm btn-warning" href="{{ asset('images/items_pattern.csv') }}">Check Pattern</a>
+			</div>
+			<div class="col-md-2 col-md-offset-3">
 				<a href="{{url('item/additemform')}}" class="btn btn-social btn-bitbucket pull-right">
 				    <i class="fa fa-plus"></i> Add Item
 				</a>
@@ -85,7 +88,7 @@
 			                <td>{{ $item->sale_price }}</td>
 			                <td>{{$item->type}}</td>
 			                <td>{!!($item->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'!!}</td>
-			                <td><a href="{{url('item/edititem/'.$item->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deleteItem('{{$item->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
+			                <td><a class="btn btn-xs btn-warning" href="{{url('item/edititem/'.$item->id)}}"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> {{-- <a onclick="deleteItem('{{$item->id}}')"><i class="fa fa-trash" data-toggle="tooltip" title="Delete"></i></a> --}}</td>
 			                
 			            </tr>
 			            @endforeach

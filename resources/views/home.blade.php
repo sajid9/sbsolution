@@ -22,99 +22,42 @@
 ?>
 @if(in_array('Dashboard',$authorities))
 <div class="row">
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-money fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{($payable != null) ? $payable->balance : 0}}</div>
-                        <div>Amount Payable</div>
-                    </div>
-                </div>
+    <div class="col-md-12">
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+              <div class="icon"><i class="fa fa-caret-square-o-right"></i></div>
+              <div class="count">{{($payable != null) ? $payable->balance : 0}}</div>
+              <h3>Payable</h3>
+              <p><a target="_blank" href="{{ url('invoice/amountpayable') }}">Read More</a></p>
             </div>
-            <a target="_blank" href="{{ url('invoice/amountpayable') }}">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                    <div class="clearfix"></div>
-                </div>
-            </a>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-green">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-money fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{($receivable != null) ?$receivable->balance : 0}}</div>
-                        <div>Amount Receivable!</div>
-                    </div>
-                </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+              <div class="icon"><i class="fa fa-comments-o"></i></div>
+              <div class="count">{{($receivable != null) ?$receivable->balance : 0}}</div>
+              <h3>Receivable</h3>
+              <p><a href="{{ url('invoice/amountreceivable') }}" target="_blank">Read More</a></p>
             </div>
-            <a href="{{ url('invoice/amountreceivable') }}" target="_blank">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                    <div class="clearfix"></div>
-                </div>
-            </a>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-shopping-cart fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{($totalpurchase != null) ?$totalpurchase->total : 0}}</div>
-                        <div>Total Purchase</div>
-                    </div>
-                </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+              <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
+              <div class="count">{{($totalpurchase != null) ?$totalpurchase->total : 0}}</div>
+              <h3>Purchase</h3>
+              <p><a href="{{ url('voucher/voucherlisting') }}">Read More </a></p>
             </div>
-            <a href="{{ url('voucher/voucherlisting') }}">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                    <div class="clearfix"></div>
-                </div>
-            </a>
         </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-red">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-support fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">{{($totalsale != null) ?$totalsale->total: 0}}</div>
-                        <div>Total Sale</div>
-                    </div>
-                </div>
+        <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
+            <div class="tile-stats">
+              <div class="icon"><i class="fa fa-check-square-o"></i></div>
+              <div class="count">{{($totalsale != null) ?$totalsale->total: 0}}</div>
+              <h3>Sale</h3>
+              <p><a href="{{ url('sale/saleorder') }}">Read More</a></p>
             </div>
-            <a href="{{ url('sale/saleorder') }}">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-
-                    <div class="clearfix"></div>
-                </div>
-            </a>
         </div>
     </div>
 </div>
+
 <div class="row">
     <div class="col-md-6">
         <div class="panel panel-success">
@@ -144,7 +87,12 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div id="dn-calender"></div>
+        <div class="panel panel-success">
+          <div class="panel-heading">Calender</div>
+          <div class="panel-body">
+            <div id="dn-calender"></div>
+          </div>
+        </div>
     </div>
 </div>
 @endif

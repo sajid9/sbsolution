@@ -46,7 +46,7 @@
 			                <td><?php echo e($store->name); ?></td>
 			                <td><?php echo e($store->address); ?></td>
 			                <td><?php echo ($store->is_active == 'yes')? '<span class="label label-primary">active</span>' :'<span class="label label-danger">inactive</span>'; ?></td>
-			                <td><a href="<?php echo e(url('store/editstore/'.$store->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
+			                <td><a class="btn btn-xs btn-warning" href="<?php echo e(url('store/editstore/'.$store->id)); ?>"><i class="fa fa-edit" title="Edit" data-toggle="tooltip"></i></a> </td>
 			                
 			            </tr>
 			            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>

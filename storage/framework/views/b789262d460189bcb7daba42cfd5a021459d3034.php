@@ -10,7 +10,7 @@
 
 
 <?php $__env->startSection('content'); ?>
-<div class="row">
+<div class="row" style="margin-bottom: 10px">
 	<div class="col-md-12">
 		<form class="form-inline" method="post" action="<?php echo e(url('ledger/searchvoucher')); ?>">
 			<?php echo csrf_field(); ?>
@@ -27,7 +27,7 @@
 		    <label for="to">To:</label>
 		    <input type="date" class="form-control" id="to" name="to">
 		  </div>
-		  <button type="submit" class="btn btn-default">Search</button>
+		  <button type="submit" class="btn btn-success">Search</button>
 		</form>
 	</div>
 </div>
@@ -119,7 +119,7 @@
 	    }
 	</script>
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.sidebar2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.footer2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.header2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/supplierledger/supplier_ledger.blade.php ENDPATH**/ ?>
