@@ -11,11 +11,12 @@
 
 <form method="post" action="<?php echo e(url('item/additem')); ?>">
 	<?php echo csrf_field(); ?>
+  <p class="radio">
+    Item:
+    <input class="type flat" type="radio" value="item" name="type" checked/> Service:
+    <input class="type flat" type="radio" value="service" name="type"/>
+  </p>
   
-  <div class="radio">
-    <label><input class="type" type="radio" value="item" name="type" checked>Item</label>
-    <label><input class="type" type="radio" value="service" name="type">Service</label>
-  </div>
   <hr>
   <div id="template_append">
     
@@ -82,7 +83,7 @@ $(document).on('change','#class',function(){
     }
   })
 })
-$('.type').on('click',function(){
+$('.type').on('ifChecked',function(){
   if($(this).val() == 'item'){
     $('#template_append').html($('#item_template').html());
     
@@ -95,7 +96,7 @@ $('.type').on('click',function(){
 </script>
 
 <?php $__env->stopSection(); ?>
-<?php echo $__env->make('includes.sidebar', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.footer', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('includes.header', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
-<?php echo $__env->make('layout.app', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/items/add_item_form.blade.php ENDPATH**/ ?>
+<?php echo $__env->make('includes.sidebar2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.footer2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('includes.header2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('layout.app2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/pages/items/add_item_form.blade.php ENDPATH**/ ?>

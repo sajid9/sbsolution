@@ -16,4 +16,4 @@
 <script src="<?php echo e(asset('js/select2.min.js')); ?>"></script>
 
 <script src="<?php echo e(asset('js/bootstrap-toggle.min.js')); ?>"></script>
-<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/includes/footer.blade.php ENDPATH**/ ?>

@@ -150,6 +150,7 @@ public function getVendorAuthorities($value='')
 	    $accountInfo = array("Accounts","Cash Deposit","Accounts Ledger","Financial Year");
 	    $expenditure = array("Heads","Months");
 	    $usermanagement = array("User management");
+	    $dashboard = array("Dashboard");
 	    /*check id user is superadmin then all menus show*/
 	    if(\Auth::user()->type == 'superadmin'){
 	    	/*js tree json parent*/
@@ -169,6 +170,7 @@ public function getVendorAuthorities($value='')
 	    	$data[6]["text"] = "Expenditure";
 	    	$data[6]["children"] = $expenditure;
 	    	$data[7]["text"] = "User management";
+	    	$data[8]["text"] = "Dashboard";
 	    }else{
 	    	/*define all parent menu also define its childs empty array*/
 	    	$data[0]["text"] = "Item Info";
@@ -185,7 +187,7 @@ public function getVendorAuthorities($value='')
 	    	$data[5]["children"] = [];
 	    	$data[6]["text"] = "Expenditure";
 	    	$data[6]["children"] = [];
-	    	$data[7]["text"] = "";
+	    	
 	    }
 	    if(\Auth::user()->type != 'superadmin'){
 	    	/*all authority coming from database*/
@@ -214,6 +216,9 @@ public function getVendorAuthorities($value='')
 	    	    }
 	    	    if(in_array($role, $usermanagement)){
 	    	       $data[7]["text"] = "User management";
+	    	    }
+	    	    if(in_array($role, $dashboard)){
+	    	       $data[8]["text"] = "Dashboard";
 	    	    }
 	    	}
 	    }

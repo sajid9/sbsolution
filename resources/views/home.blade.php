@@ -1,8 +1,8 @@
 {{-- extend  --}}
-@extends('layout.app')
-@extends('includes.header')
-@extends('includes.footer')
-@extends('includes.sidebar')
+@extends('layout.app2')
+@extends('includes.header2')
+@extends('includes.footer2')
+@extends('includes.sidebar2')
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
@@ -13,6 +13,14 @@
 @endsection
 {{-- page content --}}
 @section('content')
+<?php 
+    if(CH::getauthorities() != null){
+        $authorities = CH::getauthorities()->authority; 
+    }else{
+        $authorities = array();
+    }
+?>
+@if(in_array('Dashboard',$authorities))
 <div class="row">
     <div class="col-lg-3 col-md-6">
         <div class="panel panel-primary">
@@ -107,7 +115,39 @@
         </div>
     </div>
 </div>
-<div id="dn-calender"></div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="panel panel-success">
+          <div class="panel-heading">Alerts Low Stock</div>
+          <div class="panel-body">
+              <table class="table">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Barcode</th>
+                        <th>Item Name</th>
+                        <th>Stock</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($lowstocks as $item)
+                        <tr>
+                            <td>{{$item->id}}</td>
+                            <td>{{$item->barcode}}</td>
+                            <td>{{$item->item_name}}</td>
+                            <td>{{$item->qty}}</td>
+                        </tr>
+                    @endforeach
+                </tbody>
+              </table>
+          </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div id="dn-calender"></div>
+    </div>
+</div>
+@endif
 @endsection
 @section('footer')
 @parent

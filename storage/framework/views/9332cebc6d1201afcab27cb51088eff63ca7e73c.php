@@ -31,4 +31,4 @@
 <link href="<?php echo e(asset('css/select2.min.css')); ?>" rel="stylesheet" />
 <link rel="stylesheet" type="text/css" href="<?php echo e(asset('css/buttons.dataTables.min.css')); ?>">
 
-<?php $__env->stopSection(); ?>
+<?php $__env->stopSection(); ?><?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/includes/header.blade.php ENDPATH**/ ?>

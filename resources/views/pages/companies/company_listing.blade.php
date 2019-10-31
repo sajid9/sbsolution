@@ -1,8 +1,8 @@
 {{-- extend  --}}
-@extends('layout.app')
-@extends('includes.header')
-@extends('includes.footer')
-@extends('includes.sidebar')
+@extends('layout.app2')
+@extends('includes.header2')
+@extends('includes.footer2')
+@extends('includes.sidebar2')
 
 {{-- page titles --}}
 @section('title', 'Company')
