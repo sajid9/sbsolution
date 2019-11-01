@@ -79,11 +79,12 @@
 			
 		</div>
 		<div class="col-md-4 col-xs-4 ">
+				<?php $taxArray =  CH::getTaxPrices($total->totalPrice,$taxes);?>
 		          <table class="table" style="font-size: 12px">
-		          	<?php $__currentLoopData = $taxes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $tax): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+		          	<?php $__currentLoopData = $taxArray; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $name => $price): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 		          	<tr>
-		              <td><strong><?php echo e($tax->name); ?>:</strong></td>
-		              <td><?php echo e($tax->price); ?></td>
+		              <td><strong><?php echo e($name); ?>:</strong></td>
+		              <td><?php echo e($price); ?></td>
 		            </tr>
 		          	<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 		            <tr>

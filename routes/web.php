@@ -113,6 +113,7 @@ Route::prefix('customer')->middleware(['auth','verified'])->group(function () {
     Route::post('updatecustomer','Customers\Customer@updatecustomer');
     Route::get('deletecustomer/{id}','Customers\Customer@deletecustomer');
     Route::post('addcustomerreceipt','Customers\Customer@addcustomerreceipt');
+    Route::get('getcustomers','Customers\Customer@getcustomers');
 
 });
 

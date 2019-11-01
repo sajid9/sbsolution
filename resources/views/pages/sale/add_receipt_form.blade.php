@@ -67,18 +67,13 @@
               <small id="receiptdate" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
-              <label for="customer">Customer </label>
-              <div class="input-group">
-              <select name="customer" class="form-control" id="customer" aria-describedby="customer">
+              <label for="customer">Customer <span title="Add Customer" data-toggle="tooltip"><a data-toggle="modal" data-target="#createCustomer"> ( add Customer )</a></span></label>
+              <select name="customer" class="form-control customer-dropdown" id="customer" aria-describedby="customer">
                 <option value="">Select Customer</option>
                 @foreach($customers as $customer)
                 <option value="{{$customer->id}}"> {{$customer->customer_name}}</option>
                 @endforeach
               </select>
-              <span class="input-group-addon">
-                <span title="Add Customer" data-toggle="tooltip"><i data-toggle="modal" data-target="#createCustomer" class="glyphicon glyphicon-list"></i></span>
-              </span>
-              </div>
               <small id="customer_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>
@@ -604,5 +599,17 @@
       }
       
     })
+    $('.customer-dropdown').select2({
+      width: '200px',
+      ajax: {
+          url: '{{url("customer/getcustomers")}}',
+          dataType: 'json',
+          processResults: function (data) {
+                return {
+                  "results": data
+                };
+          }
+      }
+    });
   </script>
 @endsection

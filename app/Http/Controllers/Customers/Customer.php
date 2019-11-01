@@ -145,5 +145,11 @@ class Customer extends Controller
             return $e->getMessage();
         }
     }
+    public function getcustomers(Request $request)
+    {
+        $id = CH::getId();
+        $items = customers::select('id','customer_name as text')->where('customer_name','like','%'.$request->term.'%')->orWhere('mobile','like','%'.$request->term.'%')->where('user_id',$id)->get();
+        return json_encode($items);
+    }
 
 }

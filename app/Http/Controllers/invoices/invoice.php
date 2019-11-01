@@ -18,9 +18,10 @@ class invoice extends Controller
       $taxes = DB::table('tax')->where('user_id',$userId)->get();
     	$data = DB::table('receipt')->leftJoin('customers','receipt.customer_id','=','customers.id')->where('receipt.id',$id)->first();
     	$items = DB::table('receipt_detail')->leftJoin('items','receipt_detail.item_id','=','items.id')->where('receipt_detail.type','sale')->where('receipt_detail.receipt_id',$id)->get();
+      $total = DB::table('receipt_detail')->select(DB::raw('SUM(discount) as totalPrice'))->where('receipt_detail.receipt_id',$id)->where('type','=','sale')->first();
       $company = company_setting::first();
-      Mail::to('softsb7@gmail.com')->send(new SendMail($data,$items,$company));
-    	return view('pages.invoices.sale_invoice',compact('data','items','company','taxes'));
+      //Mail::to('softsb7@gmail.com')->send(new SendMail($data,$items,$company));
+    	return view('pages.invoices.sale_invoice',compact('data','items','company','taxes','total'));
     }
     
     public function salereturninvoice($id){

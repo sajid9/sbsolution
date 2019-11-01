@@ -122,7 +122,7 @@
          	        ],
 	        });
 	        $('[data-toggle="tooltip"]').tooltip();
-	         $('.items-dropdown').select2({
+	        $('.items-dropdown').select2({
 	         	width: '200px',
 	         	ajax: {
 	         	    url: '{{url("ledger/getitems")}}',
@@ -132,8 +132,8 @@
          	            	"results": data
          	          	};
 	         	    }
-	         	  }
-	         });
+	         	}
+	        });
 	    });
 	    function deleteItem(id){
 	    	if(window.confirm('do you really wanna delete this record?')){

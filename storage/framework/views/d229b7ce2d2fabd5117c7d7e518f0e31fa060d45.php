@@ -6,7 +6,7 @@
    <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="<?php echo e(url('/')); ?>" class="site_title"><i class="fa fa-paw"></i> <span>SB Security</span></a>
+              <a href="<?php echo e(url('/')); ?>" class="site_title"><i class="fa fa-paw"></i> <span><?php echo e(@$company->name); ?></span></a>
             </div>
 
             <div class="clearfix"></div>

@@ -60,18 +60,13 @@
               <small id="receiptdate" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
-              <label for="customer">Customer </label>
-              <div class="input-group">
-              <select name="customer" class="form-control" id="customer" aria-describedby="customer">
+              <label for="customer">Customer <span title="Add Customer" data-toggle="tooltip"><a data-toggle="modal" data-target="#createCustomer"> ( add Customer )</a></span></label>
+              <select name="customer" class="form-control customer-dropdown" id="customer" aria-describedby="customer">
                 <option value="">Select Customer</option>
                 <?php $__currentLoopData = $customers; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $customer): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                 <option value="<?php echo e($customer->id); ?>"> <?php echo e($customer->customer_name); ?></option>
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
               </select>
-              <span class="input-group-addon">
-                <span title="Add Customer" data-toggle="tooltip"><i data-toggle="modal" data-target="#createCustomer" class="glyphicon glyphicon-list"></i></span>
-              </span>
-              </div>
               <small id="customer_msg" class="form-text text-muted text-danger"></small>
             </div>
           </div>
@@ -597,6 +592,18 @@
       }
       
     })
+    $('.customer-dropdown').select2({
+      width: '200px',
+      ajax: {
+          url: '<?php echo e(url("customer/getcustomers")); ?>',
+          dataType: 'json',
+          processResults: function (data) {
+                return {
+                  "results": data
+                };
+          }
+      }
+    });
   </script>
 <?php $__env->stopSection(); ?>
 <?php echo $__env->make('includes.sidebar2', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>

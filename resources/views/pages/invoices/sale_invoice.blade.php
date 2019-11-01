@@ -79,11 +79,12 @@
 			
 		</div>
 		<div class="col-md-4 col-xs-4 ">
+				<?php $taxArray =  CH::getTaxPrices($total->totalPrice,$taxes);?>
 		          <table class="table" style="font-size: 12px">
-		          	@foreach($taxes as $tax)
+		          	@foreach($taxArray as $name => $price)
 		          	<tr>
-		              <td><strong>{{$tax->name}}:</strong></td>
-		              <td>{{ $tax->price }}</td>
+		              <td><strong>{{$name}}:</strong></td>
+		              <td>{{ $price }}</td>
 		            </tr>
 		          	@endforeach
 		            <tr>

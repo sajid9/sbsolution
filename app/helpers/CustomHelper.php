@@ -230,5 +230,25 @@ public function getId($value='')
 	$id = (\Auth::user()->type == 'superadmin' || \Auth::user()->type == 'vendor') ? \Auth::user()->id : \Auth::user()->parent_id;
 	return $id;
 }
+public function getTaxPrices($totalPrice,$taxes)
+{   
+	$taxArray = array();
+	foreach ($taxes as $tax) {
+		$percent = $tax->price / 100;
+		$taxPrice = $percent * $totalPrice; 
+		$taxArray[$tax->name] = $taxPrice;
+	}
+	return $taxArray;
+}
+public function getTotalTax($totalPrice,$taxes)
+{   
+	
+	foreach ($taxes as $tax) {
+		$percent = $tax->price / 100;
+		$taxPrice = $percent * $totalPrice; 
+		$totalPrice += $taxPrice;
+	}
+	return $totalPrice;
+}
 }
 ?>

@@ -3,7 +3,7 @@ namespace App\helpers\facade;
 
 use Illuminate\Support\Facades\Facade;
 
-class customhelper extends Facade{
+class CustomHelper extends Facade{
 	public static function getFacadeAccessor(){
 		return 'CH';
 	}
