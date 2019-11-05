@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\stores;
 use CH;
-class Store extends Controller
+class store extends Controller
 {
     
     public function store_listing(){
