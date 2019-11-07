@@ -7,6 +7,7 @@ use App\customer_ledger;
 use App\receipt_ledger;
 use App\rolesauthority;
 use App\User;
+use App\receipt;
 use DB;
 class CustomHelper{
 
@@ -242,13 +243,17 @@ public function getTaxPrices($totalPrice,$taxes)
 }
 public function getTotalTax($totalPrice,$taxes)
 {   
-	
 	foreach ($taxes as $tax) {
 		$percent = $tax->price / 100;
 		$taxPrice = $percent * $totalPrice; 
 		$totalPrice += $taxPrice;
 	}
 	return $totalPrice;
+}
+public function countReceipt()
+{
+	$id = $this->getId();
+	return receipt::where('user_id',$id)->count() +1;
 }
 }
 ?>

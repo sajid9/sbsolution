@@ -16,3 +16,4 @@
 
 </div>
 <?php endif; ?>
+<?php /**PATH D:\xampp\htdocs\sb_solution\resources\views/includes/alerts.blade.php ENDPATH**/ ?>

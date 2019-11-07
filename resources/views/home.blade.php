@@ -42,7 +42,7 @@
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
               <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
-              <div class="count">{{($totalpurchase != null) ?$totalpurchase->total : 0}}</div>
+              <div class="count">{{($totalpurchase->total != null) ? $totalpurchase->total : 0}}</div>
               <h3>Purchase</h3>
               <p><a href="{{ url('voucher/voucherlisting') }}">Read More </a></p>
             </div>
@@ -50,7 +50,7 @@
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
               <div class="icon"><i class="fa fa-check-square-o"></i></div>
-              <div class="count">{{($totalsale != null) ?$totalsale->total: 0}}</div>
+              <div class="count">{{($totalsale->total != null) ? $totalsale->total: 0}}</div>
               <h3>Sale</h3>
               <p><a href="{{ url('sale/saleorder') }}">Read More</a></p>
             </div>

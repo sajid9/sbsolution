@@ -35,7 +35,7 @@
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
               <div class="icon"><i class="fa fa-sort-amount-desc"></i></div>
-              <div class="count"><?php echo e(($totalpurchase != null) ?$totalpurchase->total : 0); ?></div>
+              <div class="count"><?php echo e(($totalpurchase->total != null) ? $totalpurchase->total : 0); ?></div>
               <h3>Purchase</h3>
               <p><a href="<?php echo e(url('voucher/voucherlisting')); ?>">Read More </a></p>
             </div>
@@ -43,7 +43,7 @@
         <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
             <div class="tile-stats">
               <div class="icon"><i class="fa fa-check-square-o"></i></div>
-              <div class="count"><?php echo e(($totalsale != null) ?$totalsale->total: 0); ?></div>
+              <div class="count"><?php echo e(($totalsale->total != null) ? $totalsale->total: 0); ?></div>
               <h3>Sale</h3>
               <p><a href="<?php echo e(url('sale/saleorder')); ?>">Read More</a></p>
             </div>

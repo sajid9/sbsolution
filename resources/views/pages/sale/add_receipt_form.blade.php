@@ -56,7 +56,7 @@
             </div>
             <div class="form-group">
               <label for="receiptnumber">Receipt Number <span class="text-danger">*</span></label>
-              <input type="text" name="receipt_number" value="{{old('receipt_number')}}" class="form-control" id="receiptnumber" aria-describedby="receipt_number" placeholder="receipt number">
+              <input type="text" tabindex="1" name="receipt_number" value="{{old('receipt_number')}}" class="form-control" id="receiptnumber" aria-describedby="receipt_number" placeholder="receipt number">
               <small id="receipt_number" class="form-text text-muted text-danger"></small>
             </div>
           </div>
@@ -68,7 +68,7 @@
             </div>
             <div class="form-group">
               <label for="customer">Customer <span title="Add Customer" data-toggle="tooltip"><a data-toggle="modal" data-target="#createCustomer"> ( add Customer )</a></span></label>
-              <select name="customer" class="form-control customer-dropdown" id="customer" aria-describedby="customer">
+              <select tabindex="2" name="customer" class="form-control customer-dropdown" id="customer" aria-describedby="customer">
                 <option value="">Select Customer</option>
                 @foreach($customers as $customer)
                 <option value="{{$customer->id}}"> {{$customer->customer_name}}</option>
@@ -87,7 +87,7 @@
             </div>
           </div>
           <div class="col-md-6">
-            <button type="submit" class="btn btn-primary" id="save_receipt">Save Receipt</button>
+            <button type="submit" tabindex="3" class="btn btn-primary" id="save_receipt">Save Receipt</button>
           </div>
         </div>
         </form>
@@ -103,7 +103,7 @@
               <input type="hidden" name="item_id" id="itemId">
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
-                <input type="text" disabled="" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
+                <input type="text" tabindex="4" disabled="" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
                 <span class="input-group-addon">
                   <span title="Load Item" data-toggle="tooltip"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
                 </span>
@@ -112,7 +112,7 @@
             </div>
             <div class="form-group">
               <label for="quantity"> Quantity <span class="text-danger">*</span></label>
-              <input type="number" disabled="" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
+              <input type="number" tabindex="5" disabled="" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
@@ -148,7 +148,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <button disabled class="btn btn-primary" id="addItem">Add Item</button><div id="box"></div>
+            <button disabled tabindex="6" class="btn btn-primary" id="addItem">Add Item</button><div id="box"></div>
           </div>
         </div>
       </fieldset>
@@ -178,7 +178,7 @@
   </div>
   <div class="row">
     <div class="col-md-12" style="padding-top: 20px">
-      <button disabled type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('sale/saleorder')}}" class="btn btn-default">Back</a>
+      <button tabindex="7" disabled type="button" id="submit" class="btn btn-primary">Submit</button> <a href="{{url('sale/saleorder')}}" class="btn btn-default">Back</a>
     </div>
   </div>
 
@@ -361,6 +361,9 @@
             $('#discount').prop('disabled',false);
             $('#discounted_price').prop('disabled',false);
             $('#total_price').prop('disabled',false);
+            $('#quantity').val(1);
+            $('#save_receipt').removeAttr('autofocus');
+            $('#barcode').focus();
           }
         });
       }
@@ -403,6 +406,8 @@
             if(res != null){
               $('#purchase_price').val(res.purchase_price);
               $('#sale_price').text(res.sale_price);
+              $('#total_price').text(res.sale_price);
+              $('#discounted_price').text(res.sale_price);
               $('#itemId').val(res.id);
               $('#addItem').prop('disabled',false);
               $('#barcode_msg').text('');
@@ -483,13 +488,14 @@
               $('#items_append').html(template);
               $('#itemId').val('');
               $('#barcode').val('');
-              $('#quantity').val('');
+              $('#quantity').val(1);
               $('#purchase_price').val('');
               $('#sale_price').val('');
               $('#discount').val('');
               $('#discounted_price').val('');
               $('#total_price').val('');
               $('#submit').prop('disabled',false);
+              $('#barcode').focus();
             }
           }
         });
@@ -599,17 +605,22 @@
       }
       
     })
+    var guest = '';
     $('.customer-dropdown').select2({
       width: '200px',
       ajax: {
           url: '{{url("customer/getcustomers")}}',
           dataType: 'json',
           processResults: function (data) {
-                return {
-                  "results": data
-                };
+            return {
+              "results": data
+            };
           }
       }
     });
+    $(".customer-dropdown").select2("val","1");
+
+    $('#receiptnumber').val(getCurrentDate()+"-{{CH::countReceipt()}}");
+    
   </script>
 @endsection
