@@ -1,8 +1,8 @@
 {{-- extend  --}}
-@extends('layout.app')
-@extends('includes.header')
-@extends('includes.footer')
-@extends('includes.sidebar')
+@extends('layout.app2')
+@extends('includes.header2')
+@extends('includes.footer2')
+@extends('includes.sidebar2')
 
 {{-- page titles --}}
 @section('title', 'Dashboard')
@@ -18,12 +18,12 @@
 {{-- form start  --}}
 <form method="post" action="{{url('item/additem')}}">
 	@csrf
+  <p class="radio">
+    Item:
+    <input class="type flat" type="radio" value="item" name="type" checked/> Tile:
+    <input class="type flat" type="radio" value="tile" name="type"/>
+  </p>
   
-  <div class="radio">
-    <label><input class="type" type="radio" value="item" name="type" checked>Item</label>
-    <label><input class="type" type="radio" value="service" name="type">Service</label>
-    <label><input class="type" type="radio" value="tile" name="type">Tile</label>
-  </div>
   <hr>
   <div id="template_append">
     
@@ -88,7 +88,7 @@ $(document).on('change','#class',function(){
     }
   })
 })
-$('.type').on('click',function(){
+$('.type').on('ifChecked',function(){
   if($(this).val() == 'item'){
     $('#template_append').html($('#item_template').html());
     

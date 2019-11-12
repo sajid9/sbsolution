@@ -1,5 +1,5 @@
 <?php
-/*use App\company_setting;*/
+use App\company_setting;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +14,7 @@
  Route::get('CsvFile','CsvFile@index');
  Route::get('exportCsv','CsvFile@exportCsv');
  Route::post('importCsv','CsvFile@importCsv');
-/*View::share('company', company_setting::first());*/
+View::share('company', company_setting::first());
 /*
 *
 *Company Routes
