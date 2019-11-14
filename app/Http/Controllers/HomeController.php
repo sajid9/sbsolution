@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 use App\company_setting;
 use CH;
+use App\receipt;
 class HomeController extends Controller
 {
     /**
@@ -37,7 +38,9 @@ class HomeController extends Controller
         $totalsale = DB::table('receipt')->select(DB::raw('SUM(total_amount) as total'))->where('user_id',$id)->first();
 
         $company = company_setting::where('user_id',$id)->first();
-        return view('home',compact('payable','receivable','totalpurchase','totalsale','company','lowstocks'));
+        $saleofday = receipt::where('receipt_date',date('Y-m-d'))->where('user_id',$id)->get();
+        
+        return view('home',compact('payable','receivable','totalpurchase','totalsale','company','lowstocks','saleofday'));
     }
     public function showChangePasswordForm(){
         $user = \Auth::user();

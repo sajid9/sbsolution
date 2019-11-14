@@ -85,12 +85,36 @@
               </table>
           </div>
         </div>
+        <div class="panel panel-success">
+          <div class="panel-heading">Sale of the day</div>
+          <div class="panel-body">
+              <table class="table display" id="example" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Receipt No</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                
+              </table>
+          </div>
+        </div>
     </div>
     <div class="col-md-6">
         <div class="panel panel-success">
-          <div class="panel-heading">Calender</div>
+          <div class="panel-heading">Expenditure of the day</div>
           <div class="panel-body">
-            <div id="dn-calender"></div>
+            <table class="table display" id="exp_tbl" style="width: 100%">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Description</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                
+              </table>
           </div>
         </div>
     </div>
@@ -100,15 +124,40 @@
 @section('footer')
 @parent
 <script src="{{ asset('js/dncalendar.min.js')}}"></script>
+<script src="{{asset('js/dataTables/jquery.dataTables.min.js')}}"></script>
+<script src="{{asset('js/dataTables/dataTables.bootstrap.min.js')}}"></script>
 <script>
-    var my_calendar = $("#dn-calender").dnCalendar({
-        dataTitles: { defaultDate: 'default', today : 'Today' },
-        notes: [
-          { "date": "2019-7-6", "note": ["Happy New Year 2016"] }
-          ],
-        showNotes: true,
-    });
-    my_calendar.build();
+   
+  $(document).ready(function() {
+      $('#example').DataTable( {
+          "processing": true,
+          "serverSide": true,
+          "ajax": {
+              "url": "{{url('getsaleofday')}}",
+              "type": "POST",
+              "data":{_token:"{{csrf_token()}}"}
+          },
+          "columns": [
+              { "data": "id" },
+              { "data": "receipt_no" },
+              { "data": "total_amount" },
+          ]
+      } );
+      $('#exp_tbl').DataTable( {
+          "processing": true,
+          "serverSide": true,
+          "ajax": {
+              "url": "{{url('getexpofday')}}",
+              "type": "POST",
+              "data":{_token:"{{csrf_token()}}"}
+          },
+          "columns": [
+              { "data": "id" },
+              { "data": "exp_desc" },
+              { "data": "debit" },
+          ]
+      } );
+  } );
 
 </script>
 @endsection

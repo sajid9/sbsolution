@@ -64,16 +64,36 @@
                                 <a href="{{url('store/storelisting')}}">Stores</a>
                             </li>
                             @endif
+                            @if(in_array('Groups',$authorities))
+                            <li>
+                                <a href="{{url('group/grouplisting')}}">Groups</a>
+                            </li>
+                            @endif
+                            @if(in_array('Measuring Unit',$authorities))
+                            <li>
+                                <a href="{{url('measuring/unitlisting')}}">Measuring Unit</a>
+                            </li>
+                            @endif
+                            @if(in_array('Sizes',$authorities))
+                            <li>
+                                <a href="{{url('size/sizelisting')}}">Sizes</a>
+                            </li>
+                            @endif
                             @if(in_array('Companies',$authorities))
                             <li>
                                 <a href="{{url('company/companylisting')}}"> Companies</a>
+                            </li>
+                            @endif
+                            @if(in_array('Categories',$authorities))
+                            <li>
+                                <a href="{{url('category/categorylisting')}}">Categories</a>
                             </li>
                             @endif
                             @if(in_array('Classes',$authorities))
                             <li>
                                 <a href="{{url('class/classlisting')}}">Classes</a>
                             </li>
-                            @endif
+                           @endif
                             @if(in_array('Taxes',$authorities))
                             <li>
                                 <a href="{{url('tax/taxlisting')}}">Taxes</a>

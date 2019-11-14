@@ -146,7 +146,14 @@
               <td>{{$item->item->sale_price}}</td>
               <td>{{($item->item->type == 'tile') ? $item->qty / $item->item->pieces : $item->qty}}</td>
               <td>{{($item->item) ? $item->item->type : ""}}</td>
-              <td>{{-- <i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->purchase_price}}')"></i> --}}<a href="{{url('voucher/receivinglisting/'.$item->voucher_id.'/'.$item->item_id)}}"><i class="glyphicon glyphicon-plus cursor" data-toggle="tooltip" title="voucher receive"></i></a>{{-- <i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i> --}}</td>
+              <td>{{-- <i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->purchase_price}}')"></i> --}}
+              @if(env("BYPARTS_RECEIVING") == 'yes')
+                <a href="{{url('voucher/receivinglisting/'.$item->voucher_id.'/'.$item->item_id)}}"><i class="glyphicon glyphicon-plus cursor" data-toggle="tooltip" title="voucher receive"></i></a>
+              @else
+                <i class="glyphicon glyphicon-share" onclick="returnItem('{{$voucherId}}','{{$item->item->id}}','{{$item->qty}}','{{$item->purchase_price}}','{{$item->item->type}}')"></i>
+              @endif
+                {{-- <i class="glyphicon glyphicon-trash cursor" onclick='itemRemove("{{$item->id}}","{{$voucherId}}","{{$item->item->id}}","{{$item->qty}}")'></i> --}}
+              </td>
             </tr>
           @endforeach
          </tbody>
@@ -239,6 +246,41 @@
   
 </div>
 </div>
+<div class="modal fade" id="returnItem" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Items</h4>
+        </div>
+        <div class="modal-body">
+          <form id="return_form">
+            @csrf
+            <input type="hidden" name="purchase_price" id="purchase_price_modal">
+            <input type="hidden" name="voucher_id" id="voucher_id">
+            <input type="hidden" name="item_id" id="item_id">
+            <div class="form-group">
+              <label for="t_qty">Total Quantity</label>
+              <input type="number" name="total_quantity" disabled="disabled" class="form-control" id="t_qty">
+            </div>
+            <div class="form-group">
+              <label for="return_pieces">Returned Quantity</label>
+              <input type="number" disabled="disabled" value="" class="form-control" id="return_pieces">
+            </div>
+            <div class="form-group">
+              <label for="qty">Quantity</label>
+              <input type="number" name="quantity" class="form-control" id="qty" placeholder="Enter the quantity to return">
+              <small id="qty_msg" class="form-text text-muted text-danger"></small>
+            </div>
+            <button type="submit" id="qty_sub" class="btn btn-default">Submit</button>
+          </form>
+        </div>
+      </div>
+      
+    </div>
+</div>
 @endsection
 @section('footer')
   @parent
@@ -268,13 +310,66 @@
           });
           $('[data-toggle="tooltip"]').tooltip();
       });
-    function returnItem(voucherId,itemId,qty,purchasePrice){
+    function returnItem(voucherId,itemId,qty,purchasePrice,type){
       $('#returnItem').modal('show');
       $('#t_qty').val(qty);
       $('#voucher_id').val(voucherId);
       $('#item_id').val(itemId);
       $('#purchase_price_modal').val(purchasePrice);
+      $.ajax({
+          url:"{{url('voucher/getreturnedWOR')}}",
+          type:"post",
+          dataType:"json",
+          data:{_token:"{{csrf_token()}}",voucher:voucherId,item:itemId},
+          success:function(res){
+            console.log(type);
+            console.log(res);
+            var check = type;
+            var pieces = qty;
+            if(check == 'tile' && res.total != null){
+              var returnitem = res.total / pieces;
+            }else{
+              var returnitem = 0;
+            }
+            if(check == 'item' && res.total != null){
+              var returnitem = res.total;
+            }else{
+              var returnitem = 0;
+            }
+            
+            $('#return_pieces').val(returnitem);
+          }
+        });
     } 
+    $('#return_form').on('submit',function(e){
+        e.preventDefault();
+        var data = $(this).serialize();
+        var qty = $('#qty').val();
+        if(qty == '' || qty == 0){
+          alert('please fill the quantity field also quantity can not be zero');
+          return 0;
+        }
+        $.ajax({
+          url:"{{url('voucher/returnitemWOR')}}",
+          type:"post",
+          dataType:"json",
+          data:data,
+          success:function(res){
+            if(res.message == 'successfully'){
+              $('#return_form')[0].reset();
+              $('#returnItem').modal('hide');
+              $.toast({
+                          heading: 'SUCCESS',
+                          text: 'Item Returned Successfully',
+                          icon: 'success',
+                          position: 'top-right', 
+                          loader: true,        // Change it to false to disable loader
+                          loaderBg: '#9EC600'  // To change the background
+                      })
+            }
+          }
+        });
+      })
     
     
     $('#vendor_form').on('submit',function(e){
@@ -456,6 +551,18 @@
         }
       });
     }
+    $('#qty').on('keyup',function(){
+
+            var total_qty = parseInt($('#t_qty').val());
+            var qty = parseInt($('#qty').val()) + parseInt($('#return_pieces').val());
+            if(qty > total_qty){
+              $('#qty_msg').text('Quantity should be less then total quantity');
+              $('#qty_sub').prop('disabled',true);
+            }else{
+              $('#qty_msg').text('');
+              $('#qty_sub').prop('disabled',false);
+            }
+          })
     function removeReturnItem(id,voucherId,itemId,qty){
       $.ajax({
         url: "{{url('voucher/removereturnitem')}}",

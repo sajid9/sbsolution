@@ -30,6 +30,7 @@ class accountledger extends Controller
         foreach($items as $item){
             $item->total = DB::table('stock')->select(DB::raw('SUM(qty) as total_item'))->where('item_id',$item->item_id)->first();
         }
+        
         return view('pages.invoices.stock_report',compact('items'));
     }
 }

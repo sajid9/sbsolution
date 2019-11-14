@@ -19,9 +19,18 @@
 <form method="post" action="{{url('item/additem')}}">
 	@csrf
   <p class="radio">
+    @if(env("ITEM_MODULE") == 'yes')
     Item:
-    <input class="type flat" type="radio" value="item" name="type" checked/> Service:
+    <input class="type flat" type="radio" value="item" name="type" checked/>
+    @endif
+    @if(env("SERVICE_MODULE") == 'yes')
+    Service:
     <input class="type flat" type="radio" value="service" name="type"/>
+    @endif
+    @if(env("TILE_MODULE") == 'yes')
+    Tile:
+    <input class="type flat" type="radio" value="tile" name="type"/>
+    @endif
   </p>
   
   <hr>

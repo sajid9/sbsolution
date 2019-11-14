@@ -147,7 +147,7 @@
       </div>
       
     </div>
-  </div>
+</div>
 @endsection
 
 {{-- add js files which use only for this current page --}}

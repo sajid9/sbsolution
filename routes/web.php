@@ -14,6 +14,8 @@
  Route::get('CsvFile','CsvFile@index');
  Route::get('exportCsv','CsvFile@exportCsv');
  Route::post('importCsv','CsvFile@importCsv');
+ Route::post('getsaleofday','sale\saleorder@getsaleofday');
+ Route::post('getexpofday','sale\saleorder@getexpofday');
 /*View::share('company', company_setting::first());*/
 /*
 *
@@ -174,7 +176,9 @@ Route::prefix('voucher')->middleware(['auth','verified'])->group(function () {
     Route::get('addreceivingstoreform/{voucher}/{item}/{qty}/{receiving_id}','Purchase\Voucherreceiving@add_receiving_store_form');
     Route::post('addreceivingstore','Purchase\Voucherreceiving@add_receiving_store');
     Route::post('returnitem','Purchase\Voucherreceiving@return_item');
+    Route::post('returnitemWOR','Purchase\PurchaseOrder@returnitem');
     Route::post('getreturned','Purchase\Voucherreceiving@get_returned_total');
+    Route::post('getreturnedWOR','Purchase\PurchaseOrder@get_returned_total');
     Route::get('directin','Purchase\PurchaseOrder@direct_in');
     Route::post('saveitem','Purchase\PurchaseOrder@save_item');
 

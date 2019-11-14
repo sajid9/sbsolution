@@ -14,6 +14,8 @@ use App\item_ledger;
 use App\customer_ledger;
 use App\receipt_ledger;
 use App\cash;
+use App\payments;
+use DataTables;
 use DB;
 use CH;
 class saleorder extends Controller
@@ -248,5 +250,16 @@ class saleorder extends Controller
         $ledger->save();
         return redirect()->to('sale/directout')->with('message','Item Added Successfully');
     }
-
+public function getsaleofday(Request $request)
+{
+    $id = CH::getId();
+    $saleofday = receipt::where('receipt_date',date('Y-m-d'))->where('user_id',$id)->get();
+    return DataTables::of($saleofday)->toJson();
+}
+public function getexpofday(Request $request)
+{
+    $id = CH::getId();
+    $expofday = payments::where('created_at','like',date('Y-m-d').'%')->where('user_id',$id)->get();
+    return DataTables::of($expofday)->toJson();
+}
 }

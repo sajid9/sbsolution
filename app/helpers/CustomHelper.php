@@ -143,7 +143,7 @@ public function getVendorAuthorities($value='')
 		}
 	    $data = array();
 	    /* arrays of all menu's in future these menu's will come from database*/
-	    $iteminfo = array("Add Item","Opening item","Item Ledger","Stock Report","Stores","Companies","Classes","Taxes");
+	    $iteminfo = array("Add Item","Opening item","Item Ledger","Stock Report","Stores","Groups","Measuring Unit","Sizes","Companies","Categories","Classes");
 	    $voucherInfo = array("Voucher","Voucher Ledger","Voucher Payable","Direct In","Add Suppliers","Opening Suppliers","Supplier Ledger","Supplier Payable");
 	    $saleInfo = array("Add Receipt","Receipt Ledger","Receipt Receivable","Direct Out");
 	    $customer = array("Add Customers","Opening Customers","Customer Ledger","Customer Receivable");

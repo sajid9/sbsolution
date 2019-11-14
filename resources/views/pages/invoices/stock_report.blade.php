@@ -19,15 +19,15 @@
 			<th>Barcode</th>
 			<th>Name</th>
 			<th>Store</th>
+			<th>Purchase Price</th>
 			<th>Quantity</th>
 			<th>Total</th>
 		</tr>
 	</thead>
 	<tbody>
-		<?php $count = 0;$counter = 0; $last_item = 0;?>
+		<?php $count = 0;$last_item = 0;?>
 		@foreach($items as $item)
 			<?php 
-				++$counter;
 				if($item->type == 'tile'){
 					$obj = CH::convert_box($item->qty,$item->pieces,$item->meter);
 				}
@@ -42,15 +42,26 @@
 				<td>{{$obj['pieces']}}</td>
 				<td>{{$obj['meter']}}</td>
 				@else
+				<td>{{$item->purchase_price}}</td>
 				<td>{{$item->qty}}</td>
 				@endif
 				@if($item->item_id != $last_item)
-				<td rowspan="{{$counter}}" style="vertical-align : middle;text-align:center;"><strong>{{($item->type == 'tile') ? ($item->total->total_item / $item->pieces) * $item->meter : $item->total->total_item}}</strong></td>
+				<td rowspan="{{collect($items)->where('item_id',$item->item_id)->count()}}" style="vertical-align : middle;text-align:center;"><strong>{{($item->type == 'tile') ? ($item->total->total_item / $item->pieces) * $item->meter : $item->total->total_item}}</strong></td>
 				@endif
 			</tr>
-			<?php $counter = 0?>
 			<?php $last_item = $item->item_id; ?>
 		@endforeach
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td>Total Price:</td>
+			<td>{{collect($items)->sum(function($q){
+				return $q->purchase_price * $q->qty;
+			})}}</td>
+		</tr>
 	</tbody>
 </table>
 
