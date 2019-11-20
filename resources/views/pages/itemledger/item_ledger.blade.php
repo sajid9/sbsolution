@@ -69,6 +69,11 @@
 			                <th>In</th>
 			                <th>Out</th>
 			                <th>Total</th>
+			                @if(env('TILE_MODULE') == 'yes')
+			                <th>Boxes</th>
+			                <th>Pieces</th>
+			                <th>Meter</th>
+			                @endif
 			            </tr>
 			        </thead>
 			        <tbody>
@@ -87,7 +92,18 @@
 			        		<td>{{($ledger->items->type == 'tile') ? $ledger->purchase / $ledger->items->pieces : $ledger->purchase}}</td>
 			        		<td>{{($ledger->items->type == 'tile') ? $ledger->sale / $ledger->items->pieces : $ledger->sale}}</td>
 			        		<td>{{($ledger->items->type == 'tile')? intval($ledger->left / $ledger->items->pieces) :$ledger->left}}</td>
-			        		
+			        		@if(env('TILE_MODULE') == 'yes')
+			        		@if($ledger->items->type == 'tile')
+			        		<?php $obj = CH::convert_box($ledger->purchase,$ledger->items->pieces,$ledger->items->meter);?>
+			        		<td>{{$obj['boxes']}}</td>
+			        		<td>{{$obj['pieces']}}</td>
+			        		<td>{{$obj['meter']}}</td>
+			        		@else
+			        		<td>null</td>
+			        		<td>null</td>
+			        		<td>null</td>
+			        		@endif
+			        		@endif
 			        	</tr>
 			        	@endforeach
 			        </tbody>

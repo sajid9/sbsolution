@@ -43,7 +43,6 @@
 			                <th>Quantity</th>
 			                @if($item_s->type == 'tile')
 			                <th>Boxes</th>
-			                <th>Pieces</th>
 			                <th>Meter</th>
 			                @endif
 			                <th>Date</th>
@@ -63,7 +62,6 @@
 			                <td>{{ $item_s->qty}}</td>
 			                @if($item_s->type == 'tile')
 			                <td>{{ $obj['boxes'] }}</td>
-			                <td>{{ $obj['pieces'] }}</td>
 			                <td>{{ $obj['meter'] }}</td>
 			                @endif
 			                <td>{{ $item_s->created_at }}</td>

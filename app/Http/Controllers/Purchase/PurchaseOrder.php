@@ -128,7 +128,7 @@ class PurchaseOrder extends Controller
             }
             if(env("BYPARTS_RECEIVING") == 'no')
             {
-                $quantity = ($item->type == 'tile')? $request->quantity * $item->pieces : $item->qty;
+                $quantity = $item->qty;
                 if(stock::where('item_id',$item->item_id)->where('store',1)->first()){
                     $stock = stock::where('item_id',$item->item_id)->where('store',1)->increment('qty',$quantity);
                 }else{

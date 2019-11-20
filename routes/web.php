@@ -255,6 +255,7 @@ Route::prefix('sale')->middleware(['auth','verified'])->group(function(){
     Route::post('adddeliverystore','sale\receiptdelivery@add_delivery_store');
     
     Route::post('returnitem','sale\receiptdelivery@return_item');
+    Route::post('returnitemWOP','sale\saleorder@returnitem');
     Route::post('getreturned','sale\receiptdelivery@get_returned_total');
     Route::get('directout','sale\saleorder@direct_out');
     Route::post('saveitem','sale\saleorder@save_item');

@@ -43,7 +43,6 @@
 			                <th>Quantity</th>
 			                @if($received_item->type == 'tile')
 			                <th>Boxes</th>
-			                <th>Pieces</th>
 			                <th>Meter</th>
 			                @endif
 			            </tr>
@@ -61,7 +60,6 @@
 			                <td>{{ $received_item->qty}}</td>
 			                @if($received_item->type == 'tile')
 			                <td>{{ $obj['boxes'] }}</td>
-			                <td>{{ $obj['pieces'] }}</td>
 			                <td>{{ $obj['meter'] }}</td>
 			                @endif
 			            </tr>

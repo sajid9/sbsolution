@@ -103,7 +103,7 @@
               <input type="hidden" name="item_id" id="itemId">
               <label for="barcode">Barcode <span class="text-danger">*</span></label>
               <div class="input-group">
-                <input type="text" tabindex="4" disabled="" name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
+                <input type="text" disabled="" tabindex="4"  name="barcode" value="{{old('barcode')}}" class="form-control" id="barcode" aria-describedby="barcode_msg" placeholder="voucher number">
                 <span class="input-group-addon">
                   <span title="Load Item" data-toggle="tooltip"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-list"></i></span>
                 </span>
@@ -112,7 +112,7 @@
             </div>
             <div class="form-group">
               <label for="quantity"> Quantity <span class="text-danger">*</span></label>
-              <input type="number" tabindex="5" disabled="" name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
+              <input type="number" disabled="" tabindex="5"  name="quantity" value="{{old('quantity')}}" class="form-control" id="quantity" aria-describedby="quantity" placeholder="Quantity">
               <small id="quantity_msg" class="form-text text-muted text-danger"></small>
             </div>
             <div class="form-group">
@@ -122,9 +122,18 @@
             </div>
           </div>
           <div class="col-md-8">
-            
+            @if(env('TILE_MODULE') == 'yes')
+            <div><img data-toggle="modal" data-target="#calculator" style="width: 22px; margin-bottom: 5px" src="{{ asset('images/Icon-calulator.png') }}" alt=""> <strong>Calculator</strong></div>
+            @endif
             <table class="table" style="font-size: 12px">
-          
+            @if(env('TILE_MODULE') == 'yes')
+            <tr>
+              <td>Pieces Box:</td>
+              <td id="pieces"></td>
+              <td>Meter Box:</td>
+              <td id="meter"></td>
+            </tr>
+            @endif
             <tr>
               <td>Sale Price:</td>
               <td id="sale_price"></td>
@@ -293,7 +302,227 @@
       
     </div>
   </div>
- 
+  <!-- Modal -->
+  <div class="modal fade" id="calculator" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Items</h4>
+        </div>
+        <div class="modal-body">
+          <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#home">Floor</a></li>
+            <li><a data-toggle="tab" href="#advanceCal">Wall</a></li>
+          </ul>
+
+          <div class="tab-content" style="padding-top: 20px">
+            <div id="home" class="tab-pane fade in active">
+              <div class="row">
+                <div class="form-group col-md-4">
+                  <label for="length">Length<span class="text-danger">*</span></label>
+                  <input type="text" name="length" value="{{old('length')}}" class="form-control" id="length" aria-describedby="length_msg" placeholder="Enter Length">
+                  <small id="length_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="width">Width<span class="text-danger">*</span></label>
+                  <input type="text" name="width" value="{{old('width')}}" class="form-control" id="width" aria-describedby="width_msg" placeholder="Enter Width">
+                  <small id="width_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="tile">Tile<span class="text-danger">*</span></label>
+                  <select name="tile" class="form-control" id="tile" aria-describedby="tile_msg">
+                    <option value=""> Select Tile</option>
+                    @foreach($items as $item)
+                    @if($item->type == 'tile')
+                    <option value="{{$item->id}}">{{$item->item_name}}</option>
+                    @endif
+                    @endforeach
+                  </select>
+                  <small id="tile_msg" class="form-text text-muted text-danger"></small>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <button class="btn btn-primary pull-right" id="cal">Calculate</button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <h4>Calculations</h4>
+                  <hr>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-md-3">
+                  <label for="area_ft">Total Area ft<sup>2</sup></label>
+                  <input type="text" readonly="" name="area_ft" value="{{old('area_ft')}}" class="form-control" id="area_ft" aria-describedby="area_ft_msg">
+                  <small id="area_ft_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="area_mt">Total Area m<sup>2</sup></label>
+                  <input type="text" readonly="" name="area_mt" value="{{old('area_mt')}}" class="form-control" id="area_mt" aria-describedby="area_mt_msg">
+                  <small id="area_mt_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="boxes">No Boxes</label>
+                  <input type="text" readonly="" name="boxes" value="{{old('boxes')}}" class="form-control" id="cal_boxes" aria-describedby="boxes_msg" >
+                  <small id="boxes_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div class="form-group col-md-3">
+                  <label for="pieces">No pieces</label>
+                  <input type="text" readonly="" name="pieces" value="{{old('pieces')}}" class="form-control" id="cal_pieces" aria-describedby="pieces_msg" >
+                  <small id="pieces_msg" class="form-text text-muted text-danger"></small>
+                </div>
+              </div>
+            </div>
+            <div id="advanceCal" class="tab-pane fade">
+              <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#dark">Dark</a></li>
+                <li><a data-toggle="tab" href="#light">Light</a></li>
+                <li><a data-toggle="tab" href="#motif">Motif</a></li>
+              </ul>
+              <div class="tab-content" style="padding-top: 20px">
+                <div class="form-group">
+                  <label for="tile">Tile<span class="text-danger">*</span></label>
+                  <select name="tile" class="form-control" id="tile_advance" aria-describedby="tile_msg">
+                    <option value=""> Select Tile</option>
+                    @foreach($items as $item)
+                    @if($item->type == 'tile')
+                    <option value="{{$item->id}}">{{$item->item_name}}</option>
+                    @endif
+                    @endforeach
+                  </select>
+                  <small id="tile_msg" class="form-text text-muted text-danger"></small>
+                </div>
+                <div id="dark" class="tab-pane fade in active">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Walls</th>
+                        <th>Height</th>
+                        <th>Width</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Wall 1</th>
+                        <td><input type="number" id="d_w1_height" name=""></td>
+                        <td><input type="number" id="d_w1_width" name=""></td>
+                        <td id="d_w1_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 2</th>
+                        <td><input type="number" id="d_w2_height" name=""></td>
+                        <td><input type="number" id="d_w2_width" name=""></td>
+                        <td id="d_w2_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 3</th>
+                        <td><input type="number" id="d_w3_height" name=""></td>
+                        <td><input type="number" id="d_w3_width" name=""></td>
+                        <td id="d_w3_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 4</th>
+                        <td><input type="number" id="d_w4_height" name=""></td>
+                        <td><input type="number" id="d_w4_width" name=""></td>
+                        <td id="d_w4_total"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div id="light" class="tab-pane fade in">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Walls</th>
+                        <th>Height</th>
+                        <th>Width</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Wall 1</th>
+                        <td><input type="number" id="l_w1_height" name=""></td>
+                        <td><input type="number" id="l_w1_width" name=""></td>
+                        <td id="l_w1_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 2</th>
+                        <td><input type="number" id="l_w2_height" name=""></td>
+                        <td><input type="number" id="l_w2_width" name=""></td>
+                        <td id="l_w2_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 3</th>
+                        <td><input type="number" id="l_w3_height" name=""></td>
+                        <td><input type="number" id="l_w3_width" name=""></td>
+                        <td id="l_w3_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 4</th>
+                        <td><input type="number" id="l_w4_height" name=""></td>
+                        <td><input type="number" id="l_w4_width" name=""></td>
+                        <td id="l_w4_total"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div id="motif" class="tab-pane fade in">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Walls</th>
+                        <th>Height</th>
+                        <th>Width</th>
+                        <th>Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th>Wall 1</th>
+                        <td><input type="number" id="m_w1_height" name=""></td>
+                        <td><input type="number" id="m_w1_width" name=""></td>
+                        <td id="m_w1_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 2</th>
+                        <td><input type="number" id="m_w2_height" name=""></td>
+                        <td><input type="number" id="m_w2_width" name=""></td>
+                        <td id="m_w2_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 3</th>
+                        <td><input type="number" id="m_w3_height" name=""></td>
+                        <td><input type="number" id="m_w3_width" name=""></td>
+                        <td id="m_w3_total"></td>
+                      </tr>
+                      <tr>
+                        <th>Wall 4</th>
+                        <td><input type="number" id="m_w4_height" name=""></td>
+                        <td><input type="number" id="m_w4_width" name=""></td>
+                        <td id="m_w4_total"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <span>Dark = <span id="dark_total"></span>, Light = <span id="light_total"></span></span>, Motif = <span id="motif_total"></span></span>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </div>
 </div>
 
@@ -418,6 +647,7 @@
               }else{
                 $('#meter').text('');
                 $('#pieces').text('');
+                $('#box').html('');
               }
             }else{
               $('#sale_price').val('');
@@ -515,6 +745,7 @@
         data:{receipt_id:receipt_id,check:check,_token:"{{csrf_token()}}"},
         dataType:"json",
         success:function(res){
+          
           if(res != null && check == "sale"){
             window.open(
               '{{url("payment/addsopayment")}}/'+res.id+'/'+res.total_amount+'/'+res.customer_id,'_blank');
@@ -568,15 +799,24 @@
           var givendiscount = parseInt(salePrice - discount);
           var totalDiscount = parseInt(totalPrice - discountedPrice);
           var dispercentage = parseInt(givendiscount * 100 / salePrice);
+          $('#total_discount').text(totalDiscount);
         }else{
-          var totalPrice = qty * salePrice;
-          var givendiscount = parseInt(totalPrice - discount); 
+          @if(env('DiscountPerItem') == 'yes')
+          var totalPrice      = qty * salePrice;
+          var givendiscount   = parseInt(qty * discount); 
+          var discountedPrice = totalPrice - givendiscount;
+          var dispercentage   = parseInt(givendiscount * 100 / totalPrice);
+          $('#total_discount').text(givendiscount);
+          @else
+          var totalPrice      = qty * salePrice;
+          var givendiscount   = parseInt(totalPrice - discount); 
           var discountedPrice = totalPrice - discount;
-          var dispercentage = parseInt(discount * 100 / totalPrice);
+          var dispercentage   = parseInt(discount * 100 / totalPrice);
+          $('#total_discount').text(discount);
+          @endif
         }
         
         $('#discounted_meter').text(dispercentage);
-        $('#total_discount').text(discount);
         $('#discounted_price').text(discountedPrice);
         $('#total_price').text(totalPrice);
       }
@@ -602,6 +842,7 @@
         $('#total_price').text(totalPrice);
         $('#discounted_price').text(totalPrice);
         $('#total_discount').text(0);
+
       }
       
     })
@@ -621,6 +862,205 @@
     $(".customer-dropdown").select2("val","1");
 
     $('#receiptnumber').val(getCurrentDate()+"-{{CH::countReceipt()}}");
-    
+  /* calculator script*/
+    $('#cal').on('click',function(){
+      var length = $('#length').val();
+      var width  = $('#width').val();
+      var tile   = $('#tile').val();
+      if (length == '' || width == '' || tile == '') {
+        alert('please fill the length,width and tile field');
+      }else{
+        var totalFoot = length * width;
+        var totalMeter = parseFloat(totalFoot / 10.764).toFixed(4);
+        $.ajax({
+          url:"{{url('item/getspecificitem')}}",
+          type:"post",
+          dataType:"json",
+          data:{_token:"{{csrf_token()}}",id:tile},
+          success:function(res){
+            var meterPerPiece = res.meter / res.pieces;
+            var totalpieces = parseInt(totalMeter / meterPerPiece);
+            var boxes = parseInt(totalpieces / res.pieces);
+            var boxpieces = boxes * res.pieces;
+            var pieces = totalpieces - boxpieces;
+            $("#area_ft").val(totalFoot);
+            $("#area_mt").val(totalMeter);
+            $("#cal_boxes").val(boxes);
+            $("#cal_pieces").val(pieces);
+            $("#barcode").val(res.barcode);
+            $("#quantity").val(totalpieces);
+          }
+        });
+      }
+    })
+    /*advance calculator script*/
+    /*Dark tile Wall One Calculation*/
+    $("#d_w1_width").on('blur',function(){
+      var height = $("#d_w1_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#d_w1_total").text(totalmeter);
+    })
+
+    /*Dark tile Wall Two Calculation*/
+    $("#d_w2_width").on('blur',function(){
+      var height = $("#d_w2_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#d_w2_total").text(totalmeter);
+    })
+    /*Dark tile Wall Three Calculation*/
+    $("#d_w3_width").on('blur',function(){
+      var height = $("#d_w3_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#d_w3_total").text(totalmeter);
+    })
+    /*Dark tile Wall Four Calculation*/
+    $("#d_w4_width").on('blur',function(){
+      var height = $("#d_w4_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#d_w4_total").text(totalmeter);
+      /*calculate total of dark*/
+      var w1_meter = parseFloat($('#d_w1_total').text());
+      var w2_meter = parseFloat($('#d_w2_total').text());
+      var w3_meter = parseFloat($('#d_w3_total').text());
+      var w4_meter = parseFloat($('#d_w4_total').text());
+      var d_total  = parseFloat(w1_meter + w2_meter + w3_meter + w4_meter).toFixed(3);
+      var tile = $('#tile_advance').val();
+      $.ajax({
+          url:"{{url('item/getspecificitem')}}",
+          type:"post",
+          dataType:"json",
+          data:{_token:"{{csrf_token()}}",id:tile},
+          success:function(res){
+            var meterPerPiece = res.meter / res.pieces;
+            var totalpieces = parseInt(d_total / meterPerPiece);
+            var boxes = parseInt(totalpieces / res.pieces);
+            var boxpieces = boxes * res.pieces;
+            var pieces = totalpieces - boxpieces;
+            $('#dark_total').text('boxes '+boxes+' pieces '+pieces+' Meter '+d_total);
+          }
+        });
+      $('#dark_total').text(d_total);
+    })
+    /*end dark tile calculation script*/
+
+    /*Light tile Wall One Calculation*/
+    $("#l_w1_width").on('blur',function(){
+      var height = $("#l_w1_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#l_w1_total").text(totalmeter);
+    })
+
+    /*Light tile Wall Two Calculation*/
+    $("#l_w2_width").on('blur',function(){
+      var height = $("#l_w2_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#l_w2_total").text(totalmeter);
+    })
+    /*Light tile Wall Three Calculation*/
+    $("#l_w3_width").on('blur',function(){
+      var height = $("#l_w3_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#l_w3_total").text(totalmeter);
+    })
+    /*Light tile Wall Four Calculation*/
+    $("#l_w4_width").on('blur',function(){
+      var height = $("#l_w4_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#l_w4_total").text(totalmeter);
+      /*calculate total of light*/
+      var w1_meter = parseFloat($('#l_w1_total').text());
+      var w2_meter = parseFloat($('#l_w2_total').text());
+      var w3_meter = parseFloat($('#l_w3_total').text());
+      var w4_meter = parseFloat($('#l_w4_total').text());
+      var l_total  = parseFloat(w1_meter + w2_meter + w3_meter + w4_meter).toFixed(3);
+      var tile = $('#tile_advance').val();
+      $.ajax({
+          url:"{{url('item/getspecificitem')}}",
+          type:"post",
+          dataType:"json",
+          data:{_token:"{{csrf_token()}}",id:tile},
+          success:function(res){
+            var meterPerPiece = res.meter / res.pieces;
+            var totalpieces = parseInt(l_total / meterPerPiece);
+            var boxes = parseInt(totalpieces / res.pieces);
+            var boxpieces = boxes * res.pieces;
+            var pieces = totalpieces - boxpieces;
+            $('#light_total').text('boxes '+boxes+' pieces '+pieces+' Meter '+l_total);
+          }
+        });
+    })
+    /*end light tile calculation script*/
+
+    /*motif tile Wall One Calculation*/
+    $("#m_w1_width").on('blur',function(){
+      var height = $("#m_w1_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#m_w1_total").text(totalmeter);
+    })
+
+    /*motif tile Wall Two Calculation*/
+    $("#m_w2_width").on('blur',function(){
+      var height = $("#m_w2_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#m_w2_total").text(totalmeter);
+    })
+    /*motif tile Wall Three Calculation*/
+    $("#m_w3_width").on('blur',function(){
+      var height = $("#m_w3_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#m_w3_total").text(totalmeter);
+    })
+    /*motif tile Wall Four Calculation*/
+    $("#m_w4_width").on('blur',function(){
+      var height = $("#m_w4_height").val();
+      var width = $(this).val();
+      var totalfoot = height * width;
+      var totalmeter = parseFloat(totalfoot / 10.764).toFixed(3);
+      $("#m_w4_total").text(totalmeter);
+      /*calculate total of motif*/
+      var w1_meter = parseFloat($('#m_w1_total').text());
+      var w2_meter = parseFloat($('#m_w2_total').text());
+      var w3_meter = parseFloat($('#m_w3_total').text());
+      var w4_meter = parseFloat($('#m_w4_total').text());
+      var m_total  = parseFloat(w1_meter + w2_meter + w3_meter + w4_meter).toFixed(3);
+      var tile = $('#tile_advance').val();
+      $.ajax({
+          url:"{{url('item/getspecificitem')}}",
+          type:"post",
+          dataType:"json",
+          data:{_token:"{{csrf_token()}}",id:tile},
+          success:function(res){
+            var meterPerPiece = res.meter / res.pieces;
+            var totalpieces = parseInt(m_total / meterPerPiece);
+            var boxes = parseInt(totalpieces / res.pieces);
+            var boxpieces = boxes * res.pieces;
+            var pieces = totalpieces - boxpieces;
+            $('#motif_total').text('boxes '+boxes+' pieces '+pieces+' Meter '+m_total);
+          }
+        });
+      
+    })
   </script>
 @endsection
